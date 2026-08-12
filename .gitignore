@@ -23,3 +23,9 @@ examples/string_ops
 examples/recursion
 examples/neural_network
 examples/nlp_demo
+
+# ملفات Phase 41 التنفيذية
+examples/threads_basic
+examples/channels
+examples/mutex_demo
+examples/parallel_sum
