@@ -62,7 +62,7 @@ def حلل_رموز(source):
             continue
         
         # الرموز الرياضية العربية
-        if c in '⎕⊙⊕≔≡∈÷·؟⟨⟩﴿﴾⋄∀μλ':
+        if c in '⎕⊙⊕≔≡∈÷·؟⟨⟩﴿﴾⋄∀μλ.':
             tokens.append(Token('OP', c, line))
             i += 1
             continue
