@@ -154,17 +154,47 @@ _start:
     lea rax, [arena_mem]
     mov [arena_ptr], rax
 
-    mov rax, 42
+    mov rdi, 8
+    call arena_alloc
+    push rax
+    mov rcx, func_0
+    mov [rax], rcx
+    pop rax
+    mov [vars + 0], rax
+    mov rax, 10
+    push rax
+    mov rax, 20
+    push rax
+    pop rsi
+    pop rdi
+    mov r10, [vars + 0]
+    push r15
+    mov r15, r10
+    mov r10, [r10]
+    call r10
+    pop r15
+    mov [vars + 8], rax
+    mov rax, [vars + 8]
+    mov rbx, [rax]
+    test rbx, rbx
+    jz .hemp_1
+    mov rax, [rax + 8]
+    jmp .hdne_1
+.hemp_1:
+    mov rax, 60
+    mov rdi, 1
+    syscall
+.hdne_1:
     test rax, rax
-    jns .npos_3
+    jns .npos_6
     neg rax
     mov byte [negflag], 1
-.npos_3:
+.npos_6:
     mov rbx, 10
     mov rcx, 0
     mov byte [negflag], 0
     lea rdi, [num_buf + 31]
-.nts_3:
+.nts_6:
     xor rdx, rdx
     div rbx
     add dl, '0'
@@ -172,13 +202,13 @@ _start:
     mov [rdi], dl
     inc rcx
     test rax, rax
-    jnz .nts_3
+    jnz .nts_6
     cmp byte [negflag], 1
-    jne .nskip2_3
+    jne .nskip2_6
     dec rdi
     mov byte [rdi], 45
     inc rcx
-.nskip2_3:
+.nskip2_6:
     push rdi
     push rcx
     mov rax, rcx
@@ -190,16 +220,106 @@ _start:
     pop rsi
     push rax
     lea rdi, [rax + 8]
-.ntc_3:
+.ntc_6:
     test rcx, rcx
-    jz .ntd_3
+    jz .ntd_6
     mov al, [rsi]
     mov [rdi], al
     inc rsi
     inc rdi
     dec rcx
-    jmp .ntc_3
-.ntd_3:
+    jmp .ntc_6
+.ntd_6:
+    mov byte [negflag], 0
+    pop rax
+    call print_str
+    mov rax, [vars + 8]
+    mov rcx, [rax]
+    test rcx, rcx
+    jz .taihemp_8
+    push rax
+    dec rcx
+    mov rdi, rcx
+    shl rdi, 3
+    add rdi, 8
+    call arena_alloc
+    mov r12, rax
+    mov [rax], rcx
+    pop rsi
+    add rsi, 16
+    lea rdi, [r12 + 8]
+.tcopy_8:
+    test rcx, rcx
+    jz .tcd_8
+    mov rdx, [rsi]
+    mov [rdi], rdx
+    add rsi, 8
+    add rdi, 8
+    dec rcx
+    jmp .tcopy_8
+.tcd_8:
+    mov rax, r12
+    jmp .taine_8
+.taihemp_8:
+    mov rax, 60
+    mov rdi, 1
+    syscall
+.taine_8:
+    mov rbx, [rax]
+    test rbx, rbx
+    jz .hemp_2
+    mov rax, [rax + 8]
+    jmp .hdne_2
+.hemp_2:
+    mov rax, 60
+    mov rdi, 1
+    syscall
+.hdne_2:
+    test rax, rax
+    jns .npos_7
+    neg rax
+    mov byte [negflag], 1
+.npos_7:
+    mov rbx, 10
+    mov rcx, 0
+    mov byte [negflag], 0
+    lea rdi, [num_buf + 31]
+.nts_7:
+    xor rdx, rdx
+    div rbx
+    add dl, '0'
+    dec rdi
+    mov [rdi], dl
+    inc rcx
+    test rax, rax
+    jnz .nts_7
+    cmp byte [negflag], 1
+    jne .nskip2_7
+    dec rdi
+    mov byte [rdi], 45
+    inc rcx
+.nskip2_7:
+    push rdi
+    push rcx
+    mov rax, rcx
+    add rax, 8
+    mov rdi, rax
+    call arena_alloc
+    pop rcx
+    mov [rax], rcx
+    pop rsi
+    push rax
+    lea rdi, [rax + 8]
+.ntc_7:
+    test rcx, rcx
+    jz .ntd_7
+    mov al, [rsi]
+    mov [rdi], al
+    inc rsi
+    inc rdi
+    dec rcx
+    jmp .ntc_7
+.ntd_7:
     mov byte [negflag], 0
     pop rax
     call print_str
@@ -207,3 +327,27 @@ _start:
     mov rax, 60
     xor rdi, rdi
     syscall
+
+func_0:
+    push rbp
+    mov rbp, rsp
+    mov [rbp - 8], rdi
+    mov [rbp - 16], rsi
+    sub rsp, 16
+    mov [rbp - 8], rdi
+    mov [rbp - 16], rsi
+    mov rdi, 24
+    call arena_alloc
+    push rax
+    mov qword [rax], 2
+    mov rax, [rbp - 16]
+    mov rcx, rax
+    mov rbx, [rsp]
+    mov [rbx + 8], rcx
+    mov rax, [rbp - 8]
+    mov rcx, rax
+    mov rbx, [rsp]
+    mov [rbx + 16], rcx
+    pop rax
+    leave
+    ret

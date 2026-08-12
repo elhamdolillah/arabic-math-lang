@@ -161,7 +161,19 @@ _start:
     mov [rax], rcx
     pop rax
     mov [vars + 0], rax
-    mov rax, 5
+    mov rdi, 18
+    call arena_alloc
+    mov qword [rax], 10
+    mov byte [rax + 8], 217
+    mov byte [rax + 9], 133
+    mov byte [rax + 10], 216
+    mov byte [rax + 11], 177
+    mov byte [rax + 12], 216
+    mov byte [rax + 13], 173
+    mov byte [rax + 14], 216
+    mov byte [rax + 15], 168
+    mov byte [rax + 16], 216
+    mov byte [rax + 17], 167
     push rax
     pop rdi
     mov r10, [vars + 0]
@@ -183,35 +195,5 @@ func_0:
     sub rsp, 16
     mov [rbp - 8], rdi
     mov rax, [rbp - 8]
-    push rax
-    mov rax, 1
-    pop rbx
-    cmp rbx, rax
-    mov rax, 0
-    sete al
-    cmp rax, 0
-    je .else_1
-    mov rax, 1
-    jmp .end_1
-.else_1:
-    mov rax, [rbp - 8]
-    push rax
-    mov rax, [rbp - 8]
-    push rax
-    mov rax, 1
-    pop rbx
-    sub rbx, rax
-    mov rax, rbx
-    push rax
-    pop rdi
-    mov r10, [vars + 0]
-    push r15
-    mov r15, r10
-    mov r10, [r10]
-    call r10
-    pop r15
-    pop rbx
-    imul rax, rbx
-.end_1:
     leave
     ret

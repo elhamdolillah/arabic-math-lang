@@ -154,53 +154,81 @@ _start:
     lea rax, [arena_mem]
     mov [arena_ptr], rax
 
-    mov rax, 0
-    mov [vars + 0], rax
-    mov rdi, 40
+    mov rdi, 8
     call arena_alloc
     push rax
-    mov qword [rax], 4
-    mov rax, 1
-    mov rcx, rax
-    mov rbx, [rsp]
-    mov [rbx + 8], rcx
-    mov rax, 2
-    mov rcx, rax
-    mov rbx, [rsp]
-    mov [rbx + 16], rcx
-    mov rax, 3
-    mov rcx, rax
-    mov rbx, [rsp]
-    mov [rbx + 24], rcx
-    mov rax, 4
-    mov rcx, rax
-    mov rbx, [rsp]
-    mov [rbx + 32], rcx
+    mov rcx, func_0
+    mov [rax], rcx
     pop rax
-    mov r14, [rax]
-    lea rbx, [rax + 8]
-.fe_1:
-    test r14, r14
-    jz .feend_1
-    mov rax, [rbx]
-    mov [vars + 8], rax
-    push rbx
-    push r14
-    mov rax, [vars + 0]
-    push rax
-    mov rax, [vars + 8]
-    pop rbx
-    add rax, rbx
     mov [vars + 0], rax
-    pop r14
-    pop rbx
-    add rbx, 8
-    dec r14
-    jmp .fe_1
-.feend_1:
-    mov rax, [vars + 0]
-    call print_int
+    mov rax, 42
+    push rax
+    pop rdi
+    mov r10, [vars + 0]
+    push r15
+    mov r15, r10
+    mov r10, [r10]
+    call r10
+    pop r15
+    test rax, rax
+    jns .npos_5
+    neg rax
+    mov byte [negflag], 1
+.npos_5:
+    mov rbx, 10
+    mov rcx, 0
+    mov byte [negflag], 0
+    lea rdi, [num_buf + 31]
+.nts_5:
+    xor rdx, rdx
+    div rbx
+    add dl, '0'
+    dec rdi
+    mov [rdi], dl
+    inc rcx
+    test rax, rax
+    jnz .nts_5
+    cmp byte [negflag], 1
+    jne .nskip2_5
+    dec rdi
+    mov byte [rdi], 45
+    inc rcx
+.nskip2_5:
+    push rdi
+    push rcx
+    mov rax, rcx
+    add rax, 8
+    mov rdi, rax
+    call arena_alloc
+    pop rcx
+    mov [rax], rcx
+    pop rsi
+    push rax
+    lea rdi, [rax + 8]
+.ntc_5:
+    test rcx, rcx
+    jz .ntd_5
+    mov al, [rsi]
+    mov [rdi], al
+    inc rsi
+    inc rdi
+    dec rcx
+    jmp .ntc_5
+.ntd_5:
+    mov byte [negflag], 0
+    pop rax
+    call print_str
 
     mov rax, 60
     xor rdi, rdi
     syscall
+
+func_0:
+    push rbp
+    mov rbp, rsp
+    mov [rbp - 8], rdi
+    sub rsp, 16
+    mov [rbp - 8], rdi
+    mov rax, [rbp - 8]
+    leave
+    ret

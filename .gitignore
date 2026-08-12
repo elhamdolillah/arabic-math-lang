@@ -1,14 +1,28 @@
 # Compiled objects
 *.o
 
-# Phase 39 test binaries
+# Test binaries
+t39_*
+t40_*
+t41_*
+t42_*
+t_fact*
+t_foreach*
+t_move*
+t_num2str*
+t_*
+calc
 th1
 th2
 th3
 th4
 th5
 th6
-calc
+
+# Example binaries
+examples/phase40_ffi
+examples/phase41_channels
+examples/phase42_generics
 
 # Backup files
 *.backup.*
@@ -17,15 +31,11 @@ calc
 __pycache__/
 *.pyc
 
-# Generated ASM (keep source only)
-# *.asm
-
-# Phase 40-42 test binaries
-p40_*
-p41_*
-p42_*
-examples/phase40_ffi
-examples/phase41_channels
-examples/phase42_generics
+# Tools
 update_phases.py
 test_phases.py
+test_phases_final.py
+test_all_phases.py
+
+# Generated
+parallel_result.txt
