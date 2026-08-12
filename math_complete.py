@@ -1,811 +1,1232 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-╔══════════════════════════════════════════════════════════════╗
-║   محرك المجمّع العربي الرياضي الكامل (v38.0)                ║
-║   Arabic Mathematical Language - Complete AOT Compiler      ║
-║                                                              ║
-║   الدستور: ﴿كتاب أحكمت آياته﴾                               ║
-║   الهدف: x86_64 Linux Assembly (no libc, syscalls raw)      ║
-║   المراحل المكتملة: 38 مرحلة (من الصفر إلى AI الرمزي)      ║
-╚══════════════════════════════════════════════════════════════╝
+اللغة الرياضية العربية - الملف المتكامل النهائي
+المُجمّع + الاختبارات + الآلة الحاسبة
+جميع الحلول وفق الدستور الرياضي
 """
-
-import sys
-import os
+import sys, subprocess
 
 # ═══════════════════════════════════════════════════════════
-# 1. LEXER — المحلل المعجمي ﴿علمه البيان﴾
+# Lexer
 # ═══════════════════════════════════════════════════════════
+أرقام_القيم = {"0":0,"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9}
+رموز_العمليات = {
+    "≔":"≔","≡":"≡","+":"+","-":"-","·":"·","*":"·","×":"·","÷":"÷","⊕":"⊕","⎕":"⎕",
+    "(":"(",")":")",",":",","،":",",":":":",".":".",
+    "⟨":"⟨","⟩":"⟩","<":"<",">":">","=":"=","≠":"≠","؟":"؟",
+    "∀":"∀","∈":"∈","μ":"μ",
+    "﴿":"﴿","﴾":"﴾","⋄":"⋄","⊸":"⊸","⊙":"⊙"
+}
+رموز_يونانية = {"λ":"λ","μ":"μ"}
+أسماء_بديلة = {
+    "دالة":"λ","λ":"λ","اطبع":"⎕","⎕":"⎕",
+    "طالما":"μ","μ":"μ","لكل":"∀","∀":"∀","في":"∈","∈":"∈",
+    "انقل":"⊸","⊸":"⊸","اقرأ":"⊙","⊙":"⊙"
+}
+عمليات_الجمع = {"+":"+","-":"-","⊕":"⊕"}
+عمليات_الضرب = {"·":"·","÷":"÷"}
+عمليات_المقارنة = {"<":"<",">":">","=":"=","≠":"≠"}
 
-class Token:
-    def __init__(self, type, value, line=0):
-        self.type = type
-        self.value = value
-        self.line = line
-    
-    def __repr__(self):
-        return f"Token({self.type}, {self.value!r})"
-
-
-def حلل_رموز(source):
-    """تحويل النص المصدري إلى قائمة رموز"""
-    tokens = []
-    i = 0
-    n = len(source)
-    line = 1
-    
-    while i < n:
-        c = source[i]
-        
-        # تتبع الأسطر
-        if c == '\n':
-            line += 1
-            i += 1
+def حلل_رموز(نص):
+    رموز=[]; i=0; n=len(نص)
+    while i<n:
+        ح=نص[i]
+        if ح.isspace(): i+=1; continue
+        ر=أرقام_القيم.get(ح)
+        if ر is not None:
+            ق=0
+            while i<n:
+                د=أرقام_القيم.get(نص[i])
+                if د is None: break
+                ق=ق*10+د; i+=1
+            رموز.append(("عدد",ق)); continue
+        if ح=='"':
+            i+=1; أ=[]
+            while i<n and نص[i]!='"': أ.append(نص[i]); i+=1
+            if i>=n: raise Exception("نص غير مغلق")
+            i+=1; رموز.append(("نص","".join(أ))); continue
+        ي=رموز_يونانية.get(ح)
+        if ي is not None: رموز.append(("عملية",ي)); i+=1; continue
+        if ح.isalpha() or ح=="_":
+            ب=i; i+=1
+            while i<n and (نص[i].isalpha() or نص[i].isdigit() or نص[i]=="_"): i+=1
+            ك=نص[ب:i]; بد=أسماء_بديلة.get(ك)
+            if بد is not None: رموز.append(("عملية",بد))
+            else: رموز.append(("معرف",ك))
             continue
-        
-        # تجاهل المسافات
-        if c.isspace():
-            i += 1
-            continue
-        
-        # التعليقات (#)
-        if c == '#':
-            while i < n and source[i] != '\n':
-                i += 1
-            continue
-        
-        # الرموز العربية الرياضية المتعددة
-        if source[i:i+2] == '⊸':
-            tokens.append(Token('OP', '⊸', line))
-            i += 1
-            continue
-        
-        # الرموز الرياضية العربية
-        if c in '⎕⊙⊕≔≡∈÷·؟⟨⟩﴿﴾⋄∀μλ.':
-            tokens.append(Token('OP', c, line))
-            i += 1
-            continue
-        
-        # العمليات الحسابية والرموز
-        if c in '+-*/=<>!,()[]:':
-            # معالجة == و != و <= و >=
-            if i + 1 < n and source[i+1] == '=' and c in '<>!=':
-                tokens.append(Token('OP', c + '=', line))
-                i += 2
-            else:
-                tokens.append(Token('OP', c, line))
-                i += 1
-            continue
-        
-        # السلاسل النصية
-        if c == '"':
-            j = i + 1
-            result = ""
-            while j < n and source[j] != '"':
-                if source[j] == '\\' and j + 1 < n:
-                    next_c = source[j+1]
-                    if next_c == 'n':
-                        result += '\n'
-                    elif next_c == 't':
-                        result += '\t'
-                    elif next_c == '"':
-                        result += '"'
-                    else:
-                        result += next_c
-                    j += 2
-                else:
-                    result += source[j]
-                    j += 1
-            tokens.append(Token('STR', result, line))
-            i = j + 1
-            continue
-        
-        # الأعداد
-        if c.isdigit() or (c == '-' and i + 1 < n and source[i+1].isdigit()):
-            j = i + 1 if c == '-' else i
-            while j < n and source[j].isdigit():
-                j += 1
-            tokens.append(Token('NUM', int(source[i:j]), line))
-            i = j
-            continue
-        
-        # المعرفات (الأسماء العربية والإنجليزية)
-        if c.isalpha() or ord(c) > 127 or c == '_':
-            j = i
-            while j < n and (source[j].isalpha() or ord(source[j]) > 127 
-                            or source[j] == '_' or source[j].isdigit()):
-                j += 1
-            word = source[i:j]
-            # الكلمات المحجوزة
-            if word in ('إن', 'إذا', 'وإلا', 'بينما', 'لكل', 'في', 'ارجع'):
-                tokens.append(Token('KW', word, line))
-            else:
-                tokens.append(Token('ID', word, line))
-            i = j
-            continue
-        
-        # رمز غير معروف
-        raise Exception(f"رمز غير معروف: {c!r} في السطر {line}")
-    
-    tokens.append(Token('EOF', None, line))
-    return tokens
-
+        ع=رموز_العمليات.get(ح)
+        if ع is not None: رموز.append(("عملية",ع)); i+=1; continue
+        raise Exception("رمز غير معروف: "+ح)
+    return رموز
 
 # ═══════════════════════════════════════════════════════════
-# 2. PARSER — المحلل النحوي ﴿أفلا يتدبرون﴾
+# Parser
 # ═══════════════════════════════════════════════════════════
+def حلل_برنامج(رموز):
+    ب=[]; i=0
+    while i<len(رموز):
+        بيان,i=حلل_بيان(رموز,i); ب.append(بيان)
+    return ب
 
-class Parser:
-    def __init__(self, tokens):
-        self.tokens = tokens
-        self.pos = 0
-    
-    def peek(self):
-        return self.tokens[self.pos] if self.pos < len(self.tokens) else Token('EOF', None)
-    
-    def advance(self):
-        tok = self.peek()
-        self.pos += 1
-        return tok
-    
-    def expect(self, type, value=None):
-        tok = self.peek()
-        if tok.type != type or (value is not None and tok.value != value):
-            raise Exception(f"متوقع {type} {value!r}، حصلت على {tok}")
-        return self.advance()
-    
-    def parse_program(self):
-        statements = []
-        while self.peek().type != 'EOF':
-            stmt = self.parse_statement()
-            if stmt:
-                statements.append(stmt)
-        return ('program', statements)
-    
-    def parse_statement(self):
-        tok = self.peek()
-        
-        # ⎕ — طباعة
-        if tok.type == 'OP' and tok.value == '⎕':
-            self.advance()
-            expr = self.parse_expr()
-            return ('print', expr)
-        
-        # μ — حلقة while
-        if tok.type == 'OP' and tok.value == 'μ':
-            self.advance()
-            condition = self.parse_expr()
-            self.expect('OP', ':')
-            body = self.parse_primary()  # كتلة ﴿⋄﴾
-            return ('while', condition, body)
-        
-        # ≔ — إسناد
-        if tok.type == 'ID':
-            name = self.advance().value
-            if self.peek().type == 'OP' and self.peek().value == '≔':
-                self.advance()
-                expr = self.parse_expr()
-                return ('assign', name, expr)
-            # إذا لم يكن إسناداً، فهو تعبير
-            self.pos -= 1
-            expr = self.parse_expr()
-            return ('expr_stmt', expr)
-        
-        # تعبير عادي
-        expr = self.parse_expr()
-        return ('expr_stmt', expr)
-    
-    def parse_expr(self):
-        return self.parse_or()
-    
-    def parse_or(self):
-        left = self.parse_and()
-        while self.peek().type == 'OP' and self.peek().value == '∨':
-            self.advance()
-            right = self.parse_and()
-            left = ('or', left, right)
-        return left
-    
-    def parse_and(self):
-        left = self.parse_comparison()
-        while self.peek().type == 'OP' and self.peek().value == '∧':
-            self.advance()
-            right = self.parse_comparison()
-            left = ('and', left, right)
-        return left
-    
-    def parse_comparison(self):
-        left = self.parse_concat()
-        while self.peek().type == 'OP' and self.peek().value in ('=', '≠', '<', '>', '<=', '>='):
-            op = self.advance().value
-            right = self.parse_concat()
-            left = ('compare', op, left, right)
-        return left
-    
-    def parse_concat(self):
-        left = self.parse_additive()
-        while self.peek().type == 'OP' and self.peek().value == '⊕':
-            self.advance()
-            right = self.parse_additive()
-            left = ('concat', left, right)
-        return left
-    
-    def parse_additive(self):
-        left = self.parse_multiplicative()
-        while self.peek().type == 'OP' and self.peek().value in ('+', '-'):
-            op = self.advance().value
-            right = self.parse_multiplicative()
-            left = ('binop', op, left, right)
-        return left
-    
-    def parse_multiplicative(self):
-        left = self.parse_unary()
-        while self.peek().type == 'OP' and self.peek().value in ('·', '*', '/', '÷'):
-            op = self.advance().value
-            right = self.parse_unary()
-            left = ('binop', op, left, right)
-        return left
-    
-    def parse_unary(self):
-        if self.peek().type == 'OP' and self.peek().value == '-':
-            self.advance()
-            expr = self.parse_unary()
-            return ('neg', expr)
-        return self.parse_primary()
-    
-    def parse_primary(self):
-        tok = self.peek()
-        
-        # عدد
-        if tok.type == 'NUM':
-            self.advance()
-            return ('num', tok.value)
-        
-        # نص
-        if tok.type == 'STR':
-            self.advance()
-            return ('str', tok.value)
-        
-        # قائمة ⟨...⟩
-        if tok.type == 'OP' and tok.value == '⟨':
-            self.advance()
-            elements = []
-            while not (self.peek().type == 'OP' and self.peek().value == '⟩'):
-                elements.append(self.parse_expr())
-                if self.peek().type == 'OP' and self.peek().value == ',':
-                    self.advance()
-            self.expect('OP', '⟩')
-            return ('list', elements)
-        
-        # كتلة ﴿...﴾
-        if tok.type == 'OP' and tok.value == '﴿':
-            self.advance()
-            stmts = []
-            while not (self.peek().type == 'OP' and self.peek().value == '﴾'):
-                stmt = self.parse_statement()
-                if stmt:
-                    stmts.append(stmt)
-                if self.peek().type == 'OP' and self.peek().value == '⋄':
-                    self.advance()
-            self.expect('OP', '﴾')
-            return ('block', stmts)
-        
-        # شرط ثلاثي: expr ؟ expr : expr
-        left = self.parse_call()
-        if self.peek().type == 'OP' and self.peek().value == '؟':
-            self.advance()
-            true_expr = self.parse_expr()
-            self.expect('OP', ':')
-            false_expr = self.parse_expr()
-            return ('ternary', left, true_expr, false_expr)
-        return left
-    
-    def parse_call(self):
-        if self.peek().type != 'ID':
-            return self.parse_atom()
-        
-        name = self.advance().value
-        
-        # استدعاء دالة
-        if self.peek().type == 'OP' and self.peek().value == '(':
-            self.advance()
-            args = []
-            while not (self.peek().type == 'OP' and self.peek().value == ')'):
-                args.append(self.parse_expr())
-                if self.peek().type == 'OP' and self.peek().value == ',':
-                    self.advance()
-            self.expect('OP', ')')
-            return ('call', name, args)
-        
-        return ('var', name)
-    
-    def parse_atom(self):
-        tok = self.peek()
-        
-        if tok.type == 'OP' and tok.value == '(':
-            self.advance()
-            expr = self.parse_expr()
-            self.expect('OP', ')')
-            return expr
-        
-        if tok.type == 'ID':
-            self.advance()
-            return ('var', tok.value)
-        
-        raise Exception(f"رمز غير متوقع: {tok}")
+def حلل_بيان(رموز,i):
+    if i>=len(رموز): raise Exception("بيان مفقود")
+    ن,ق=رموز[i]
+    if ن=="عملية" and ق=="⎕":
+        i+=1; ت,i=حلل_تعبير(رموز,i); return ("اطبع",ت),i
+    if ن=="عملية" and ق=="﴿":
+        i+=1; بيانات=[]; إخراج=None
+        while True:
+            if i>=len(رموز): raise Exception("﴾ مطلوبة")
+            if رموز[i][1]=="﴾": i+=1; break
+            بيان,i=حلل_بيان(رموز,i); بيانات.append(بيان)
+            if i>=len(رموز): raise Exception("﴾ مطلوبة")
+            if رموز[i][1]=="⋄":
+                i+=1
+                if i<len(رموز) and رموز[i][1]=="﴾": continue
+                if (i<len(رموز) and رموز[i][0]=="معرف" and
+                    (i+1>=len(رموز) or (رموز[i+1][0]=="عملية" and رموز[i+1][1] not in ("≔","≡","⊸","(")))):
+                    إخراج,i=حلل_تعبير(رموز,i)
+                    if i>=len(رموز): raise Exception("﴾ مطلوبة")
+                    if رموز[i][1]=="﴾": i+=1; break
+                    if رموز[i][1]=="⋄": continue
+                    raise Exception("⋄ أو ﴾ مطلوبة بعد التعبير")
+                continue
+            if رموز[i][1]=="﴾": i+=1; break
+            raise Exception("⋄ أو ﴾ مطلوبة")
+        return ("كتلة",بيانات,إخراج),i
+    if ن=="معرف":
+        اسم=ق
+        if i+1<len(رموز) and رموز[i+1][0]=="عملية" and رموز[i+1][1]=="⊸":
+            i+=2
+            if i>=len(رموز) or رموز[i][0]!="معرف":
+                raise Exception("اسم المصدر مطلوب بعد ⊸")
+            مصدر=رموز[i][1]; i+=1
+            return ("نقل",اسم,مصدر),i
+        if i+1<len(رموز) and رموز[i+1][0]=="عملية" and (رموز[i+1][1]=="≔" or رموز[i+1][1]=="≡"):
+            رمز=رموز[i+1][1]; i+=2; ت,i=حلل_تعبير(رموز,i)
+            return ("عرف" if رمز=="≡" else "أسند",اسم,ت),i
+        if i+1<len(رموز) and رموز[i+1][0]=="عملية" and رموز[i+1][1]=="(":
+            ت,i=حلل_تعبير(رموز,i)
+            return ("استدعاء_جملة",ت),i
+    if ن=="عملية" and ق=="μ":
+        i+=1; شرط,i=حلل_تعبير(رموز,i)
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(": مطلوبة")
+        i+=1; جسم,i=حلل_بيان(رموز,i)
+        return ("طالما",شرط,جسم),i
+    if ن=="عملية" and ق=="∀":
+        i+=1
+        if i>=len(رموز) or رموز[i][0]!="معرف": raise Exception("اسم مطلوب بعد ∀")
+        اسم=رموز[i][1]; i+=1
+        if i>=len(رموز) or رموز[i][1]!="∈": raise Exception("∈ مطلوبة")
+        i+=1; قائمة,i=حلل_تعبير(رموز,i)
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(": مطلوبة")
+        i+=1; جسم,i=حلل_بيان(رموز,i)
+        return ("لكل",اسم,قائمة,جسم),i
+    raise Exception("بيان غير معروف")
 
+def حلل_تعبير(رموز,i): return حلل_شرطي(رموز,i)
 
-def حلل_برنامج(tokens):
-    parser = Parser(tokens)
-    return parser.parse_program()
+def حلل_شرطي(رموز,i):
+    شرط,i=حلل_مقارنة(رموز,i)
+    if i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1]=="؟":
+        i+=1; صح,i=حلل_شرطي(رموز,i)
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(": مطلوبة")
+        i+=1; خطأ,i=حلل_شرطي(رموز,i)
+        return ("شرطي",شرط,صح,خطأ),i
+    return شرط,i
 
+def حلل_مقارنة(رموز,i):
+    ي,i=حلل_جمع(رموز,i)
+    while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_المقارنة:
+        ع=رموز[i][1]; i+=1; م,i=حلل_جمع(رموز,i); ي=("مقارنة",ع,ي,م)
+    return ي,i
 
-# ═══════════════════════════════════════════════════════════
-# 3. CODE GENERATOR — مولّد كود x86_64 ﴿كن فيكون﴾
-# ═══════════════════════════════════════════════════════════
+def حلل_جمع(رموز,i):
+    ي,i=حلل_ضرب(رموز,i)
+    while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_الجمع:
+        ع=رموز[i][1]; i+=1; م,i=حلل_ضرب(رموز,i); ي=("ثنائية",ع,ي,م)
+    return ي,i
 
-class CodeGen:
-    def __init__(self):
-        self.data = []
-        self.code = []
-        self.vars = {}
-        self.var_offset = 0
-        self.str_count = 0
-        self.label_count = 0
-    
-    def new_label(self, prefix="L"):
-        self.label_count += 1
-        return f"{prefix}{self.label_count}"
-    
-    def add_string(self, s):
-        self.str_count += 1
-        name = f"str_{self.str_count}"
-        # تحويل النص إلى بايتات
-        bytes_str = ", ".join(str(b) for b in s.encode('utf-8'))
-        self.data.append(f"    {name} db {bytes_str}")
-        self.data.append(f"    {name}_len equ $ - {name}")
-        return name, len(s.encode('utf-8'))
-    
-    def emit(self, *lines):
-        for line in lines:
-            self.code.append(line)
-    
-    def compile_expr(self, node):
-        """توليد كود لتعبير، النتيجة في rax"""
-        if node[0] == 'num':
-            self.emit(f"    mov rax, {node[1]}")
-        
-        elif node[0] == 'str':
-            name, length = self.add_string(node[1])
-            # إنشاء كائن نصي في arena: [length][bytes...]
-            self.emit(f"    mov rdi, {length + 8}")
-            self.emit(f"    call arena_alloc")
-            self.emit(f"    mov qword [rax], {length}")
-            self.emit(f"    lea rsi, [{name}]")
-            self.emit(f"    lea rdi, [rax + 8]")
-            self.emit(f"    mov rcx, {length}")
-            self.emit(f"    rep movsb")
-        
-        elif node[0] == 'var':
-            name = node[1]
-            if name not in self.vars:
-                raise Exception(f"متغير غير معرف: {name}")
-            offset = self.vars[name]
-            self.emit(f"    mov rax, [vars + {offset}]")
-        
-        elif node[0] == 'binop':
-            op = node[1]
-            self.compile_expr(node[2])
-            self.emit("    push rax")
-            self.compile_expr(node[3])
-            self.emit("    mov rbx, rax")
-            self.emit("    pop rax")
-            if op == '+':
-                self.emit("    add rax, rbx")
-            elif op == '-':
-                self.emit("    sub rax, rbx")
-            elif op in ('·', '*'):
-                self.emit("    imul rax, rbx")
-            elif op in ('/', '÷'):
-                self.emit("    xor rdx, rdx")
-                self.emit("    mov rcx, rbx")
-                self.emit("    mov rbx, rax")
-                self.emit("    mov rax, rbx")
-                self.emit("    div rcx")
-        
-        elif node[0] == 'neg':
-            self.compile_expr(node[1])
-            self.emit("    neg rax")
-        
-        elif node[0] == 'compare':
-            op = node[1]
-            self.compile_expr(node[2])
-            self.emit("    push rax")
-            self.compile_expr(node[3])
-            self.emit("    mov rbx, rax")
-            self.emit("    pop rax")
-            self.emit("    cmp rax, rbx")
-            label_true = self.new_label("cmp_true")
-            label_end = self.new_label("cmp_end")
-            jump_instr = {
-                '=': 'je', '≠': 'jne', '<': 'jl', '>': 'jg',
-                '<=': 'jle', '>=': 'jge'
-            }[op]
-            self.emit(f"    {jump_instr} {label_true}")
-            self.emit("    mov rax, 0")
-            self.emit(f"    jmp {label_end}")
-            self.emit(f"{label_true}:")
-            self.emit("    mov rax, 1")
-            self.emit(f"{label_end}:")
-        
-        elif node[0] == 'ternary':
-            self.compile_expr(node[1])
-            self.emit("    test rax, rax")
-            label_false = self.new_label("tern_false")
-            label_end = self.new_label("tern_end")
-            self.emit(f"    jz {label_false}")
-            self.compile_expr(node[2])
-            self.emit(f"    jmp {label_end}")
-            self.emit(f"{label_false}:")
-            self.compile_expr(node[3])
-            self.emit(f"{label_end}:")
-        
-        elif node[0] == 'concat':
-            # دمج نصين
-            self.compile_expr(node[1])
-            self.emit("    push rax")
-            self.compile_expr(node[2])
-            self.emit("    mov rbx, rax")
-            self.emit("    pop rax")
-            # rax = النص الأول, rbx = النص الثاني
-            self.emit("    push rax")
-            self.emit("    push rbx")
-            # حساب الطول الإجمالي
-            self.emit("    mov rcx, [rax]")
-            self.emit("    mov rdx, [rbx]")
-            self.emit("    add rcx, rdx")
-            self.emit("    add rcx, 8")
-            self.emit("    mov rdi, rcx")
-            self.emit("    call arena_alloc")
-            self.emit("    mov r8, rax")
-            self.emit("    pop rbx")
-            self.emit("    pop rax")
-            # نسخ الطول
-            self.emit("    mov rcx, [rax]")
-            self.emit("    mov rdx, [rbx]")
-            self.emit("    add rcx, rdx")
-            self.emit("    mov [r8], rcx")
-            # نسخ النص الأول
-            self.emit("    mov rcx, [rax]")
-            self.emit("    lea rsi, [rax + 8]")
-            self.emit("    lea rdi, [r8 + 8]")
-            self.emit("    rep movsb")
-            # نسخ النص الثاني
-            self.emit("    mov rcx, [rbx]")
-            self.emit("    lea rsi, [rbx + 8]")
-            self.emit("    rep movsb")
-            self.emit("    mov rax, r8")
-        
-        elif node[0] == 'call':
-            name = node[1]
-            args = node[2]
-            
-            # دوال مدمجة
-            if name == 'نص':
-                # تحويل عدد إلى نص
-                self.compile_expr(args[0])
-                self.emit("    mov rdi, rax")
-                self.emit("    call int_to_str")
-            
-            elif name == 'رمز':
-                # استخراج بايت من نص
-                self.compile_expr(args[0])
-                self.emit("    push rax")
-                self.compile_expr(args[1])
-                self.emit("    mov rbx, rax")
-                self.emit("    pop rax")
-                self.emit("    movzx rax, byte [rax + 8 + rbx]")
-            
-            elif name == 'حجم':
-                # حجم نص أو قائمة
-                self.compile_expr(args[0])
-                self.emit("    mov rax, [rax]")
-            
-            elif name == 'رأس':
-                # أول عنصر في قائمة
-                self.compile_expr(args[0])
-                self.emit("    mov rax, [rax + 8]")
-            
-            elif name == 'ذيل':
-                # باقي القائمة
-                self.compile_expr(args[0])
-                self.emit("    ; ذيل - مبسط")
-            
-            elif name == 'فتح':
-                # فتح ملف
-                self.compile_expr(args[0])
-                self.emit("    ; فتح - syscall open")
-                self.emit("    mov rdi, rax")
-                self.emit("    mov rsi, 577")  # O_WRONLY|O_CREAT|O_TRUNC
-                self.emit("    mov rdx, 420")  # 0644
-                self.emit("    mov rax, 2")
-                self.emit("    syscall")
-            
-            elif name == 'اكتب_ملف':
-                self.compile_expr(args[0])
-                self.emit("    push rax")
-                self.compile_expr(args[1])
-                self.emit("    mov rdx, [rax]")
-                self.emit("    lea rsi, [rax + 8]")
-                self.emit("    pop rdi")
-                self.emit("    mov rax, 1")
-                self.emit("    syscall")
-            
-            elif name == 'اقرأ_ملف':
-                self.compile_expr(args[0])
-                self.emit("    push rax")
-                self.compile_expr(args[1])
-                self.emit("    mov rdx, rax")
-                self.emit("    pop rdi")
-                self.emit("    lea rsi, [file_buf]")
-                self.emit("    mov rax, 0")
-                self.emit("    syscall")
-            
-            elif name == 'اختم':
-                self.compile_expr(args[0])
-                self.emit("    mov rdi, rax")
-                self.emit("    mov rax, 3")
-                self.emit("    syscall")
-            
-            elif name == 'عروة':
-                # socket
-                self.emit("    mov rdi, 2")  # AF_INET
-                self.emit("    mov rsi, 1")  # SOCK_STREAM
-                self.emit("    mov rdx, 0")
-                self.emit("    mov rax, 41")
-                self.emit("    syscall")
-            
-            elif name == 'أحص':
-                self.compile_expr(args[0])
-                self.emit("    mov rax, [rax]")
-            
-            elif name == 'مجموع_قائمة':
-                self.compile_expr(args[0])
-                self.emit("    ; مجموع - مبسط")
-            
-            else:
-                raise Exception(f"دالة غير معرفة: {name}")
-        
-        elif node[0] == 'list':
-            # قائمة ⟨...⟩
-            elements = node[1]
-            self.emit(f"    mov rdi, {8 + len(elements) * 8}")
-            self.emit(f"    call arena_alloc")
-            self.emit(f"    mov qword [rax], {len(elements)}")
-            for idx, elem in enumerate(elements):
-                self.emit(f"    push rax")
-                self.compile_expr(elem)
-                self.emit(f"    mov rbx, rax")
-                self.emit(f"    pop rax")
-                self.emit(f"    mov [rax + 8 + {idx * 8}], rbx")
-        
+def حلل_ضرب(رموز,i):
+    ي,i=حلل_عامل(رموز,i)
+    while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_الضرب:
+        ع=رموز[i][1]; i+=1; م,i=حلل_عامل(رموز,i); ي=("ثنائية",ع,ي,م)
+    return ي,i
+
+def حلل_عامل(رموز,i):
+    if i>=len(رموز): raise Exception("عامل مفقود")
+    ن,ق=رموز[i]
+    if ن=="عدد": return ("عدد",ق),i+1
+    if ن=="نص": return ("نص",ق),i+1
+    if ن=="عملية" and ق=="⊙":
+        i+=1
+        return ("اقرأ",),i
+    if ن=="عملية" and ق=="λ":
+        i+=1; معلمون=[]
+        if i<len(رموز) and رموز[i][1]=="(":
+            i+=1
+            while True:
+                if i>=len(رموز) or رموز[i][0]!="معرف":
+                    raise Exception("اسم معامل مطلوب")
+                معلمون.append(رموز[i][1]); i+=1
+                if i>=len(رموز): raise Exception(") مطلوبة")
+                if رموز[i][1]==",": i+=1; continue
+                if رموز[i][1]==")": i+=1; break
         else:
-            raise Exception(f"عقدة غير معروفة: {node[0]}")
-    
-    def compile_stmt(self, stmt):
-        if stmt[0] == 'print':
-            expr = stmt[1]
-            self.compile_expr(expr)
-            
-            # فحص نوع التعبير — إذا كان نصاً أو متغيراً نصياً
-            if expr[0] == 'str' or expr[0] == 'concat':
-                # طباعة نص (rax يشير إلى كائن نصي: [length][data])
-                self.emit("    mov rdx, [rax]")
-                self.emit("    lea rsi, [rax + 8]")
-                self.emit("    mov rdi, 1")
-                self.emit("    mov rax, 1")
-                self.emit("    syscall")
-                # طباعة سطر جديد
-                self.emit("    mov rdi, 1")
-                self.emit("    lea rsi, [newline]")
-                self.emit("    mov rdx, 1")
-                self.emit("    mov rax, 1")
-                self.emit("    syscall")
-            elif expr[0] == 'var':
-                # متغير — افترض أنه نص إذا كان في جدول الأنواع
-                # (حل مؤقت: اطبع كعدد دائماً)
-                self.emit("    call print_int")
-            else:
-                self.emit("    call print_int")
-        
-        elif stmt[0] == 'assign':
-            name = stmt[1]
-            expr = stmt[2]
-            if name not in self.vars:
-                self.vars[name] = self.var_offset
-                self.var_offset += 8
-            self.compile_expr(expr)
-            offset = self.vars[name]
-            self.emit(f"    mov [vars + {offset}], rax")
-        
-        elif stmt[0] == 'while':
-            # μ condition : body
-            condition = stmt[1]
-            body = stmt[2]
-            label_start = self.new_label("while_start")
-            label_end = self.new_label("while_end")
-            
-            self.emit(f"{label_start}:")
-            self.compile_expr(condition)
-            self.emit("    test rax, rax")
-            self.emit(f"    jz {label_end}")
-            
-            # تجميع جسم الحلقة
-            if body[0] == 'block':
-                for s in body[1]:
-                    self.compile_stmt(s)
-            else:
-                self.compile_stmt(body)
-            
-            self.emit(f"    jmp {label_start}")
-            self.emit(f"{label_end}:")
-        
-        elif stmt[0] == 'expr_stmt':
-            self.compile_expr(stmt[1])
-    
-    def compile_program(self, ast):
-        # توليد كود البيانات
-        self.data.append("    newline db 10")
-        self.data.append("    minus_str db '-'")
-        
-        # توليد كود البرنامج
-        for stmt in ast[1]:
-            self.compile_stmt(stmt)
-        
-        # بناء الملف النهائي
-        lines = []
-        lines.append("; ═══════════════════════════════════════════════════")
-        lines.append("; Generated by Arabic Mathematical Language Compiler")
-        lines.append("; الدستور: ﴿كتاب أحكمت آياته﴾")
-        lines.append("; ═══════════════════════════════════════════════════")
-        lines.append("")
-        lines.append("global _start")
-        lines.append("")
-        lines.append("section .bss")
-        lines.append("    arena_ptr resq 1")
-        lines.append("    arena_mem resb 262144")
-        lines.append("    file_buf resb 4096")
-        lines.append("    vars resb 1024")
-        lines.append("    num_buf resb 32")
-        lines.append("")
-        lines.append("section .data")
-        for d in self.data:
-            lines.append(d)
-        lines.append("")
-        lines.append("section .text")
-        lines.append("")
-        
-        # Arena Allocator
-        lines.append("arena_alloc:")
-        lines.append("    push rdi")
-        lines.append("    mov rax, [arena_ptr]")
-        lines.append("    test rax, rax")
-        lines.append("    jnz .arena_init")
-        lines.append("    mov rax, arena_mem")
-        lines.append("    mov [arena_ptr], rax")
-        lines.append(".arena_init:")
-        lines.append("    mov rdx, rax")
-        lines.append("    add rdx, rdi")
-        lines.append("    mov [arena_ptr], rdx")
-        lines.append("    pop rdi")
-        lines.append("    ret")
-        lines.append("")
-        
-        # Print Integer
-        lines.append("print_int:")
-        lines.append("    push rax")
-        lines.append("    push rbx")
-        lines.append("    push rcx")
-        lines.append("    push rdx")
-        lines.append("    push rsi")
-        lines.append("    push rdi")
-        lines.append("    test rax, rax")
-        lines.append("    jns .pi_pos")
-        lines.append("    neg rax")
-        lines.append("    push rax")
-        lines.append("    mov rax, 1")
-        lines.append("    mov rdi, 1")
-        lines.append("    lea rsi, [minus_str]")
-        lines.append("    mov rdx, 1")
-        lines.append("    syscall")
-        lines.append("    pop rax")
-        lines.append(".pi_pos:")
-        lines.append("    mov rbx, 10")
-        lines.append("    mov rcx, 0")
-        lines.append("    lea rdi, [num_buf + 31]")
-        lines.append(".piloop:")
-        lines.append("    xor rdx, rdx")
-        lines.append("    div rbx")
-        lines.append("    add dl, '0'")
-        lines.append("    dec rdi")
-        lines.append("    mov [rdi], dl")
-        lines.append("    inc rcx")
-        lines.append("    test rax, rax")
-        lines.append("    jnz .piloop")
-        lines.append("    mov rsi, rdi")
-        lines.append("    mov byte [rsi + rcx], 10")
-        lines.append("    inc rcx")
-        lines.append("    mov rdi, 1")
-        lines.append("    mov rax, 1")
-        lines.append("    mov rdx, rcx")
-        lines.append("    syscall")
-        lines.append("    pop rdi")
-        lines.append("    pop rsi")
-        lines.append("    pop rdx")
-        lines.append("    pop rcx")
-        lines.append("    pop rbx")
-        lines.append("    pop rax")
-        lines.append("    ret")
-        lines.append("")
-        
-        # Main
-        lines.append("_start:")
-        lines.append("    mov qword [arena_ptr], 0")
-        lines.append("")
-        for c in self.code:
-            lines.append(c)
-        lines.append("")
-        lines.append("    mov rax, 60")
-        lines.append("    xor rdi, rdi")
-        lines.append("    syscall")
-        lines.append("")
-        
-        return "\n".join(lines)
-
+            if i>=len(رموز) or رموز[i][0]!="معرف":
+                raise Exception("معامل مطلوب بعد λ")
+            معلمون.append(رموز[i][1]); i+=1
+        if i>=len(رموز) or رموز[i][1]!=".": raise Exception(". مطلوبة")
+        i+=1
+        if i<len(رموز) and رموز[i][1]=="﴿":
+            جسم,i=حلل_بيان(رموز,i)
+        else:
+            جسم,i=حلل_تعبير(رموز,i)
+        return ("دالة",معلمون,جسم),i
+    if ن=="عملية" and ق=="⟨":
+        i+=1; ع=[]
+        if i<len(رموز) and رموز[i][1]=="⟩": return ("قائمة",ع),i+1
+        while True:
+            عنصر,i=حلل_تعبير(رموز,i); ع.append(عنصر)
+            if i>=len(رموز): raise Exception("⟩ مطلوبة")
+            if رموز[i][1]==",": i+=1; continue
+            if رموز[i][1]=="⟩": i+=1; break
+            raise Exception("فاصلة أو ⟩ مطلوبة")
+        return ("قائمة",ع),i
+    if ن=="عملية" and ق=="(":
+        i+=1; ت,i=حلل_تعبير(رموز,i)
+        if i>=len(رموز) or رموز[i][1]!=")": raise Exception(") مطلوبة")
+        return ت,i+1
+    if ن=="معرف":
+        اسم=ق; i+=1
+        if i<len(رموز) and رموز[i][1]=="(":
+            i+=1; وس=[]
+            if i<len(رموز) and رموز[i][1]==")": return ("استدعاء",اسم,وس),i+1
+            while True:
+                و,i=حلل_تعبير(رموز,i); وس.append(و)
+                if i>=len(رموز): raise Exception(") مطلوبة")
+                if رموز[i][1]==",": i+=1; continue
+                if رموز[i][1]==")": i+=1; break
+            return ("استدعاء",اسم,وس),i
+        return ("متغير",اسم),i
+    raise Exception("عامل غير متوقع")
 
 # ═══════════════════════════════════════════════════════════
-# 4. MAIN — نقطة البداية ﴿اقرأ﴾
+# Ownership Checker (Linear Logic ⊸)
 # ═══════════════════════════════════════════════════════════
+def get_used_vars(expr):
+    ن=expr[0]
+    if ن=="متغير": return {expr[1]}
+    if ن in ["ثنائية","مقارنة"]:
+        return get_used_vars(expr[2])|get_used_vars(expr[3])
+    if ن=="شرطي":
+        return get_used_vars(expr[1])|get_used_vars(expr[2])|get_used_vars(expr[3])
+    if ن=="استدعاء":
+        res=set()
+        for arg in expr[2]: res|=get_used_vars(arg)
+        return res
+    if ن=="قائمة":
+        res=set()
+        for e in expr[1]: res|=get_used_vars(e)
+        return res
+    if ن=="دالة": return get_stmt_used_vars(expr[2]) if expr[2][0]=="كتلة" else get_used_vars(expr[2])-set(expr[1])
+    if ن=="اقرأ": return set()
+    return set()
 
-def compile_source(source, output_file):
-    tokens = حلل_رموز(source)
-    ast = حلل_برنامج(tokens)
-    gen = CodeGen()
-    asm = gen.compile_program(ast)
-    
-    with open(output_file, 'w', encoding='utf-8') as f:
-        f.write(asm)
-    
-    return output_file
+def get_stmt_free_vars(stmt, bound):
+    ن=stmt[0]
+    if ن=="كتلة":
+        res=set()
+        for s in stmt[1]: res|=get_stmt_free_vars(s,bound)
+        if stmt[2] is not None: res|=get_used_vars(stmt[2])
+        return res
+    if ن=="أسند": return get_free_vars(stmt[2],bound)
+    if ن=="طالما": return get_free_vars(stmt[1],bound)|get_stmt_free_vars(stmt[2],bound)
+    if ن=="لكل": return get_free_vars(stmt[2],bound)|get_stmt_free_vars(stmt[3],bound)
+    if ن=="اطبع": return get_free_vars(stmt[1],bound)
+    if ن=="استدعاء_جملة": return get_free_vars(stmt[1],bound)
+    if ن=="عرف":
+        if stmt[2][0]=="دالة":
+            return set(stmt[2][1])
+        return get_free_vars(stmt[2],bound)
+    if ن=="نقل": return set()
+    return set()
 
+def استنتاج_نوع_كتلة(stmt, type_env):
+    for s in reversed(stmt[1]):
+        if s[0]=="أسند": continue
+        if s[0]=="اطبع": return "نص"
+        return استنتاج_نوع_جملة(s, type_env) if s[0]=="استدعاء_جملة" else "مجهول"
+    return "مجهول"
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("╔══════════════════════════════════════════════════╗")
-        print("║  المُجمّع العربي الرياضي v38.0                   ║")
-        print("║  Arabic Mathematical Language Compiler           ║")
-        print("╠══════════════════════════════════════════════════╣")
-        print("║  الاستخدام:                                      ║")
-        print("║    python3 math_complete.py <file.ar>            ║")
-        print("║                                                  ║")
-        print("║  ثم:                                             ║")
-        print("║    nasm -f elf64 <file>.asm -o out.o             ║")
-        print("║    ld out.o -o out                               ║")
-        print("║    ./out                                         ║")
-        print("╚══════════════════════════════════════════════════╝")
-        sys.exit(0)
-    
-    source_file = sys.argv[1]
-    with open(source_file, 'r', encoding='utf-8') as f:
-        source = f.read()
-    
-    output_file = source_file.replace('.ar', '.asm')
+def get_stmt_used_vars(stmt):
+    ن=stmt[0]
+    if ن in ["أسند","عرف"]: return get_used_vars(stmt[2])
+    if ن=="اطبع": return get_used_vars(stmt[1])
+    if ن=="استدعاء_جملة": return get_used_vars(stmt[1])
+    if ن=="نقل": return {stmt[2]}
+    if ن=="طالما": return get_used_vars(stmt[1])|get_stmt_used_vars(stmt[2])
+    if ن=="لكل": return get_used_vars(stmt[2])|get_stmt_used_vars(stmt[3])
+    if ن=="كتلة":
+        res=set()
+        for s in stmt[1]: res|=get_stmt_used_vars(s)
+        if stmt[2] is not None: res|=get_used_vars(stmt[2])
+        return res
+    return set()
+
+def check_ownership(برنامج):
+    consumed=set()
+    def check_stmt(stmt):
+        ن=stmt[0]
+        if ن=="كتلة":
+            for s in stmt[1]: check_stmt(s)
+            return
+        if ن=="طالما":
+            used=get_used_vars(stmt[1])
+            for v in used:
+                if v in consumed:
+                    raise Exception(f"خطأ ملكية ⊸: '{v}' مستهلك — نُقلت ملكيته ولا يمكن استخدامه")
+            check_stmt(stmt[2])
+            return
+        if ن=="لكل":
+            used=get_used_vars(stmt[2])
+            for v in used:
+                if v in consumed:
+                    raise Exception(f"خطأ ملكية ⊸: '{v}' مستهلك — نُقلت ملكيته ولا يمكن استخدامه")
+            check_stmt(stmt[3])
+            return
+        if ن=="نقل":
+            هدف=stmt[1]; مصدر=stmt[2]
+            if مصدر in consumed:
+                raise Exception(f"خطأ ملكية ⊸: '{مصدر}' مستهلك بالفعل — لا يمكن نقله مرتين")
+            consumed.add(مصدر)
+            return
+        if ن in ["أسند","عرف"]:
+            اسم=stmt[1]
+            consumed.discard(اسم)
+            used=get_used_vars(stmt[2])
+            for v in used:
+                if v in consumed:
+                    raise Exception(f"خطأ ملكية ⊸: '{v}' مستهلك — نُقلت ملكيته ولا يمكن استخدامه")
+            return
+        if ن=="اطبع":
+            used=get_used_vars(stmt[1])
+            for v in used:
+                if v in consumed:
+                    raise Exception(f"خطأ ملكية ⊸: '{v}' مستهلك — نُقلت ملكيته ولا يمكن استخدامه")
+            return
+        if ن=="استدعاء_جملة":
+            used=get_used_vars(stmt[1])
+            for v in used:
+                if v in consumed:
+                    raise Exception(f"خطأ ملكية ⊸: '{v}' مستهلك — نُقلت ملكيته ولا يمكن استخدامه")
+            return
+        used=get_stmt_used_vars(stmt)
+        for v in used:
+            if v in consumed:
+                raise Exception(f"خطأ ملكية ⊸: '{v}' مستهلك — نُقلت ملكيته ولا يمكن استخدامه")
+    for بيان in برنامج:
+        check_stmt(بيان)
+    return True
+
+# ═══════════════════════════════════════════════════════════
+# Helpers
+# ═══════════════════════════════════════════════════════════
+def get_free_vars(expr, bound):
+    ن=expr[0]
+    if ن=="متغير": return {expr[1]} if expr[1] not in bound else set()
+    if ن in ["ثنائية","مقارنة"]:
+        return get_free_vars(expr[2],bound)|get_free_vars(expr[3],bound)
+    if ن=="دالة": return get_stmt_free_vars(expr[2], bound|set(expr[1])) if expr[2][0]=="كتلة" else get_free_vars(expr[2], bound|set(expr[1]))
+    if ن=="استدعاء":
+        res=set()
+        for arg in expr[2]: res|=get_free_vars(arg,bound)
+        return res
+    if ن=="شرطي":
+        return get_free_vars(expr[1],bound)|get_free_vars(expr[2],bound)|get_free_vars(expr[3],bound)
+    if ن=="قائمة":
+        res=set()
+        for e in expr[1]: res|=get_free_vars(e,bound)
+        return res
+    return set()
+
+def استنتاج_نوع(expr, type_env):
+    ن=expr[0]
+    if ن=="نص": return "نص"
+    if ن=="عدد": return "عدد"
+    if ن=="قائمة": return "قائمة"
+    if ن=="اقرأ": return "نص"
+    if ن=="ثنائية":
+        if expr[1]=="⊕": return "نص"
+        if expr[1] in ["+","-","·","÷"]: return "عدد"
+        return "مجهول"
+    if ن=="مقارنة": return "منطقي"
+    if ن=="شرطي":
+        t1=استنتاج_نوع(expr[2], type_env)
+        if t1!="مجهول": return t1
+        return استنتاج_نوع(expr[3], type_env)
+    if ن=="متغير": return type_env.get(expr[1], "مجهول")
+    if ن=="استدعاء":
+        اسم=expr[1]
+        if اسم in ["طول","حجم","أحص"]: return "عدد"
+        if اسم=="مجموع_قائمة": return "عدد"
+        if اسم=="ذيل": return "قائمة"
+        if اسم=="رمز": return "عدد"
+        if اسم=="نص": return "نص"
+        if اسم=="عدد": return "عدد"
+        if اسم=="نص_رمز": return "نص"
+        if اسم=="فتح": return "عدد"
+        if اسم=="عروة": return "عدد"
+        if اسم=="توازي": return "عدد"
+        if اسم=="اقرأ_ملف": return "نص"
+        if اسم=="اكتب_ملف": return "عدد"
+        if اسم=="اختم": return "عدد"
+        if اسم in type_env: return type_env[اسم]
+        return "مجهول"
+    if ن=="دالة":
+        if expr[2][0]=="كتلة": return استنتاج_نوع_كتلة(expr[2], type_env)
+        return استنتاج_نوع(expr[2], type_env)
+    return "مجهول"
+
+def استنتاج_نوع_جملة(stmt, type_env):
+    ن=stmt[0]
+    if ن=="أسند": return استنتاج_نوع(stmt[2],type_env)
+    if ن=="اطبع":
+        نوع=استنتاج_نوع(stmt[1],type_env)
+        return "نص" if نوع=="نص" else "عدد"
+    if ن=="كتلة": return استنتاج_نوع_كتلة(stmt, type_env)
+    return "مجهول"
+
+ARG_REGS = ["rdi","rsi","rdx","rcx","r8","r9"]
+_counters = {"cond":0,"empty":0,"copy":0,"loop":0,"scmp":0,"tq":0}
+
+# ═══════════════════════════════════════════════════════════
+# Code Generator
+# ═══════════════════════════════════════════════════════════
+def compile_expr(expr, env, funcs, env_layout=None):
+    ن=expr[0]
+    if ن=="عدد": return [f"    mov rax, {expr[1]}"]
+    if ن=="نص":
+        byts=expr[1].encode('utf-8'); ln=len(byts)
+        code=[f"    mov rdi, {8+ln}", "    call arena_alloc"]
+        code.append(f"    mov qword [rax], {ln}")
+        for k, b in enumerate(byts):
+            code.append(f"    mov byte [rax + {8+k}], {b}")
+        return code
+    if ن=="استدعاء" and expr[1]=="نص_رمز":
+        if len(expr[2]) != 1: raise Exception("نص_رمز تأخذ وسيطاً واحداً")
+        code = compile_expr(expr[2][0], env, funcs, env_layout)
+        code += [
+            "    push rax",
+            "    mov rdi, 9",
+            "    call arena_alloc",
+            "    mov qword [rax], 1",
+            "    pop rbx",
+            "    mov [rax + 8], bl",
+        ]
+        return code
+    if ن=="اقرأ":
+        _counters["copy"]+=1; k=_counters["copy"]
+        return [
+            "    xor rcx, rcx",
+            f".rd_loop_{k}:",
+            f"    lea rsi, [read_buf + rcx]",
+            "    xor rdi, rdi",
+            "    mov rdx, 1",
+            "    xor rax, rax",
+            "    push rcx",
+            "    syscall",
+            "    pop rcx",
+            "    test rax, rax",
+            f"    jz .rd_end_{k}",
+            f"    mov al, [read_buf + rcx]",
+            "    cmp al, 10",
+            f"    je .rd_end_{k}",
+            "    inc rcx",
+            f"    jmp .rd_loop_{k}",
+            f".rd_end_{k}:",
+            "    mov rax, rcx",
+            "    add rax, 8",
+            "    mov rdi, rax",
+            "    call arena_alloc",
+            "    mov [rax], rcx",
+            "    push rax",
+            "    push rcx",
+            "    lea rsi, [read_buf]",
+            "    lea rdi, [rax + 8]",
+            f".rd_copy_{k}:",
+            "    test rcx, rcx",
+            f"    jz .rd_cdone_{k}",
+            "    mov al, [rsi]",
+            "    mov [rdi], al",
+            "    inc rsi",
+            "    inc rdi",
+            "    dec rcx",
+            f"    jmp .rd_copy_{k}",
+            f".rd_cdone_{k}:",
+            "    pop rcx",
+            "    pop rax",
+        ]
+    if ن=="متغير":
+        if env_layout and expr[1] in env_layout:
+            return [f"    mov rax, [r15 + {env_layout[expr[1]]}]"]
+        if expr[1] in env["locals"]:
+            return [f"    mov rax, [rbp - {env['locals'][expr[1]]}]"]
+        if expr[1] in env["globals"]:
+            return [f"    mov rax, [vars + {env['globals'][expr[1]]*8}]"]
+        raise Exception(f"متغير غير معرف: {expr[1]}")
+    if ن=="قائمة":
+        elems=expr[1]; ln=len(elems)
+        code=[f"    mov rdi, {8+ln*8}", "    call arena_alloc"]
+        code.append("    push rax")
+        code.append(f"    mov qword [rax], {ln}")
+        for idx,el in enumerate(elems):
+            code.extend(compile_expr(el,env,funcs,env_layout))
+            code.append("    mov rcx, rax")
+            code.append("    mov rbx, [rsp]")
+            code.append(f"    mov [rbx + {8+idx*8}], rcx")
+        code.append("    pop rax")
+        return code
+    if ن=="ثنائية":
+        op=expr[1]
+        left=compile_expr(expr[2],env,funcs,env_layout)
+        right=compile_expr(expr[3],env,funcs,env_layout)
+        if op=="⊕":
+            _counters["copy"]+=1; k=_counters["copy"]
+            code=left+["    push rax"]+right+["    mov r11, rax","    pop r10"]
+            code += [
+                "    push r10","    push r11",
+                "    mov rax, [r10]","    add rax, [r11]","    add rax, 8",
+                "    mov rdi, rax","    call arena_alloc","    mov r12, rax",
+                "    mov rax, [r10]","    add rax, [r11]","    mov [r12], rax",
+                "    mov rax, [r10]","    lea rsi, [r10 + 8]","    lea rdi, [r12 + 8]",
+                f".cpy1_{k}:","    test rax, rax",f"    jz .c1d_{k}",
+                "    mov cl, [rsi]","    mov [rdi], cl",
+                "    inc rsi","    inc rdi","    dec rax",
+                f"    jmp .cpy1_{k}",f".c1d_{k}:",
+                "    mov rax, [r11]","    lea rsi, [r11 + 8]",
+                f".cpy2_{k}:","    test rax, rax",f"    jz .c2d_{k}",
+                "    mov cl, [rsi]","    mov [rdi], cl",
+                "    inc rsi","    inc rdi","    dec rax",
+                f"    jmp .cpy2_{k}",f".c2d_{k}:",
+                "    pop r11","    pop r10","    mov rax, r12"]
+            return code
+        code=left+["    push rax"]+right+["    pop rbx"]
+        if op=="+": code.append("    add rax, rbx")
+        elif op=="-": code.append("    sub rbx, rax"); code.append("    mov rax, rbx")
+        elif op=="·": code.append("    imul rax, rbx")
+        elif op=="÷": code += ["    mov rdx, 0","    mov rcx, rax","    mov rax, rbx","    div rcx"]
+        return code
+    if ن=="مقارنة":
+        op=expr[1]
+        ل=expr[2]; ي=expr[3]
+        def is_textish(e):
+            if e[0]=="نص": return True
+            if e[0]=="ثنائية" and e[1]=="⊕": return True
+            return False
+        str_cmp = (op in ("=","≠")) and (is_textish(ل) or is_textish(ي))
+        left=compile_expr(ل,env,funcs,env_layout)
+        right=compile_expr(ي,env,funcs,env_layout)
+        if str_cmp:
+            _counters["scmp"]+=1; k=_counters["scmp"]
+            code=left+["    push rax"]+right+["    pop rbx"]
+            code += ["    mov r10, rbx","    mov r11, rax",
+                     f"    cmp r10, r11",f"    je .seq_eq_{k}",
+                     "    mov rdi, r10","    mov rsi, r11",
+                     "    call str_eq","    test rax, rax",
+                     f"    jnz .seq_eq_{k}",
+                     "    mov rax, 0"]
+            if op=="=":
+                code += [f"    jmp .seq_end_{k}",
+                         f".seq_eq_{k}:","    mov rax, 1",
+                         f".seq_end_{k}:"]
+            else:
+                code += [f"    jmp .seq_ne_{k}",
+                         f".seq_eq_{k}:","    mov rax, 0",
+                         f".seq_ne_{k}:","    mov rax, 1",
+                         f".seq_end_{k}:"]
+            return code
+        code=left+["    push rax"]+right+["    pop rbx"]
+        code.append("    cmp rbx, rax"); code.append("    mov rax, 0")
+        if op=="<": code.append("    setl al")
+        elif op==">": code.append("    setg al")
+        elif op=="=": code.append("    sete al")
+        elif op=="≠": code.append("    setne al")
+        return code
+    if ن=="شرطي":
+        _counters["cond"]+=1; k=_counters["cond"]
+        code=compile_expr(expr[1],env,funcs,env_layout)
+        code.append("    cmp rax, 0"); code.append(f"    je .else_{k}")
+        code.extend(compile_expr(expr[2],env,funcs,env_layout))
+        code.append(f"    jmp .end_{k}"); code.append(f".else_{k}:")
+        code.extend(compile_expr(expr[3],env,funcs,env_layout))
+        code.append(f".end_{k}:")
+        return code
+    if ن=="دالة":
+        params=expr[1]; body=expr[2]
+        bound=set(env["globals"].keys())|set(params)
+        free_vars=list(get_free_vars(body,bound))
+        inner_label=f"func_{funcs['idx']}"; funcs['idx']+=1
+        inner_fc=[f"{inner_label}:","    push rbp","    mov rbp, rsp"]
+        inner_env={"globals":env["globals"],"locals":{}}
+        inner_env_layout={}
+        local_counter=[len(params)]
+        for j,p in enumerate(params):
+            inner_env["locals"][p]=(j+1)*8
+            if j<len(ARG_REGS):
+                inner_fc.append(f"    mov [rbp - {(j+1)*8}], {ARG_REGS[j]}")
+        for ix,v in enumerate(free_vars): inner_env_layout[v]=8+ix*8
+        def inner_local_layout(var):
+            n=local_counter[0]; local_counter[0]+=1
+            off=(n+1)*8
+            inner_env["locals"][var]=off
+            return off
+        if body[0]=="كتلة":
+            def allocate_locals(stmt):
+                ن=stmt[0]
+                if ن in ("أسند","نقل","عرف") and stmt[1] not in inner_env["locals"]:
+                    inner_local_layout(stmt[1])
+                elif ن=="لكل" and stmt[1] not in inner_env["locals"]:
+                    inner_local_layout(stmt[1])
+                elif ن=="كتلة":
+                    for s in stmt[1]: allocate_locals(s)
+                    if len(stmt)>2 and stmt[2] is not None: allocate_locals(stmt[2])
+                elif ن=="طالما":
+                    allocate_locals(stmt[2])
+            for s in body[1]:
+                allocate_locals(s)
+            stack_size=local_counter[0]*8
+            if stack_size%16!=0: stack_size+=8
+            if stack_size==0: stack_size=16
+            inner_fc.append(f"    sub rsp, {stack_size}")
+            for j,p in enumerate(params):
+                if j<len(ARG_REGS):
+                    inner_fc.append(f"    mov [rbp - {inner_env['locals'][p]}], {ARG_REGS[j]}")
+            tail=body[2] if len(body)>2 else None
+            body_stmts=body[1]
+            for s in body_stmts:
+                inner_fc.extend(compile_stmt_local(s,inner_env,funcs,inner_env_layout,None,False))
+            if tail is not None:
+                inner_fc.extend(compile_expr(tail,inner_env,funcs,inner_env_layout))
+            else:
+                inner_fc.append("    xor rax, rax")
+        else:
+            stack_size=len(params)*8
+            if stack_size%16!=0: stack_size+=8
+            if stack_size==0: stack_size=16
+            inner_fc.append(f"    sub rsp, {stack_size}")
+            for j,p in enumerate(params):
+                if j<len(ARG_REGS):
+                    inner_fc.append(f"    mov [rbp - {(j+1)*8}], {ARG_REGS[j]}")
+            inner_fc.extend(compile_expr(body,inner_env,funcs,inner_env_layout))
+        inner_fc+=["    leave","    ret"]
+        funcs['bodies'].extend(inner_fc)
+        code=[]
+        env_size=8+len(free_vars)*8
+        code.append(f"    mov rdi, {env_size}")
+        code.append("    call arena_alloc"); code.append("    push rax")
+        code.append(f"    mov rcx, {inner_label}"); code.append("    mov [rax], rcx")
+        for ix,v in enumerate(free_vars):
+            offset=8+ix*8
+            if env_layout and v in env_layout:
+                code.append(f"    mov rcx, [r15 + {env_layout[v]}]")
+            elif v in env["locals"]:
+                code.append(f"    mov rcx, [rbp - {env['locals'][v]}]")
+            elif v in env["globals"]:
+                code.append(f"    mov rcx, [vars + {env['globals'][v]*8}]")
+            code.append(f"    mov [rax + {offset}], rcx")
+        code.append("    pop rax")
+        return code
+    if ن=="استدعاء":
+        اسم=expr[1]; args=expr[2]
+        if اسم=="طول":
+            if len(args)!=1: raise Exception("طول تأخذ وسيطاً واحداً")
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    mov rax, [rax]")
+            return code
+        if اسم=="رأس":
+            if len(args)!=1: raise Exception("رأس تأخذ وسيطاً واحداً")
+            _counters["empty"]+=1; k=_counters["empty"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code += ["    mov rbx, [rax]","    test rbx, rbx",f"    jz .hemp_{k}",
+                     "    mov rax, [rax + 8]",f"    jmp .hdne_{k}",
+                     f".hemp_{k}:","    mov rax, 60","    mov rdi, 1","    syscall",
+                     f".hdne_{k}:"]
+            return code
+        if اسم=="ذيل":
+            if len(args)!=1: raise Exception("ذيل تأخذ وسيطاً واحداً")
+            _counters["copy"]+=1; k=_counters["copy"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code += ["    mov rcx, [rax]","    test rcx, rcx",f"    jz .taihemp_{k}",
+                "    push rax","    dec rcx","    mov rdi, rcx",
+                "    shl rdi, 3","    add rdi, 8",
+                "    call arena_alloc","    mov r12, rax","    mov [rax], rcx",
+                "    pop rsi","    add rsi, 16","    lea rdi, [r12 + 8]",
+                f".tcopy_{k}:","    test rcx, rcx",f"    jz .tcd_{k}",
+                "    mov rdx, [rsi]","    mov [rdi], rdx",
+                "    add rsi, 8","    add rdi, 8","    dec rcx",
+                f"    jmp .tcopy_{k}",f".tcd_{k}:",
+                "    mov rax, r12",f"    jmp .taine_{k}",
+                f".taihemp_{k}:","    mov rax, 60","    mov rdi, 1","    syscall",
+                f".taine_{k}:"]
+            return code
+        if اسم=="حجم":
+            if len(args)!=1: raise Exception("حجم تأخذ وسيطاً واحداً")
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    mov rax, [rax]")
+            return code
+        if اسم=="أحص":
+            if len(args)!=1: raise Exception("أحص تأخذ وسيطاً واحداً")
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    mov rax, [rax]")
+            return code
+        if اسم=="مجموع_قائمة":
+            if len(args)!=1: raise Exception("مجموع_قائمة تأخذ وسيطاً واحداً")
+            _counters["loop"]+=1; k=_counters["loop"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code += [
+                "    mov rcx, [rax]",
+                "    xor rbx, rbx",
+                f".sl_loop_{k}:",
+                "    test rcx, rcx",
+                f"    jz .sl_done_{k}",
+                "    mov rdx, rcx","    dec rdx",
+                "    add rbx, [rax + rdx * 8 + 8]",
+                "    dec rcx",
+                f"    jmp .sl_loop_{k}",
+                f".sl_done_{k}:",
+                "    mov rax, rbx",
+            ]
+            return code
+        if اسم=="ألحق":
+            if len(args)!=2: raise Exception("ألحق تأخذ وسيطين")
+            _counters["copy"]+=1; k=_counters["copy"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    push rax")
+            code.extend(compile_expr(args[1],env,funcs,env_layout))
+            code += ["    mov r11, rax","    pop r10","    push r10","    push r11",
+                "    mov rax, [r10]","    add rax, 1",
+                "    mov rdi, rax","    shl rdi, 3","    add rdi, 8",
+                "    call arena_alloc","    mov r12, rax",
+                "    mov rax, [r10]","    add rax, 1","    mov [r12], rax",
+                "    mov rax, [r10]","    lea rsi, [r10 + 8]","    lea rdi, [r12 + 8]",
+                f".lcpy_{k}:","    test rax, rax",f"    jz .lcd_{k}",
+                "    mov rcx, [rsi]","    mov [rdi], rcx",
+                "    add rsi, 8","    add rdi, 8","    dec rax",
+                f"    jmp .lcpy_{k}",f".lcd_{k}:","    mov [rdi], r11",
+                "    pop r11","    pop r10","    mov rax, r12"]
+            return code
+        if اسم=="رمز":
+            if len(args)!=2: raise Exception("رمز تأخذ وسيطين")
+            _counters["empty"]+=1; k=_counters["empty"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    push rax")
+            code.extend(compile_expr(args[1],env,funcs,env_layout))
+            code += ["    pop rbx","    mov rcx, rax",
+                     f"    test rcx, rcx",f"    jns .rc_pos_{k}",
+                     "    mov rdx, [rbx]","    add rcx, rdx",
+                     f".rc_pos_{k}:",
+                     "    mov rax, [rbx]","    test rcx, rcx",f"    jl .ch_err_idx_{k}",f"    cmp rcx, rax",f"    jge .ch_err_{k}",
+                     "    movzx rax, byte [rbx + rcx + 8]",f"    jmp .ch_ok_{k}",
+                     f".ch_err_idx_{k}:",f".ch_err_{k}:","    mov rax, 60","    mov rdi, 1","    syscall",
+                     f".ch_ok_{k}:"]
+            return code
+        if اسم=="نص":
+            if len(args)!=1: raise Exception("نص تأخذ وسيطاً واحداً")
+            _counters["copy"]+=1; k=_counters["copy"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code += [
+                "    test rax, rax",f"    jns .npos_{k}",
+                "    neg rax","    mov byte [negflag], 1",
+                f".npos_{k}:",
+                "    mov rbx, 10","    mov rcx, 0",
+                "    mov byte [negflag], 0",
+                "    lea rdi, [num_buf + 31]",
+                f".nts_{k}:",
+                "    xor rdx, rdx","    div rbx",
+                "    add dl, '0'","    dec rdi","    mov [rdi], dl",
+                "    inc rcx","    test rax, rax",
+                f"    jnz .nts_{k}",
+                "    cmp byte [negflag], 1",f"    jne .nskip2_{k}",
+                "    dec rdi","    mov byte [rdi], 45","    inc rcx",
+                f".nskip2_{k}:",
+                "    push rdi","    push rcx",
+                "    mov rax, rcx","    add rax, 8",
+                "    mov rdi, rax","    call arena_alloc",
+                "    pop rcx","    mov [rax], rcx",
+                "    pop rsi","    push rax",
+                "    lea rdi, [rax + 8]",
+                f".ntc_{k}:",
+                "    test rcx, rcx",f"    jz .ntd_{k}",
+                "    mov al, [rsi]","    mov [rdi], al",
+                "    inc rsi","    inc rdi","    dec rcx",
+                f"    jmp .ntc_{k}",f".ntd_{k}:",
+                "    mov byte [negflag], 0",
+                "    pop rax",
+            ]
+            return code
+        if اسم=="عدد":
+            if len(args)!=1: raise Exception("عدد تأخذ وسيطاً واحداً")
+            _counters["copy"]+=1; k=_counters["copy"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code += [
+                "    mov rcx, [rax]","    lea rsi, [rax + 8]",
+                "    mov rax, 0","    mov rbx, 10",
+                f".std_{k}:",
+                "    test rcx, rcx",f"    jz .sdd_{k}",
+                "    movzx rdx, byte [rsi]",
+                "    cmp dl, '0'",f"    jl .std_skip_{k}",
+                "    cmp dl, '9'",f"    jg .std_skip_{k}",
+                "    sub dl, '0'",
+                "    imul rax, rbx","    add rax, rdx",
+                f".std_skip_{k}:",
+                "    inc rsi","    dec rcx",
+                f"    jmp .std_{k}",f".sdd_{k}:",
+            ]
+            return code
+        code=[]
+        for arg in args:
+            code.extend(compile_expr(arg,env,funcs,env_layout))
+            code.append("    push rax")
+        if اسم=="فتح":
+            if len(args)!=1: raise Exception("فتح تأخذ وسيطاً واحداً")
+            _counters["copy"]+=1; k=_counters["copy"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code += [
+                "    mov rcx, [rax]",
+                "    lea rsi, [rax + 8]",
+                "    lea rdi, [file_path_buf]",
+                f".fp_c_{k}:",
+                "    test rcx, rcx",
+                f"    jz .fp_d_{k}",
+                "    mov al, [rsi]",
+                "    mov [rdi], al",
+                "    inc rsi",
+                "    inc rdi",
+                "    dec rcx",
+                f"    jmp .fp_c_{k}",
+                f".fp_d_{k}:",
+                "    mov byte [rdi], 0",
+                "    lea rdi, [file_path_buf]",
+                "    mov rsi, 66",
+                "    mov rdx, 420",
+                "    mov rax, 2",
+                "    push rcx",
+                "    syscall",
+                "    pop rcx",
+            ]
+            return code
+        if اسم=="عروة":
+            code = [
+                "    mov rdi, 2",
+                "    mov rsi, 1",
+                "    mov rdx, 0",
+                "    mov rax, 41",
+                "    syscall",
+            ]
+            return code
+        if اسم=="اكتب_ملف":
+            if len(args)!=2: raise Exception("اكتب_ملف تأخذ وسيطين")
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    push rax")
+            code.extend(compile_expr(args[1],env,funcs,env_layout))
+            code += [
+                "    mov rdx, [rax]",
+                "    lea rsi, [rax + 8]",
+                "    pop rdi",
+                "    push rcx",
+                "    mov rax, 1",
+                "    syscall",
+                "    pop rcx",
+                "    mov rax, rdx",
+            ]
+            return code
+        if اسم=="اقرأ_ملف":
+            if len(args)!=2: raise Exception("اقرأ_ملف تأخذ وسيطين")
+            _counters["copy"]+=1; k=_counters["copy"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    push rax")
+            code.extend(compile_expr(args[1],env,funcs,env_layout))
+            code += [
+                "    mov rdx, rax",
+                "    pop rdi",
+                "    lea rsi, [file_buf]",
+                "    push rcx",
+                "    mov rax, 0",
+                "    syscall",
+                "    pop rcx",
+                "    mov rcx, rax",
+                "    mov rdi, rax",
+                "    add rdi, 8",
+                "    call arena_alloc",
+                "    mov [rax], rcx",
+                "    push rax",
+                "    lea rsi, [file_buf]",
+                "    lea rdi, [rax + 8]",
+                "    mov rdx, rcx",
+                f".fr_c_{k}:",
+                "    test rdx, rdx",
+                f"    jz .fr_d_{k}",
+                "    mov cl, [rsi]",
+                "    mov [rdi], cl",
+                "    inc rsi",
+                "    inc rdi",
+                "    dec rdx",
+                f"    jmp .fr_c_{k}",
+                f".fr_d_{k}:",
+                "    pop rax",
+            ]
+            return code
+        if اسم=="اختم":
+            if len(args)!=1: raise Exception("اختم تأخذ وسيطاً واحداً")
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code += [
+                "    push rcx",
+                "    mov rax, 3",
+                "    syscall",
+                "    pop rcx",
+            ]
+            return code
+        if اسم=="توازي":
+            if len(args)!=2: raise Exception("توازي تأخذ وسيطين: دالة وقيمة")
+            _counters["tq"]+=1; k=_counters["tq"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    push rax")
+            code.extend(compile_expr(args[1],env,funcs,env_layout))
+            code += [
+                "    push rax",
+                f"    lea rsi, [rel t_task_{k}]",
+                "    pop rax",
+                "    mov [rsi + 8], rax",
+                "    pop rax",
+                "    mov [rsi], rax",
+                "    xor rdi, rdi",
+                "    mov rsi, 65536",
+                "    mov rdx, 3",
+                "    mov r10, 34",
+                "    xor r8, r8",
+                "    xor r9, r9",
+                "    mov rax, 9",
+                "    syscall",
+                "    test rax, rax",
+                "    js mmfail",
+                f"    mov [t_task_{k} + 24], rax",
+                "    add rax, 65536",
+                "    sub rax, 16",
+                "    mov rsi, rax",
+                f"    lea r14, [rel t_task_{k}]",
+                "    mov rdi, 1809",
+                "    xor rdx, rdx",
+                "    xor r10, r10",
+                "    xor r8, r8",
+                "    xor r9, r9",
+                "    mov rax, 56",
+                "    syscall",
+                "    test rax, rax",
+                f"    jnz t_parent_{k}",
+                f"    lea r12, [rel t_after_{k}]",
+                "    push r12",
+                f"    mov r15, [r14]",
+                f"    mov r10, [r15]",
+                f"    mov rdi, [r14 + 8]",
+                f"    call r10",
+                f"t_after_{k}:",
+                f"    mov [r14 + 16], rax",
+                f"    mov rdi, [r14 + 24]",
+                "    mov rsi, 0",
+                "    xor rdx, rdx",
+                "    xor r10, r10",
+                "    mov rax, 231",
+                "    syscall",
+                f"t_parent_{k}:",
+                f"    mov [t_task_{k} + 24], rax",
+                f"    mov edi, [t_task_{k} + 24]",
+                f"    lea rsi, [rel t_status_{k}]",
+                "    xor rdx, rdx",
+                "    xor r10, r10",
+                "    mov rax, 61",
+                "    syscall",
+                f"    mov rax, [t_task_{k} + 16]",
+            ]
+            return code
+        for j in range(len(args)-1,-1,-1):
+            if j<len(ARG_REGS): code.append(f"    pop {ARG_REGS[j]}")
+        if اسم in env["locals"]:
+            code.append(f"    mov r10, [rbp - {env['locals'][اسم]}]")
+        elif اسم in env["globals"]:
+            code.append(f"    mov r10, [vars + {env['globals'][اسم]*8}]")
+        else: raise Exception(f"دالة غير معرفة: {اسم}")
+        code.append("    push r15")
+        code.append("    mov r15, r10")
+        code.append("    mov r10, [r10]")
+        code.append("    call r10")
+        code.append("    pop r15")
+        return code
+    raise Exception(f"تعبير غير مدعوم: {ن}")
+
+# ═══════════════════════════════════════════════════════════
+# Statement Compiler
+# ═══════════════════════════════════════════════════════════
+def stmt_writes_local(stmt, env):
+    ن=stmt[0]
+    if ن in ("أسند","نقل","عرف","لكل"):
+        if ن=="لكل": return stmt[1] in env["locals"]
+        return stmt[1] in env["locals"]
+    return False
+
+def compile_stmt(stmt, env, funcs, type_env, is_last=False):
+    return compile_stmt_local(stmt, env, funcs, {}, type_env, is_last)
+
+def compile_stmt_local(stmt, env, funcs, locals_layout, type_env, is_last):
+    ن=stmt[0]
+    if ن in ["أسند","عرف"]:
+        اسم=stmt[1]
+        if اسم not in env["globals"]: env["globals"][اسم]=len(env["globals"])
+        code=compile_expr(stmt[2],env,funcs,locals_layout)
+        if اسم in env["locals"]:
+            code.append(f"    mov [rbp - {env['locals'][اسم]}], rax")
+        else:
+            if اسم not in env["globals"]: env["globals"][اسم]=len(env["globals"])
+            code.append(f"    mov [vars + {env['globals'][اسم]*8}], rax")
+        return code
+    if ن=="نقل":
+        هدف=stmt[1]; مصدر=stmt[2]
+        if هدف not in env["globals"]: env["globals"][هدف]=len(env["globals"])
+        if مصدر not in env["globals"]: raise Exception(f"متغير غير معرف: {مصدر}")
+        code=[]
+        code.append(f"    mov rax, [vars + {env['globals'][مصدر]*8}]")
+        code.append(f"    mov [vars + {env['globals'][هدف]*8}], rax")
+        code.append(f"    mov qword [vars + {env['globals'][مصدر]*8}], 0")
+        return code
+    if ن=="اطبع":
+        e=stmt[1]
+        code=compile_expr(e,env,funcs)
+        نوع=استنتاج_نوع(e, type_env)
+        code.append("    call print_str" if نوع=="نص" else "    call print_int")
+        return code
+    if ن=="استدعاء_جملة":
+        return compile_expr(stmt[1], env, funcs)
+    if ن=="كتلة":
+        code=[]
+        for s in stmt[1]:
+            code.extend(compile_stmt(s,env,funcs,type_env))
+        tail=stmt[2] if len(stmt)>2 else None
+        if tail is not None:
+            code.extend(compile_expr(tail,env,funcs))
+        else:
+            code.append("    xor rax, rax")
+        return code
+    if ن=="طالما":
+        _counters["loop"]+=1; k=_counters["loop"]
+        code=[f".while_{k}:"]
+        code.extend(compile_expr(stmt[1],env,funcs))
+        code.append("    cmp rax, 0")
+        code.append(f"    je .wend_{k}")
+        code.extend(compile_stmt(stmt[2],env,funcs,type_env))
+        code.append(f"    jmp .while_{k}")
+        code.append(f".wend_{k}:")
+        return code
+    if ن=="لكل":
+        _counters["loop"]+=1; k=_counters["loop"]
+        متغير=stmt[1]; قائمة=stmt[2]; جسم=stmt[3]
+        if متغير not in env["globals"]: env["globals"][متغير]=len(env["globals"])
+        code=[]
+        code.extend(compile_expr(قائمة,env,funcs))
+        code += ["    mov r14, [rax]","    lea rbx, [rax + 8]",
+                 f".fe_{k}:","    test r14, r14",f"    jz .feend_{k}",
+                 "    mov rax, [rbx]",
+                 f"    mov [vars + {env['globals'][متغير]*8}], rax",
+                 "    push rbx","    push r14"]
+        code.extend(compile_stmt(جسم,env,funcs,type_env))
+        code += ["    pop r14","    pop rbx","    add rbx, 8","    dec r14",
+                 f"    jmp .fe_{k}",f".feend_{k}:"]
+        return code
+    raise Exception(f"بيان غير مدعوم: {ن}")
+
+# ═══════════════════════════════════════════════════════════
+# Program Compiler
+# ═══════════════════════════════════════════════════════════
+def compile_program(برنامج):
+    check_ownership(برنامج)
+    asm=["global _start","section .bss",
+         "    vars resq 256","    num_buf resb 32","    negflag resb 1","    read_buf resb 256",
+         "    file_path_buf resb 256",
+         "    file_buf resb 4096",
+         "    arena_ptr resq 1","    arena_mem resb 262144"]
+    for k in range(1, 17):
+        asm.append(f"    t_task_{k} resq 4")
+        asm.append(f"    t_status_{k} resq 1")
+    asm.append("")
+    asm.append("section .text")
+    asm += ["mmfail:","    mov rax, 60","    mov rdi, 2","    syscall", ""]
+    asm += ["arena_alloc:","    mov rax, [arena_ptr]",
+            "    add rdi, 15","    and rdi, -16",
+            "    add [arena_ptr], rdi","    ret",""]
+    asm += ["print_int:",
+        "    push rax","    push rbx","    push rcx",
+        "    push rdx","    push rsi","    push rdi",
+        "    test rax, rax","    jns .pi_pos",
+        "    neg rax","    mov byte [negflag], 1",
+        ".pi_pos:",
+        "    mov rbx, 10","    mov rcx, 0",
+        "    lea rdi, [num_buf + 31]",
+        ".piloop:",
+        "    xor rdx, rdx","    div rbx","    add dl, '0'",
+        "    dec rdi","    mov [rdi], dl",
+        "    inc rcx","    test rax, rax","    jnz .piloop",
+        "    cmp byte [negflag], 1","    jne .pi_skip_neg",
+        "    dec rdi","    mov byte [rdi], 45","    inc rcx",
+        ".pi_skip_neg:",
+        "    mov byte [negflag], 0",
+        "    mov rsi, rdi","    mov byte [rsi + rcx], 10","    inc rcx",
+        "    mov rdi, 1","    mov rax, 1","    mov rdx, rcx","    syscall",
+        "    pop rdi","    pop rsi","    pop rdx",
+        "    pop rcx","    pop rbx","    pop rax","    ret",""]
+    asm += ["str_eq:",
+        "    mov rcx, [rdi]","    mov rdx, [rsi]",
+        "    cmp rcx, rdx","    jne str_eq_ne",
+        "    add rdi, 8","    add rsi, 8",
+        "str_eq_loop:",
+        "    test rcx, rcx","    jz str_eq_eq",
+        "    mov al, [rdi]","    cmp al, [rsi]",
+        "    jne str_eq_ne",
+        "    inc rdi","    inc rsi","    dec rcx",
+        "    jmp str_eq_loop",
+        "str_eq_eq:",
+        "    mov rax, 1","    ret",
+        "str_eq_ne:",
+        "    mov rax, 0","    ret",""]
+    asm += ["print_str:",
+        "    push rax","    push rdx","    push rsi","    push rdi",
+        "    mov rsi, rax","    add rsi, 8","    mov rdx, [rax]",
+        "    mov rdi, 1","    mov rax, 1","    syscall",
+        "    mov rsi, nl_ptr","    mov rdx, 1",
+        "    mov rdi, 1","    mov rax, 1","    syscall",
+        "    pop rdi","    pop rsi","    pop rdx","    pop rax","    ret",""]
+    asm += ["section .data","nl_ptr: db 10","section .text",""]
+    asm += ["_start:","    lea rax, [arena_mem]","    mov [arena_ptr], rax",""]
+    type_env={}
+    for بيان in برنامج:
+        if بيان[0] in ["عرف","أسند"]:
+            type_env[بيان[1]]=استنتاج_نوع(بيان[2], type_env)
+        elif بيان[0]=="نقل":
+            type_env[بيان[1]] = type_env.get(بيان[2], "مجهول")
+    var_map={}; funcs={"idx":0,"bodies":[]}; global_code=[]
+    env={"globals":var_map,"locals":{}}
+    for بيان in برنامج:
+        global_code.extend(compile_stmt(بيان,env,funcs,type_env))
+    asm += global_code+["","    mov rax, 60","    xor rdi, rdi","    syscall",""]
+    asm += funcs["bodies"]
+    return "\n".join(asm)
+
+# ═══════════════════════════════════════════════════════════
+# Test Helpers
+# ═══════════════════════════════════════════════════════════
+def build_and_run(name, source, expected, stdin_input=None):
     try:
-        compile_source(source, output_file)
-        print(f"✅ تم توليد: {output_file}")
-        print(f"🔧 للتجميع:")
-        print(f"   nasm -f elf64 {output_file} -o out.o && ld out.o -o out && ./out")
+        ر=حلل_رموز(source); ب=حلل_برنامج(ر); asm=compile_program(ب)
+        with open(f"{name}.asm","w") as f: f.write(asm)
+        subprocess.run(["nasm","-f","elf64",f"{name}.asm","-o",f"{name}.o"],
+                       check=True,capture_output=True)
+        subprocess.run(["ld",f"{name}.o","-o",name],check=True,capture_output=True)
+        result=subprocess.run([f"./{name}"],capture_output=True,text=True,
+                              timeout=5,input=stdin_input)
+        out=result.stdout.strip()
+        if out==expected: print(f"✅ ({name}): {out}")
+        else:
+            print(f"❌ ({name}): Expected '{expected}', Got '{out}'")
+            sys.exit(1)
     except Exception as e:
-        print(f"❌ خطأ: {e}")
+        print(f"❌ ({name}): Error: {e}"); sys.exit(1)
+
+def build_and_expect_error(name, source, expected_err_contains):
+    try:
+        ر=حلل_رموز(source); ب=حلل_برنامج(ر); asm=compile_program(ب)
+        print(f"❌ ({name}): Expected compile error but succeeded!")
         sys.exit(1)
+    except Exception as e:
+        if expected_err_contains in str(e):
+            print(f"✅ ({name}): رفض صحيح — {e}")
+        else:
+            print(f"❌ ({name}): Wrong error: {e}")
+            sys.exit(1)
+
+# ═══════════════════════════════════════════════════════════
+# Phase 2: Calculator
+# ═══════════════════════════════════════════════════════════
+def run_calculator():
+    برنامج_حاسبة = '⎕ "أدخل عدداً:"\nأ ≔ عدد(⊙)\n⎕ "أدخل عدداً ثانياً:"\nب ≔ عدد(⊙)\n⎕ "المجموع:"\n⎕ نص(أ + ب)'
+
+    print("\n🔧 تجميع الآلة الحاسبة...")
+    ر = حلل_رموز(برنامج_حاسبة)
+    ب = حلل_برنامج(ر)
+    asm = compile_program(ب)
+    with open('calc.asm', 'w') as f:
+        f.write(asm)
+    subprocess.run(['nasm', '-f', 'elf64', 'calc.asm', '-o', 'calc.o'], check=True)
+    subprocess.run(['ld', 'calc.o', '-o', 'calc'], check=True)
+    print("✅ تم التجميع")
+
+    print("\n🔢 التشغيل (5 + 3):")
+    result = subprocess.run(['./calc'], capture_output=True, text=True, input="5\n3\n")
+    print(result.stdout)
+
+    expected = "أدخل عدداً:\nأدخل عدداً ثانياً:\nالمجموع:\n8"
+    if result.stdout.strip() == expected:
+        print("✅ الآلة الحاسبة تعمل!")
+    else:
+        print(f"❌ متوقع: {expected}")
+        print(f"   فعلي: {result.stdout.strip()}")
+        sys.exit(1)
+
+# ═══════════════════════════════════════════════════════════
+# Main
+# ═══════════════════════════════════════════════════════════
+if __name__ == '__main__':
+    print("=" * 50)
+    print("المرحلة 1: اختبارات المُجمّع")
+    print("=" * 50)
+
+    build_and_run("t_fact",
+        "مضروب ≡ λن. (ن = 1) ؟ 1 : ن · مضروب(ن - 1)\n⎕ مضروب(5)", "120")
+    build_and_run("t_foreach",
+        "م ≔ 0\n∀ س ∈ ⟨1,2,3,4⟩ : م ≔ م + س\n⎕ م", "10")
+    build_and_run("t_block",
+        "ع ≔ 0\nن ≔ 1\nμ ع < 5 : ﴿ ن ≔ ن · 2 ⋄ ع ≔ ع + 1 ﴾\n⎕ ن", "32")
+    build_and_run("t_move_valid",
+        "أ ≔ ⟨1,2,3⟩\nب ⊸ أ\n⎕ طول(ب)", "3")
+    build_and_run("t_move_str",
+        'ن ≔ "مرحبا"\nم ⊸ ن\n⎕ م', "مرحبا")
+    build_and_run("t_reassign_after_move",
+        "أ ≔ ⟨1,2,3⟩\nب ⊸ أ\nأ ≔ ⟨4,5⟩\n⎕ طول(أ)", "2")
+    build_and_expect_error("t_use_after_move",
+        "أ ≔ ⟨1,2,3⟩\nب ⊸ أ\n⎕ طول(أ)", "مستهلك")
+    build_and_expect_error("t_double_move",
+        "أ ≔ ⟨1,2,3⟩\nب ⊸ أ\nج ⊸ أ", "مستهلك")
+    build_and_expect_error("t_move_in_block",
+        "أ ≔ ⟨1,2,3⟩\n﴿ ب ⊸ أ ⋄ ⎕ طول(أ) ﴾", "مستهلك")
+    build_and_run("t_read_echo",
+        "س ≔ ⊙\n⎕ س", "مرحبا", stdin_input="مرحبا")
+    build_and_run("t_read_size",
+        "س ≔ ⊙\n⎕ حجم(س)", "10", stdin_input="مرحبا")
+    build_and_run("t_char",
+        'س ≔ "abc"\n⎕ رمز(س, 0)', "97")
+    build_and_run("t_char2",
+        'س ≔ "مرحبا"\n⎕ رمز(س, 0)', "217")
+    build_and_run("t_num2str",
+        "⎕ نص(42)", "42")
+    build_and_run("t_str2num",
+        '⎕ عدد("123")', "123")
+    build_and_run("t_roundtrip",
+        "⎕ عدد(نص(99))", "99")
+
+    print("\n🎉 المرحلة 1: جميع الاختبارات نجحت!")
+
+    print("\n" + "=" * 50)
+    print("المرحلة 2: الآلة الحاسبة التفاعلية")
+    print("=" * 50)
+    run_calculator()
+
+    print("\n" + "=" * 50)
+    print("🏆 جميع المراحل نجحت!")
+    print("=" * 50)
