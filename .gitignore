@@ -29,3 +29,7 @@ examples/threads_basic
 examples/channels
 examples/mutex_demo
 examples/parallel_sum
+
+# ملفات التوازي التنفيذية
+examples/threads_real
+src/threads_runtime.o
