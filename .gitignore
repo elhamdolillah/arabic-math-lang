@@ -19,3 +19,13 @@ __pycache__/
 
 # Generated ASM (keep source only)
 # *.asm
+
+# Phase 40-42 test binaries
+p40_*
+p41_*
+p42_*
+examples/phase40_ffi
+examples/phase41_channels
+examples/phase42_generics
+update_phases.py
+test_phases.py
