@@ -16,3 +16,10 @@ __pycache__/
 # ملفات السجلات
 *.stdout
 *.stderr
+
+# الملفات التنفيذية
+examples/matrix_ops
+examples/string_ops
+examples/recursion
+examples/neural_network
+examples/nlp_demo
