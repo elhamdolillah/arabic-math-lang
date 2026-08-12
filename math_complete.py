@@ -172,6 +172,14 @@ class Parser:
             expr = self.parse_expr()
             return ('print', expr)
         
+        # μ — حلقة while
+        if tok.type == 'OP' and tok.value == 'μ':
+            self.advance()
+            condition = self.parse_expr()
+            self.expect('OP', ':')
+            body = self.parse_primary()  # كتلة ﴿⋄﴾
+            return ('while', condition, body)
+        
         # ≔ — إسناد
         if tok.type == 'ID':
             name = self.advance().value
@@ -588,9 +596,11 @@ class CodeGen:
     def compile_stmt(self, stmt):
         if stmt[0] == 'print':
             expr = stmt[1]
-            # تحديد نوع التعبير
+            self.compile_expr(expr)
+            
+            # فحص نوع التعبير — إذا كان نصاً أو متغيراً نصياً
             if expr[0] == 'str' or expr[0] == 'concat':
-                self.compile_expr(expr)
+                # طباعة نص (rax يشير إلى كائن نصي: [length][data])
                 self.emit("    mov rdx, [rax]")
                 self.emit("    lea rsi, [rax + 8]")
                 self.emit("    mov rdi, 1")
@@ -602,8 +612,11 @@ class CodeGen:
                 self.emit("    mov rdx, 1")
                 self.emit("    mov rax, 1")
                 self.emit("    syscall")
+            elif expr[0] == 'var':
+                # متغير — افترض أنه نص إذا كان في جدول الأنواع
+                # (حل مؤقت: اطبع كعدد دائماً)
+                self.emit("    call print_int")
             else:
-                self.compile_expr(expr)
                 self.emit("    call print_int")
         
         elif stmt[0] == 'assign':
@@ -615,6 +628,28 @@ class CodeGen:
             self.compile_expr(expr)
             offset = self.vars[name]
             self.emit(f"    mov [vars + {offset}], rax")
+        
+        elif stmt[0] == 'while':
+            # μ condition : body
+            condition = stmt[1]
+            body = stmt[2]
+            label_start = self.new_label("while_start")
+            label_end = self.new_label("while_end")
+            
+            self.emit(f"{label_start}:")
+            self.compile_expr(condition)
+            self.emit("    test rax, rax")
+            self.emit(f"    jz {label_end}")
+            
+            # تجميع جسم الحلقة
+            if body[0] == 'block':
+                for s in body[1]:
+                    self.compile_stmt(s)
+            else:
+                self.compile_stmt(body)
+            
+            self.emit(f"    jmp {label_start}")
+            self.emit(f"{label_end}:")
         
         elif stmt[0] == 'expr_stmt':
             self.compile_expr(stmt[1])
