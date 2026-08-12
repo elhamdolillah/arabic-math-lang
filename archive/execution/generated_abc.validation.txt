@@ -1,0 +1,2 @@
+NASM_EXIT_STATUS=0
+generated_abc.asm:2: warning: no operand for data declaration [-w+db-empty]

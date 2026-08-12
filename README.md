@@ -42,3 +42,43 @@
 git clone https://github.com/elhamdolillah/arabic-math-lang.git
 cd arabic-math-lang
 sudo apt install python3 nasm binutils
+```
+
+### التجميع والتشغيل
+```bash
+python3 math_complete.py hello.ar
+nasm -f elf64 hello.asm -o hello.o
+ld hello.o -o hello
+./hello
+```
+
+---
+
+## 📚 الأمثلة
+
+راجع مجلد `examples/`:
+- `hello.ar` - أول برنامج
+- `calculator.ar` - آلة حاسبة
+- `factorial.ar` - المضروب
+- `matrix.ar` - محدد مصفوفة 2×2
+- `neural_xor.ar` - شبكة عصبية رمزية (XOR)
+
+---
+
+## 🗺️ خارطة الطريق (38 مرحلة مكتملة)
+
+| المستوى | المراحل | المحتوى |
+|---------|---------|---------|
+| الأساس | 1-22 | المُجمّع + Bootstrap 100% |
+| المكتبة | 23-26 | الملفات، الهياكل، المؤشرات، الشبكة |
+| البيانات | 27-29 | SQL كامل |
+| الرياضيات | 30-34 | AI رمزي، المصفوفات، التفاضل، التكامل |
+| AI المتقدم | 35-38 | شبكات عصبية، تعلم، NLP، توليد نصوص |
+
+---
+
+## 📜 الترخيص
+
+MIT License - راجع `LICENSE`
+
+**﴿وقل رب زدني علماً﴾**

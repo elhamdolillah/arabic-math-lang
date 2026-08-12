@@ -1,0 +1,1 @@
+AND: w1=1 w2=1 b=-1 OR: w1=1 w2=1 b=0 NOT: w1=-2 b=1 XOR: 3 perceptrons
