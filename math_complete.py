@@ -13,25 +13,36 @@ import sys, subprocess
 رموز_العمليات = {
     "≔":"≔","≡":"≡","+":"+","-":"-","·":"·","*":"·","×":"·","÷":"÷","⊕":"⊕","⎕":"⎕",
     "(":"(",")":")",",":",","،":",",":":":",".":".",
-    "⟨":"⟨","⟩":"⟩","<":"<",">":">","=":"=","≠":"≠","؟":"؟",
+    "⟨":"⟨","⟩":"⟩","<":"<",">":">","=":"=","≠":"≠","؟":"؟","[":"[","]":"]",
     "∀":"∀","∈":"∈","μ":"μ",
-    "﴿":"﴿","﴾":"﴾","⋄":"⋄","⊸":"⊸","⊙":"⊙"
+    "﴿":"﴿","﴾":"﴾","⋄":"⋄","⊸":"⊸","⊙":"⊙",
+    "⇒":"⇒","|":"|","…":"…"
 }
 رموز_يونانية = {"λ":"λ","μ":"μ"}
 أسماء_بديلة = {
     "دالة":"λ","λ":"λ","اطبع":"⎕","⎕":"⎕",
     "طالما":"μ","μ":"μ","لكل":"∀","∀":"∀","في":"∈","∈":"∈",
-    "انقل":"⊸","⊸":"⊸","اقرأ":"⊙","⊙":"⊙"
+    "انقل":"⊸","⊸":"⊸","اقرأ":"⊙","⊙":"⊙",
+    "طابق":"طابق","حيث":"حيث","شامل":"_","_":"_","نوع":"نوع","سمة":"سمة","تطبيق":"تطبيق","على":"على"
 }
 عمليات_الجمع = {"+":"+","-":"-","⊕":"⊕"}
 عمليات_الضرب = {"·":"·","÷":"÷"}
 عمليات_المقارنة = {"<":"<",">":">","=":"=","≠":"≠"}
 
+def pos_msg(رموز, i):
+    """إرجاع رسالة موقع السطر والعمود لموضع في قائمة الرموز"""
+    if i < len(رموز) and len(رموز[i]) >= 4:
+        return f"السطر {رموز[i][2]} العمود {رموز[i][3]}"
+    return "نهاية الملف"
+
 def حلل_رموز(نص):
-    رموز=[]; i=0; n=len(نص)
+    رموز=[]; i=0; n=len(نص); سطر=1; بداية_السطر=0
     while i<n:
         ح=نص[i]
+        if ح=='\n':
+            سطر+=1; بداية_السطر=i+1; i+=1; continue
         if ح.isspace(): i+=1; continue
+        عمود=i-بداية_السطر+1
         ر=أرقام_القيم.get(ح)
         if ر is not None:
             ق=0
@@ -39,24 +50,25 @@ def حلل_رموز(نص):
                 د=أرقام_القيم.get(نص[i])
                 if د is None: break
                 ق=ق*10+د; i+=1
-            رموز.append(("عدد",ق)); continue
+            رموز.append(("عدد",ق,سطر,عمود)); continue
         if ح=='"':
             i+=1; أ=[]
             while i<n and نص[i]!='"': أ.append(نص[i]); i+=1
-            if i>=n: raise Exception("نص غير مغلق")
-            i+=1; رموز.append(("نص","".join(أ))); continue
+            if i>=n: raise Exception(f"نص غير مغلق عند السطر {سطر} العمود {عمود}")
+            i+=1; رموز.append(("نص","".join(أ),سطر,عمود)); continue
         ي=رموز_يونانية.get(ح)
-        if ي is not None: رموز.append(("عملية",ي)); i+=1; continue
+        if ي is not None: رموز.append(("عملية",ي,سطر,عمود)); i+=1; continue
         if ح.isalpha() or ح=="_":
             ب=i; i+=1
-            while i<n and (نص[i].isalpha() or نص[i].isdigit() or نص[i]=="_"): i+=1
-            ك=نص[ب:i]; بد=أسماء_بديلة.get(ك)
-            if بد is not None: رموز.append(("عملية",بد))
-            else: رموز.append(("معرف",ك))
+            while i<n and (نص[i].isalpha() or نص[i].isdigit() or نص[i]=="_" or ("\u064B"<=نص[i]<="\u0652") or نص[i]=="\u0670"): i+=1
+            ك="".join([ح for ح in نص[ب:i] if not ("\u064B"<=ح<="\u0652") and ح!="\u0670"])
+            بد=أسماء_بديلة.get(ك)
+            if بد is not None: رموز.append(("عملية",بد,سطر,عمود))
+            else: رموز.append(("معرف",ك,سطر,عمود))
             continue
         ع=رموز_العمليات.get(ح)
-        if ع is not None: رموز.append(("عملية",ع)); i+=1; continue
-        raise Exception("رمز غير معروف: "+ح)
+        if ع is not None: رموز.append(("عملية",ع,سطر,عمود)); i+=1; continue
+        raise Exception(f"رمز غير معروف '{ح}' عند السطر {سطر} العمود {عمود}")
     return رموز
 
 # ═══════════════════════════════════════════════════════════
@@ -69,30 +81,30 @@ def حلل_برنامج(رموز):
     return ب
 
 def حلل_بيان(رموز,i):
-    if i>=len(رموز): raise Exception("بيان مفقود")
-    ن,ق=رموز[i]
+    if i>=len(رموز): raise Exception(f"بيان مفقود عند {pos_msg(رموز, i)}")
+    ن,ق=رموز[i][0],رموز[i][1]
     if ن=="عملية" and ق=="⎕":
         i+=1; ت,i=حلل_تعبير(رموز,i); return ("اطبع",ت),i
     if ن=="عملية" and ق=="﴿":
         i+=1; بيانات=[]; إخراج=None
         while True:
-            if i>=len(رموز): raise Exception("﴾ مطلوبة")
+            if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
             if رموز[i][1]=="﴾": i+=1; break
             بيان,i=حلل_بيان(رموز,i); بيانات.append(بيان)
-            if i>=len(رموز): raise Exception("﴾ مطلوبة")
+            if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
             if رموز[i][1]=="⋄":
                 i+=1
                 if i<len(رموز) and رموز[i][1]=="﴾": continue
                 if (i<len(رموز) and رموز[i][0]=="معرف" and
                     (i+1>=len(رموز) or (رموز[i+1][0]=="عملية" and رموز[i+1][1] not in ("≔","≡","⊸","(")))):
                     إخراج,i=حلل_تعبير(رموز,i)
-                    if i>=len(رموز): raise Exception("﴾ مطلوبة")
+                    if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
                     if رموز[i][1]=="﴾": i+=1; break
                     if رموز[i][1]=="⋄": continue
                     raise Exception("⋄ أو ﴾ مطلوبة بعد التعبير")
                 continue
             if رموز[i][1]=="﴾": i+=1; break
-            raise Exception("⋄ أو ﴾ مطلوبة")
+            raise Exception(f"⋄ أو ﴾ مطلوبة عند {pos_msg(رموز, i)}")
         return ("كتلة",بيانات,إخراج),i
     if ن=="معرف":
         اسم=ق
@@ -110,19 +122,139 @@ def حلل_بيان(رموز,i):
             return ("استدعاء_جملة",ت),i
     if ن=="عملية" and ق=="μ":
         i+=1; شرط,i=حلل_تعبير(رموز,i)
-        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(": مطلوبة")
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(f": مطلوبة عند {pos_msg(رموز, i)}")
         i+=1; جسم,i=حلل_بيان(رموز,i)
         return ("طالما",شرط,جسم),i
     if ن=="عملية" and ق=="∀":
         i+=1
-        if i>=len(رموز) or رموز[i][0]!="معرف": raise Exception("اسم مطلوب بعد ∀")
+        if i>=len(رموز) or رموز[i][0]!="معرف": raise Exception(f"اسم مطلوب بعد ∀ عند {pos_msg(رموز, i)}")
         اسم=رموز[i][1]; i+=1
-        if i>=len(رموز) or رموز[i][1]!="∈": raise Exception("∈ مطلوبة")
+        if i>=len(رموز) or رموز[i][1]!="∈": raise Exception(f"∈ مطلوبة عند {pos_msg(رموز, i)}")
         i+=1; قائمة,i=حلل_تعبير(رموز,i)
-        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(": مطلوبة")
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(f": مطلوبة عند {pos_msg(رموز, i)}")
         i+=1; جسم,i=حلل_بيان(رموز,i)
         return ("لكل",اسم,قائمة,جسم),i
-    raise Exception("بيان غير معروف")
+    if ق=="نوع":
+        # المرحلة 44: تعريف نوع جبري — نوع شكل : ﴿ دائرة(ن) ⋄ مستطيل(ع، ا) ﴾
+        i+=1
+        if i>=len(رموز) or رموز[i][0]!="معرف": raise Exception(f"اسم النوع مطلوب عند {pos_msg(رموز, i)}")
+        اسم=رموز[i][1]; i+=1
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(f": مطلوبة بعد اسم النوع عند {pos_msg(رموز, i)}")
+        i+=1
+        if i>=len(رموز) or رموز[i][1]!="﴿": raise Exception(f"﴿ مطلوبة بعد : عند {pos_msg(رموز, i)}")
+        i+=1; بناة=[]
+        while True:
+            if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
+            if رموز[i][1]=="﴾": i+=1; break
+            if رموز[i][0]!="معرف": raise Exception(f"اسم باني مطلوب عند {pos_msg(رموز, i)}")
+            اسم_باني=رموز[i][1]; i+=1
+            معاملات=[]
+            if i<len(رموز) and رموز[i][1]=="(":
+                i+=1
+                while True:
+                    if i>=len(رموز): raise Exception(f") مطلوبة عند {pos_msg(رموز, i)}")
+                    if رموز[i][1]==")": i+=1; break
+                    if رموز[i][0]!="معرف": raise Exception(f"اسم معامل مطلوب عند {pos_msg(رموز, i)}")
+                    معاملات.append(رموز[i][1]); i+=1
+                    if i<len(رموز) and رموز[i][1]==",": i+=1
+            بناة.append((اسم_باني, len(معاملات)))
+            if i<len(رموز) and رموز[i][1]=="⋄": i+=1
+        # المرحلة 44: سجّل النوع أثناء التحليل حتى يتعرف حلل_نمط على البناة
+        globals()['_type_registry'][اسم]=بناة
+        return ("تعريف_نوع", اسم, بناة),i
+    if ق=="سمة":
+        # المرحلة 45: تعريف سمة — سمة اسم(وسائط) : ﴿ دوال ⟩
+        i+=1
+        if i>=len(رموز) or رموز[i][0]!="معرف": raise Exception(f"اسم السمة مطلوب عند {pos_msg(رموز, i)}")
+        اسم=رموز[i][1]; i+=1
+        معاملات=[]
+        if i<len(رموز) and رموز[i][1]=="(":
+            i+=1
+            while True:
+                if i>=len(رموز): raise Exception(f") مطلوبة عند {pos_msg(رموز, i)}")
+                if رموز[i][1]==")": i+=1; break
+                if رموز[i][0]!="معرف": raise Exception(f"اسم معامل مطلوب عند {pos_msg(رموز, i)}")
+                معاملات.append(رموز[i][1]); i+=1
+                if i<len(رموز) and رموز[i][1]==",": i+=1
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(f": مطلوبة بعد اسم السمة عند {pos_msg(رموز, i)}")
+        i+=1
+        if i>=len(رموز) or رموز[i][1]!="﴿": raise Exception(f"﴿ مطلوبة بعد : عند {pos_msg(رموز, i)}")
+        i+=1; دوال=[]
+        while True:
+            if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
+            if رموز[i][1]=="﴾": i+=1; break
+            if رموز[i][0]!="معرف": raise Exception(f"اسم دالة مطلوب عند {pos_msg(رموز, i)}")
+            اسم_دالة=رموز[i][1]; i+=1
+            if i>=len(رموز) or رموز[i][1]!=":": raise Exception(f": مطلوبة بعد اسم الدالة عند {pos_msg(رموز, i)}")
+            i+=1
+            # تخطَّ توقيع الدالة (ن → نص) — استهلك حتى ⋄ أو ﴾
+            عمق=0
+            while i<len(رموز):
+                if رموز[i][1]=="﴿": عمق+=1
+                elif رموز[i][1]=="﴾":
+                    if عمق==0: break
+                    عمق-=1
+                elif عمق==0 and رموز[i][1]=="⋄": break
+                i+=1
+            دوال.append((اسم_دالة, 1))
+            if i<len(رموز) and رموز[i][1]=="⋄": i+=1
+        globals()['_trait_registry'][اسم]=دوال
+        return ("تعريف_سمة", اسم, معاملات, دوال),i
+        globals()['_type_registry'][اسم]=بناة
+        return ("تعريف_نوع", اسم, بناة),i
+    if ق=="تطبيق":
+        # المرحلة 45: تطبيق سمة على نوع — تطبيق سمة على نوع : ﴿ دالة(وسائط) ≔ تعبير ⟩
+        i+=1
+        if i>=len(رموز) or رموز[i][0]!="معرف": raise Exception(f"اسم السمة مطلوب عند {pos_msg(رموز, i)}")
+        اسم_سمة=رموز[i][1]; i+=1
+        if i>=len(رموز) or رموز[i][1]!="على": raise Exception(f"'على' مطلوبة بعد اسم السمة عند {pos_msg(رموز, i)}")
+        i+=1
+        if i>=len(رموز) or رموز[i][0]!="معرف": raise Exception(f"اسم النوع مطلوب عند {pos_msg(رموز, i)}")
+        اسم_نوع=رموز[i][1]; i+=1
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(f": مطلوبة بعد اسم النوع عند {pos_msg(رموز, i)}")
+        i+=1
+        if i>=len(رموز) or رموز[i][1]!="﴿": raise Exception(f"﴿ مطلوبة بعد : عند {pos_msg(رموز, i)}")
+        i+=1; تطبيقات=[]
+        while True:
+            if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
+            if رموز[i][1]=="﴾": i+=1; break
+            if رموز[i][0]!="معرف": raise Exception(f"اسم دالة مطلوب عند {pos_msg(رموز, i)}")
+            اسم_دالة=رموز[i][1]; i+=1
+            وسائط=[]
+            if i<len(رموز) and رموز[i][1]=="(":
+                i+=1
+                while True:
+                    if i>=len(رموز): raise Exception(f") مطلوبة عند {pos_msg(رموز, i)}")
+                    if رموز[i][1]==")": i+=1; break
+                    if رموز[i][0]!="معرف": raise Exception(f"اسم معامل مطلوب عند {pos_msg(رموز, i)}")
+                    وسائط.append(رموز[i][1]); i+=1
+                    if i<len(رموز) and رموز[i][1]==",": i+=1
+            if i>=len(رموز) or رموز[i][1]!="≔": raise Exception(f"≔ مطلوبة بعد معاملات الدالة عند {pos_msg(رموز, i)}")
+            i+=1
+            تعبير,i=حلل_تعبير(رموز,i)
+            تطبيقات.append((اسم_دالة, وسائط, تعبير))
+            if i<len(رموز) and رموز[i][1]=="⋄": i+=1
+        globals()['_impl_registry'][(اسم_سمة, اسم_نوع)]={fn: (ar, bd) for fn, ar, bd in تطبيقات}
+        return ("تطبيق_سمة", اسم_سمة, اسم_نوع, تطبيقات),i
+    if ق=="طابق":
+        i+=1; قيمة,i=حلل_تعبير(رموز,i)
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(": مطلوبة بعد طابق")
+        i+=1
+        if i>=len(رموز) or رموز[i][1]!="﴿": raise Exception("﴿ مطلوبة بعد طابق :")
+        i+=1; فروع=[]
+        while True:
+            if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
+            if رموز[i][1]=="﴾": i+=1; break
+            نمط,i=حلل_نمط(رموز,i)
+            if i>=len(رموز) or رموز[i][1]!="⇒": raise Exception(f"⇒ مطلوبة بعد النمط عند {pos_msg(رموز, i)}")
+            i+=1; تعبير,i=حلل_تعبير(رموز,i)
+            فروع.append((نمط,تعبير))
+            if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
+            if رموز[i][1]=="⋄": i+=1; continue
+            if رموز[i][1]=="﴾": i+=1; break
+            raise Exception(f"⋄ أو ﴾ مطلوبة عند {pos_msg(رموز, i)}")
+        return ("طابق",قيمة,فروع),i
+    raise Exception(f"بيان غير معروف عند {pos_msg(رموز, i)}")
 
 def حلل_تعبير(رموز,i): return حلل_شرطي(رموز,i)
 
@@ -130,7 +262,7 @@ def حلل_شرطي(رموز,i):
     شرط,i=حلل_مقارنة(رموز,i)
     if i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1]=="؟":
         i+=1; صح,i=حلل_شرطي(رموز,i)
-        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(": مطلوبة")
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(f": مطلوبة عند {pos_msg(رموز, i)}")
         i+=1; خطأ,i=حلل_شرطي(رموز,i)
         return ("شرطي",شرط,صح,خطأ),i
     return شرط,i
@@ -153,10 +285,103 @@ def حلل_ضرب(رموز,i):
         ع=رموز[i][1]; i+=1; م,i=حلل_عامل(رموز,i); ي=("ثنائية",ع,ي,م)
     return ي,i
 
+def حلل_نمط(رموز,i):
+    if i>=len(رموز): raise Exception(f"نمط مطلوب عند {pos_msg(رموز, i)}")
+    ن,ق=رموز[i][0],رموز[i][1]
+    if ق=="_":
+        return ("نمط_شامل",),i+1
+    if ن=="عملية" and ق=="⟨":
+        i+=1
+        if i<len(رموز) and رموز[i][1]=="⟩": return ("نمط_قائمة",None,None),i+1
+        عناصر=[]; ذيل=None
+        while True:
+            if i>=len(رموز): raise Exception(f"⟩ مطلوبة عند {pos_msg(رموز, i)}")
+            if رموز[i][1]=="⟩": break
+            if رموز[i][1]=="…" or (رموز[i][1]=="." and i+2<len(رموز) and رموز[i+1][1]=="." and رموز[i+2][1]=="."):
+                i += (3 if رموز[i][1]=="." else 1)
+                if i>=len(رموز): raise Exception("اسم مطلوب بعد …")
+                if رموز[i][0]=="معرف":
+                    ذيل=رموز[i][1]; i+=1
+                elif رموز[i][0]=="عملية" and رموز[i][1]=="_":
+                    ذيل="_"; i+=1
+                else:
+                    raise Exception("اسم مطلوب بعد …")
+                if i>=len(رموز): raise Exception("⟩ مطلوبة بعد …ذيل")
+                if رموز[i][1]!="⟩": raise Exception("⟩ مطلوبة بعد …ذيل")
+                continue  # العودة للحلقة لتستهلك ⟩ وتخرج
+            if رموز[i][0]=="عدد": عناصر.append(("نمط_حرفي",رموز[i][1])); i+=1
+            elif رموز[i][0]=="نص": عناصر.append(("نمط_حرفي",رموز[i][1])); i+=1
+            elif رموز[i][0]=="معرف": عناصر.append(("نمط_متغير",رموز[i][1])); i+=1
+            elif رموز[i][0]=="عملية" and رموز[i][1]=="_": عناصر.append(("نمط_متغير","_")); i+=1
+            else: raise Exception("عنصر نمط غير صالح")
+            if i<len(رموز) and رموز[i][1]==",": i+=1
+        if i>=len(رموز) or رموز[i][1]!="⟩": raise Exception(f"⟩ مطلوبة عند {pos_msg(رموز, i)}")
+        return ("نمط_قائمة",عناصر,ذيل),i+1
+    if ن=="عدد":
+        if i+1<len(رموز) and رموز[i+1][1]=="|":
+            قيم=[ق]; i+=2  # تجاوز '|' الأولى
+            while True:
+                if i>=len(رموز): raise Exception("قيمة مطلوبة بعد |")
+                if رموز[i][0]=="عدد": قيم.append(رموز[i][1]); i+=1
+                elif رموز[i][0]=="نص": قيم.append(رموز[i][1]); i+=1
+                else: raise Exception("قيمة مطلوبة بعد |")
+                if i<len(رموز) and رموز[i][1]=="|": i+=1
+                else: break
+            return ("نمط_بديل",قيم),i
+        return ("نمط_حرفي",ق),i+1
+    if ن=="نص": return ("نمط_حرفي",ق),i+1
+    if ن=="معرف":
+        اسم=ق; i+=1
+        # المرحلة 44: نمط باني — دائرة(ن) أو مستطيل(ع، ا) أو باني بلا معاملات (أزرق)
+        _pb_tag=-1
+        for _tn, _bs in _type_registry.items():
+            for _bi, (_bn, _ba) in enumerate(_bs):
+                if _bn == اسم: _pb_tag=_bi; break
+            if _pb_tag>=0: break
+        if _pb_tag>=0:
+            أنماط_فرعية=[]
+            if i<len(رموز) and رموز[i][1]=="(":
+                i+=1
+                while True:
+                    if i>=len(رموز): raise Exception(f") مطلوبة عند {pos_msg(رموز, i)}")
+                    if رموز[i][1]==")": i+=1; break
+                    نمط_فرعي,i=حلل_نمط(رموز,i)
+                    أنماط_فرعية.append(نمط_فرعي)
+                    if i<len(رموز) and رموز[i][1]==",": i+=1
+            return ("نمط_باني", اسم, أنماط_فرعية),i
+        if i<len(رموز) and رموز[i][1]=="|":
+            قيم=[اسم]; i+=1
+            while i<len(رموز) and (رموز[i][0]=="عدد" or رموز[i][0]=="نص"):
+                قيم.append(رموز[i][1]); i+=1
+                if i<len(رموز) and رموز[i][1]=="|": i+=1
+                else: break
+            return ("نمط_بديل",قيم),i
+        if i<len(رموز) and رموز[i][1]=="حيث":
+            i+=1; شرط,i=حلل_تعبير(رموز,i)
+            return ("نمط_شرطي",("نمط_متغير",اسم),شرط),i
+        return ("نمط_متغير",اسم),i
+    if ن=="عملية" and ق=="|":
+        # بديل يبدأ بقيم حرفية: 0 | 1 | 2
+        قيم=[]; i+=1
+        while True:
+            if i>=len(رموز): raise Exception("قيمة مطلوبة بعد |")
+            if رموز[i][0]=="عدد": قيم.append(رموز[i][1]); i+=1
+            elif رموز[i][0]=="نص": قيم.append(رموز[i][1]); i+=1
+            else: raise Exception("قيمة مطلوبة بعد |")
+            if i<len(رموز) and رموز[i][1]=="|": i+=1
+            else: break
+        return ("نمط_بديل",قيم),i
+    raise Exception("نمط غير معروف: "+str(ق))
+
 def حلل_عامل(رموز,i):
-    if i>=len(رموز): raise Exception("عامل مفقود")
-    ن,ق=رموز[i]
+    if i>=len(رموز): raise Exception(f"عامل مفقود عند {pos_msg(رموز, i)}")
+    ن,ق=رموز[i][0],رموز[i][1]
     if ن=="عدد": return ("عدد",ق),i+1
+    if ن=="عملية" and ق=="-":
+        # سالب أحادي: -5 أو -ن
+        i+=1
+        ع,i=حلل_عامل(رموز,i)
+        return ("سالب",ع),i
     if ن=="نص": return ("نص",ق),i+1
     if ن=="عملية" and ق=="⊙":
         i+=1
@@ -165,18 +390,22 @@ def حلل_عامل(رموز,i):
         i+=1; معلمون=[]
         if i<len(رموز) and رموز[i][1]=="(":
             i+=1
-            while True:
-                if i>=len(رموز) or رموز[i][0]!="معرف":
-                    raise Exception("اسم معامل مطلوب")
-                معلمون.append(رموز[i][1]); i+=1
-                if i>=len(رموز): raise Exception(") مطلوبة")
-                if رموز[i][1]==",": i+=1; continue
-                if رموز[i][1]==")": i+=1; break
+            # دعم لامدا بلا معاملات: λ(). ﴿...﴾
+            if i<len(رموز) and رموز[i][1]==")":
+                i+=1
+            else:
+                while True:
+                    if i>=len(رموز) or رموز[i][0]!="معرف":
+                        raise Exception(f"اسم معامل مطلوب عند {pos_msg(رموز, i)}")
+                    معلمون.append(رموز[i][1]); i+=1
+                    if i>=len(رموز): raise Exception(f") مطلوبة عند {pos_msg(رموز, i)}")
+                    if رموز[i][1]==",": i+=1; continue
+                    if رموز[i][1]==")": i+=1; break
         else:
             if i>=len(رموز) or رموز[i][0]!="معرف":
-                raise Exception("معامل مطلوب بعد λ")
+                raise Exception(f"معامل مطلوب بعد λ عند {pos_msg(رموز, i)}")
             معلمون.append(رموز[i][1]); i+=1
-        if i>=len(رموز) or رموز[i][1]!=".": raise Exception(". مطلوبة")
+        if i>=len(رموز) or رموز[i][1]!=".": raise Exception(f". مطلوبة عند {pos_msg(رموز, i)}")
         i+=1
         if i<len(رموز) and رموز[i][1]=="﴿":
             جسم,i=حلل_بيان(رموز,i)
@@ -188,35 +417,100 @@ def حلل_عامل(رموز,i):
         if i<len(رموز) and رموز[i][1]=="⟩": return ("قائمة",ع),i+1
         while True:
             عنصر,i=حلل_تعبير(رموز,i); ع.append(عنصر)
-            if i>=len(رموز): raise Exception("⟩ مطلوبة")
+            if i>=len(رموز): raise Exception(f"⟩ مطلوبة عند {pos_msg(رموز, i)}")
             if رموز[i][1]==",": i+=1; continue
             if رموز[i][1]=="⟩": i+=1; break
-            raise Exception("فاصلة أو ⟩ مطلوبة")
+            raise Exception(f"فاصلة أو ⟩ مطلوبة عند {pos_msg(رموز, i)}")
         return ("قائمة",ع),i
     if ن=="عملية" and ق=="(":
         i+=1; ت,i=حلل_تعبير(رموز,i)
-        if i>=len(رموز) or رموز[i][1]!=")": raise Exception(") مطلوبة")
+        if i>=len(رموز) or رموز[i][1]!=")": raise Exception(f") مطلوبة عند {pos_msg(رموز, i)}")
         return ت,i+1
     if ن=="معرف":
-        اسم=ق; i+=1
-        if i<len(رموز) and رموز[i][1]=="(":
-            i+=1; وس=[]
-            if i<len(رموز) and رموز[i][1]==")": return ("استدعاء",اسم,وس),i+1
+        اسم=ق; i+=1; نتيجة_استدعاء=None
+        # المرحلة 44: باني بلا معاملات يُستخدم كتعبير — أزرق ⇨ استدعاء(أزرق, [])
+        # (لا نتدخل إن كانت '(' تلي الاسم — المسار الأصلي يحللها)
+        _p44_ctor = False
+        for _tn, _bs in _type_registry.items():
+            for _bi, (_bn, _ba) in enumerate(_bs):
+                if _bn == اسم: _p44_ctor = True; break
+            if _p44_ctor: break
+        if _p44_ctor and (i >= len(رموز) or رموز[i][1] != "("):
+            return ("استدعاء", اسم, []), i
+        while True:
+            if i<len(رموز) and رموز[i][1]=="(":
+                i+=1; وس=[]
+                if i<len(رموز) and رموز[i][1]==")": اسم=("استدعاء",اسم,وس); i+=1; continue
+                while True:
+                    و,i=حلل_تعبير(رموز,i); وس.append(و)
+                    if i>=len(رموز): raise Exception(f") مطلوبة عند {pos_msg(رموز, i)}")
+                    if رموز[i][1]==",": i+=1; continue
+                    if رموز[i][1]==")": اسم=("استدعاء",اسم,وس); i+=1; break
+            elif i<len(رموز) and رموز[i][1]=="[":
+                i+=1; فهرس,i=حلل_تعبير(رموز,i)
+                if i>=len(رموز) or رموز[i][1]!="]": raise Exception(f"] مطلوبة عند {pos_msg(رموز, i)}")
+                i+=1; اسم=("فهرسة",اسم,فهرس)
+            else:
+                break
+        if isinstance(اسم, tuple) and اسم[0]=="استدعاء": return اسم,i
+        if اسم=="طابق":
+            قيمة,i=حلل_تعبير(رموز,i)
+            if i>=len(رموز) or رموز[i][1]!=":": raise Exception(": مطلوبة بعد طابق (تعبير)")
+            i+=1
+            if i>=len(رموز) or رموز[i][1]!="﴿": raise Exception("﴿ مطلوبة بعد طابق :")
+            i+=1; فروع=[]
             while True:
-                و,i=حلل_تعبير(رموز,i); وس.append(و)
-                if i>=len(رموز): raise Exception(") مطلوبة")
-                if رموز[i][1]==",": i+=1; continue
-                if رموز[i][1]==")": i+=1; break
-            return ("استدعاء",اسم,وس),i
+                if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
+                if رموز[i][1]=="﴾": i+=1; break
+                نمط,i=حلل_نمط(رموز,i)
+                if i>=len(رموز) or رموز[i][1]!="⇒": raise Exception(f"⇒ مطلوبة بعد النمط عند {pos_msg(رموز, i)}")
+                i+=1; تعبير,i=حلل_تعبير(رموز,i)
+                فروع.append((نمط,تعبير))
+                if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
+                if رموز[i][1]=="⋄": i+=1; continue
+                if رموز[i][1]=="﴾": i+=1; break
+                raise Exception(f"⋄ أو ﴾ مطلوبة عند {pos_msg(رموز, i)}")
+            return ("طابق",قيمة,فروع),i
         return ("متغير",اسم),i
-    raise Exception("عامل غير متوقع")
+    if ق=="طابق":
+        # طابق يُصدره المحلل المعجمي كعملية — يدعم طابق كتعبير أولي
+        i+=1; قيمة,i=حلل_تعبير(رموز,i)
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(": مطلوبة بعد طابق (تعبير)")
+        i+=1
+        if i>=len(رموز) or رموز[i][1]!="﴿": raise Exception("﴿ مطلوبة بعد طابق :")
+        i+=1; فروع=[]
+        while True:
+            if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
+            if رموز[i][1]=="﴾": i+=1; break
+            نمط,i=حلل_نمط(رموز,i)
+            if i>=len(رموز) or رموز[i][1]!="⇒": raise Exception(f"⇒ مطلوبة بعد النمط عند {pos_msg(رموز, i)}")
+            i+=1; تعبير,i=حلل_تعبير(رموز,i)
+            فروع.append((نمط,تعبير))
+            if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
+            if رموز[i][1]=="⋄": i+=1; continue
+            if رموز[i][1]=="﴾": i+=1; break
+            raise Exception(f"⋄ أو ﴾ مطلوبة عند {pos_msg(رموز, i)}")
+        return ("طابق",قيمة,فروع),i
+    if ن=="عملية" and ق=="[":
+
+        raise Exception("قوس الفهرسة '[' يجب أن يتبع قائمة أو متغيراً")
+    raise Exception(f"عامل غير متوقع عند {pos_msg(رموز, i)}")
 
 # ═══════════════════════════════════════════════════════════
 # Ownership Checker (Linear Logic ⊸)
 # ═══════════════════════════════════════════════════════════
 def get_used_vars(expr):
     ن=expr[0]
-    if ن=="متغير": return {expr[1]}
+    if ن=="متغير":
+        س=expr[1]
+        if isinstance(س, tuple):
+            if س[0]=="فهرسة": return get_used_vars(("متغير",س[1]))|get_used_vars(س[2])
+            if س[0]=="استدعاء":
+                res=set()
+                for arg in س[2]: res|=get_used_vars(arg)
+                return res|(get_used_vars(("متغير",س[1])) if isinstance(س[1],str) else get_used_vars(س[1]))
+            return set()
+        return {س}
     if ن in ["ثنائية","مقارنة"]:
         return get_used_vars(expr[2])|get_used_vars(expr[3])
     if ن=="شرطي":
@@ -348,6 +642,17 @@ def get_free_vars(expr, bound):
         res=set()
         for e in expr[1]: res|=get_free_vars(e,bound)
         return res
+    if ن=="نمط_باني":
+        res=set()
+        for _sp in expr[2]: res|=get_free_vars(_sp, bound)
+        return res
+    if ن=="فهرسة":
+        res=get_free_vars(expr[2],bound)
+        if isinstance(expr[1],str):
+            if expr[1] not in bound: res.add(expr[1])
+        else:
+            res|=get_free_vars(expr[1],bound)
+        return res
     return set()
 
 def استنتاج_نوع(expr, type_env):
@@ -365,11 +670,19 @@ def استنتاج_نوع(expr, type_env):
         t1=استنتاج_نوع(expr[2], type_env)
         if t1!="مجهول": return t1
         return استنتاج_نوع(expr[3], type_env)
-    if ن=="متغير": return type_env.get(expr[1], "مجهول")
+    if ن=="متغير":
+        س=expr[1]
+        if isinstance(س, tuple):
+            if س[0]=="فهرسة": return "عدد"
+            if س[0]=="استدعاء":
+                return "مجهول"
+            return "مجهول"
+        return type_env.get(س, "مجهول")
     if ن=="استدعاء":
         اسم=expr[1]
+        if اسم=="أس" or اسم=="أُس": return "عدد"
         if اسم in ["طول","حجم","أحص"]: return "عدد"
-        if اسم=="مجموع_قائمة": return "عدد"
+        if اسم in ["جذر","أرضية","قوة","مطلق","مجموع_قائمة"]: return "عدد"
         if اسم=="ذيل": return "قائمة"
         if اسم=="رمز": return "عدد"
         if اسم=="نص": return "نص"
@@ -381,11 +694,23 @@ def استنتاج_نوع(expr, type_env):
         if اسم=="اقرأ_ملف": return "نص"
         if اسم=="اكتب_ملف": return "عدد"
         if اسم=="اختم": return "عدد"
-        if اسم in type_env: return type_env[اسم]
+        if اسم in type_env and type_env[اسم] != "مجهول": return type_env[اسم]
+        # المرحلة 45 P8: استدعاء دالة سمة — استنتج النوع من جسم التطبيق (قبل التخمين العام)
+        if اسم in [fn for _d in _trait_registry.values() for fn, _ in _d]:
+            for (_sn,_tn),_im in _impl_registry.items():
+                if اسم in _im:
+                    _bd = _im[اسم][1]
+                    _bt = استنتاج_نوع(_bd, type_env)
+                    if _bt != "مجهول": return _bt
+            return "مجهول"
+        if expr[2]: return استنتاج_نوع(expr[2][0], type_env)  # المراحل 40-42: نوع نتيجة استدعاء دالة غير معروفة = نوع وسيطها الأول
         return "مجهول"
     if ن=="دالة":
         if expr[2][0]=="كتلة": return استنتاج_نوع_كتلة(expr[2], type_env)
         return استنتاج_نوع(expr[2], type_env)
+    if ن=="طابق":
+        if expr[2]: return استنتاج_نوع(expr[2][0][1], type_env)
+        return "مجهول"
     return "مجهول"
 
 def استنتاج_نوع_جملة(stmt, type_env):
@@ -398,14 +723,25 @@ def استنتاج_نوع_جملة(stmt, type_env):
     return "مجهول"
 
 ARG_REGS = ["rdi","rsi","rdx","rcx","r8","r9"]
-_counters = {"cond":0,"empty":0,"copy":0,"loop":0,"scmp":0,"tq":0}
+_counters = {"cond":0,"empty":0,"copy":0,"loop":0,"scmp":0,"tq":0,"index":0}
+
+# المرحلة 44: الأنواع الجبرية — سجل الأنواع
+_trait_registry = {}   # اسم_السمة → [(اسم_الدالة, عدد_المعاملات), ...]
+_impl_registry = {}  # (اسم_السمة, اسم_النوع) → {اسم_الدالة: (وسائط, جسم)}
+_type_registry = {}  # اسم_النوع → [(اسم_الباني, عدد_المعاملات), ...]_counters = {"cond":0,"empty":0,"copy":0,"loop":0,"scmp":0,"tq":0,"index":0}
 
 # ═══════════════════════════════════════════════════════════
 # Code Generator
 # ═══════════════════════════════════════════════════════════
 def compile_expr(expr, env, funcs, env_layout=None):
     ن=expr[0]
-    if ن=="عدد": return [f"    mov rax, {expr[1]}"]
+    if ن=="عدد":
+        ق=expr[1]
+        return [f"    mov rax, {'qword ' if ق>2**31-1 else ''}{ق}"]
+    if ن=="سالب":
+        code=compile_expr(expr[1], env, funcs, env_layout)
+        code += ["    neg rax"]
+        return code
     if ن=="نص":
         byts=expr[1].encode('utf-8'); ln=len(byts)
         code=[f"    mov rdi, {8+ln}", "    call arena_alloc"]
@@ -468,24 +804,178 @@ def compile_expr(expr, env, funcs, env_layout=None):
             "    pop rax",
         ]
     if ن=="متغير":
-        if env_layout and expr[1] in env_layout:
-            return [f"    mov rax, [r15 + {env_layout[expr[1]]}]"]
-        if expr[1] in env["locals"]:
-            return [f"    mov rax, [rbp - {env['locals'][expr[1]]}]"]
-        if expr[1] in env["globals"]:
-            return [f"    mov rax, [vars + {env['globals'][expr[1]]*8}]"]
-        raise Exception(f"متغير غير معرف: {expr[1]}")
+        س=expr[1]
+        if isinstance(س, tuple):
+            # متغير مركب: سلسة استدعاءات وفهرسات، مثل: د(1)[0] أو ق[ع]
+            كود=[]
+            م=س
+            # اجمع سلسلة الفهرسة (قد تتضمن استدعاءات متداخلة)
+            سلسلة=[]
+            while isinstance(م, tuple) and م[0]=="فهرسة":
+                سلسلة.append(م[2]); م=م[1]
+            سلسلة.reverse()
+            code=compile_expr(("متغير",م),env,funcs,env_layout) if isinstance(م,str) else compile_expr(م,env,funcs,env_layout)
+            for فهرس in سلسلة:
+                _counters["index"]+=1; ك=_counters["index"]
+                code+=["    push rax"]
+                code.extend(compile_expr(فهرس,env,funcs,env_layout))
+                code+=["    mov r10, rax","    pop r11"]
+                code+=[
+                    "    mov rbx, [r11]",            # طول القائمة
+                    f"    cmp r10, rbx",f"    jae .indx_err_{ك}",
+                    "    mov rax, [r11 + r10*8 + 16]",  # العنصر
+                    f"    jmp .indx_ok_{ك}",
+                    f".indx_err_{ك}:",
+                    "    mov rax, 60","    mov rdi, 7","    syscall",
+                    f".indx_ok_{ك}:",
+                ]
+            return code
+        if env_layout and س in env_layout:
+            return [f"    mov rax, [r15 + {env_layout[س]}]"]
+        if env.get("match_locals") and س in env["match_locals"]:
+            return [f"    mov rax, [rbp - {env['match_locals'][س]}]"]
+        if س in env["locals"]:
+            return [f"    mov rax, [rbp - {env['locals'][س]}]"]
+        if س in env["globals"]:
+            return [f"    mov rax, [vars + {env['globals'][س]*8}]"]
+        raise Exception(f"متغير غير معرف: {س}")
     if ن=="قائمة":
         elems=expr[1]; ln=len(elems)
-        code=[f"    mov rdi, {8+ln*8}", "    call arena_alloc"]
+        code=[f"    mov rdi, {16+ln*8}", "    call arena_alloc"]
         code.append("    push rax")
         code.append(f"    mov qword [rax], {ln}")
+        code.append("    mov qword [rax + 8], 0")   # فتحة وسم موحدة (قوائم: 0)
         for idx,el in enumerate(elems):
             code.extend(compile_expr(el,env,funcs,env_layout))
             code.append("    mov rcx, rax")
             code.append("    mov rbx, [rsp]")
-            code.append(f"    mov [rbx + {8+idx*8}], rcx")
+            code.append(f"    mov [rbx + {16+idx*8}], rcx")
         code.append("    pop rax")
+        return code
+    if ن=="طابق":
+        قيمة=expr[1]; فروع=expr[2]
+        _counters["empty"]+=1; k=_counters["empty"]
+        code=compile_expr(قيمة,env,funcs,env_layout)
+        code.append("    mov [match_val], rax")
+        # — المرحلة 43: فحوصات الأنماط —
+        def _match_slot(اسم_م):
+            # تخصيص فتحة عامة للمتغير المربوط بالنمط
+            if اسم_م not in env.get("match_locals", {}):
+                # المرحلة 43: في أجسام الدوال، نربط متغيرات النمط بفتحات محلية
+                # على المكدس (rbp نسبي) تفاديًا للفساد عند الاستدعاءات العودية
+                if اسم_م not in env["globals"]:
+                    env["globals"][اسم_م]=len(env["globals"])
+                return ("globals", env["globals"][اسم_م])
+            return ("local", env["match_locals"][اسم_م])
+        def _emit_bind(اسم_م):
+            نوع,slot=_match_slot(اسم_م)
+            if نوع=="local": return f"    mov [rbp - {slot}], rax"
+            return f"    mov [vars + {slot}*8], rax"
+        def _emit_load(اسم_م):
+            نوع,slot=_match_slot(اسم_م)
+            if نوع=="local": return f"    mov rax, [rbp - {slot}]"
+            return f"    mov rax, [vars + {slot}*8]"
+        for idx,(نمط,تعبير) in enumerate(فروع):
+            mk=f".m{k}_{idx}"
+            if نمط[0]=="نمط_شامل":
+                code.append(f"    jmp {mk}")
+            elif نمط[0]=="نمط_حرفي":
+                val=نمط[1]
+                code.append(f"    mov rax, [match_val]")
+                if isinstance(val,str) and len(val)>8: pass
+                if isinstance(val,int) and (val>2**31-1 or val<-2**31):
+                    code+=[f"    mov r10, {val}",f"    cmp rax, r10",f"    je {mk}"]
+                elif isinstance(val,str):
+                    # نمط نصي: قارن نصًا بنص — مقارنة بسيطة بالطول والمحتوى عبر strncmp مضمن
+                    _counters["scmp"]+=1; ks=_counters["scmp"]
+                    code.append(f"    push rax")
+                    code.extend(compile_expr(("نص",val),env,funcs,env_layout))
+                    code+=[f"    mov r10, rax","    pop rax",
+                           f"    mov r11, [rax]","    mov r12, [r10]",
+                           f"    cmp r11, r12",f"    jne .mskip{k}_{idx}",
+                           f"    mov r13, {len(val.encode('utf-8'))}",f"    xor rbx, rbx",
+                           f".msloop{k}_{idx}:",f"    test r13, r13",f"    jz .mmatch{k}_{idx}",
+                           f"    mov cl, [rax + rbx + 8]","    mov dl, [r10 + rbx + 8]",
+                           f"    cmp cl, dl",f"    jne .mskip{k}_{idx}",
+                           f"    inc rbx","    dec r13",f"    jmp .msloop{k}_{idx}",
+                           f".mmatch{k}_{idx}:",f"    jmp {mk}",
+                           f".mskip{k}_{idx}:"]
+                else:
+                    code+=[f"    cmp rax, {val}",f"    je {mk}"]
+            elif نمط[0]=="نمط_متغير":
+                اسم_م=نمط[1]
+                code.append(f"    mov rax, [match_val]")
+                code+=[_emit_bind(اسم_م),f"    jmp {mk}"]
+            elif نمط[0]=="نمط_قائمة":
+                عناصر=نمط[1]; ذيل=نمط[2]
+                code.append(f"    mov rax, [match_val]")
+                if عناصر is None:  # قائمة فارغة ⟨⟩
+                    code+=[f"    cmp qword [rax], 0",f"    je {mk}",f"    jmp .mskip{k}_{idx}",f".mskip{k}_{idx}:"]
+                else:  # نمط cons: ربط رأس + ذيل اختياري
+                    for ei,عنصر in enumerate(عناصر):
+                        if عنصر[0]=="نمط_متغير":
+                            اسم_م=عنصر[1]
+                            code+=[f"    mov rbx, [rax + {(ei+2)*8}]",
+                                   f"    mov [rbp - {_match_slot(اسم_م)[1]}], rbx" if _match_slot(اسم_م)[0]=="local" else f"    mov [vars + {_match_slot(اسم_م)[1]*8}], rbx"]
+                    if ذيل:
+                        t=_match_slot(ذيل)
+                        code+=[f"    lea rcx, [rax + {(len(عناصر)+2)*8}]",
+                               f"    mov [rbp - {t[1]}], rcx" if t[0]=="local" else f"    mov [vars + {t[1]*8}], rcx"]
+                    code.append(f"    jmp {mk}")
+            elif نمط[0]=="نمط_شرطي":
+                نمط_داخلي=نمط[1]; شرط=نمط[2]
+                if نمط_داخلي[0]=="نمط_متغير":
+                    اسم_م=نمط_داخلي[1]
+                    code+=[f"    mov rax, [match_val]",
+                           _emit_bind(اسم_م)]
+                code.extend(compile_expr(شرط,env,funcs,env_layout))
+                code+=[f"    test rax, rax",f"    jnz {mk}",f"    jmp .mskip{k}_{idx}",f".mskip{k}_{idx}:"]
+            elif نمط[0]=="نمط_باني":
+                # المرحلة 44: نمط باني — افحص tag ثم اربط المعاملات
+                _pb_name=نمط[1]; _pb_subs=نمط[2]
+                _pb_tag=-1
+                for _tname, _builders in _type_registry.items():
+                    for _bi, (_bn, _ba) in enumerate(_builders):
+                        if _bn == _pb_name:
+                            _pb_tag=_bi
+                            break
+                    if _pb_tag>=0: break
+                if _pb_tag<0: raise Exception(f"باني غير معرف: {_pb_name}")
+                code.append(f"    mov rax, [match_val]")
+                code.append("    mov rbx, [rax + 8]")
+                code.append(f"    cmp rbx, {_pb_tag}")
+                code.append(f"    jne .mskip{k}_{idx}")
+                for _fi, _sp in enumerate(_pb_subs):
+                    if _sp[0]=="نمط_متغير":
+                        code.append("    push rax")  # حفظ مؤشر ADT
+                        code.append(f"    mov rbx, [rax + {(_fi + 2) * 8}]")
+                        code.append("    mov rax, rbx")
+                        code.append(_emit_bind(_sp[1]))
+                        code.append("    pop rax")   # استعادة مؤشر ADT
+                    elif _sp[0]=="نمط_شامل":
+                        pass
+                code.append(f"    jmp {mk}")
+                code.append(f".mskip{k}_{idx}:")
+            elif نمط[0]=="نمط_بديل":
+                قيم=نمط[1]
+                code.append(f"    mov rax, [match_val]")
+                for v in قيم:
+                    if isinstance(v,int) and (v>2**31-1 or v<-2**31):
+                        code+=[f"    mov r10, {v}",f"    cmp rax, r10",f"    je {mk}"]
+                    else:
+                        code+=[f"    cmp rax, {v}",f"    je {mk}"]
+            else:
+                raise Exception("نمط غير مدعوم في التوليد: "+نمط[0])
+        # لا يوجد تطابق → خطأ 8
+        code+=[f"    mov rax, 60","    mov rdi, 8","    syscall"]
+        mend=f".mend{k}"
+        # — أجسام الفروع —
+        for idx,(نمط,تعبير) in enumerate(فروع):
+            mk=f".m{k}_{idx}"
+            code.append(f"{mk}:")
+            code.extend(compile_expr(تعبير,env,funcs,env_layout))
+            code.append(f"    jmp {mend}")
+        code.append(f"{mend}:")
         return code
     if ن=="ثنائية":
         op=expr[1]
@@ -568,9 +1058,48 @@ def compile_expr(expr, env, funcs, env_layout=None):
         free_vars=list(get_free_vars(body,bound))
         inner_label=f"func_{funcs['idx']}"; funcs['idx']+=1
         inner_fc=[f"{inner_label}:","    push rbp","    mov rbp, rsp"]
-        inner_env={"globals":env["globals"],"locals":{}}
+        inner_env={"globals":env["globals"],"locals":{},"match_locals":{}}
         inner_env_layout={}
         local_counter=[len(params)]
+        # المرحلة 43: حجز فتحات محلية على المكدس لمتغيرات الأنماط المرتبطة
+        def collect_match_locals(node):
+            if node is None or not isinstance(node, tuple): return
+            ن=node[0]
+            if ن=="طابق":
+                for نمط,تعبير in node[2]:
+                    collect_pattern_vars(نمط)
+                    collect_match_locals(تعبير)
+            elif ن=="دالة":
+                collect_match_locals(node[2])
+            elif ن=="كتلة":
+                for s in node[1]: collect_match_locals(s)
+                if len(node)>2: collect_match_locals(node[2])
+            elif ن=="استدعاء":
+                for a in node[2]: collect_match_locals(a)
+            elif ن=="ثنائية":
+                collect_match_locals(node[2]); collect_match_locals(node[3])
+            elif ن in ("مقارنة","شرطي"):
+                for a in node[2:]: collect_match_locals(a)
+            elif ن=="نص":
+                pass
+        def collect_pattern_vars(نمط):
+            if نمط is None: return
+            if نمط[0]=="نمط_متغير":
+                اسم=نمط[1]
+                if اسم not in inner_env["locals"] and اسم not in inner_env["match_locals"]:
+                    n=local_counter[0]; local_counter[0]+=1
+                    inner_env["match_locals"][اسم]=(n+1)*8
+            elif نمط[0]=="نمط_شرطي":
+                collect_pattern_vars(نمط[1])
+            elif نمط[0]=="نمط_قائمة":
+                if نمط[1]:
+                    for ع in نمط[1]: collect_pattern_vars(ع)
+                if نمط[2]:
+                    collect_pattern_vars(("نمط_متغير",نمط[2]))
+            elif نمط[0]=="نمط_باني":
+                for _sp in نمط[2]: collect_pattern_vars(_sp)
+            elif نمط[0]=="نمط_بديل":
+                pass
         for j,p in enumerate(params):
             inner_env["locals"][p]=(j+1)*8
             if j<len(ARG_REGS):
@@ -593,6 +1122,8 @@ def compile_expr(expr, env, funcs, env_layout=None):
                     if len(stmt)>2 and stmt[2] is not None: allocate_locals(stmt[2])
                 elif ن=="طالما":
                     allocate_locals(stmt[2])
+            # المرحلة 43: جمع متغيرات الأنماط المرتبطة
+            collect_match_locals(body)
             for s in body[1]:
                 allocate_locals(s)
             stack_size=local_counter[0]*8
@@ -611,7 +1142,10 @@ def compile_expr(expr, env, funcs, env_layout=None):
             else:
                 inner_fc.append("    xor rax, rax")
         else:
-            stack_size=len(params)*8
+            # المرحلة 43: حجز فتحات محلية لمتغيرات الأنماط في أجسام التعبيرات المباشرة
+            collect_match_locals(body)
+            nml=len(inner_env["match_locals"])
+            stack_size=max(len(params)+nml,0)*8
             if stack_size%16!=0: stack_size+=8
             if stack_size==0: stack_size=16
             inner_fc.append(f"    sub rsp, {stack_size}")
@@ -638,18 +1172,161 @@ def compile_expr(expr, env, funcs, env_layout=None):
         code.append("    pop rax")
         return code
     if ن=="استدعاء":
+        # المرحلة 44: استدعاء باني نوع جبري (قبل مسار الاستدعاء العادي)
+        _nb_name=expr[1]; _nb_args=expr[2]
+        _nb_found=False; _nb_tag=-1
+        for _tname, _builders in _type_registry.items():
+            for _bi, (_bn, _ba) in enumerate(_builders):
+                if _bn == _nb_name:
+                    _nb_found=True; _nb_tag=_bi
+                    break
+            if _nb_found: break
+        if _nb_found:
+            _nbn=len(_nb_args); code=[]
+            code.append(f"    mov rdi, {16 + _nbn * 8}")
+            code.append("    call arena_alloc")
+            code.append("    mov r11, rax")
+            code.append(f"    mov qword [r11], {_nbn}")
+            code.append(f"    mov qword [r11 + 8], {_nb_tag}")
+            for _idx, _arg in enumerate(_nb_args):
+                code.extend(compile_expr(_arg, env, funcs, env_layout))
+                code.append(f"    mov qword [r11 + {(_idx + 2) * 8}], rax")
+            code.append("    mov rax, r11")
+            return code
+    if ن=="استدعاء":
         اسم=expr[1]; args=expr[2]
-        if اسم=="طول":
-            if len(args)!=1: raise Exception("طول تأخذ وسيطاً واحداً")
+        # المرحلة 45: استدعاء دالة سمة — dispatch حسب نوع الوسيط الأول
+        _tr_fn = اسم in [fn for _d in _trait_registry.values() for fn, _ in _d]
+        if _tr_fn and args:
+            _tr_type = None
+            if args[0][0]=="استدعاء":
+                for _tn, _bs in _type_registry.items():
+                    for _bn, _ba in _bs:
+                        if _bn == args[0][1]:
+                            _tr_type = _tn; break
+                    if _tr_type: break
+            if _tr_type is None:
+                # وسيط متغير: إن وُجد تطبيق واحد فقط لهذه الدالة — استخدمه
+                _hits=[(sn,tn) for (sn,tn),im in _impl_registry.items() if اسم in im]
+                if len(_hits)==1: _tr_type=_hits[0][1]
+            if _tr_type is None:
+                # المرحلة 45 P9: دالة عامة λس.احصل(س)… — س نوعه مجهول وقت الترجمة
+                # استخدم أول impl مرشَّح closure له مبنية فعلاً في globals هذا التجميع
+                for (_sn,_tn),_im in _impl_registry.items():
+                    if اسم in _im:
+                        _d = f"__trait__{_sn}__{_tn}__{اسم}"
+                        if _d in env['globals']:
+                            _tr_type = _tn; break
+            if _tr_type:
+                _key=None
+                for (sn,tn),im in _impl_registry.items():
+                    if tn==_tr_type and اسم in im: _key=(sn,tn); break
+                if _key:
+                    داخلي = f"__trait__{_key[0]}__{_key[1]}__{اسم}"
+                    code=[]
+                    for _idx, _arg in enumerate(args):
+                        code.extend(compile_expr(_arg, env, funcs, env_layout))
+                        if _idx < len(ARG_REGS):
+                            code.append(f"    mov {ARG_REGS[_idx]}, rax")
+                    code.append(f"    mov r10, [vars + {env['globals'][داخلي]*8}]")
+                    code.append("    push r15")
+                    code.append("    mov r15, r10")
+                    code.append("    mov r10, [r10]")
+                    code.append("    call r10")
+                    code.append("    pop r15")
+                    return code
+        if اسم=="أس" or اسم=="أُس":        اسم=expr[1]; args=expr[2]
+        if اسم=="أس" or اسم=="أُس":
+            # المرحلة 44: أُس حتمي — exp() بالفاصلة الثابتة Q32.32
+            # خوارزمية: k=round(x·INVLN2/2^64)، r=x−k·LN2، Horner درجة 12، ثم إزاحة 2^k
+            if len(args)!=1: raise Exception("أُس تأخذ وسيطاً واحداً")
+            _counters["empty"]+=1; k=_counters["empty"]
             code=compile_expr(args[0],env,funcs,env_layout)
-            code.append("    mov rax, [rax]")
+            code += ["    push rdi", "    push r8"]
+            code += [
+                "    mov rbx, rax",                       # rbx = x (Q32.32)
+                "    mov rax, rbx",
+                "    mov rdx, 6196328019",                 # INVLN2_Q32 (mov r64, imm64)
+                "    imul rdx",                            # rdx:rax = x·INVLN2 (Q64.64)
+                "    mov r8, 2147483648",                  # 2^31 — تقريب لأقرب (يلزم r8 لأن add r64,imm لا يقبل 2^31)
+                "    add rax, r8",
+                "    adc rdx, 0",
+                "    mov rdi, rdx",                        # rdi = k
+                "    mov rax, rdi",
+                "    mov rdx, 2977044472",                 # LN2_Q32
+                "    imul rdx",                            # rdx:rax = k·LN2 (rdx صغير — تجاهله)
+                "    sub rbx, rax",                        # rbx = r = x−k·LN2 (Q32.32)
+                "    mov rax, 9",                          # c12
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 108",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 1184",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 11836",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 106522",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 852176",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 5965232",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 35791394",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 178956971",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 715827883",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, r8",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    mov r8, 4294967296", "    add rax, r8",
+                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    mov r8, 4294967296", "    add rax, r8",
+                f"    mov rcx, rdi",                        # rcx = k (محفوظة في rdi)
+                f"    test rcx, rcx", f"    jns .uexp_pos_{k}",
+                f"    neg rcx", f"    sar rax, cl", f"    jmp .uexp_done_{k}",
+                f".uexp_pos_{k}:", f"    shl rax, cl",
+                f".uexp_done_{k}:",
+            ]
+            code.append("    pop r8")
+            code.append("    pop rdi")
+            return code
+        if اسم=="قوة":
+            # المرحلة 40 (FFI): قوة(أ، ب) — أس صحيح: ب ضربات
+            if len(args)!=2: raise Exception("قوة تأخذ وسيطين")
+            _counters["empty"]+=1; k=_counters["empty"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    push rax")
+            code.extend(compile_expr(args[1],env,funcs,env_layout))
+            code += [
+                "    mov rcx, rax",      # rcx = الأس ب
+                "    pop rax",            # rax = الأساس أ
+                "    mov r8, 1",          # result = 1
+                "    test rcx, rcx",f"    jz .pow_done_{k}",
+                f".pow_loop_{k}:","    imul r8, rax",
+                "    dec rcx",f"    jnz .pow_loop_{k}",
+                f".pow_done_{k}:","    mov rax, r8",
+            ]
+            return code
+        if اسم=="جذر" or اسم=="أرضية" or اسم=="مطلق":
+            # المرحلة 40 (FFI): جذر/أرضية/مطلق — تنفيذ أصيل بدون libc
+            if len(args)!=1: raise Exception(f"{اسم} تأخذ وسيطاً واحداً")
+            _counters["empty"]+=1; k=_counters["empty"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            if اسم=="مطلق":
+                code += ["    test rax, rax",f"    jns .abs_pos_{k}","    neg rax",f".abs_pos_{k}:"]
+            elif اسم=="أرضية":
+                code += ["    nop"]  # الأعداد الصحيحة: أرضية(x)=x بالفعل
+            else:  # جذر: جذر صحيح bit-by-bit (أصلي بدون libc): result|=step إذا result²≤x
+                code += [
+                    "    test rax, rax",f"    jns .sqrt_pos_{k}","    mov rax, 60","    mov rdi, 1","    syscall",
+                    f".sqrt_pos_{k}:",                    "    push r11","    mov r11, rax",  # r11 = x (محفوظ لأن syscall يتلفه)
+                    "    mov r10, 0",                     # result في r10 (imul الأحادي يتلف rax)
+                    "    mov r8, 1", "    shl r8, 30",     # step = 2^30 (أكبر بت جذر لعدد 62-بت)
+                    f".sq_loop_{k}:",
+                    "    mov r9, r10", "    or r9, r8",     # r9 = المرشّح result | step
+                    "    mov rax, r9", "    imul rax",         # rdx:rax = المرشّح² (الصيغة الأحادية تعطي حاصل الضرب الكامل 128-بت)
+                    "    test rdx, rdx", f"    jnz .sq_skip_{k}",  # التربيع تجاوز 64-بت → تخطَّ
+                    "    cmp rax, r11", f"    ja .sq_skip_{k}",
+                    "    mov r10, r9",                     # result = المرشّح
+                    f".sq_skip_{k}:","    shr r8, 1", "    test r8, r8", f"    jnz .sq_loop_{k}",
+                    "    mov rax, r10",                    # أعِد result في rax
+                    "    pop r11",                         # استعد r11
+                ]
             return code
         if اسم=="رأس":
             if len(args)!=1: raise Exception("رأس تأخذ وسيطاً واحداً")
             _counters["empty"]+=1; k=_counters["empty"]
             code=compile_expr(args[0],env,funcs,env_layout)
             code += ["    mov rbx, [rax]","    test rbx, rbx",f"    jz .hemp_{k}",
-                     "    mov rax, [rax + 8]",f"    jmp .hdne_{k}",
+                     "    mov rax, [rax + 16]",f"    jmp .hdne_{k}",
                      f".hemp_{k}:","    mov rax, 60","    mov rdi, 1","    syscall",
                      f".hdne_{k}:"]
             return code
@@ -659,9 +1336,10 @@ def compile_expr(expr, env, funcs, env_layout=None):
             code=compile_expr(args[0],env,funcs,env_layout)
             code += ["    mov rcx, [rax]","    test rcx, rcx",f"    jz .taihemp_{k}",
                 "    push rax","    dec rcx","    mov rdi, rcx",
-                "    shl rdi, 3","    add rdi, 8",
+                "    shl rdi, 3","    add rdi, 16",
                 "    call arena_alloc","    mov r12, rax","    mov [rax], rcx",
-                "    pop rsi","    add rsi, 16","    lea rdi, [r12 + 8]",
+                "    mov qword [rax + 8], 0",
+                "    pop rsi","    add rsi, 24","    lea rdi, [r12 + 16]",
                 f".tcopy_{k}:","    test rcx, rcx",f"    jz .tcd_{k}",
                 "    mov rdx, [rsi]","    mov [rdi], rdx",
                 "    add rsi, 8","    add rdi, 8","    dec rcx",
@@ -669,6 +1347,11 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 "    mov rax, r12",f"    jmp .taine_{k}",
                 f".taihemp_{k}:","    mov rax, 60","    mov rdi, 1","    syscall",
                 f".taine_{k}:"]
+            return code
+        if اسم=="طول":
+            if len(args)!=1: raise Exception("طول تأخذ وسيطاً واحداً")
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    mov rax, [rax]")
             return code
         if اسم=="حجم":
             if len(args)!=1: raise Exception("حجم تأخذ وسيطاً واحداً")
@@ -691,7 +1374,7 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 "    test rcx, rcx",
                 f"    jz .sl_done_{k}",
                 "    mov rdx, rcx","    dec rdx",
-                "    add rbx, [rax + rdx * 8 + 8]",
+                "    add rbx, [rax + rdx * 8 + 16]",
                 "    dec rcx",
                 f"    jmp .sl_loop_{k}",
                 f".sl_done_{k}:",
@@ -706,10 +1389,11 @@ def compile_expr(expr, env, funcs, env_layout=None):
             code.extend(compile_expr(args[1],env,funcs,env_layout))
             code += ["    mov r11, rax","    pop r10","    push r10","    push r11",
                 "    mov rax, [r10]","    add rax, 1",
-                "    mov rdi, rax","    shl rdi, 3","    add rdi, 8",
+                "    mov rdi, rax","    shl rdi, 3","    add rdi, 16",
                 "    call arena_alloc","    mov r12, rax",
                 "    mov rax, [r10]","    add rax, 1","    mov [r12], rax",
-                "    mov rax, [r10]","    lea rsi, [r10 + 8]","    lea rdi, [r12 + 8]",
+                "    mov qword [r12 + 8], 0",
+                "    mov rax, [r10]","    lea rsi, [r10 + 16]","    lea rdi, [r12 + 16]",
                 f".lcpy_{k}:","    test rax, rax",f"    jz .lcd_{k}",
                 "    mov rcx, [rsi]","    mov [rdi], rcx",
                 "    add rsi, 8","    add rdi, 8","    dec rax",
@@ -736,18 +1420,20 @@ def compile_expr(expr, env, funcs, env_layout=None):
             _counters["copy"]+=1; k=_counters["copy"]
             code=compile_expr(args[0],env,funcs,env_layout)
             code += [
+                "    push r12",
                 "    test rax, rax",f"    jns .npos_{k}",
-                "    neg rax","    mov byte [negflag], 1",
+                "    neg rax","    mov r12, 1",f"    jmp .psign_{k}",
                 f".npos_{k}:",
+                "    mov r12, 0",
+                f".psign_{k}:",
                 "    mov rbx, 10","    mov rcx, 0",
-                "    mov byte [negflag], 0",
                 "    lea rdi, [num_buf + 31]",
                 f".nts_{k}:",
                 "    xor rdx, rdx","    div rbx",
                 "    add dl, '0'","    dec rdi","    mov [rdi], dl",
                 "    inc rcx","    test rax, rax",
                 f"    jnz .nts_{k}",
-                "    cmp byte [negflag], 1",f"    jne .nskip2_{k}",
+                "    test r12, r12",f"    jz .nskip2_{k}",
                 "    dec rdi","    mov byte [rdi], 45","    inc rcx",
                 f".nskip2_{k}:",
                 "    push rdi","    push rcx",
@@ -761,8 +1447,8 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 "    mov al, [rsi]","    mov [rdi], al",
                 "    inc rsi","    inc rdi","    dec rcx",
                 f"    jmp .ntc_{k}",f".ntd_{k}:",
-                "    mov byte [negflag], 0",
                 "    pop rax",
+                "    pop r12",
             ]
             return code
         if اسم=="عدد":
@@ -949,6 +1635,68 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 f"    mov rax, [t_task_{k} + 16]",
             ]
             return code
+        if اسم=="قناة":
+            # المرحلة 41: قناة() — pipe2 (syscall 293) بدون libc
+            # أنشئ كتلة arena من 16 بايت: [0]=read_fd, [8]=write_fd
+            if len(args)!=0: raise Exception("قناة بلا وسائط")
+            _counters["empty"]+=1; k=_counters["empty"]
+            code = [
+                "    mov rdi, 16",
+                "    call arena_alloc",        # rax = ptr to {rd_fd, wr_fd}
+                "    push rbx",                # احفظ rbx (callee-saved)
+                "    mov rbx, rax",            # rbx = ptr
+                "    lea rdi, [rel fds_tmp]",  # buffer ثابتة للـ fd
+                "    xor rsi, rsi",            # flags = 0
+                "    push rcx",
+                "    mov rax, 293",            # pipe2
+                "    syscall",
+                "    pop rcx",
+                "    movsxd rax, dword [rel fds_tmp]",     # rd_fd (قراءة int32 → int64)
+                "    movsxd rcx, dword [rel fds_tmp + 4]", # wr_fd
+                "    mov [rbx], rax",          # [+0] = read fd
+                "    mov [rbx + 8], rcx",      # [+8] = write fd
+                "    mov rax, rbx",
+                "    pop rbx",
+            ]
+            return code
+        if اسم=="أرسل":
+            # المرحلة 41: أرسل(ق، قيمة) — write(wr_fd, &value, 8)
+            if len(args)!=2: raise Exception("أرسل تأخذ وسيطين: قناة وقيمة")
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    push rbx")        # احفظ rbx
+            code.append("    mov rbx, rax")    # rbx = ptr قناة
+            code.extend(compile_expr(args[1],env,funcs,env_layout))
+            code += [
+                "    mov [rel chan_tmp], rax", # خزّن القيمة في buffer ثابتة
+                "    mov edi, [rbx + 8]",      # wr_fd من قناة [+8]
+                "    lea rsi, [rel chan_tmp]", # buf = القيمة
+                "    mov rdx, 8",
+                "    push rcx",
+                "    mov rax, 1",              # sys_write
+                "    syscall",
+                "    pop rcx",
+                "    mov rax, 8",              # أعِد عدد البايتات المكتوبة
+                "    pop rbx",
+            ]
+            return code
+        if اسم=="استقبل":
+            # المرحلة 41: استقبل(ق) — read(rd_fd, &buf, 8)
+            if len(args)!=1: raise Exception("استقبل تأخذ وسيطاً واحداً")
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code += [
+                "    push rbx",                # احفظ rbx
+                "    mov rbx, rax",            # rbx = ptr قناة
+                "    mov edi, [rbx]",          # rd_fd من قناة [+0]
+                "    lea rsi, [rel chan_tmp]", # buf ثابتة
+                "    mov rdx, 8",
+                "    push rcx",
+                "    xor rax, rax",            # sys_read
+                "    syscall",
+                "    pop rcx",
+                "    mov rax, [rel chan_tmp]", # أعِد القيمة المستقبَلة
+                "    pop rbx",
+            ]
+            return code
         for j in range(len(args)-1,-1,-1):
             if j<len(ARG_REGS): code.append(f"    pop {ARG_REGS[j]}")
         if اسم in env["locals"]:
@@ -1032,15 +1780,35 @@ def compile_stmt_local(stmt, env, funcs, locals_layout, type_env, is_last):
         if متغير not in env["globals"]: env["globals"][متغير]=len(env["globals"])
         code=[]
         code.extend(compile_expr(قائمة,env,funcs))
-        code += ["    mov r14, [rax]","    lea rbx, [rax + 8]",
+        code += ["    mov r14, [rax]","    lea rbx, [rax + 16]",
                  f".fe_{k}:","    test r14, r14",f"    jz .feend_{k}",
-                 "    mov rax, [rbx]",
-                 f"    mov [vars + {env['globals'][متغير]*8}], rax",
-                 "    push rbx","    push r14"]
+                 "    mov rax, [rbx]"]
+        if متغير in env["locals"]:
+            code.append(f"    mov [rbp - {env['locals'][متغير]}], rax")
+        else:
+            code.append(f"    mov [vars + {env['globals'][متغير]*8}], rax")
+        code += ["    push rbx","    push r14"]
         code.extend(compile_stmt(جسم,env,funcs,type_env))
         code += ["    pop r14","    pop rbx","    add rbx, 8","    dec r14",
                  f"    jmp .fe_{k}",f".feend_{k}:"]
         return code
+    if ن=="تعريف_سمة":
+        # المرحلة 45: السمة مسجّلة في _trait_registry أثناء التحليل — لا كود
+        return []
+    if ن=="تطبيق_سمة":
+        # المرحلة 45: الدوال الداخلية تُولَّد في compile_program — لا كود هنا
+        return []
+    if ن=="تعريف_نوع":
+        # المرحلة 44: تسجيل النوع الجبري
+        اسم=stmt[1]; بناة=stmt[2]
+        _type_registry[اسم]=بناة
+        # اسجل كل باني كمتغير عام (للاستدعاء لاحقًا)
+        for اسم_باني, عدد in بناة:
+            if اسم_باني not in env["globals"]:
+                env["globals"][اسم_باني]=len(env["globals"])
+        return []
+    if ن=="طابق":
+        return compile_expr(stmt, env, funcs, locals_layout)
     raise Exception(f"بيان غير مدعوم: {ن}")
 
 # ═══════════════════════════════════════════════════════════
@@ -1050,9 +1818,12 @@ def compile_program(برنامج):
     check_ownership(برنامج)
     asm=["global _start","section .bss",
          "    vars resq 256","    num_buf resb 32","    negflag resb 1","    read_buf resb 256",
+         "    match_val resq 1","    match_tmp resq 1",   # المرحلة 43: pattern matching
          "    file_path_buf resb 256",
          "    file_buf resb 4096",
-         "    arena_ptr resq 1","    arena_mem resb 262144"]
+         "    arena_ptr resq 1","    arena_mem resb 262144",
+         "    fds_tmp resq 2",        # مؤقت للقنوات: [0]=read_fd [1]=write_fd
+         "    chan_tmp resq 1"]       # مؤقت للقيمة المرسلة/المستقبلة (8 بايت)
     for k in range(1, 17):
         asm.append(f"    t_task_{k} resq 4")
         asm.append(f"    t_status_{k} resq 1")
@@ -1062,11 +1833,14 @@ def compile_program(برنامج):
     asm += ["arena_alloc:","    mov rax, [arena_ptr]",
             "    add rdi, 15","    and rdi, -16",
             "    add [arena_ptr], rdi","    ret",""]
+    # المرحلة 43: علم السالب محلي على المكدس (آمن مع الخيوط المتوازية)
     asm += ["print_int:",
+        "    sub rsp, 8",
+        "    mov byte [rsp], 0",
         "    push rax","    push rbx","    push rcx",
         "    push rdx","    push rsi","    push rdi",
         "    test rax, rax","    jns .pi_pos",
-        "    neg rax","    mov byte [negflag], 1",
+        "    neg rax","    mov byte [rsp + 48], 1",
         ".pi_pos:",
         "    mov rbx, 10","    mov rcx, 0",
         "    lea rdi, [num_buf + 31]",
@@ -1074,14 +1848,14 @@ def compile_program(برنامج):
         "    xor rdx, rdx","    div rbx","    add dl, '0'",
         "    dec rdi","    mov [rdi], dl",
         "    inc rcx","    test rax, rax","    jnz .piloop",
-        "    cmp byte [negflag], 1","    jne .pi_skip_neg",
+        "    cmp byte [rsp + 48], 1","    jne .pi_skip_neg",
         "    dec rdi","    mov byte [rdi], 45","    inc rcx",
         ".pi_skip_neg:",
-        "    mov byte [negflag], 0",
         "    mov rsi, rdi","    mov byte [rsi + rcx], 10","    inc rcx",
         "    mov rdi, 1","    mov rax, 1","    mov rdx, rcx","    syscall",
         "    pop rdi","    pop rsi","    pop rdx",
-        "    pop rcx","    pop rbx","    pop rax","    ret",""]
+        "    pop rcx","    pop rbx","    pop rax",
+        "    add rsp, 8","    ret",""]
     asm += ["str_eq:",
         "    mov rcx, [rdi]","    mov rdx, [rsi]",
         "    cmp rcx, rdx","    jne str_eq_ne",
@@ -1113,6 +1887,88 @@ def compile_program(برنامج):
             type_env[بيان[1]] = type_env.get(بيان[2], "مجهول")
     var_map={}; funcs={"idx":0,"bodies":[]}; global_code=[]
     env={"globals":var_map,"locals":{}}
+    var_map={}; funcs={"idx":0,"bodies":[]}; global_code=[]
+    env={"globals":var_map,"locals":{}}
+    # المرحلة 45: ولّد دوال داخلية لأجسام تطبيقات السمات
+    for بيان in برنامج:
+        if بيان[0]=="تطبيق_سمة":
+            اسم_سمة=بيان[1]; اسم_نوع=بيان[2]; تطبيقات=بيان[3]
+            for اسم_دالة, وسائط, تعبير in تطبيقات:
+                داخلي = f"__trait__{اسم_سمة}__{اسم_نوع}__{اسم_دالة}"
+                if داخلي not in env["globals"]:
+                    env["globals"][داخلي]=len(env["globals"])
+                params=وسائط
+                bound=set(env["globals"].keys())|set(params)
+                free_vars=[]
+                for _fv in get_free_vars(تعبير,bound):
+                    _n= _fv[1] if isinstance(_fv, tuple) else _fv
+                    _name= _n if isinstance(_n, str) else (_n[1] if isinstance(_n, tuple) else None)
+                    if _name is not None and _name not in bound and _name not in free_vars: free_vars.append(_name)
+                inner_label=f"trait_{funcs['idx']}"; funcs['idx']+=1
+                inner_env={"globals":env["globals"],"locals":{},"match_locals":{}}
+                inner_env_layout={}
+                local_counter=[len(params)]
+                def inner_collect_match_locals(node, _ie=inner_env, _lc=local_counter):
+                    if node is None or not isinstance(node, tuple): return
+                    ن=node[0]
+                    if ن=="طابق":
+                        for نمط,تعبير in node[2]:
+                            collect_pattern_vars(نمط, _ie, _lc)
+                            inner_collect_match_locals(تعبير, _ie, _lc)
+                    elif ن=="دالة": inner_collect_match_locals(node[2], _ie, _lc)
+                    elif ن=="كتلة":
+                        for s in node[1]: inner_collect_match_locals(s, _ie, _lc)
+                        if len(node)>2: inner_collect_match_locals(node[2], _ie, _lc)
+                    elif ن=="استدعاء":
+                        for a in node[2]: inner_collect_match_locals(a, _ie, _lc)
+                    elif ن=="ثنائية":
+                        inner_collect_match_locals(node[2], _ie, _lc); inner_collect_match_locals(node[3], _ie, _lc)
+                    elif ن in ("مقارنة","شرطي"):
+                        for a in node[2:]: inner_collect_match_locals(a, _ie, _lc)
+                def collect_pattern_vars(نمط, _e, _lc, _b=bound):
+                    if نمط is None: return
+                    if نمط[0]=="نمط_متغير":
+                        اسم=نمط[1]
+                        if اسم not in _e["locals"] and اسم not in _e["match_locals"]:
+                            n=_lc[0]; _lc[0]+=1
+                            _e["match_locals"][اسم]=(n+1)*8
+                    elif نمط[0]=="نمط_شرطي": collect_pattern_vars(نمط[1], _e, _lc)
+                    elif نمط[0]=="نمط_قائمة":
+                        if نمط[1]:
+                            for ع in نمط[1]: collect_pattern_vars(ع, _e, _lc)
+                        if نمط[2]: collect_pattern_vars(("نمط_متغير",نمط[2]), _e, _lc)
+                    elif نمط[0]=="نمط_باني":
+                        for _sp in نمط[2]: collect_pattern_vars(_sp, _e, _lc)
+                inner_collect_match_locals(تعبير)
+                inner_fc=[f"{inner_label}:","    push rbp","    mov rbp, rsp"]
+                for j,p in enumerate(params):
+                    inner_env["locals"][p]=(j+1)*8
+                for ix,v in enumerate(free_vars): inner_env_layout[v]=8+ix*8
+                stack_size=local_counter[0]*8
+                if stack_size%16!=0: stack_size+=8
+                if stack_size==0: stack_size=16
+                inner_fc.append(f"    sub rsp, {stack_size}")
+                for j,p in enumerate(params):
+                    if j<len(ARG_REGS):
+                        inner_fc.append(f"    mov [rbp - {inner_env['locals'][p]}], {ARG_REGS[j]}")
+                inner_fc.extend(compile_expr(تعبير,inner_env,funcs,inner_env_layout))
+                inner_fc+=["    leave","    ret"]
+                funcs['bodies'].extend(inner_fc)
+                # خزّن closure في متغير عام
+                global_code.append(f"    mov rdi, {8+len(free_vars)*8}")
+                global_code.append("    call arena_alloc")
+                global_code.append("    push rax")
+                global_code.append(f"    mov rcx, {inner_label}")
+                global_code.append("    mov [rax], rcx")
+                for ix,v in enumerate(free_vars):
+                    offset=8+ix*8
+                    if v in env["globals"]:
+                        global_code.append(f"    mov rcx, [vars + {env['globals'][v]*8}]")
+                        global_code.append(f"    mov [rax + {offset}], rcx")
+                    else:
+                        global_code.append(f"    mov [rax + {offset}], rax")  # unreachable safety
+                global_code.append("    pop rax")
+                global_code.append(f"    mov [vars + {env['globals'][داخلي]*8}], rax")
     for بيان in برنامج:
         global_code.extend(compile_stmt(بيان,env,funcs,type_env))
     asm += global_code+["","    mov rax, 60","    xor rdi, rdi","    syscall",""]
@@ -1183,6 +2039,21 @@ def run_calculator():
 # Main
 # ═══════════════════════════════════════════════════════════
 if __name__ == '__main__':
+    # وضع CLI: python3 math_complete.py <ملف.ar> → تجميع + تشغيل فوري
+    if len(sys.argv) > 1:
+        مسار=sys.argv[1]
+        with open(مسار, encoding='utf-8') as ف:
+            source=ف.read()
+        اسم=مسار.rsplit('.',1)[0].rsplit('/')[-1]
+        try:
+            ر=حلل_رموز(source); ب=حلل_برنامج(ر); asm=compile_program(ب)
+            with open(f"{اسم}.asm","w") as ف: ف.write(asm)
+            subprocess.run(["nasm","-f","elf64",f"{اسم}.asm","-o",f"{اسم}.o"],check=True,capture_output=True)
+            subprocess.run(["ld",f"{اسم}.o","-o",اسم],check=True,capture_output=True)
+            print(f"✅ تم تجميع {مسار} → {اسم}")
+        except Exception as e:
+            print(f"❌ فشل التجميع: {e}"); sys.exit(1)
+        raise SystemExit(0)
     print("=" * 50)
     print("المرحلة 1: اختبارات المُجمّع")
     print("=" * 50)
