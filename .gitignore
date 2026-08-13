@@ -39,3 +39,10 @@ test_all_phases.py
 
 # Generated
 parallel_result.txt
+# LaTeX build artifacts — keep .tex only
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
