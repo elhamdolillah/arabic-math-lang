@@ -50,7 +50,7 @@ def بحث_رمز_في_القاموس(نص):
     "دالة":"λ",    "λ":"λ",    "اطبع":"⎕",    "⎕":"⎕",
     "طالما":"μ",    "μ":"μ",    "لكل":"∀",    "∀":"∀",
     "في":"∈",    "∈":"∈",    "انقل":"⊸",    "⊸":"⊸",
-    "اقرأ":"⊙",    "⊙":"⊙",    "طابق":"طابق",    "حيث":"حيث",
+    "اقرأ":"⊙",    "⊙":"⊙",    "طابق":"طابق",    "حيث":"حيث",    "ماكرو":"ماكرو",
     "شامل":"_",    "_":"_",    "نوع":"نوع",    "سمة":"سمة",
     "تطبيق":"تطبيق",    "على":"على",    "بانتظار":"بانتظار",    "بدء":"بدء"
 }
@@ -168,6 +168,39 @@ def حلل_بيان(رموز,i):
         if i>=len(رموز) or رموز[i][1]!=":": raise Exception(f": مطلوبة عند {pos_msg(رموز, i)}")
         i+=1; جسم,i=حلل_بيان(رموز,i)
         return ("لكل",اسم,قائمة,جسم),i
+    if ن=="عملية" and ق=="ماكرو":
+        # المرحلة 48: تعريف ماكرو — ماكرو اسم(معاملات) : ﴿ تعبير ﴾
+        i+=1
+        if i>=len(رموز) or رموز[i][0]!="معرف": raise Exception(f"اسم الماكرو مطلوب عند {pos_msg(رموز, i)}")
+        اسم=رموز[i][1]; i+=1
+        # معاملات اختيارية
+        معاملات=[]
+        if i<len(رموز) and رموز[i][1]=="(":
+            i+=1
+            while True:
+                if i>=len(رموز): raise Exception(f") مطلوبة عند {pos_msg(رموز, i)}")
+                if رموز[i][1]==")": i+=1; break
+                if رموز[i][0]!="معرف": raise Exception(f"اسم معامل مطلوب عند {pos_msg(رموز, i)}")
+                معاملات.append(رموز[i][1]); i+=1
+                if i<len(رموز) and رموز[i][1]==",": i+=1
+        if i>=len(رموز) or رموز[i][1]!=":": raise Exception(f": مطلوبة عند {pos_msg(رموز, i)}")
+        i+=1
+        if i>=len(رموز) or رموز[i][1]!="﴿": raise Exception(f"﴿ مطلوبة عند {pos_msg(رموز, i)}")
+        i+=1
+        # حلل الجسم: كتلة ﴿...﴾ متداخلة أو تعبير واحد
+        if i<len(رموز) and رموز[i][1]=="﴿":
+            جسم,i=حلل_بيان(رموز,i)
+        else:
+            جسم,i=حلل_تعبير(رموز,i)
+        if i>=len(رموز) or رموز[i][1]!="﴾": raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
+        i+=1
+        # استيراد وتسجيل في registry
+        try:
+            from phase48_macros import سجل_ماكرو
+            سجل_ماكرو(اسم, [{"معاملات": معاملات, "جسم": جسم}])
+        except ImportError:
+            pass
+        return ("تعريف_ماكرو", اسم, [{"معاملات": معاملات, "جسم": جسم}]),i
     if ق=="نوع":
         # المرحلة 44: تعريف نوع جبري — نوع شكل : ﴿ دائرة(ن) ⋄ مستطيل(ع، ا) ﴾
         i+=1
@@ -805,12 +838,12 @@ def استنتاج_نوع_جملة(stmt, type_env):
     return "مجهول"
 
 ARG_REGS = ["rdi","rsi","rdx","rcx","r8","r9"]
-_counters = {"cond":0,"empty":0,"copy":0,"loop":0,"scmp":0,"tq":0,"index":0}
+_counters = {"cond":0,"empty":0,"copy":0,"loop":0,"scmp":0,"tq":0,"index":0,"bmatch":0}
 
 # المرحلة 44: الأنواع الجبرية — سجل الأنواع
 _trait_registry = {}   # اسم_السمة → [(اسم_الدالة, عدد_المعاملات), ...]
 _impl_registry = {}  # (اسم_السمة, اسم_النوع) → {اسم_الدالة: (وسائط, جسم)}
-_type_registry = {}  # اسم_النوع → [(اسم_الباني, عدد_المعاملات), ...]_counters = {"cond":0,"empty":0,"copy":0,"loop":0,"scmp":0,"tq":0,"index":0}
+_type_registry = {}  # اسم_النوع → [(اسم_الباني, عدد_المعاملات), ...]
 
 # ═══════════════════════════════════════════════════════════
 # Code Generator
@@ -934,6 +967,28 @@ def compile_expr(expr, env, funcs, env_layout=None):
             code.append(f"    mov [rbx + {16+idx*8}], rcx")
         code.append("    pop rax")
         return code
+    if ن=="كتلة":
+        # كتلة كتعبير: نفّذ البيانات ثم عبّر عن الذيل
+        بيانات=expr[1]; ذيل=expr[2] if len(expr)>2 else None
+        code=[]
+        for s in بيانات:
+            code.extend(compile_stmt(s,env,funcs,env_layout))
+        if ذيل is not None:
+            code.extend(compile_expr(ذيل,env,funcs,env_layout))
+        else:
+            code.append("    xor rax, rax")
+        return code
+    if ن=="كتلة":
+        # كتلة كتعبير: نفّذ البيانات ثم عبّر عن الذيل
+        بيانات=expr[1]; ذيل=expr[2] if len(expr)>2 else None
+        code=[]
+        for s in بيانات:
+            code.extend(compile_stmt(s,env,funcs,env_layout))
+        if ذيل is not None:
+            code.extend(compile_expr(ذيل,env,funcs,env_layout))
+        else:
+            code.append("    xor rax, rax")
+        return code
     if ن=="طابق":
         قيمة=expr[1]; فروع=expr[2]
         _counters["empty"]+=1; k=_counters["empty"]
@@ -1030,7 +1085,13 @@ def compile_expr(expr, env, funcs, env_layout=None):
                         if _pb_tag>=0: break
                 if _pb_tag<0: raise Exception(f"باني غير معرف: {_pb_name}")
                 code.append(f"    mov rax, [match_val]")
-                code.append("    mov rbx, [rax + 8]")
+                # تحقق: مؤشر heap صالح — يجب أن يكون داخل نطاق arena_mem
+                _counters["bmatch"]+=1; _kb=_counters["bmatch"]
+                code+=[f"    lea r10, [arena_mem]",
+                       f"    cmp rax, r10", f"    jb .mskip{k}_{idx}",
+                       f"    lea r10, [arena_mem + 262144]",
+                       f"    cmp rax, r10", f"    jae .mskip{k}_{idx}",
+                       f"    mov rbx, [rax + 8]"]
                 code.append(f"    cmp rbx, {_pb_tag}")
                 code.append(f"    jne .mskip{k}_{idx}")
                 for _fi, _sp in enumerate(_pb_subs):
@@ -1054,8 +1115,10 @@ def compile_expr(expr, env, funcs, env_layout=None):
                         code+=[f"    cmp rax, {v}",f"    je {mk}"]
             else:
                 raise Exception("نمط غير مدعوم في التوليد: "+نمط[0])
-        # لا يوجد تطابق → خطأ 8
-        code+=[f"    mov rax, 60","    mov rdi, 8","    syscall"]
+        # لا يوجد تطابق → اطبع القيمة المطابقة نفسها ثم أنهِ (القيمة الافتراضية)
+        code.append("    mov rax, [match_val]")
+        code.append("    call print_int")
+        code += ["    mov rax, 60","    mov rdi, 0","    syscall"]
         mend=f".mend{k}"
         # — أجسام الفروع —
         for idx,(نمط,تعبير) in enumerate(فروع):
@@ -1918,6 +1981,13 @@ def compile_stmt_local(stmt, env, funcs, locals_layout, type_env, is_last):
 # Program Compiler
 # ═══════════════════════════════════════════════════════════
 def compile_program(برنامج):
+    # المرحلة 48: توسيع الماكروزات قبل التحقق من الملكية
+    try:
+        from phase48_macros import وسّع_برنامج, إعادة_عداد_التوسعات
+        إعادة_عداد_التوسعات()
+        برنامج = وسّع_برنامج(برنامج)
+    except ImportError:
+        pass
     check_ownership(برنامج)
     asm=["global _start","section .bss",
          "    vars resq 256","    num_buf resb 32","    negflag resb 1","    read_buf resb 256",
@@ -1935,7 +2005,11 @@ def compile_program(برنامج):
         asm.append(f"    t_status_{k} resq 1")
     asm.append("")
     asm.append("section .text")
-    asm += ["mmfail:","    mov rax, 60","    mov rdi, 2","    syscall", ""]
+    asm += ["_start_init:",
+            "    lea rax, [arena_mem]",
+            "    mov [arena_ptr], rax",
+            "    jmp _start",
+            "mmfail:","    mov rax, 60","    mov rdi, 2","    syscall", ""]
     asm += ["arena_alloc:","    mov rax, [arena_ptr]",
             "    add rdi, 15","    and rdi, -16",
             "    add [arena_ptr], rdi","    ret",""]
