@@ -46,3 +46,7 @@ parallel_result.txt
 *.log
 *.out
 *.pdf
+docs/ACM-Reference-Format.bst
+docs/BASMALAH_FIX_NOTES.md
+docs/LATEX_BUILD_STATE.md
+docs/PDF_VERIFY_NOTES.md
