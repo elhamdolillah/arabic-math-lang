@@ -52,7 +52,7 @@ def بحث_رمز_في_القاموس(نص):
     "في":"∈",    "∈":"∈",    "انقل":"⊸",    "⊸":"⊸",
     "اقرأ":"⊙",    "⊙":"⊙",    "طابق":"طابق",    "حيث":"حيث",
     "شامل":"_",    "_":"_",    "نوع":"نوع",    "سمة":"سمة",
-    "تطبيق":"تطبيق",    "على":"على"
+    "تطبيق":"تطبيق",    "على":"على",    "بانتظار":"بانتظار",    "بدء":"بدء"
 }
 
 # دمج المصطلحات القرآنية الآمنة (دفعة Qwen 2 — لا يتجاوز الأصل ولا أسماء البنائات)
@@ -429,6 +429,13 @@ def حلل_عامل(رموز,i):
     if ن=="عملية" and ق=="⊙":
         i+=1
         return ("اقرأ",),i
+    if ن=="عملية" and ق=="↻":
+        # المرحلة 47: دالة غير متزامنة — ↻ اسم(معاملات) : ﴿ ... ﴾
+        i+=1
+        if i<len(رموز) and رموز[i][0]=="معرف":
+            اسم_دالة=رموز[i][1]; i+=1
+            return ("تعريف_دالة_غير_متزامنة", اسم_دالة), i
+        return ("علامة_غير_متزامن",), i
     if ن=="عملية" and ق=="λ":
         i+=1; معلمون=[]
         if i<len(رموز) and رموز[i][1]=="(":
@@ -496,6 +503,15 @@ def حلل_عامل(رموز,i):
             else:
                 break
         if isinstance(اسم, tuple) and اسم[0]=="استدعاء": return اسم,i
+        # المرحلة 47: بانتظار و بدء كـ expressions
+        if اسم=="بانتظار":
+            i+=1
+            تعبير,i=حلل_تعبير(رموز,i)
+            return ("بانتظار", تعبير), i
+        if اسم=="بدء":
+            i+=1
+            تعبير,i=حلل_تعبير(رموز,i)
+            return ("بدء", تعبير), i
         if اسم=="طابق":
             قيمة,i=حلل_تعبير(رموز,i)
             if i>=len(رموز) or رموز[i][1]!=":": raise Exception(": مطلوبة بعد طابق (تعبير)")
@@ -569,6 +585,16 @@ def get_used_vars(expr):
         _counters["empty"]+=1; _qk=_counters["empty"]
         code+=["    mov rbx, [rax + 8]", "    test rbx, rbx", f"    jnz .rq_fail_{_qk}",
                "    mov rax, [rax + 16]", f".rq_fail_{_qk}:"]
+        return code
+    if ن=="بانتظار":
+        # المرحلة 47: بانتظار(تعبير) — انتظار اكتمال Future
+        code=compile_expr(expr[1], env, funcs, env_layout)
+        code.append("    mov rdi, rax              ; future ptr")
+        code.append("    call await_future")
+        return code
+    if ن=="بدء":
+        # المرحلة 47: بدء(تعبير) — بدء مهمة في الخلفية
+        code=compile_expr(expr[1], env, funcs, env_layout)
         return code
     if ن=="قائمة":
         res=set()
@@ -1900,7 +1926,10 @@ def compile_program(برنامج):
          "    file_buf resb 4096",
          "    arena_ptr resq 1","    arena_mem resb 262144",
          "    fds_tmp resq 2",        # مؤقت للقنوات: [0]=read_fd [1]=write_fd
-         "    chan_tmp resq 1"]       # مؤقت للقيمة المرسلة/المستقبلة (8 بايت)
+         "    chan_tmp resq 1",       # مؤقت للقيمة المرسلة/المستقبلة (8 بايت)
+        "    future_registry resq 1",    # المرحلة 47: جدول Futures
+        "    epoll_events_buf resq 1",   # المرحلة 47: buffer أحداث epoll
+        "    future_wake_buf resq 1"]    # المرحلة 47: buffer إيقاظ eventfd
     for k in range(1, 17):
         asm.append(f"    t_task_{k} resq 4")
         asm.append(f"    t_status_{k} resq 1")
@@ -2053,6 +2082,156 @@ def compile_program(برنامج):
         global_code.extend(compile_stmt(بيان,env,funcs,type_env))
     asm += global_code+["","    mov rax, 60","    xor rdi, rdi","    syscall",""]
     asm += funcs["bodies"]
+    asm += [""]
+    asm += """; ═══════════════════════════════════════════════════════════
+; Event Loop Runtime — المرحلة 47
+; ═══════════════════════════════════════════════════════════
+
+; إنشاء epoll instance
+create_event_loop:
+    push rbx
+    push r12
+    xor rdi, rdi                ; flags = 0
+    mov rax, 291
+    syscall
+    test rax, rax
+    js .epoll_fail
+    mov r12, rax                ; حفظ epfd
+
+; تخصيص Future registry (8 futures كحد أقصى)
+    mov rdi, 512                ; 8 * 64 bytes
+    call arena_alloc
+    mov [future_registry], rax
+
+; تخصيص epoll_events buffer
+    mov rdi, 256                ; 16 events * 16 bytes
+    call arena_alloc
+    mov [epoll_events_buf], rax
+
+    mov rax, r12
+    pop r12
+    pop rbx
+    ret
+
+.epoll_fail:
+    mov rax, 60
+    mov rdi, 9
+    syscall
+
+; إنشاء Future جديد — يُرجع مؤشر Future
+; Future layout: [state:8][value:8][eventfd:8][callback:8][padding:32]
+create_future:
+    push rbx
+    push r12
+    mov rdi, 64
+    call arena_alloc
+    mov r12, rax                ; future ptr
+
+; إنشاء eventfd للـ future
+    xor rdi, rdi                ; initval = 0
+    xor rsi, rsi                ; flags = 0
+    mov rax, 290
+    syscall
+    test rax, rax
+    js .future_fd_fail
+
+; تهيئة Future
+    mov qword [r12 + 0], 0   ; state
+    mov qword [r12 + 8], 0              ; value
+    mov [r12 + 16], rax               ; eventfd
+    mov qword [r12 + 24], 0           ; callback
+
+    mov rax, r12
+    pop r12
+    pop rbx
+    ret
+
+.future_fd_fail:
+    mov rax, 60
+    mov rdi, 10
+    syscall
+
+; حل Future بقيمة — resolve_future(future, value)
+resolve_future:
+    push rbx
+    mov rbx, rdi                ; future ptr
+    mov qword [rbx + 0], 1
+    mov [rbx + 8], rsi            ; value
+
+; كتابة إلى eventfd لإيقاظ الـ event loop
+    lea rsi, [rel future_wake_buf]
+    mov qword [rsi], 1
+    mov rdi, [rbx + 16]           ; eventfd
+    mov rdx, 8
+    mov rax, 1
+    syscall
+    pop rbx
+    ret
+
+; انتظار Future — await_future(future) → value
+await_future:
+    push rbx
+    push r12
+    mov rbx, rdi                ; future ptr
+
+.await_loop:
+    cmp qword [rbx + 0], 0
+    jne .await_done
+
+; قراءة من eventfd (blocking)
+    mov rdi, [rbx + 16]           ; eventfd
+    lea rsi, [rel future_wake_buf]
+    mov rdx, 8
+    mov rax, 0
+    syscall
+    jmp .await_loop
+
+.await_done:
+    cmp qword [rbx + 0], 2
+    je .await_failed
+    mov rax, [rbx + 8]            ; value
+    pop r12
+    pop rbx
+    ret
+
+.await_failed:
+    mov rax, 60
+    mov rdi, 11
+    syscall
+
+; تشغيل Event Loop — run_event_loop(epfd, timeout_ms)
+run_event_loop:
+    push rbx
+    push r12
+    push r13
+    mov r12, rdi                ; epfd
+    mov r13d, esi               ; timeout_ms
+
+.loop:
+    mov rdi, r12
+    mov rsi, [epoll_events_buf]
+    mov rdx, 16                 ; max events
+    mov r10d, r13d
+    mov rax, 232
+    syscall
+    test rax, rax
+    jle .loop_end
+
+; معالجة الأحداث
+    mov rcx, rax
+    mov rbx, [epoll_events_buf]
+.process_events:
+    ; TODO: dispatch to callbacks
+    add rbx, 16
+    dec rcx
+    jnz .process_events
+    jmp .loop
+
+.loop_end:
+    pop r13
+    pop r12
+    pop rbx
+    ret""".split("\n")
     return "\n".join(asm)
 
 # ═══════════════════════════════════════════════════════════
