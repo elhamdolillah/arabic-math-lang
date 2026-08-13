@@ -256,13 +256,7 @@ def حلل_بيان(رموز,i):
         return ("طابق",قيمة,فروع),i
     raise Exception(f"بيان غير معروف عند {pos_msg(رموز, i)}")
 
-def حلل_تعبير(رموز,i):
-    تعبير,i=حلل_شرطي(رموز,i)
-    # المرحلة 46: ؟ — استخراج مشروط: إن نجح استخرج القيمة، وإلا عد القيمة الفاشلة كما هي
-    if i<len(رموز) and رموز[i][1]=="؟":
-        i+=1
-        return ("عامل_نتيجة",تعبير),i
-    return تعبير,i
+def حلل_تعبير(رموز,i): return حلل_شرطي(رموز,i)
 
 def حلل_شرطي(رموز,i):
     شرط,i=حلل_مقارنة(رموز,i)
@@ -340,13 +334,10 @@ def حلل_نمط(رموز,i):
         اسم=ق; i+=1
         # المرحلة 44: نمط باني — دائرة(ن) أو مستطيل(ع، ا) أو باني بلا معاملات (أزرق)
         _pb_tag=-1
-        if اسم in ["نجاح","فشل","بعض","لاشيء"]:
-            _pb_tag=0  # مقبول كباني؛ التمييز الفعلي عند التوليد
-        else:
-            for _tn, _bs in _type_registry.items():
-                for _bi, (_bn, _ba) in enumerate(_bs):
-                    if _bn == اسم: _pb_tag=_bi; break
-                if _pb_tag>=0: break
+        for _tn, _bs in _type_registry.items():
+            for _bi, (_bn, _ba) in enumerate(_bs):
+                if _bn == اسم: _pb_tag=_bi; break
+            if _pb_tag>=0: break
         if _pb_tag>=0:
             أنماط_فرعية=[]
             if i<len(رموز) and رموز[i][1]=="(":
@@ -528,14 +519,6 @@ def get_used_vars(expr):
         res=set()
         for arg in expr[2]: res|=get_used_vars(arg)
         return res
-    if ن=="عامل_نتيجة":
-        # المرحلة 46: ؟ — استخراج مشروط (extract-or-propagate)
-        # إن tag([ptr+8])==0 (نجاح): استخرج القيمة من +16؛ وإلا: عد القيمة الفاشلة كما هي
-        code=compile_expr(expr[1], env, funcs, env_layout)
-        _counters["empty"]+=1; _qk=_counters["empty"]
-        code+=["    mov rbx, [rax + 8]", "    test rbx, rbx", f"    jnz .rq_fail_{_qk}",
-               "    mov rax, [rax + 16]", f".rq_fail_{_qk}:"]
-        return code
     if ن=="قائمة":
         res=set()
         for e in expr[1]: res|=get_used_vars(e)
@@ -697,11 +680,6 @@ def استنتاج_نوع(expr, type_env):
         return type_env.get(س, "مجهول")
     if ن=="استدعاء":
         اسم=expr[1]
-        # المرحلة 46: Result/Option
-        if اسم=="نجاح" or اسم=="بعض":
-            if expr[2]: return استنتاج_نوع(expr[2][0], type_env)
-            return "مجهول"
-        if اسم in ["فشل","لاشيء"]: return "مجهول"
         if اسم=="أس" or اسم=="أُس": return "عدد"
         if اسم in ["طول","حجم","أحص"]: return "عدد"
         if اسم in ["جذر","أرضية","قوة","مطلق","مجموع_قائمة"]: return "عدد"
@@ -956,18 +934,12 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 # المرحلة 44: نمط باني — افحص tag ثم اربط المعاملات
                 _pb_name=نمط[1]; _pb_subs=نمط[2]
                 _pb_tag=-1
-                # المرحلة 46: بناة Result/Option — وسم موحَّد: نجاح=0، فشل=1، بعض=2، لاشيء=3
-                if _pb_name=="نجاح": _pb_tag=0
-                elif _pb_name=="فشل": _pb_tag=1
-                elif _pb_name=="بعض": _pb_tag=2
-                elif _pb_name=="لاشيء": _pb_tag=3
-                else:
-                    for _tname, _builders in _type_registry.items():
-                        for _bi, (_bn, _ba) in enumerate(_builders):
-                            if _bn == _pb_name:
-                                _pb_tag=_bi
-                                break
-                        if _pb_tag>=0: break
+                for _tname, _builders in _type_registry.items():
+                    for _bi, (_bn, _ba) in enumerate(_builders):
+                        if _bn == _pb_name:
+                            _pb_tag=_bi
+                            break
+                    if _pb_tag>=0: break
                 if _pb_tag<0: raise Exception(f"باني غير معرف: {_pb_name}")
                 code.append(f"    mov rax, [match_val]")
                 code.append("    mov rbx, [rax + 8]")
@@ -1198,21 +1170,6 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 code.append(f"    mov rcx, [vars + {env['globals'][v]*8}]")
             code.append(f"    mov [rax + {offset}], rcx")
         code.append("    pop rax")
-        return code
-    if ن=="استدعاء" and expr[1] in ["نجاح","فشل","بعض","لاشيء"]:
-        # المرحلة 46: Result/Option مدمجة — وسم موحَّد: نجاح=0، فشل=1، بعض=2، لاشيء=3
-        _rn=expr[1]; _ra=expr[2]; _nbn=len(_ra)
-        _rtag={"نجاح":0,"فشل":1,"بعض":2,"لاشيء":3}[_rn]
-        code=[]
-        code.append(f"    mov rdi, {16 + _nbn * 8}")
-        code.append("    call arena_alloc")
-        code.append("    mov r11, rax")
-        code.append(f"    mov qword [r11], {_nbn}")
-        code.append(f"    mov qword [r11 + 8], {_rtag}")
-        for _idx, _arg in enumerate(_ra):
-            code.extend(compile_expr(_arg, env, funcs, env_layout))
-            code.append(f"    mov qword [r11 + {(_idx + 2) * 8}], rax")
-        code.append("    mov rax, r11")
         return code
     if ن=="استدعاء":
         # المرحلة 44: استدعاء باني نوع جبري (قبل مسار الاستدعاء العادي)
@@ -1923,9 +1880,6 @@ def compile_program(برنامج):
     asm += ["section .data","nl_ptr: db 10","section .text",""]
     asm += ["_start:","    lea rax, [arena_mem]","    mov [arena_ptr], rax",""]
     type_env={}
-    # المرحلة 46: أنواع Result و Option مدمجة — لا تحتاج تعريف_نوع
-    globals()['_type_registry']['نتيجة']=[('نجاح', 1), ('فشل', 1)]
-    globals()['_type_registry']['خيار']=[('بعض', 1), ('لاشيء', 0)]
     for بيان in برنامج:
         if بيان[0] in ["عرف","أسند"]:
             type_env[بيان[1]]=استنتاج_نوع(بيان[2], type_env)
