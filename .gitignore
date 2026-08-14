@@ -53,3 +53,11 @@ docs/PDF_VERIFY_NOTES.md
 docs/paper/
 math_complete.py.pre_lexicon.backup
 math_complete.py.pre_quranic.backup
+
+# Artifacts (executables, objects, backups)
+*.o
+*.out
+math_complete.py.pre_*.backup
+phase50_selfhost
+phase50_selfhost.bin
+examples/phase43_*
