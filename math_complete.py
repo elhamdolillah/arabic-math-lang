@@ -61,7 +61,7 @@ for كلمة, رمز in توليد_أسماء_بديلة_آمنة().items():
         أسماء_بديلة[كلمة] = رمز
 عمليات_الجمع = {"+":"+","-":"-","⊕":"⊕"}
 عمليات_الضرب = {"·":"·","÷":"÷"}
-عمليات_المقارنة = {"<":"<",">":">","=":"=","≠":"≠"}
+عمليات_المقارنة = {"<":"<",">":">","=":"=","≠":"≠","≤":"≤","≥":"≥"}
 
 def pos_msg(رموز, i):
     """إرجاع رسالة موقع السطر والعمود لموضع في قائمة الرموز"""
@@ -132,6 +132,8 @@ def حلل_بيان(رموز,i):
                 if (i<len(رموز) and رموز[i][0]=="معرف" and
                     (i+1>=len(رموز) or (رموز[i+1][0]=="عملية" and رموز[i+1][1] not in ("≔","≡","⊸","(")))):
                     إخراج,i=حلل_تعبير(رموز,i)
+                elif i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in ("μ","∀","⎕","طابق","ماكرو"):
+                    continue
                     if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
                     if رموز[i][1]=="﴾": i+=1; break
                     if رموز[i][1]=="⋄": continue
@@ -314,13 +316,17 @@ def حلل_بيان(رموز,i):
             if رموز[i][1]=="﴾": i+=1; break
             نمط,i=حلل_نمط(رموز,i)
             if i>=len(رموز) or رموز[i][1]!="⇒": raise Exception(f"⇒ مطلوبة بعد النمط عند {pos_msg(رموز, i)}")
-            i+=1; تعبير,i=حلل_تعبير(رموز,i)
+            i+=1
+            if i<len(رموز) and رموز[i][1]=="﴿": جسم,i=حلل_بيان(رموز,i); تعبير=جسم
+            else: تعبير,i=حلل_تعبير(رموز,i)
             فروع.append((نمط,تعبير))
             if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
             if رموز[i][1]=="⋄": i+=1; continue
             if رموز[i][1]=="﴾": i+=1; break
             raise Exception(f"⋄ أو ﴾ مطلوبة عند {pos_msg(رموز, i)}")
         return ("طابق",قيمة,فروع),i
+    if ن=="عملية" and ق=="⟨":
+        ت,i=حلل_تعبير(رموز,i); return ("تعبير",ت),i
     raise Exception(f"بيان غير معروف عند {pos_msg(رموز, i)}")
 
 def حلل_تعبير(رموز,i):
@@ -344,6 +350,14 @@ def حلل_مقارنة(رموز,i):
     ي,i=حلل_جمع(رموز,i)
     while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_المقارنة:
         ع=رموز[i][1]; i+=1; م,i=حلل_جمع(رموز,i); ي=("مقارنة",ع,ي,م)
+    while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1]=="∧":
+        i+=1
+        م,i=حلل_جمع(رموز,i)
+        while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_المقارنة:
+            ع=رموز[i][1]; i+=1; ر,i=حلل_جمع(رموز,i); م=("مقارنة",ع,م,ر)
+        ي=("مقارنة","∧",ي,م)
+    if i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1]=="∨":
+        i+=1; م,i=حلل_مقارنة(رموز,i); ي=("مقارنة","∨",ي,م)
     return ي,i
 
 def حلل_جمع(رموز,i):
@@ -556,7 +570,9 @@ def حلل_عامل(رموز,i):
                 if رموز[i][1]=="﴾": i+=1; break
                 نمط,i=حلل_نمط(رموز,i)
                 if i>=len(رموز) or رموز[i][1]!="⇒": raise Exception(f"⇒ مطلوبة بعد النمط عند {pos_msg(رموز, i)}")
-                i+=1; تعبير,i=حلل_تعبير(رموز,i)
+                i+=1
+                if i<len(رموز) and رموز[i][1]=="﴿": جسم,i=حلل_بيان(رموز,i); تعبير=جسم
+                else: تعبير,i=حلل_تعبير(رموز,i)
                 فروع.append((نمط,تعبير))
                 if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
                 if رموز[i][1]=="⋄": i+=1; continue
@@ -576,7 +592,9 @@ def حلل_عامل(رموز,i):
             if رموز[i][1]=="﴾": i+=1; break
             نمط,i=حلل_نمط(رموز,i)
             if i>=len(رموز) or رموز[i][1]!="⇒": raise Exception(f"⇒ مطلوبة بعد النمط عند {pos_msg(رموز, i)}")
-            i+=1; تعبير,i=حلل_تعبير(رموز,i)
+            i+=1
+            if i<len(رموز) and رموز[i][1]=="﴿": جسم,i=حلل_بيان(رموز,i); تعبير=جسم
+            else: تعبير,i=حلل_تعبير(رموز,i)
             فروع.append((نمط,تعبير))
             if i>=len(رموز): raise Exception(f"﴾ مطلوبة عند {pos_msg(رموز, i)}")
             if رموز[i][1]=="⋄": i+=1; continue
@@ -640,9 +658,12 @@ def get_used_vars(expr):
 def get_stmt_free_vars(stmt, bound):
     ن=stmt[0]
     if ن=="كتلة":
-        res=set()
-        for s in stmt[1]: res|=get_stmt_free_vars(s,bound)
-        if stmt[2] is not None: res|=get_used_vars(stmt[2])
+        res=set(); b=bound
+        for s in stmt[1]:
+            res|=get_stmt_free_vars(s,b)
+            if s[0] in ("أسند","لكل","نقل"): b=b|{s[1]}
+            elif s[0]=="عرف": b=b|{s[1]}
+        if stmt[2] is not None: res|=get_free_vars(stmt[2], b)
         return res
     if ن=="أسند": return get_free_vars(stmt[2],bound)
     if ن=="طالما": return get_free_vars(stmt[1],bound)|get_stmt_free_vars(stmt[2],bound)
@@ -654,6 +675,7 @@ def get_stmt_free_vars(stmt, bound):
             return set(stmt[2][1])
         return get_free_vars(stmt[2],bound)
     if ن=="نقل": return set()
+    if ن=="تعبير": return get_free_vars(stmt[1], bound)
     return set()
 
 def استنتاج_نوع_كتلة(stmt, type_env):
@@ -676,6 +698,8 @@ def get_stmt_used_vars(stmt):
         for s in stmt[1]: res|=get_stmt_used_vars(s)
         if stmt[2] is not None: res|=get_used_vars(stmt[2])
         return res
+    if ن=="تعبير": return get_used_vars(stmt[1])
+    if ن=="تعبير": return get_free_vars(stmt[1], bound)
     return set()
 
 def check_ownership(برنامج):
@@ -744,6 +768,9 @@ def get_free_vars(expr, bound):
     if ن=="دالة": return get_stmt_free_vars(expr[2], bound|set(expr[1])) if expr[2][0]=="كتلة" else get_free_vars(expr[2], bound|set(expr[1]))
     if ن=="استدعاء":
         res=set()
+        اسم=expr[1]
+        if not isinstance(اسم, str):
+            res|=get_free_vars(اسم, bound)
         for arg in expr[2]: res|=get_free_vars(arg,bound)
         return res
     if ن=="شرطي":
@@ -763,6 +790,8 @@ def get_free_vars(expr, bound):
         else:
             res|=get_free_vars(expr[1],bound)
         return res
+    if ن=="كتلة": return get_stmt_free_vars(expr, bound) - bound
+    if ن=="تعبير": return get_free_vars(expr[1], bound)
     return set()
 
 def استنتاج_نوع(expr, type_env):
@@ -838,7 +867,7 @@ def استنتاج_نوع_جملة(stmt, type_env):
     return "مجهول"
 
 ARG_REGS = ["rdi","rsi","rdx","rcx","r8","r9"]
-_counters = {"cond":0,"empty":0,"copy":0,"loop":0,"scmp":0,"tq":0,"index":0,"bmatch":0}
+_counters = {"cond":0,"empty":0,"copy":0,"loop":0,"scmp":0,"tq":0,"index":0,"bmatch":0,"scand":0,"scor":0}
 
 # المرحلة 44: الأنواع الجبرية — سجل الأنواع
 _trait_registry = {}   # اسم_السمة → [(اسم_الدالة, عدد_المعاملات), ...]
@@ -954,6 +983,7 @@ def compile_expr(expr, env, funcs, env_layout=None):
         if س in env["globals"]:
             return [f"    mov rax, [vars + {env['globals'][س]*8}]"]
         raise Exception(f"متغير غير معرف: {س}")
+
     if ن=="قائمة":
         elems=expr[1]; ln=len(elems)
         code=[f"    mov rdi, {16+ln*8}", "    call arena_alloc"]
@@ -966,17 +996,6 @@ def compile_expr(expr, env, funcs, env_layout=None):
             code.append("    mov rbx, [rsp]")
             code.append(f"    mov [rbx + {16+idx*8}], rcx")
         code.append("    pop rax")
-        return code
-    if ن=="كتلة":
-        # كتلة كتعبير: نفّذ البيانات ثم عبّر عن الذيل
-        بيانات=expr[1]; ذيل=expr[2] if len(expr)>2 else None
-        code=[]
-        for s in بيانات:
-            code.extend(compile_stmt(s,env,funcs,env_layout))
-        if ذيل is not None:
-            code.extend(compile_expr(ذيل,env,funcs,env_layout))
-        else:
-            code.append("    xor rax, rax")
         return code
     if ن=="كتلة":
         # كتلة كتعبير: نفّذ البيانات ثم عبّر عن الذيل
@@ -1166,6 +1185,27 @@ def compile_expr(expr, env, funcs, env_layout=None):
             if e[0]=="ثنائية" and e[1]=="⊕": return True
             return False
         str_cmp = (op in ("=","≠")) and (is_textish(ل) or is_textish(ي))
+        if op in ("∧","∨"):
+            # Lazy (short-circuit) evaluation: the right operand is compiled ONLY
+            # on the branch where the left operand demands it. This is required
+            # because right-side expressions like رمز(نص،م) contain partial
+            # index checks that must NOT execute when the loop guard م&lt;len is false.
+            if op=="∧":
+                _counters["scand"]+=1; k=_counters["scand"]
+                left=compile_expr(ل,env,funcs,env_layout)
+                code=left+["    cmp rax, 0",f"    je .sa0_{k}"]
+                code.extend(compile_expr(ي,env,funcs,env_layout))
+                code+=["    cmp rax, 0","    setne al",f"    jmp .sa1_{k}",
+                       f".sa0_{k}:","    mov rax, 0",f".sa1_{k}:"]
+                return code
+            else:
+                _counters["scor"]+=1; k=_counters["scor"]
+                left=compile_expr(ل,env,funcs,env_layout)
+                code=left+["    cmp rax, 0",f"    jne .so1_{k}"]
+                code.extend(compile_expr(ي,env,funcs,env_layout))
+                code+=["    cmp rax, 0","    setne al",f"    jmp .so0_{k}",
+                       f".so1_{k}:","    mov rax, 1",f".so0_{k}:"]
+                return code
         left=compile_expr(ل,env,funcs,env_layout)
         right=compile_expr(ي,env,funcs,env_layout)
         if str_cmp:
@@ -1188,11 +1228,52 @@ def compile_expr(expr, env, funcs, env_layout=None):
                          f".seq_end_{k}:"]
             return code
         code=left+["    push rax"]+right+["    pop rbx"]
-        code.append("    cmp rbx, rax"); code.append("    mov rax, 0")
-        if op=="<": code.append("    setl al")
-        elif op==">": code.append("    setg al")
-        elif op=="=": code.append("    sete al")
-        elif op=="≠": code.append("    setne al")
+        if op=="<":
+            code.append("    cmp rbx, rax")
+            code.append("    mov rax, 0")
+            code.append("    setl al")
+        elif op==">":
+            code.append("    cmp rbx, rax")
+            code.append("    mov rax, 0")
+            code.append("    setg al")
+        elif op=="=":
+            code.append("    cmp rbx, rax")
+            code.append("    mov rax, 0")
+            code.append("    sete al")
+        elif op=="≠":
+            code.append("    cmp rbx, rax")
+            code.append("    mov rax, 0")
+            code.append("    setne al")
+        elif op=="≥":
+            code.append("    cmp rbx, rax")
+            code.append("    mov rax, 0")
+            code.append("    setge al")
+        elif op=="≤":
+            code.append("    cmp rbx, rax")
+            code.append("    mov rax, 0")
+            code.append("    setle al")
+        elif op=="∧":
+            # Lazy ∧: right already compiled eagerly (non-condition usage).
+            code.append("    cmp rax, 0")
+            code.append(f"    je .sa0_{k}")
+            code.append("    cmp rbx, 0")
+            code.append("    setne al")
+            code.append(f"    jmp .sa1_{k}")
+            code.append(f".sa0_{k}:")
+            code.append("    mov rax, 0")
+            code.append(f".sa1_{k}:")
+        elif op=="∨":
+            # Lazy ∨: right already compiled eagerly (non-condition usage).
+            code.append("    cmp rax, 0")
+            code.append(f"    jne .so1_{k}")
+            code.append("    cmp rbx, 0")
+            code.append("    setne al")
+            code.append(f"    jmp .so0_{k}")
+            code.append(f".so1_{k}:")
+            code.append("    mov rax, 1")
+            code.append(f".so0_{k}:")
+            # NOTE: these branches are only reached when the comparison path
+            # pre-compiled both operands (e.g. nested ∧ inside text-equal etc.).
         return code
     if ن=="شرطي":
         _counters["cond"]+=1; k=_counters["cond"]
@@ -1253,9 +1334,8 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 pass
         for j,p in enumerate(params):
             inner_env["locals"][p]=(j+1)*8
-            if j<len(ARG_REGS):
-                inner_fc.append(f"    mov [rbp - {(j+1)*8}], {ARG_REGS[j]}")
         for ix,v in enumerate(free_vars): inner_env_layout[v]=8+ix*8
+        _param_movs=[f"    mov [rbp - {(j+1)*8}], {ARG_REGS[j]}" for j,p in enumerate(params) if j<len(ARG_REGS)]
         def inner_local_layout(var):
             n=local_counter[0]; local_counter[0]+=1
             off=(n+1)*8
@@ -1281,11 +1361,11 @@ def compile_expr(expr, env, funcs, env_layout=None):
             if stack_size%16!=0: stack_size+=8
             if stack_size==0: stack_size=16
             inner_fc.append(f"    sub rsp, {stack_size}")
-            for j,p in enumerate(params):
-                if j<len(ARG_REGS):
-                    inner_fc.append(f"    mov [rbp - {inner_env['locals'][p]}], {ARG_REGS[j]}")
+            inner_fc.extend(_param_movs)
             tail=body[2] if len(body)>2 else None
-            body_stmts=body[1]
+            body_stmts=list(body[1])
+            if tail is None and body_stmts and body_stmts[-1][0]=="تعبير":
+                tail=body_stmts[-1][1]; body_stmts=body_stmts[:-1]
             for s in body_stmts:
                 inner_fc.extend(compile_stmt_local(s,inner_env,funcs,inner_env_layout,None,False))
             if tail is not None:
@@ -1300,9 +1380,7 @@ def compile_expr(expr, env, funcs, env_layout=None):
             if stack_size%16!=0: stack_size+=8
             if stack_size==0: stack_size=16
             inner_fc.append(f"    sub rsp, {stack_size}")
-            for j,p in enumerate(params):
-                if j<len(ARG_REGS):
-                    inner_fc.append(f"    mov [rbp - {(j+1)*8}], {ARG_REGS[j]}")
+            inner_fc.extend(_param_movs)
             inner_fc.extend(compile_expr(body,inner_env,funcs,inner_env_layout))
         inner_fc+=["    leave","    ret"]
         funcs['bodies'].extend(inner_fc)
@@ -1361,6 +1439,20 @@ def compile_expr(expr, env, funcs, env_layout=None):
             return code
     if ن=="استدعاء":
         اسم=expr[1]; args=expr[2]
+        if isinstance(اسم, tuple) and len(اسم)==3 and اسم[0]=="استدعاء":
+            # المرحلة 50: تطبيق متسلسل f(a)(b) — اسم ليس نصًا بل استدعاء آخر
+            code=[]
+            for arg in args:
+                code.extend(compile_expr(arg,env,funcs,env_layout))
+                code.append("    push rax")
+            _inner_fn = اسم[1]
+            code.extend(compile_expr(اسم,env,funcs,env_layout))
+            for j in range(len(args)-1,-1,-1):
+                if j<len(ARG_REGS): code.append(f"    pop {ARG_REGS[j]}")
+            code.append("    push rbx")
+            code.append("    mov rbx, rax")   # rbx = closure الناتجة من f(a)
+            code+=["    mov r15, rbx","    mov r10, [rbx]","    call r10","    pop rbx"]
+            return code
         # المرحلة 45: استدعاء دالة سمة — dispatch حسب نوع الوسيط الأول
         _tr_fn = اسم in [fn for _d in _trait_registry.values() for fn, _ in _d]
         if _tr_fn and args:
@@ -1577,7 +1669,37 @@ def compile_expr(expr, env, funcs, env_layout=None):
                      "    mov rdx, [rbx]","    add rcx, rdx",
                      f".rc_pos_{k}:",
                      "    mov rax, [rbx]","    test rcx, rcx",f"    jl .ch_err_idx_{k}",f"    cmp rcx, rax",f"    jge .ch_err_{k}",
-                     "    movzx rax, byte [rbx + rcx + 8]",f"    jmp .ch_ok_{k}",
+                     "    movzx rax, byte [rbx + rcx + 8]",
+                     "    test al, 0x80",f"    jz .ch_ok_{k}",
+                     "    movzx rsi, al","    and esi, 0xE0",
+                     "    cmp esi, 0xC0",f"    jl .ch_invalid_{k}",
+                     "    cmp esi, 0xE0",f"    je .ch_two_{k}",
+                     "    cmp esi, 0xF0",f"    jb .ch_three_{k}",
+                     "    movzx rax, byte [rbx + rcx + 8]",
+                     "    and al, 0x07","    shl eax, 12",
+                     "    movzx rsi, byte [rbx + rcx + 9]",
+                     "    and esi, 0x3F","    shl esi, 6",
+                     "    or eax, esi",
+                     "    movzx rsi, byte [rbx + rcx + 10]",
+                     "    and esi, 0x3F","    shl esi, 6",
+                     "    or eax, esi",
+                     "    movzx rsi, byte [rbx + rcx + 11]",
+                     "    and esi, 0x3F",
+                     "    or eax, esi",f"    jmp .ch_ok_{k}",
+                     f".ch_three_{k}:",
+                     "    movzx rax, al","    and al, 0x0F","    shl eax, 6",
+                     "    movzx rsi, byte [rbx + rcx + 9]",
+                     "    and esi, 0x3F","    shl esi, 6",
+                     "    or eax, esi",
+                     "    movzx rsi, byte [rbx + rcx + 10]",
+                     "    and esi, 0x3F",
+                     "    or eax, esi",f"    jmp .ch_ok_{k}",
+                     f".ch_two_{k}:",
+                     "    movzx rax, al","    and al, 0x1F","    shl eax, 6",
+                     "    movzx rsi, byte [rbx + rcx + 9]",
+                     "    and esi, 0x3F",
+                     "    or eax, esi",f"    jmp .ch_ok_{k}",
+                     f".ch_invalid_{k}:","    mov rax, 0xFFFD",f"    jmp .ch_ok_{k}",
                      f".ch_err_idx_{k}:",f".ch_err_{k}:","    mov rax, 60","    mov rdi, 1","    syscall",
                      f".ch_ok_{k}:"]
             return code
@@ -1895,7 +2017,7 @@ def compile_stmt_local(stmt, env, funcs, locals_layout, type_env, is_last):
     ن=stmt[0]
     if ن in ["أسند","عرف"]:
         اسم=stmt[1]
-        if اسم not in env["globals"]: env["globals"][اسم]=len(env["globals"])
+        if اسم not in env["locals"] and اسم not in env["globals"]: env["globals"][اسم]=len(env["globals"])
         code=compile_expr(stmt[2],env,funcs,locals_layout)
         if اسم in env["locals"]:
             code.append(f"    mov [rbp - {env['locals'][اسم]}], rax")
@@ -1914,38 +2036,44 @@ def compile_stmt_local(stmt, env, funcs, locals_layout, type_env, is_last):
         return code
     if ن=="اطبع":
         e=stmt[1]
-        code=compile_expr(e,env,funcs)
+        code=compile_expr(e,env,funcs,locals_layout)
         نوع=استنتاج_نوع(e, type_env)
         code.append("    call print_str" if نوع=="نص" else "    call print_int")
         return code
     if ن=="استدعاء_جملة":
-        return compile_expr(stmt[1], env, funcs)
+        return compile_expr(stmt[1], env, funcs, locals_layout)
+    if ن=="تعبير":
+        return compile_expr(stmt[2], env, funcs, locals_layout)
     if ن=="كتلة":
         code=[]
-        for s in stmt[1]:
-            code.extend(compile_stmt(s,env,funcs,type_env))
+        body_stmts=list(stmt[1])
         tail=stmt[2] if len(stmt)>2 else None
+        if tail is None and body_stmts and body_stmts[-1][0]=="تعبير":
+            tail=body_stmts[-1][2]; body_stmts=body_stmts[:-1]
+        for i,s in enumerate(body_stmts):
+            _is_last=(i==len(body_stmts)-1) and (tail is None)
+            code.extend(compile_stmt_local(s,env,funcs,locals_layout,type_env,_is_last))
         if tail is not None:
-            code.extend(compile_expr(tail,env,funcs))
+            code.extend(compile_expr(tail,env,funcs,locals_layout))
         else:
             code.append("    xor rax, rax")
         return code
     if ن=="طالما":
         _counters["loop"]+=1; k=_counters["loop"]
         code=[f".while_{k}:"]
-        code.extend(compile_expr(stmt[1],env,funcs))
+        code.extend(compile_expr(stmt[1],env,funcs,locals_layout))
         code.append("    cmp rax, 0")
         code.append(f"    je .wend_{k}")
-        code.extend(compile_stmt(stmt[2],env,funcs,type_env))
+        code.extend(compile_stmt_local(stmt[2],env,funcs,locals_layout,type_env,False))
         code.append(f"    jmp .while_{k}")
         code.append(f".wend_{k}:")
         return code
     if ن=="لكل":
         _counters["loop"]+=1; k=_counters["loop"]
         متغير=stmt[1]; قائمة=stmt[2]; جسم=stmt[3]
-        if متغير not in env["globals"]: env["globals"][متغير]=len(env["globals"])
+        if متغير not in env["locals"] and متغير not in env["globals"]: env["globals"][متغير]=len(env["globals"])
         code=[]
-        code.extend(compile_expr(قائمة,env,funcs))
+        code.extend(compile_expr(قائمة,env,funcs,locals_layout))
         code += ["    mov r14, [rax]","    lea rbx, [rax + 16]",
                  f".fe_{k}:","    test r14, r14",f"    jz .feend_{k}",
                  "    mov rax, [rbx]"]
@@ -1954,7 +2082,7 @@ def compile_stmt_local(stmt, env, funcs, locals_layout, type_env, is_last):
         else:
             code.append(f"    mov [vars + {env['globals'][متغير]*8}], rax")
         code += ["    push rbx","    push r14"]
-        code.extend(compile_stmt(جسم,env,funcs,type_env))
+        code.extend(compile_stmt_local(جسم,env,funcs,locals_layout,type_env,False))
         code += ["    pop r14","    pop rbx","    add rbx, 8","    dec r14",
                  f"    jmp .fe_{k}",f".feend_{k}:"]
         return code
@@ -2007,6 +2135,8 @@ def compile_program(برنامج):
     asm.append("section .text")
     asm += ["_start_init:",
             "    lea rax, [arena_mem]",
+            "    add rax, 7",
+            "    and rax, -8",
             "    mov [arena_ptr], rax",
             "    jmp _start",
             "mmfail:","    mov rax, 60","    mov rdi, 2","    syscall", ""]
@@ -2058,7 +2188,7 @@ def compile_program(برنامج):
         "    mov rdi, 1","    mov rax, 1","    syscall",
         "    pop rdi","    pop rsi","    pop rdx","    pop rax","    ret",""]
     asm += ["section .data","nl_ptr: db 10","section .text",""]
-    asm += ["_start:","    lea rax, [arena_mem]","    mov [arena_ptr], rax",""]
+    asm += ["_start:","    lea rax, [arena_mem]","    add rax, 7","    and rax, -8","    mov [arena_ptr], rax",""]
     type_env={}
     # المرحلة 46: أنواع Result و Option مدمجة — لا تحتاج تعريف_نوع
     globals()['_type_registry']['نتيجة']=[('نجاح', 1), ('فشل', 1)]
