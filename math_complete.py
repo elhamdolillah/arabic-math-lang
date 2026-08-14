@@ -1110,9 +1110,9 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 code.append(f"    mov rax, [match_val]")
                 # تحقق: مؤشر heap صالح — يجب أن يكون داخل نطاق arena_mem
                 _counters["bmatch"]+=1; _kb=_counters["bmatch"]
-                code+=[f"    lea r10, [arena_mem]",
+                code+=[f"    mov r10, [arena_base]",          # المؤشر يجب أن يكون داخل الساحة الديناميكية: [base, limit)
                        f"    cmp rax, r10", f"    jb .mskip{k}_{idx}",
-                       f"    lea r10, [arena_mem + 262144]",
+                       f"    mov r10, [arena_limit]",
                        f"    cmp rax, r10", f"    jae .mskip{k}_{idx}",
                        f"    mov rbx, [rax + 8]"]
                 code.append(f"    cmp rbx, {_pb_tag}")
@@ -2135,9 +2135,10 @@ def compile_program(برنامج):
          "    match_val resq 1","    match_tmp resq 1",   # المرحلة 43: pattern matching
          "    file_path_buf resb 256",
          "    file_buf resb 4096",
-         "    arena_ptr resq 1","    arena_mem resb 262144",
+         "    arena_base resq 1","    arena_ptr resq 1","    arena_limit resq 1","    arena_chunk_size resq 1",
          "    fds_tmp resq 2",        # مؤقت للقنوات: [0]=read_fd [1]=write_fd
          "    chan_tmp resq 1",       # مؤقت للقيمة المرسلة/المستقبلة (8 بايت)
+# المرحلة 45: أرض — لا حد ثابت 262144، الذاكرة تُحجز ديناميكياً عبر mmap (انظر _start وarena_alloc)
         "    future_registry resq 1",    # المرحلة 47: جدول Futures
         "    epoll_events_buf resq 1",   # المرحلة 47: buffer أحداث epoll
         "    future_wake_buf resq 1"]    # المرحلة 47: buffer إيقاظ eventfd
@@ -2147,15 +2148,41 @@ def compile_program(برنامج):
     asm.append("")
     asm.append("section .text")
     asm += ["_start_init:",
-            "    lea rax, [arena_mem]",
-            "    add rax, 7",
-            "    and rax, -8",
-            "    mov [arena_ptr], rax",
-            "    jmp _start",
+            "    jmp _start",                                   # التهيئة عبر mmap في _start
             "mmfail:","    mov rax, 60","    mov rdi, 2","    syscall", ""]
-    asm += ["arena_alloc:","    mov rax, [arena_ptr]",
-            "    add rdi, 15","    and rdi, -16",
-            "    add [arena_ptr], rdi","    ret",""]
+    asm += ["arena_alloc:",
+            "    add rdi, 15","    and rdi, -16",           # rdi = الحجم المحاذى 16 بايت
+            "    mov rax, [arena_ptr]",                      # rax = المؤشر المرشّح للإرجاع
+            "    mov rdx, rax","    add rdx, rdi",           # rdx = الموضع بعد هذا التخصيص
+            "    cmp rdx, [arena_limit]",
+            "    jbe .aa_fits",                               # لا تُدرج تعليمات بين cmp وjbe
+            "    push rdi",                                  # احفظ الحجم (rdi يُمحى قبل syscall ثم يُستعاد عبر pop)
+            "    push r10",                                  # الكود المولّد يبقي r10 عبر نداءات arena_alloc
+            "    push r11",                                  # kernel يُمحي rcx/r11 عند syscall
+            "    mov rsi, [arena_chunk_size]",
+            "    cmp rsi, rdi","    jae .aa_sz_ok",
+            "    mov rsi, rdi",                               # القطعة تكفي هذا الطلب على الأقل
+            ".aa_sz_ok:",
+            "    push rsi",                                  # احفظ حجم القطعة — rsi يُمحى عند syscall (مثبت عبر gdb)
+            "    xor rdi, rdi",                               # addr=NULL
+            "    mov rdx, 3","    mov r10, 0x22",
+            "    mov r8, -1","    xor r9, r9",
+            "    mov rax, 9","    syscall",                  # sys_mmap — rax ← عنوان القطعة الجديدة
+            "    pop rsi",                                   # استعد حجم القطعة
+            "    cmp rax, 0","    js mmfail",
+            "    mov rdx, rax","    add rdx, rsi",
+            "    mov [arena_limit], rdx",                    # limit = base + chunk_size
+            "    mov rdx, [arena_chunk_size]","    shl rdx, 1",
+            "    mov [arena_chunk_size], rdx",               # مضاعفة القطعة القادمة (نمو هندسي)
+            "    mov [arena_ptr], rax",                      # rax = ناتج mmap مباشرة — بداية القطعة الجديدة
+            "    mov [arena_base], rax",                     # حدّث الحد الأدنى للمناطق الصالحة
+            "    pop r11",
+            "    pop r10",
+            "    pop rdi",
+            ".aa_fits:",
+            "    mov rdx, rax","    add rdx, rdi",
+            "    mov [arena_ptr], rdx",
+            "    ret",""]
     # المرحلة 43: علم السالب محلي على المكدس (آمن مع الخيوط المتوازية)
     asm += ["print_int:",
         "    sub rsp, 8",
@@ -2201,7 +2228,18 @@ def compile_program(برنامج):
         "    mov rdi, 1","    mov rax, 1","    syscall",
         "    pop rdi","    pop rsi","    pop rdx","    pop rax","    ret",""]
     asm += ["section .data","nl_ptr: db 10","section .text",""]
-    asm += ["_start:","    lea rax, [arena_mem]","    add rax, 7","    and rax, -8","    mov [arena_ptr], rax",""]
+    asm += ["_start:",
+            "    xor rdi, rdi","    mov rsi, 1048576",        # قطعة أولى: 1 ميغابايت
+            "    mov rdx, 3","    mov r10, 0x22",              # PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS
+            "    mov r8, -1","    xor r9, r9",
+            "    mov rax, 9","    syscall",
+            "    cmp rax, 0","    js mmfail",
+            "    mov [arena_base], rax",                       # بداية أول قطعة mmap
+            "    mov [arena_ptr], rax",
+            "    mov rdx, rax","    add rdx, 1048576",        # limit = base + 1MB
+            "    mov [arena_limit], rdx",
+            "    mov qword [arena_chunk_size], 2097152",       # القطعة القادمة: 2 ميغابايت (نمو مضاعف)
+            ""]
     type_env={}
     # المرحلة 46: أنواع Result و Option مدمجة — لا تحتاج تعريف_نوع
     globals()['_type_registry']['نتيجة']=[('نجاح', 1), ('فشل', 1)]
