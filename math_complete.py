@@ -1,4 +1,8 @@
-from lexicon_quranic_support import توليد_أسماء_بديلة_آمنة
+import importlib.util as _qiu, os as _qos
+_qs = _qiu.spec_from_file_location("lexicon_quranic_support", _qos.path.join(_qos.path.dirname(__file__) or ".", "lexicon", "lexicon_quranic_support.py"))
+_qsm = _qiu.module_from_spec(_qs)
+_qs.loader.exec_module(_qsm)
+توليد_أسماء_بديلة_آمنة = _qsm.توليد_أسماء_بديلة_آمنة
 # -*- coding: utf-8 -*-
 """
 اللغة الرياضية العربية - الملف المتكامل النهائي
