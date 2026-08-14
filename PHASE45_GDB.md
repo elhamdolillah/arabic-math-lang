@@ -44,3 +44,28 @@ indexing codegen في stage44 (فهرسة القوائم) يستخدم إزاح�
 ## إصلاحات P8/P9 لا تزال معلقة:
 - P8: type inference للـ trait calls (نص/عدد حسب body)
 - P9: dispatch fallback (متغير args، unambiguous impl)
+
+---
+
+# ✅ حلّ المرحلة 45 النهائي (14 أغسطس 2026)
+
+## الحالة النهائية
+- `test_phase50.py`: **8/8 ✅** (compat 50,120,75,21,25,77,50 + selfhost='5')
+- اختبار الضغط 2000 عنصر عبر `ألحق()` تراكمية (~16MB): **2000 / 2001000 ✅**
+- `apply_stage45.py` ينتج `math_complete_stage45.py` بخمسة patches على المحرك الرسمي
+
+## الأعطاب الجذرية النهائية المكتشفة عبر GDB
+
+### 1. خلل توازن المكدّس (SIGSEGV عند ret)
+كان `push rsi` مكرراً مرتين مع `pop rsi` واحدة → المكدّس ينمو 8 بايتات كل استدعاء نمو → ret يقفز لعنوان خاطئ.
+الحل: push rsi مرة واحدة فقط — بعد mov rsi,[arena_chunk_size] وقبل syscall. التوازن: push {rdi,r10,r11,rsi} ↔ pop {rsi,r11,r10,rdi}.
+
+### 2. arena_ptr يُعيَّن بالمؤشر القديم
+كان push rax يحفظ المؤشر القديم ثم pop rax; mov [arena_ptr],rax → الساحة كلها تبقى داخل القطعة القديمة المتناهية.
+الحل: حذف push rax/pop rax نهائيًا؛ mov [arena_ptr],rax وmov [arena_base],rax مباشرة من ناتج mmap.
+
+### 3. مزامنة anchors مع المحرك الرسمي (≥/≤)
+.bss يحوي chan_tmp resq 1؛ _start بالمحاذاة (add rax,7; and rax,-8)؛ _start_init يبقى jmp _start فقط؛ تحقق bmatch من [arena_base, arena_limit).
+
+## ملاحظات تشغيل
+دائماً: ulimit -v unlimited && PYTHONPATH=".:./lexicon". لإعادة البناء من الصفر: انسخ المحرك الرسمي أولاً (النسخة المحلية القديمة لا تدعم ≥/≤).
