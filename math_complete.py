@@ -2116,6 +2116,15 @@ def compile_program(برنامج):
         برنامج = وسّع_برنامج(برنامج)
     except ImportError:
         pass
+    # المرحلة 49: فحص التأكيدات الثابتة
+    try:
+        from phase49_types import فحص_التأكيدات, إعادة_تعيين
+        إعادة_تعيين()
+        فحص_التأكيدات()
+    except ImportError:
+        pass
+    except Exception as e:
+        raise Exception(f"خطأ في التأكيد الثابت: {e}")
     check_ownership(برنامج)
     asm=["global _start","section .bss",
          "    vars resq 256","    num_buf resb 32","    negflag resb 1","    read_buf resb 256",
