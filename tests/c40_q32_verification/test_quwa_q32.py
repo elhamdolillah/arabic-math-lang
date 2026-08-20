@@ -63,12 +63,12 @@ def run_case(work: Path, name: str, base: int, exponent: int) -> bool:
     source.write_text(f"⎕ قوة({base},{exponent})\n", encoding="utf-8")
     build = subprocess.run(
         [sys.executable, str(COMPILER), str(source)],
-        cwd=work, capture_output=True, text=True,
+        cwd=work, capture_output=True, text=True, timeout=30,
     )
     if build.returncode != 0:
         print(f"FAIL {name}: build\n{build.stdout}\n{build.stderr}")
         return False
-    run = subprocess.run([str(work / name)], cwd=work, capture_output=True, text=True)
+    run = subprocess.run([str(work / name)], cwd=work, capture_output=True, text=True, timeout=30)
     if run.returncode != 0:
         print(f"FAIL {name}: runtime rc={run.returncode}")
         return False
@@ -84,12 +84,12 @@ def expect_rejection(work: Path, name: str, base: int, exponent: int) -> bool:
     source.write_text(f"⎕ قوة({base},{exponent})\n", encoding="utf-8")
     build = subprocess.run(
         [sys.executable, str(COMPILER), str(source)],
-        cwd=work, capture_output=True, text=True,
+        cwd=work, capture_output=True, text=True, timeout=30,
     )
     if build.returncode != 0:
         print(f"OK {name}: rejected at build")
         return True
-    run = subprocess.run([str(work / name)], cwd=work, capture_output=True, text=True)
+    run = subprocess.run([str(work / name)], cwd=work, capture_output=True, text=True, timeout=30)
     ok = run.returncode != 0
     print(("OK" if ok else "FAIL"), name, "rejection", f"rc={run.returncode}")
     return ok
