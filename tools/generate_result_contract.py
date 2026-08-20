@@ -7,18 +7,25 @@ from pathlib import Path
 
 def _contract(spec: dict) -> dict:
     evidence = spec.get("عقد_الأدلة", {})
-    proof = spec.get("Coq") or spec.get("التحقق", {}).get("البرهان")
-    oracle = spec.get("oracle") or spec.get("التحقق", {}).get("oracle")
+    verification = spec.get("التحقق", {})
+    proof = spec.get("Coq") or verification.get("البرهان")
+    oracle = spec.get("oracle") or verification.get("oracle")
     implementation = spec.get("التنفيذ", "مطلوب")
+    rounding = spec.get("التقريب", {})
+    error_bound = spec.get("حد_الخطأ", rounding.get("حد_الخطأ", 16))
+    representation = spec.get("التمثيل", spec.get("التمثيل_الثابت", "مطلوب"))
+    domain = spec.get("المجال", "مطلوب")
+    if isinstance(domain, dict):
+        domain = domain.get("النوع", "مطلوب")
     return {
         "معرّف_النتيجة": "TEMPLATE-" + spec["المعرّف"],
         "القيمة": None,
         "الوحدة": "وحدة_الناتج",
         "الدالة": f'{spec["الاسم_العربي"]}@1',
         "المعادلة": spec["المعادلة"],
-        "المجال": spec["المجال"] if isinstance(spec["المجال"], str) else spec["المجال"]["النوع"],
-        "التمثيل": spec["التمثيل"],
-        "التقريب": {"السياسة": "الأقرب بعد الإسقاط", "حد_الخطأ": spec["حد_الخطأ"]},
+        "المجال": domain,
+        "التمثيل": representation,
+        "التقريب": {"السياسة": rounding.get("السياسة", "الأقرب بعد الإسقاط"), "حد_الخطأ": error_bound},
         "التحقق": {
             "اختبار_العتاد": spec.get("حالة_العتاد", "مطلوب"),
             "oracle": oracle,
