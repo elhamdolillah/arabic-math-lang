@@ -6,7 +6,7 @@ ROOT="${UORI_WORKTREE:-/home/uori-agent/uori_c40_work}"
 ORIGINAL="${UORI_ORIGINAL:-/home/uori-agent/lib/math_complete.py}"
 REPORTS="${UORI_REPORTS:-/home/uori-agent/uori_ci_reports}"
 LOCK="${UORI_LOCK:-/home/uori-agent/.uori_ci_gate.lock}"
-EXPECTED_ORIGINAL_SHA="${UORI_EXPECTED_ORIGINAL_SHA:-b325c4b2b57a1590a09d7d75701b32a0e139fd95acf89820b5f9fb2308929f2b}"
+EXPECTED_ORIGINAL_SHA="${UORI_EXPECTED_ORIGINAL_SHA:-8d8c9ab399a066b03da33af69dd6ec2c7e1ae9ebef4a2f21a037437ec8ce27ca}"
 MAX_DISK_PCT="${UORI_MAX_DISK_PCT:-90}"
 mkdir -p "$REPORTS"
 exec 9>"$LOCK"
@@ -51,10 +51,15 @@ printf '%s\n' '--- ENVIRONMENT ---'
 python3 --version || fail 'python3 missing'
 nasm -v || fail 'nasm missing'
 ld --version | head -n 1 || fail 'ld missing'
-python3 -m py_compile "$ROOT/lib/math_complete.py" "$ROOT/test_c40_reproduction.py" "$ROOT/test_c40_q32_stress.py" || fail 'py_compile'
+python3 -m py_compile "$ROOT/lib/math_complete.py" "$ROOT/test_c40_reproduction.py" "$ROOT/test_c40_q32_stress.py" "$ROOT/test_hypot_q32.py" || fail 'py_compile'
+if command -v coqc >/dev/null 2>&1 && [ -f "$ROOT/formal/C40_Q32_Hypot_Bounds.v" ]; then
+  coqc -q -Q "$ROOT/formal" UORI "$ROOT/formal/C40_Q32_Hypot_Bounds.v" || fail 'coq_hypot_bounds'
+else
+  fail 'coqc أو ملف برهان وتر مفقود'
+fi
 
 printf '%s\n' '--- HASH MANIFEST ---'
-sha256sum "$ORIGINAL" "$ROOT/lib/math_complete.py" "$ROOT/test_c40_reproduction.py" "$ROOT/test_c40_q32_stress.py" | tee "$OUT/hashes.sha256"
+sha256sum "$ORIGINAL" "$ROOT/lib/math_complete.py" "$ROOT/test_c40_reproduction.py" "$ROOT/test_c40_q32_stress.py" "$ROOT/test_hypot_q32.py" | tee "$OUT/hashes.sha256"
 
 auto_test(){
   local name="$1"; shift
@@ -70,6 +75,7 @@ auto_test(){
 
 auto_test c40_reproduction python3 "$ROOT/test_c40_reproduction.py"
 auto_test c40_q32_stress python3 "$ROOT/test_c40_q32_stress.py"
+auto_test hypot_q32 python3 "$ROOT/test_hypot_q32.py"
 
 if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   git -C "$ROOT" diff --check > "$OUT/diff_check.log" 2>&1 || fail 'diff --check'
