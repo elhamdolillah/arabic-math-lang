@@ -1566,20 +1566,72 @@ def compile_expr(expr, env, funcs, env_layout=None):
             ]
             return code
         if اسم=="قوة":
-            # المرحلة 40 (FFI): قوة(أ، ب) — أس صحيح: ب ضربات
+            # المرحلة 52: قوة Q32.32 — أس صحيح غير سالب في المجال 0..31.
+            # الخوارزمية square-and-multiply، وكل ضرب يعاد تحجيمه بقسمة 2^32.
             if len(args)!=2: raise Exception("قوة تأخذ وسيطين")
             _counters["empty"]+=1; k=_counters["empty"]
             code=compile_expr(args[0],env,funcs,env_layout)
             code.append("    push rax")
             code.extend(compile_expr(args[1],env,funcs,env_layout))
             code += [
-                "    mov rcx, rax",      # rcx = الأس ب
-                "    pop rax",            # rax = الأساس أ
-                "    mov r8, 1",          # result = 1
-                "    test rcx, rcx",f"    jz .pow_done_{k}",
-                f".pow_loop_{k}:","    imul r8, rax",
-                "    dec rcx",f"    jnz .pow_loop_{k}",
-                f".pow_done_{k}:","    mov rax, r8",
+                "    mov rcx, rax",                 # الأس الصحيح الخام
+                "    pop rax",                       # الأساس Q32.32
+                "    test rax, rax",
+                f"    jnz .pow_base_nonzero_{k}",
+                "    test rcx, rcx",                 # 0^0 مرفوض
+                f"    jz .pow_reject_{k}",
+                f".pow_base_nonzero_{k}:",
+                "    test rcx, rcx",
+                f"    js .pow_reject_{k}",           # الأس السالب مرفوض
+                "    cmp rcx, 31",
+                f"    ja .pow_reject_{k}",           # منع دورة غير محدودة
+                "    mov r9, rax",                   # العامل Q32.32
+                "    mov r8, 4294967296",            # النتيجة الابتدائية 1.0 Q32.32
+                f".pow_loop_{k}:",
+                "    test rcx, 1",
+                f"    jz .pow_skip_result_{k}",
+                "    mov rax, r8",
+                "    imul r9",                       # signed-128: rdx:rax
+                "    shrd rax, rdx, 32",
+                "    sar rdx, 32",
+                "    cmp rdx, 0",
+                f"    je .pow_res_nonneg_{k}",
+                "    cmp rdx, -1",
+                f"    jne .pow_reject_{k}",
+                "    test rax, rax",
+                f"    jns .pow_reject_{k}",
+                f"    jmp .pow_res_ready_{k}",
+                f".pow_res_nonneg_{k}:",
+                "    test rax, rax",
+                f"    js .pow_reject_{k}",
+                f".pow_res_ready_{k}:",
+                "    mov r8, rax",
+                f".pow_skip_result_{k}:",
+                "    shr rcx, 1",
+                f"    jz .pow_done_{k}",
+                "    mov rax, r9",
+                "    imul r9",                       # تربيع العامل في signed-128
+                "    shrd rax, rdx, 32",
+                "    sar rdx, 32",
+                "    cmp rdx, 0",
+                f"    je .pow_fac_nonneg_{k}",
+                "    cmp rdx, -1",
+                f"    jne .pow_reject_{k}",
+                "    test rax, rax",
+                f"    jns .pow_reject_{k}",
+                f"    jmp .pow_fac_ready_{k}",
+                f".pow_fac_nonneg_{k}:",
+                "    test rax, rax",
+                f"    js .pow_reject_{k}",
+                f".pow_fac_ready_{k}:",
+                "    mov r9, rax",
+                f"    jmp .pow_loop_{k}",
+                f".pow_done_{k}:",
+                "    mov rax, r8",
+                f"    jmp .pow_exit_{k}",
+                f".pow_reject_{k}:",
+                "    mov rax, 60", "    mov rdi, 1", "    syscall",
+                f".pow_exit_{k}:",
             ]
             return code
         if اسم=="وتر":
