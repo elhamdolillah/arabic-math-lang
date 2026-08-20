@@ -32,6 +32,8 @@ jobs:
         run: python3 tools/generate_result_contract.py specs/functions/watar.json > /tmp/watar_result_contract.json
       - name: Validate UORI function specification
         run: python3 -c 'import json; x=json.load(open("/tmp/watar_result_contract.json", encoding="utf-8")); assert x["الدالة"] == "وتر@1"; assert x["التقريب"]["حد_الخطأ"] == 16; assert "تشخيص آلي" in x["الاستخدام_الممنوع"]'
+      - name: Validate UORI function catalog
+        run: python3 tests/test_uori_function_catalog.py
       - name: Build independent C oracle
         run: cc -std=c11 -O2 tests/c40_q32_verification/ref_exp_q64.c -lm -o /tmp/ref_exp_q64
       - name: Run Q64.64 boundary oracle
