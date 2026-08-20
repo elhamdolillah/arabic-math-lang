@@ -17,7 +17,9 @@ jobs:
       - name: Install formal verification toolchain
         run: sudo apt-get update && sudo apt-get install -y coq
       - name: Build checked Coq Q64 model
-        run: coqc -q formal/C40_Q64_Model.v
+        run: coqc -q -Q formal UORI formal/C40_Q64_Model.v
+      - name: Build checked Q64 error bounds
+        run: coqc -q -Q formal UORI formal/C40_Q64_Error_Bounds.v
       - name: Python syntax check
         run: python3 -m py_compile math_complete.py
       - name: Build independent C oracle
