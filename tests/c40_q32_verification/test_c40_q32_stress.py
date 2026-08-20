@@ -12,7 +12,9 @@ import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parent
+if not (ROOT / "math_complete.py").is_file():
+    ROOT = Path(__file__).resolve().parents[2]
 LIB = ROOT
 LEXICON = ROOT / "lexicon"
 for مسار in (LIB, LEXICON):
