@@ -34,19 +34,24 @@
   "الخوارزمية_المستهدفة": "التربيع المتكرر والضرب بالأس في صورة square-and-multiply مع إعادة تحجيم Q32.32 بعد كل ضرب",
   "التنفيذ_الحالي": {
     "المسار": "math_complete.py:1568",
-    "الحالة": "غير متحقق",
-    "سبب_عدم_الاعتماد": "يستخدم imul على القيمة الخام ويبدأ الناتج من 1 دون إعادة تحجيم Q32.32، ولا يرفض الأس السالب أو يثبت الفيض"
+    "الحالة": "متحقق عددياً؛ الربط الدلالي مسودة قابلة للاختبار",
+    "سبب_عدم_الاعتماد": "لم تُغلق بعد لمم تطابق تعليمات imul وshrd وsar ومسارات الرفض مع نموذج Coq"
   },
   "الأدلة": {
     "oracle": "tests/c40_q32_verification/test_quwa_q32.py",
     "coq": "formal/C40_Q32_Pow_Bounds.v",
-    "assembly_relation": "غير مكتملة",
-    "hardware": "غير مكتمل",
-    "ci": "مطلوب بعد اجتياز oracle وCoq وعلاقة Assembly"
+    "coq_link_draft": "formal/C40_Q32_Pow_Semantic_Link.v",
+    "semantic_contract": "tests/c40_q32_verification/C40_POW_SEMANTIC_LINK_AR.md",
+    "structural_gate": "tests/c40_q32_verification/test_pow_semantic_link.py",
+    "assembly_model": "tests/c40_q32_verification/test_pow_assembly_model.py",
+    "x86_64_runtime": "tests/c40_q32_verification/test_pow_x86_runtime.py",
+    "assembly_relation": "مسودة؛ ثلاث فرضيات ربط ما زالت معلقة",
+    "hardware": "اختبار x86_64 فعلي ناجح في البيئة الحالية؛ لا يمثل تحققاً عاماً لكل العتاد",
+    "ci": "مضاف إلى .github/workflows/c40-q64.yml"
   },
   "الاستخدامات": {
     "مسموح": ["حساب عددي بحثي بعد نجاح البوابات"],
     "ممنوع": ["تشخيص آلي", "وصف علاج", "قرار سريري نهائي"]
   },
-  "حالة_المصنع": "مواصفة_قيد_الإثبات"
+  "حالة_المصنع": "implemented_numerically_verified_semantic_link_draft"
 }

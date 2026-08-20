@@ -26,8 +26,14 @@ jobs:
         run: coqc -q -Q formal UORI formal/C40_Q32_Hypot_Bounds.v
       - name: Build checked Q32 pow bounds
         run: coqc -q -Q formal UORI formal/C40_Q32_Pow_Bounds.v
+      - name: Build checked Q32 pow semantic-link draft
+        run: coqc -q -Q formal UORI formal/C40_Q32_Pow_Semantic_Link.v
+      - name: Build checked Q32 sqrt semantic-link draft
+        run: coqc -q -Q formal UORI formal/C40_Q32_Sqrt_Semantic_Link.v
+      - name: Build checked Q32 sqrt Newton-link contract
+        run: coqc -q -Q formal UORI formal/C40_Q32_Sqrt_Newton_Link.v
       - name: Python syntax check
-        run: python3 -m py_compile math_complete.py
+        run: python3 -m py_compile math_complete.py src/wasm_backend.py
       - name: Validate UORI evidence result contract
         run: python3 tests/test_uori_result_contract.py
       - name: Generate UORI watar result contract
@@ -50,3 +56,15 @@ jobs:
         run: python3 tests/c40_q32_verification/test_hypot_q32.py
       - name: Run Q32.32 pow gate
         run: python3 tests/c40_q32_verification/test_quwa_q32.py
+      - name: Run Q32.32 pow semantic-link structural gate
+        run: python3 tests/c40_q32_verification/test_pow_semantic_link.py
+      - name: Run Q32.32 pow signed-assembly model gate
+        run: python3 tests/c40_q32_verification/test_pow_assembly_model.py
+      - name: Run Q32.32 pow x86_64 runtime gate
+        run: python3 tests/c40_q32_verification/test_pow_x86_runtime.py
+      - name: Run Q32.32 pow instruction-semantics gate
+        run: python3 tests/c40_q32_verification/test_pow_shift_semantics.py
+      - name: Run Q32.32 sqrt semantic-model gate
+        run: python3 tests/c40_q32_verification/test_sqrt_semantic_link.py
+      - name: Run Q32.32 sqrt Newton-transition model gate
+        run: python3 tests/c40_q32_verification/test_sqrt_newton_model.py

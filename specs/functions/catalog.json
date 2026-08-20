@@ -55,8 +55,15 @@
       "التنفيذ": "math_complete.py",
       "oracle": "tests/c40_q32_verification/test_quwa_q32.py",
       "Coq": "formal/C40_Q32_Pow_Bounds.v",
-      "حالة_الإثبات": "حدود النموذج وتراكم خطأ الإسقاط وعدم الفيض مثبتة؛ الربط الدلالي مع Assembly يحتاج مرحلة مستقلة",
-      "حالة_العتاد": "oracle وبناء NASM/linker متحققان؛ اختبار العتاد المخصص قيد الربط ببوابة CI"
+      "Coq_الربط": "formal/C40_Q32_Pow_Semantic_Link.v",
+      "عقد_الربط": "tests/c40_q32_verification/C40_POW_SEMANTIC_LINK_AR.md",
+      "محاكي_Assembly": "tests/c40_q32_verification/test_pow_assembly_model.py",
+      "اختبار_الربط_البنيوي": "tests/c40_q32_verification/test_pow_semantic_link.py",
+      "اختبار_x86_64": "tests/c40_q32_verification/test_pow_x86_runtime.py",
+      "فحص_دلالة_التعليمات": "tests/c40_q32_verification/test_pow_shift_semantics.py",
+      "حالة_الإثبات": "حدود النموذج ولمم الحالة والضرب والتحجيم المجردة مجمعة؛ واجهات ربط Assembly صريحة لكن فرضيات تنفيذها ما زالت مفتوحة",
+      "حالة_العتاد": "اختبار x86_64 فعلي ناجح في بيئة CI الحالية؛ لا يمثل تغطية كل المعالجات أو إثباتاً رسمياً",
+      "حالة_المصنع": "implemented_numerically_verified_semantic_link_draft"
     }
   ]
 }
