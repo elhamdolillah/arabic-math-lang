@@ -1,4 +1,5 @@
-import importlib.util as _qiu, os as _qos
+import importlib.util as _qiu, os as _qos, sys as _qsys
+_qsys.path.insert(0, _qos.path.join(_qos.path.dirname(__file__) or ".", "lexicon"))
 _qs = _qiu.spec_from_file_location("lexicon_quranic_support", _qos.path.join(_qos.path.dirname(__file__) or ".", "lexicon", "lexicon_quranic_support.py"))
 _qsm = _qiu.module_from_spec(_qs)
 _qs.loader.exec_module(_qsm)
@@ -1576,21 +1577,29 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 code += ["    test rax, rax",f"    jns .abs_pos_{k}","    neg rax",f".abs_pos_{k}:"]
             elif اسم=="أرضية":
                 code += ["    nop"]  # الأعداد الصحيحة: أرضية(x)=x بالفعل
-            else:  # جذر: جذر صحيح bit-by-bit (أصلي بدون libc): result|=step إذا result²≤x
+            else:  # جذر Q32.32: احسب floor(sqrt(x << 32)) بمقارنة 128-بت
+                # النتيجة والوسيط كلاهما Q32.32. يبدأ المرشح من 2^47،
+                # لأن أكبر جذر لقيمة signed-Q32.32 يقع دون 2^48.
+                # لا يوجد overflow: المرشح² أقل من 2^96، و(x << 32) من 96 بت.
                 code += [
-                    "    test rax, rax",f"    jns .sqrt_pos_{k}","    mov rax, 60","    mov rdi, 1","    syscall",
-                    f".sqrt_pos_{k}:",                    "    push r11","    mov r11, rax",  # r11 = x (محفوظ لأن syscall يتلفه)
-                    "    mov r10, 0",                     # result في r10 (imul الأحادي يتلف rax)
-                    "    mov r8, 1", "    shl r8, 30",     # step = 2^30 (أكبر بت جذر لعدد 62-بت)
+                    "    test rax, rax", f"    jns .sqrt_pos_{k}",
+                    "    mov rax, 60", "    mov rdi, 1", "    syscall",
+                    f".sqrt_pos_{k}:",
+                    "    mov r11, rax",                 # x Q32.32
+                    "    mov r12, r11", "    shl r12, 32", # N low = x << 32
+                    "    mov r13, r11", "    shr r13, 32", # N high = x >> 32
+                    "    xor r10, r10",                 # result
+                    "    mov r8, 1", "    shl r8, 47",    # أعلى بت في sqrt(Q32.32)
                     f".sq_loop_{k}:",
-                    "    mov r9, r10", "    or r9, r8",     # r9 = المرشّح result | step
-                    "    mov rax, r9", "    imul rax",         # rdx:rax = المرشّح² (الصيغة الأحادية تعطي حاصل الضرب الكامل 128-بت)
-                    "    test rdx, rdx", f"    jnz .sq_skip_{k}",  # التربيع تجاوز 64-بت → تخطَّ
-                    "    cmp rax, r11", f"    ja .sq_skip_{k}",
-                    "    mov r10, r9",                     # result = المرشّح
-                    f".sq_skip_{k}:","    shr r8, 1", "    test r8, r8", f"    jnz .sq_loop_{k}",
-                    "    mov rax, r10",                    # أعِد result في rax
-                    "    pop r11",                         # استعد r11
+                    "    mov r9, r10", "    or r9, r8",    # candidate
+                    "    mov rax, r9", "    mul r9",        # rdx:rax = candidate²
+                    "    cmp rdx, r13", f"    ja .sq_skip_{k}",
+                    f"    jb .sq_take_{k}",
+                    "    cmp rax, r12", f"    ja .sq_skip_{k}",
+                    f".sq_take_{k}:", "    mov r10, r9",
+                    f".sq_skip_{k}:",
+                    "    shr r8, 1", "    test r8, r8", f"    jnz .sq_loop_{k}",
+                    "    mov rax, r10",
                 ]
             return code
         if اسم=="رأس":

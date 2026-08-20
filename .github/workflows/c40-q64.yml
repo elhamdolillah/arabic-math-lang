@@ -20,6 +20,8 @@ jobs:
         run: coqc -q -Q formal UORI formal/C40_Q64_Model.v
       - name: Build checked Q64 error bounds
         run: coqc -q -Q formal UORI formal/C40_Q64_Error_Bounds.v
+      - name: Build checked Q32 sqrt bounds
+        run: coqc -q -Q formal UORI formal/C40_Q32_Sqrt_Bounds.v
       - name: Python syntax check
         run: python3 -m py_compile math_complete.py
       - name: Build independent C oracle
@@ -28,3 +30,5 @@ jobs:
         run: /tmp/ref_exp_q64
       - name: Run Q32.32 C40 stress gate
         run: python3 tests/c40_q32_verification/test_c40_q32_stress.py
+      - name: Run Q32.32 sqrt gate
+        run: python3 tests/c40_q32_verification/test_sqrt_q32.py
