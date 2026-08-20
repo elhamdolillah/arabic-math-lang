@@ -10,7 +10,7 @@ def main() -> None:
     items = data["الدوال"]
     assert len(items) >= 20
     verified = {x["الاسم"] for x in items if x["الحالة"] == "نموذج_مثبت_والتنفيذ_متحقق"}
-    assert verified == {"أُس", "جذر", "وتر"}
+    assert verified == {"أُس", "جذر", "وتر", "قوة"}
     for item in items:
         assert item["الحالة"]
         if item["الحالة"] != "نموذج_مثبت_والتنفيذ_متحقق":

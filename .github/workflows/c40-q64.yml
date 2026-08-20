@@ -24,6 +24,8 @@ jobs:
         run: coqc -q -Q formal UORI formal/C40_Q32_Sqrt_Bounds.v
       - name: Build checked Q32 hypot bounds
         run: coqc -q -Q formal UORI formal/C40_Q32_Hypot_Bounds.v
+      - name: Build checked Q32 pow bounds
+        run: coqc -q -Q formal UORI formal/C40_Q32_Pow_Bounds.v
       - name: Python syntax check
         run: python3 -m py_compile math_complete.py
       - name: Validate UORI evidence result contract
@@ -46,3 +48,5 @@ jobs:
         run: python3 tests/c40_q32_verification/test_sqrt_q32.py
       - name: Run Q32.32 hypot gate
         run: python3 tests/c40_q32_verification/test_hypot_q32.py
+      - name: Run Q32.32 pow gate
+        run: python3 tests/c40_q32_verification/test_quwa_q32.py
