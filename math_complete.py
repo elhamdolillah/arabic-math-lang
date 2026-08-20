@@ -46,7 +46,7 @@ def بحث_رمز_في_القاموس(نص):
     "…":"…",    'نوع':'نوع',    'سمة':'سمة',    'تطبيق':'تطبيق',    'على':'على',
     "↻":"↻",    'بانتظار':'بانتظار',    'بدء':'بدء',    'طول':'طول',    'رأس':'رأس',
     'ذيل':'ذيل',    'ألحق':'ألحق',    'نص':'نص',    'عدد':'عدد',    'مجموع_قائمة':'مجموع_قائمة',
-    'جذر':'جذر',    'قوة':'قوة',    'مطلق':'مطلق',    'توازي':'توازي',    'قناة':'قناة',
+    'جذر':'جذر',    'وتر':'وتر',    'قوة':'قوة',    'مطلق':'مطلق',    'توازي':'توازي',    'قناة':'قناة',
     'أرسل':'أرسل',    'استقبل':'استقبل',    'فتح':'فتح',    'اكتب_ملف':'اكتب_ملف',    'اقرأ_ملف':'اقرأ_ملف',
     'اختم':'اختم'
 }
@@ -831,7 +831,7 @@ def استنتاج_نوع(expr, type_env):
         if اسم in ["فشل","لاشيء"]: return "مجهول"
         if اسم=="أس" or اسم=="أُس": return "عدد"
         if اسم in ["طول","حجم","أحص"]: return "عدد"
-        if اسم in ["جذر","أرضية","قوة","مطلق","مجموع_قائمة"]: return "عدد"
+        if اسم in ["جذر","وتر","أرضية","قوة","مطلق","مجموع_قائمة"]: return "عدد"
         if اسم=="ذيل": return "قائمة"
         if اسم=="رمز": return "عدد"
         if اسم=="نص": return "نص"
@@ -873,6 +873,20 @@ def استنتاج_نوع_جملة(stmt, type_env):
 
 ARG_REGS = ["rdi","rsi","rdx","rcx","r8","r9"]
 _counters = {"cond":0,"empty":0,"copy":0,"loop":0,"scmp":0,"tq":0,"index":0,"bmatch":0,"scand":0,"scor":0}
+
+def emit_sqrt_q128(k, low_reg="r12", high_reg="r13"):
+    """لبّ واحد لجذر صحيح: أكبر r بحيث r² <= high:low، مع خرج Q32.32."""
+    return [
+        "    xor r10, r10",
+        "    mov r9, 0x4000000000000000",
+        f".sq128_loop_{k}:",
+        "    mov r8, r10", "    or r8, r9", "    mov rax, r8", "    mul r8",
+        f"    cmp rdx, {high_reg}", f"    ja .sq128_skip_{k}",
+        f"    jb .sq128_take_{k}", f"    cmp rax, {low_reg}", f"    ja .sq128_skip_{k}",
+        f".sq128_take_{k}:", "    mov r10, r8",
+        f".sq128_skip_{k}:", "    shr r9, 1", "    test r9, r9", f"    jnz .sq128_loop_{k}",
+        "    mov rax, r10",
+    ]
 
 # المرحلة 44: الأنواع الجبرية — سجل الأنواع
 _trait_registry = {}   # اسم_السمة → [(اسم_الدالة, عدد_المعاملات), ...]
@@ -1568,6 +1582,32 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 f".pow_done_{k}:","    mov rax, r8",
             ]
             return code
+        if اسم=="وتر":
+            # المرحلة 51: وتر(س،ص) — جذر مجموع المربعات في Q32.32.
+            # تُحسب المربعات كـ 128-bit، ثم يُستخدم بحث بتّي مشترك مع لبّ جذر.
+            if len(args)!=2: raise Exception("وتر تأخذ وسيطين")
+            _counters["empty"]+=1; k=_counters["empty"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    push rax")
+            code.extend(compile_expr(args[1],env,funcs,env_layout))
+            code += [
+                "    mov r8, rax", "    pop rax",             # س في rax، ص في r8
+                "    test rax, rax", f"    jns .hyp_xpos_{k}", "    neg rax", f".hyp_xpos_{k}:",
+                "    test r8, r8", f"    jns .hyp_ypos_{k}", "    neg r8", f".hyp_ypos_{k}:",
+                "    mov r9, rax", "    mul r9",               # ص²: r11:r10
+                "    mov r10, rax", "    mov r11, rdx",
+                "    mov rax, r8", "    mul r8",                # ص² مؤقتاً في rdx:rax
+                "    add r10, rax", "    adc r11, rdx",         # N = س² + ص²
+                f"    jc .hyp_overflow_{k}",
+                "    mov r12, r10", "    mov r13, r11",     # حفظ N قبل استعمال r10 للنتيجة
+                "    mov rax, 0x4000000000000000", "    cmp r13, rax", # N >= 2^126 لا يمثل في signed Q32.32
+                f"    jae .hyp_overflow_{k}",
+                *emit_sqrt_q128(k, "r12", "r13"),
+                f"    jmp .hyp_done_{k}",
+                f".hyp_overflow_{k}:", "    mov rax, 60", "    mov rdi, 1", "    syscall",
+                f".hyp_done_{k}:",
+            ]
+            return code
         if اسم=="جذر" or اسم=="أرضية" or اسم=="مطلق":
             # المرحلة 40 (FFI): جذر/أرضية/مطلق — تنفيذ أصيل بدون libc
             if len(args)!=1: raise Exception(f"{اسم} تأخذ وسيطاً واحداً")
@@ -1588,18 +1628,7 @@ def compile_expr(expr, env, funcs, env_layout=None):
                     "    mov r11, rax",                 # x Q32.32
                     "    mov r12, r11", "    shl r12, 32", # N low = x << 32
                     "    mov r13, r11", "    shr r13, 32", # N high = x >> 32
-                    "    xor r10, r10",                 # result
-                    "    mov r8, 1", "    shl r8, 47",    # أعلى بت في sqrt(Q32.32)
-                    f".sq_loop_{k}:",
-                    "    mov r9, r10", "    or r9, r8",    # candidate
-                    "    mov rax, r9", "    mul r9",        # rdx:rax = candidate²
-                    "    cmp rdx, r13", f"    ja .sq_skip_{k}",
-                    f"    jb .sq_take_{k}",
-                    "    cmp rax, r12", f"    ja .sq_skip_{k}",
-                    f".sq_take_{k}:", "    mov r10, r9",
-                    f".sq_skip_{k}:",
-                    "    shr r8, 1", "    test r8, r8", f"    jnz .sq_loop_{k}",
-                    "    mov rax, r10",
+                    *emit_sqrt_q128(k, "r12", "r13"),
                 ]
             return code
         if اسم=="رأس":
