@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/elhamdolillah/arabic-math-lang/tree/main/schemas/uori_result_contract.schema.json",
+  "title": "UORI Evidence Result Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["معرّف_النتيجة", "القيمة", "الوحدة", "الدالة", "المعادلة", "المجال", "التمثيل", "التقريب", "التحقق", "provenance", "قوة_الدليل", "الاستخدام_المسموح", "الاستخدام_الممنوع"],
+  "properties": {
+    "معرّف_النتيجة": {"type": "string", "minLength": 1},
+    "القيمة": {},
+    "الوحدة": {"type": "string", "minLength": 1},
+    "الدالة": {"type": "string", "minLength": 1},
+    "المعادلة": {"type": "string", "minLength": 1},
+    "المجال": {"type": "string", "minLength": 1},
+    "التمثيل": {"type": "object", "required": ["خارجي", "داخلي", "الفيض"], "additionalProperties": true},
+    "التقريب": {"type": "object", "required": ["السياسة", "حد_الخطأ"], "properties": {"السياسة": {"type": "string"}, "حد_الخطأ": {"type": "integer", "minimum": 0}}, "additionalProperties": true},
+    "التحقق": {"type": "object", "required": ["اختبار_العتاد", "oracle", "Coq"], "additionalProperties": true},
+    "provenance": {"type": "object", "required": ["المصدر", "التحويلات"], "additionalProperties": true},
+    "قوة_الدليل": {"type": "string", "enum": ["A", "B", "C", "D", "E"]},
+    "الاستخدام_المسموح": {"type": "array", "items": {"type": "string"}},
+    "الاستخدام_الممنوع": {"type": "array", "items": {"type": "string"}}
+  }
+}
