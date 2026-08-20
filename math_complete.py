@@ -1499,46 +1499,56 @@ def compile_expr(expr, env, funcs, env_layout=None):
                     return code
         if اسم=="أس" or اسم=="أُس":        اسم=expr[1]; args=expr[2]
         if اسم=="أس" or اسم=="أُس":
-            # المرحلة 44: أُس حتمي — exp() بالفاصلة الثابتة Q32.32
-            # خوارزمية: k=round(x·INVLN2/2^64)، r=x−k·LN2، Horner درجة 12، ثم إزاحة 2^k
+            # المرحلة 44: أُس حتمي — Q64.64 داخلي؛ h ممثل في 65 بت (r10:r8)
+            # لأن 1.0 في Q64.64 هو 2^64. حاصل ضرب 64x64 يعطي 128 بت.
             if len(args)!=1: raise Exception("أُس تأخذ وسيطاً واحداً")
             _counters["empty"]+=1; k=_counters["empty"]
             code=compile_expr(args[0],env,funcs,env_layout)
-            code += ["    push rdi", "    push r8"]
+            code += ["    push rdi", "    push r8", "    push r9", "    push r10", "    push r11"]
             code += [
-                "    mov rbx, rax",                       # rbx = x (Q32.32)
+                "    mov rbx, rax",                       # x Q32.32
                 "    mov rax, rbx",
-                "    mov rdx, 6196328019",                 # INVLN2_Q32 (mov r64, imm64)
-                "    imul rdx",                            # rdx:rax = x·INVLN2 (Q64.64)
-                "    mov r8, 2147483648",                  # 2^31 — تقريب لأقرب (يلزم r8 لأن add r64,imm لا يقبل 2^31)
-                "    add rax, r8",
-                "    adc rdx, 0",
-                "    mov rdi, rdx",                        # rdi = k
-                "    mov rax, rdi",
-                "    mov rdx, 2977044472",                 # LN2_Q32
-                "    imul rdx",                            # rdx:rax = k·LN2 (rdx صغير — تجاهله)
-                "    sub rbx, rax",                        # rbx = r = x−k·LN2 (Q32.32)
-                "    mov rax, 9",                          # c12
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 108",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 1184",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 11836",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 106522",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 852176",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 5965232",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 35791394",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 178956971",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, 715827883",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    add rax, r8",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    mov r8, 4294967296", "    add rax, r8",
-                "    mov rdx, rbx", "    imul rdx", "    mov rcx, rax", "    shr rcx, 32", "    shl rdx, 32", "    or rdx, rcx", "    mov rax, rdx", "    mov r8, 4294967296", "    add rax, r8",
-                f"    mov rcx, rdi",                        # rcx = k (محفوظة في rdi)
-                f"    test rcx, rcx", f"    jns .uexp_pos_{k}",
-                f"    neg rcx", f"    sar rax, cl", f"    jmp .uexp_done_{k}",
-                f".uexp_pos_{k}:", f"    shl rax, cl",
-                f".uexp_done_{k}:",
+                "    mov rdx, 6196328019",                 # 1/ln(2) Q32.32
+                "    imul rdx",                            # x*invln2 Q64.64
+                "    mov rcx, 0x8000000000000000",
+                "    test rdx, rdx",
+                f"    js .uexp_kneg_{k}",
+                "    add rax, rcx", "    adc rdx, 0", "    mov rdi, rdx",
+                f"    jmp .uexp_kdone_{k}",
+                f".uexp_kneg_{k}:",
+                "    neg rax", "    adc rdx, 0", "    neg rdx",
+                "    add rax, rcx", "    adc rdx, 0", "    mov rdi, rdx", "    neg rdi",
+                f".uexp_kdone_{k}:",
+                "    mov rax, rdi", "    mov rdx, 12786308645202655660", "    imul rdx", # k*ln2 Q64.64
+                "    mov r9, rbx", "    shl r9, 32", "    mov r10, rbx", "    sar r10, 32",
+                "    sub r9, rax", "    sbb r10, rdx",       # signed 128-bit residual; low word is sufficient after range reduction
+                "    mov r8, 881658", "    xor r10, r10", # h=1/16!, high word 0
             ]
-            code.append("    pop r8")
-            code.append("    pop rdi")
+            coeffs = [(14106527,0),(211597908,0),(2962370717,0),(38510819324,0),(462129831893,0),(5083428150824,0),(50834281508238,0),(457508533574146,0),(3660068268593165,0),(25620477880152156,0),(153722867280912928,0),(768614336404564608,0),(3074457345618258432,0),(9223372036854775808,0),(0,1),(0,1)]
+            for j, (low, high) in enumerate(coeffs):
+                code += [
+                    "    test r9, r9", f"    js .uexp_mneg{j}_{k}",
+                    "    mov rax, r9", "    mul r8",          # positive residual * h_low
+                    "    mov rcx, 0x8000000000000000", "    add rax, rcx", "    adc rdx, 0",
+                    "    mov r11, rdx", "    test r10, r10", f"    jz .uexp_nohi{j}_{k}", "    xor r10, r10", "    add r11, r9", "    adc r10, 0", f"    jmp .uexp_hiready{j}_{k}",
+                    f".uexp_nohi{j}_{k}:", "    xor r10, r10", f".uexp_hiready{j}_{k}:",
+                    "    mov r8, r11", "    mov r11, %d" % low, "    add r8, r11", "    adc r10, %d" % high,
+                    f"    jmp .uexp_mdone{j}_{k}",
+                    f".uexp_mneg{j}_{k}:",
+                    "    mov rbx, r9", "    neg rbx", "    mov rax, rbx", "    mul r8",
+                    "    mov rcx, 0x8000000000000000", "    add rax, rcx", "    adc rdx, 0",
+                    "    mov r11, rdx", "    test r10, r10", f"    jz .uexp_nohineq{j}_{k}", "    xor r10, r10", "    add r11, rbx", "    adc r10, 0", f"    jmp .uexp_hinegready{j}_{k}",
+                    f".uexp_nohineq{j}_{k}:", "    xor r10, r10", f".uexp_hinegready{j}_{k}:", "    neg r11", "    sbb r10, r10",
+                    "    mov r8, r11", "    mov r11, %d" % low, "    add r8, r11", "    adc r10, %d" % high,
+                    f".uexp_mdone{j}_{k}:",
+                ]
+            code += [
+                "    mov rcx, rdi", "    mov rax, r8", "    mov rdx, r10", "    test rcx, rcx",
+                f"    jns .uexp_pos_{k}", "    neg rcx", "    shrd rax, rdx, cl", "    shr rdx, cl", f"    jmp .uexp_shifted_{k}",
+                f".uexp_pos_{k}:", "    shld rdx, rax, cl", "    shl rax, cl",
+                f".uexp_shifted_{k}:", "    shrd rax, rdx, 32",
+                "    pop r11", "    pop r10", "    pop r9", "    pop r8", "    pop rdi",
+            ]
             return code
         if اسم=="قوة":
             # المرحلة 40 (FFI): قوة(أ، ب) — أس صحيح: ب ضربات
