@@ -48,7 +48,14 @@ static long long exp_q64_model(long long x_q32) {
     return (long long)q32;
 }
 
-int main(void) {
+int main(int argc, char **argv) {
+    if (argc > 1) {
+        for (int i = 1; i < argc; ++i) {
+            long long x = strtoll(argv[i], NULL, 10);
+            printf("%lld\n", exp_q32_reference(x));
+        }
+        return 0;
+    }
     const long long inputs[] = {0, 1, -1, 1LL<<32, -(1LL<<32), 2LL<<32,
         -(2LL<<32), 4LL<<32, 8LL<<32, 16LL<<32,
         91912300134LL, -91912300134LL};

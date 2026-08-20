@@ -18,3 +18,5 @@ jobs:
         run: cc -std=c11 -O2 tests/c40_q32_verification/ref_exp_q64.c -lm -o /tmp/ref_exp_q64
       - name: Run Q64.64 boundary oracle
         run: /tmp/ref_exp_q64
+      - name: Run Q32.32 C40 stress gate
+        run: python3 tests/c40_q32_verification/test_c40_q32_stress.py
