@@ -4,7 +4,12 @@
   "title": "UORI Evidence Result Contract",
   "type": "object",
   "additionalProperties": false,
-  "required": ["معرّف_النتيجة", "القيمة", "الوحدة", "الدالة", "المعادلة", "المجال", "التمثيل", "التقريب", "التحقق", "provenance", "قوة_الدليل", "الاستخدام_المسموح", "الاستخدام_الممنوع"],
+  "required": [
+    "معرّف_النتيجة", "القيمة", "الوحدة", "الدالة", "المعادلة", "المجال",
+    "التمثيل", "التقريب", "التحقق", "provenance", "قوة_الدليل",
+    "نمط_الاستدلال", "حالة_الدليل", "وسم_الدليل",
+    "الاستخدام_المسموح", "الاستخدام_الممنوع"
+  ],
   "properties": {
     "معرّف_النتيجة": {"type": "string", "minLength": 1},
     "القيمة": {},
@@ -13,11 +18,71 @@
     "المعادلة": {"type": "string", "minLength": 1},
     "المجال": {"type": "string", "minLength": 1},
     "التمثيل": {"type": "object", "required": ["خارجي", "داخلي", "الفيض"], "additionalProperties": true},
-    "التقريب": {"type": "object", "required": ["السياسة", "حد_الخطأ"], "properties": {"السياسة": {"type": "string"}, "حد_الخطأ": {"type": "integer", "minimum": 0}}, "additionalProperties": true},
+    "التقريب": {
+      "type": "object",
+      "required": ["السياسة", "حد_الخطأ"],
+      "properties": {
+        "السياسة": {"type": "string"},
+        "حد_الخطأ": {"type": "integer", "minimum": 0, "maximum": 16}
+      },
+      "additionalProperties": true
+    },
     "التحقق": {"type": "object", "required": ["اختبار_العتاد", "oracle", "Coq"], "additionalProperties": true},
     "provenance": {"type": "object", "required": ["المصدر", "التحويلات"], "additionalProperties": true},
     "قوة_الدليل": {"type": "string", "enum": ["A", "B", "C", "D", "E"]},
+    "نمط_الاستدلال": {"type": "string", "enum": ["حتمي", "فتري", "احتمالي", "توليدي", "امتناع"]},
+    "حالة_الدليل": {"type": "string", "enum": ["كافٍ", "غير_كافٍ", "مقترح"]},
+    "وسم_الدليل": {"type": "string", "enum": ["DETERMINISTIC", "INTERVAL", "PROBABILISTIC", "AI-HYPOTHESIS", "INSUFFICIENT-EVIDENCE"]},
+    "سبب_الامتناع": {"type": "string", "minLength": 1},
     "الاستخدام_المسموح": {"type": "array", "items": {"type": "string"}},
     "الاستخدام_الممنوع": {"type": "array", "items": {"type": "string"}}
-  }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"نمط_الاستدلال": {"const": "امتناع"}}},
+      "then": {
+        "required": ["سبب_الامتناع"],
+        "properties": {
+          "حالة_الدليل": {"const": "غير_كافٍ"},
+          "وسم_الدليل": {"const": "INSUFFICIENT-EVIDENCE"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"نمط_الاستدلال": {"const": "حتمي"}}},
+      "then": {
+        "properties": {
+          "حالة_الدليل": {"const": "كافٍ"},
+          "وسم_الدليل": {"const": "DETERMINISTIC"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"نمط_الاستدلال": {"const": "فتري"}}},
+      "then": {
+        "properties": {
+          "حالة_الدليل": {"const": "كافٍ"},
+          "وسم_الدليل": {"const": "INTERVAL"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"نمط_الاستدلال": {"const": "احتمالي"}}},
+      "then": {
+        "properties": {
+          "حالة_الدليل": {"const": "كافٍ"},
+          "وسم_الدليل": {"const": "PROBABILISTIC"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"نمط_الاستدلال": {"const": "توليدي"}}},
+      "then": {
+        "properties": {
+          "حالة_الدليل": {"enum": ["غير_كافٍ", "مقترح"]},
+          "وسم_الدليل": {"const": "AI-HYPOTHESIS"}
+        }
+      }
+    }
+  ]
 }
