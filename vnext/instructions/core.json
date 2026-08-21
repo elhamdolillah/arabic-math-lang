@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UORI v9 Core Instructions",
+  "version": "9.0.0-rebuild",
+  "evidence_mode": "DETERMINISTIC",
+  "instructions": [
+    {
+      "id": "bind",
+      "symbol": "≔",
+      "meaning": "إسناد اسم إلى قيمة جديدة",
+      "inputs": ["name", "value"],
+      "outputs": ["binding"],
+      "ownership": "value_moves_to_binding",
+      "side_effects": [],
+      "formal_status": "specified"
+    },
+    {
+      "id": "move",
+      "symbol": "⊸",
+      "meaning": "نقل ملكية مورد خطي",
+      "inputs": ["owned_resource"],
+      "outputs": ["owned_resource"],
+      "ownership": "old_owner_invalidated_new_owner_created",
+      "side_effects": ["ownership_trace"],
+      "formal_status": "specified"
+    },
+    {
+      "id": "print",
+      "symbol": "⎕",
+      "meaning": "إخراج قيمة موصوفة",
+      "inputs": ["value"],
+      "outputs": ["io_receipt"],
+      "ownership": "value_borrowed",
+      "side_effects": ["file/trace"],
+      "formal_status": "specified"
+    },
+    {
+      "id": "read",
+      "symbol": "⊙",
+      "meaning": "إدخال قيمة مع سجل مصدر",
+      "inputs": ["source"],
+      "outputs": ["value", "provenance"],
+      "ownership": "source_borrowed_value_created",
+      "side_effects": ["file/trace"],
+      "formal_status": "specified"
+    },
+    {
+      "id": "assert",
+      "symbol": "برهن",
+      "meaning": "قبول نتيجة عند استيفاء عقدها أو الامتناع",
+      "inputs": ["result_contract"],
+      "outputs": ["accepted_result", "abstention"],
+      "ownership": "contract_consumed",
+      "side_effects": ["evidence_trace"],
+      "formal_status": "specified"
+    }
+  ]
+}

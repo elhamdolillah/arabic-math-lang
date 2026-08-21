@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UORI v9 File Trace",
+  "type": "object",
+  "required": ["path", "operation", "owner", "content_hash", "source", "evidence_mode"],
+  "additionalProperties": false,
+  "properties": {
+    "path": { "type": "string", "minLength": 1 },
+    "operation": { "enum": ["read", "create", "replace_in_isolated_version", "append", "move", "delete_proposed"] },
+    "owner": { "type": "string", "minLength": 1 },
+    "content_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "source": { "type": "string", "minLength": 1 },
+    "evidence_mode": { "enum": ["DETERMINISTIC", "INTERVAL", "PROBABILISTIC", "AI-HYPOTHESIS", "INSUFFICIENT-EVIDENCE"] },
+    "rollback": { "type": "string", "minLength": 1 },
+    "destructive": { "const": false }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UORI v9 Constitution-Applied Manifest",
+  "type": "object",
+  "required": ["version", "constitution", "components", "acceptance"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "9.0.0-rebuild" },
+    "constitution": {
+      "type": "object",
+      "required": ["source", "rules", "max_error"],
+      "additionalProperties": false,
+      "properties": {
+        "source": { "const": "docs/CONSTITUTION.md" },
+        "max_error": { "const": 16 },
+        "rules": {
+          "type": "array",
+          "minItems": 5,
+          "items": {
+            "enum": [
+              "deterministic_if_domain_and_error_are_valid",
+              "interval_if_bounds_are_guaranteed",
+              "probabilistic_if_data_are_sufficient_and_calibrated",
+              "generative_ai_for_hypotheses_or_explanation_only",
+              "abstain_if_evidence_is_insufficient"
+            ]
+          }
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "path", "owner", "evidence_mode", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_/-]+$" },
+          "kind": { "enum": ["instruction", "data", "file", "formal_proof", "runtime", "test"] },
+          "path": { "type": "string", "minLength": 1 },
+          "owner": { "type": "string", "minLength": 1 },
+          "evidence_mode": { "enum": ["DETERMINISTIC", "INTERVAL", "PROBABILISTIC", "AI-HYPOTHESIS", "INSUFFICIENT-EVIDENCE"] },
+          "status": { "enum": ["specified", "implemented", "verified", "abstained"] },
+          "max_error": { "type": "integer", "minimum": 0, "maximum": 16 },
+          "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "depends_on": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "required": ["formal", "numeric", "hardware", "performance", "no_destructive_replace"],
+      "additionalProperties": false,
+      "properties": {
+        "formal": { "type": "boolean" },
+        "numeric": { "type": "boolean" },
+        "hardware": { "type": "boolean" },
+        "performance": { "type": "boolean" },
+        "no_destructive_replace": { "const": true }
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "version": "9.0.0-rebuild",
+  "constitution": {
+    "source": "docs/CONSTITUTION.md",
+    "max_error": 16,
+    "rules": [
+      "deterministic_if_domain_and_error_are_valid",
+      "interval_if_bounds_are_guaranteed",
+      "probabilistic_if_data_are_sufficient_and_calibrated",
+      "generative_ai_for_hypotheses_or_explanation_only",
+      "abstain_if_evidence_is_insufficient"
+    ]
+  },
+  "components": [
+    {
+      "id": "instruction/core",
+      "kind": "instruction",
+      "path": "vnext/instructions/core.json",
+      "owner": "uori-core",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "specified",
+      "depends_on": []
+    },
+    {
+      "id": "data/result-contract",
+      "kind": "data",
+      "path": "schemas/uori_result_contract.schema.json",
+      "owner": "uori-evidence",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "specified",
+      "max_error": 16,
+      "depends_on": []
+    },
+    {
+      "id": "file/trace",
+      "kind": "file",
+      "path": "vnext/files/trace.json",
+      "owner": "uori-files",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "specified",
+      "depends_on": []
+    },
+    {
+      "id": "evidence/abstention",
+      "kind": "runtime",
+      "path": "tools/validate_result_contract.py",
+      "owner": "uori-evidence",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 16,
+      "depends_on": ["data/result-contract"]
+    }
+  ],
+  "acceptance": {
+    "formal": false,
+    "numeric": false,
+    "hardware": false,
+    "performance": false,
+    "no_destructive_replace": true
+  }
+}

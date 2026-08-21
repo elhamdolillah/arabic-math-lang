@@ -1,0 +1,29 @@
+name: UORI v9 Constitution Rebuild
+
+on:
+  push:
+    branches:
+      - rebuild/uori-v9-constitution
+  pull_request:
+    branches:
+      - rebuild/uori-v9-constitution
+
+jobs:
+  vnext-manifest:
+    name: Validate UORI v9 constitutional manifest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate JSON documents
+        run: |
+          python3 -m json.tool vnext/manifest.json >/dev/null
+          python3 -m json.tool vnext/manifest.schema.json >/dev/null
+          python3 -m json.tool vnext/instructions/core.json >/dev/null
+          python3 -m json.tool vnext/files/trace.json >/dev/null
+      - name: Validate manifest and constitutional safety rules
+        run: python3 vnext/tools/validate_manifest.py
+      - name: Run deterministic tests
+        run: python3 -m unittest vnext.tests.test_vnext_manifest -v
+      - name: Reject whitespace errors
+        run: git diff --check
