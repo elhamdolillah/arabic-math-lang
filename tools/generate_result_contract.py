@@ -6,6 +6,38 @@ from pathlib import Path
 
 
 ALLOWED_PROOF_LEVELS = {"A", "B", "C", "D", "E"}
+EVIDENCE_MODES = {
+    "حتمي": ("كافٍ", "DETERMINISTIC"),
+    "فتري": ("كافٍ", "INTERVAL"),
+    "احتمالي": ("كافٍ", "PROBABILISTIC"),
+    "توليدي": ("مقترح", "AI-HYPOTHESIS"),
+    "امتناع": ("غير_كافٍ", "INSUFFICIENT-EVIDENCE"),
+}
+
+
+def _evidence_policy(spec: dict, rounding: dict, verification: dict, evidence: dict) -> tuple[str, str, str, str | None]:
+    """تحديد نمط النتيجة؛ الغياب الصريح للدليل يؤدي إلى الامتناع الآمن."""
+    mode = _first(spec, "نمط_الاستدلال", default=evidence.get("نمط_الاستدلال"))
+    explicit_state = _first(spec, "حالة_الدليل", default=evidence.get("حالة_الدليل"))
+    explicit_label = _first(spec, "وسم_الدليل", default=evidence.get("وسم_الدليل"))
+    refusal_reason = _first(spec, "سبب_الامتناع", default=evidence.get("سبب_الامتناع"))
+
+    if mode is None:
+        mode = "امتناع"
+        refusal_reason = refusal_reason or "لم يُصرّح بدليل كافٍ يبرر نتيجة حتمية أو فترية أو احتمالية"
+    if mode not in EVIDENCE_MODES:
+        raise ValueError(f"نمط استدلال غير معروف: {mode}")
+
+    state, label = EVIDENCE_MODES[mode]
+    if explicit_state is not None and explicit_state != state:
+        raise ValueError(f"حالة الدليل لا توافق النمط {mode}: {explicit_state} != {state}")
+    if explicit_label is not None and explicit_label != label:
+        raise ValueError(f"وسم الدليل لا يوافق النمط {mode}: {explicit_label} != {label}")
+    if mode == "حتمي" and rounding.get("حد_الخطأ", 16) > 16:
+        raise ValueError("لا يجوز اعتماد النمط الحتمي مع حد خطأ أكبر من 16")
+    if mode == "امتناع" and not refusal_reason:
+        raise ValueError("يجب تسجيل سبب الامتناع")
+    return mode, state, label, refusal_reason
 
 
 def _first(spec: dict, *keys, default=None):
@@ -61,7 +93,11 @@ def _contract(spec: dict) -> dict:
     if forbidden is None:
         forbidden = usage.get("ممنوع", ["تشخيص آلي", "وصف علاج", "قرار سريري نهائي"])
 
-    return {
+    evidence_mode, evidence_state, evidence_label, refusal_reason = _evidence_policy(
+        spec, rounding, verification, evidence
+    )
+
+    contract = {
         "معرّف_النتيجة": "TEMPLATE-" + str(identifier),
         "القيمة": None,
         "الوحدة": "وحدة_الناتج",
@@ -82,9 +118,15 @@ def _contract(spec: dict) -> dict:
         },
         "provenance": {"المصدر": "مطلوب", "التحويلات": []},
         "قوة_الدليل": proof_level,
+        "نمط_الاستدلال": evidence_mode,
+        "حالة_الدليل": evidence_state,
+        "وسم_الدليل": evidence_label,
         "الاستخدام_المسموح": allowed,
         "الاستخدام_الممنوع": forbidden,
     }
+    if refusal_reason is not None:
+        contract["سبب_الامتناع"] = refusal_reason
+    return contract
 
 
 def load_specs(path: Path) -> list[dict]:

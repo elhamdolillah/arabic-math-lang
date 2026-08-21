@@ -46,6 +46,8 @@ jobs:
         run: python3 -m py_compile math_complete.py src/wasm_backend.py
       - name: Validate UORI evidence result contract
         run: python3 tests/test_uori_result_contract.py
+      - name: Validate UORI generator evidence policy
+        run: python3 tests/test_result_generator_evidence_policy.py
       - name: Generate UORI watar result contract
         run: python3 tools/generate_result_contract.py specs/functions/watar.json > /tmp/watar_result_contract.json
       - name: Validate UORI function specification
