@@ -20,6 +20,10 @@ jobs:
         run: coqc -q -Q formal UORI formal/C40_Q64_Model.v
       - name: Build checked Q64 error bounds
         run: coqc -q -Q formal UORI formal/C40_Q64_Error_Bounds.v
+      - name: Build checked Q32 shared core
+        run: coqc -q -Q formal UORI formal/Q32_Core.v
+      - name: Build checked Q32 hypot semantic link
+        run: coqc -q -Q formal UORI formal/Q32_Hypot_Semantic_Link.v
       - name: Build checked Q32 sqrt bounds
         run: coqc -q -Q formal UORI formal/C40_Q32_Sqrt_Bounds.v
       - name: Build checked Q32 hypot bounds
@@ -30,6 +34,8 @@ jobs:
         run: coqc -q -Q formal UORI formal/C40_Q32_Pow_Semantic_Link.v
       - name: Build checked Q32 pow instruction semantics
         run: coqc -q -Q formal UORI formal/C40_Q32_Pow_Instruction_Semantics.v
+      - name: Build checked Q32 pow closed arithmetic
+        run: coqc -q -Q formal UORI formal/C40_Q32_Pow_Closed_Arithmetic.v
       - name: Build checked Q32 sqrt semantic-link draft
         run: coqc -q -Q formal UORI formal/C40_Q32_Sqrt_Semantic_Link.v
       - name: Build checked Q32 sqrt Newton-link contract
