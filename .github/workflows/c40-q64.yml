@@ -22,6 +22,8 @@ jobs:
         run: coqc -q -Q formal UORI formal/C40_Q64_Error_Bounds.v
       - name: Build checked Q32 shared core
         run: coqc -q -Q formal UORI formal/Q32_Core.v
+      - name: Build checked Q32 complex model
+        run: coqc -q -Q formal UORI formal/Q32_Complex.v
       - name: Build checked Q32 hypot semantic link
         run: coqc -q -Q formal UORI formal/Q32_Hypot_Semantic_Link.v
       - name: Build checked Q32 sqrt bounds
@@ -62,6 +64,8 @@ jobs:
         run: python3 tests/c40_q32_verification/test_sqrt_q32.py
       - name: Run Q32.32 hypot gate
         run: python3 tests/c40_q32_verification/test_hypot_q32.py
+      - name: Run Q32.32 complex arithmetic gate
+        run: python3 tests/c40_q32_verification/test_q32_complex.py
       - name: Run Q32.32 pow gate
         run: python3 tests/c40_q32_verification/test_quwa_q32.py
       - name: Run Q32.32 pow semantic-link structural gate
