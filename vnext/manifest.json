@@ -49,6 +49,26 @@
       "status": "verified",
       "max_error": 16,
       "depends_on": ["data/result-contract"]
+    },
+    {
+      "id": "compiler/v9-print-parser",
+      "kind": "runtime",
+      "path": "vnext/tools/parser.py",
+      "owner": "uori-v9-compiler",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": ["instruction/core"]
+    },
+    {
+      "id": "compiler/v9-print-contract",
+      "kind": "runtime",
+      "path": "vnext/tools/compile_print.py",
+      "owner": "uori-v9-compiler",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": ["compiler/v9-print-parser", "data/result-contract"]
     }
   ],
   "acceptance": {

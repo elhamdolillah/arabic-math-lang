@@ -24,6 +24,20 @@ jobs:
       - name: Validate manifest and constitutional safety rules
         run: python3 vnext/tools/validate_manifest.py
       - name: Run deterministic tests
-        run: python3 -m unittest vnext.tests.test_vnext_manifest -v
+        run: |
+          python3 -m unittest vnext.tests.test_vnext_manifest -v
+          python3 vnext/tests/test_parser.py
+          python3 vnext/tests/test_compile_print.py
+          python3 vnext/tools/compile_print.py examples/hello.ar < examples/hello.ar > /tmp/uori_v9_hello_result.json
+          python3 - <<'PY'
+          import json
+          result = json.load(open('/tmp/uori_v9_hello_result.json', encoding='utf-8'))
+          assert result['result']['status'] == 'success'
+          assert result['result']['inference_mode'] == 'deterministic'
+          assert result['result']['error_bound'] <= 16
+          assert result['result']['backend'] == 'reference-only'
+          assert len(result['ast']) == 3
+          print('VNEXT_HELLO_REFERENCE=PASS')
+          PY
       - name: Reject whitespace errors
         run: git diff --check
