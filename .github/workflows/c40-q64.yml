@@ -28,6 +28,8 @@ jobs:
         run: coqc -q -Q formal UORI formal/C40_Q32_Pow_Bounds.v
       - name: Build checked Q32 pow semantic-link draft
         run: coqc -q -Q formal UORI formal/C40_Q32_Pow_Semantic_Link.v
+      - name: Build checked Q32 pow instruction semantics
+        run: coqc -q -Q formal UORI formal/C40_Q32_Pow_Instruction_Semantics.v
       - name: Build checked Q32 sqrt semantic-link draft
         run: coqc -q -Q formal UORI formal/C40_Q32_Sqrt_Semantic_Link.v
       - name: Build checked Q32 sqrt Newton-link contract
