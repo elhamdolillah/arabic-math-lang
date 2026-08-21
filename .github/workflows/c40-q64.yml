@@ -50,6 +50,10 @@ jobs:
         run: python3 tests/test_result_generator_evidence_policy.py
       - name: Generate UORI watar result contract
         run: python3 tools/generate_result_contract.py specs/functions/watar.json > /tmp/watar_result_contract.json
+      - name: Validate UORI generated result contract
+        run: python3 tools/validate_result_contract.py /tmp/watar_result_contract.json
+      - name: Test UORI standalone result validator
+        run: python3 tests/test_validate_result_contract.py
       - name: Validate UORI function specification
         run: python3 -c 'import json; x=json.load(open("/tmp/watar_result_contract.json", encoding="utf-8")); assert x["الدالة"] == "وتر@1"; assert x["التقريب"]["حد_الخطأ"] == 16; assert "تشخيص آلي" in x["الاستخدام_الممنوع"]'
       - name: Validate UORI function catalog

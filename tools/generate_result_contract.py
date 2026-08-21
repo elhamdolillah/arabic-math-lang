@@ -67,6 +67,13 @@ def _contract(spec: dict) -> dict:
     representation = _first(spec, "التمثيل_الثابت", default=None)
     if representation is None:
         representation = representation_block if representation_block else "مطلوب"
+    if isinstance(representation, dict):
+        representation = dict(representation)
+        representation.setdefault("خارجي", "مطلوب")
+        representation.setdefault("داخلي", "مطلوب")
+        representation.setdefault("الفيض", "مطلوب")
+    else:
+        representation = {"خارجي": representation, "داخلي": "مطلوب", "الفيض": "مطلوب"}
 
     implementation = _first(spec, "التنفيذ", default=None)
     if implementation is None:
