@@ -69,6 +69,46 @@
       "status": "verified",
       "max_error": 0,
       "depends_on": ["compiler/v9-print-parser", "data/result-contract"]
+    },
+    {
+      "id": "abi/v1-deterministic-lowering",
+      "kind": "runtime",
+      "path": "vnext/tools/abi_contract.py",
+      "owner": "uori-v9-abi",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "implemented",
+      "max_error": 0,
+      "depends_on": ["compiler/v9-print-contract", "file/trace"]
+    },
+    {
+      "id": "test/v1-abi-contract",
+      "kind": "test",
+      "path": "vnext/tests/test_abi_contract.py",
+      "owner": "uori-v9-abi",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": ["abi/v1-deterministic-lowering"]
+    },
+    {
+      "id": "hardware/probe-classification",
+      "kind": "runtime",
+      "path": "vnext/tools/hardware_probe.py",
+      "owner": "uori-v9-hardware",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "implemented",
+      "max_error": 0,
+      "depends_on": ["file/trace"]
+    },
+    {
+      "id": "test/hardware-probe",
+      "kind": "test",
+      "path": "vnext/tests/test_hardware_probe.py",
+      "owner": "uori-v9-hardware",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": ["hardware/probe-classification"]
     }
   ],
   "acceptance": {

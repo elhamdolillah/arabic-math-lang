@@ -9,6 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from parser import ParseError, lower, parse
+from abi_contract import chain_step, lower_to_abi
 
 
 class ContractError(ValueError):
@@ -24,6 +25,8 @@ def compile_source(source: str, source_name: str = "<stdin>") -> dict[str, objec
         if "ownership" in node:
             raise ContractError("تعليمة الإخراج لا تملك قيمة قابلة للنقل في هذا المسار")
     digest = hashlib.sha256(source.encode("utf-8")).hexdigest()
+    abi = lower_to_abi(ast)
+    evidence_step = chain_step(digest, abi)
     output = "\n".join(str(node["value"]) for node in ast)
     if ast:
         output += "\n"
@@ -31,6 +34,8 @@ def compile_source(source: str, source_name: str = "<stdin>") -> dict[str, objec
         "version": "uori-v9",
         "source": {"name": source_name, "sha256": digest},
         "ast": ast,
+        "abi": abi,
+        "evidence_chain": evidence_step,
         "result": {
             "status": "success",
             "inference_mode": "deterministic",
