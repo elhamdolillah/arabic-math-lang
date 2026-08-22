@@ -14,6 +14,7 @@ import math
 from pathlib import Path
 from typing import Callable, Mapping
 
+from arabic_backend import BackendSpecError, bind_trusted_backend
 from arabic_plan import PlanSpecError, load_plan_spec
 from arabic_registry import RegistrySpecError, load_arabic_specs
 
@@ -173,10 +174,12 @@ class UoriKernel:
             specifications = load_arabic_specs(source_path)
         except (OSError, RegistrySpecError) as exc:
             raise KernelFault(f"تعذر اعتماد السجل العربي: {exc}") from exc
+        try:
+            bound = bind_trusted_backend(specifications, implementations)
+        except BackendSpecError as exc:
+            raise KernelFault(str(exc)) from exc
         for spec in specifications:
-            implementation = implementations.get(spec.operation)
-            if implementation is None:
-                raise KernelFault(f"لا توجد خلفية مضمّنة للعملية: {spec.operation}")
+            implementation = bound[spec.operation]
             source = f"{spec.algorithm_id}:v{spec.version}:{spec.operation}:{spec.fuel}".encode()
             digest = hashlib.sha256(source).hexdigest()
             evidence = Evidence(spec.algorithm_id, spec.version, True, True, spec.fuel, digest)
