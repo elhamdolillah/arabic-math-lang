@@ -229,6 +229,46 @@
       "status": "verified",
       "max_error": 0,
       "depends_on": ["file/numeric-contract-v1"]
+    },
+    {
+      "id": "file/pipeline-audit-v1",
+      "kind": "file",
+      "path": "vnext/tools/pipeline_audit.py",
+      "owner": "uori-v9-integrity",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "implemented",
+      "max_error": 0,
+      "depends_on": ["file/evidence-chain-v1", "runtime/execution-pipeline-v1"]
+    },
+    {
+      "id": "test/pipeline-audit-v1",
+      "kind": "test",
+      "path": "vnext/tests/test_pipeline_audit.py",
+      "owner": "uori-v9-integrity",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": ["file/pipeline-audit-v1"]
+    },
+    {
+      "id": "file/acceptance-gate-v1",
+      "kind": "file",
+      "path": "vnext/tools/acceptance_gate.py",
+      "owner": "uori-v9-constitution",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "implemented",
+      "max_error": 0,
+      "depends_on": ["constitution/decision-v1", "file/evidence-chain-v1"]
+    },
+    {
+      "id": "test/acceptance-gate-v1",
+      "kind": "test",
+      "path": "vnext/tests/test_acceptance_gate.py",
+      "owner": "uori-v9-constitution",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": ["file/acceptance-gate-v1"]
     }
   ],
   "acceptance": {
