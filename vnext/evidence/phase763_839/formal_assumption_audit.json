@@ -1,0 +1,54 @@
+{
+  "finding_count": 7,
+  "findings": [
+    {
+      "file": "formal/C40_Q32_Pow_Bounds.v",
+      "kind": "parameter",
+      "line": 103,
+      "name": "assembly_pow_refines_model"
+    },
+    {
+      "file": "formal/C40_Q32_Pow_Semantic_Link.v",
+      "kind": "parameter",
+      "line": 189,
+      "name": "step_asm_refines_result"
+    },
+    {
+      "file": "formal/C40_Q32_Pow_Semantic_Link.v",
+      "kind": "parameter",
+      "line": 192,
+      "name": "step_asm_refines_square"
+    },
+    {
+      "file": "formal/C40_Q32_Pow_Semantic_Link.v",
+      "kind": "parameter",
+      "line": 195,
+      "name": "reject_paths_sound"
+    },
+    {
+      "file": "formal/C40_Q32_Sqrt_Semantic_Link.v",
+      "kind": "parameter",
+      "line": 72,
+      "name": "low_level_sqrt_step"
+    },
+    {
+      "file": "formal/C40_Q32_Sqrt_Semantic_Link.v",
+      "kind": "axiom",
+      "line": 74,
+      "name": "low_level_sqrt_step_refines_model"
+    },
+    {
+      "file": "formal/C40_Q64_Model.v",
+      "kind": "admitted",
+      "line": 60,
+      "name": "Admitted"
+    }
+  ],
+  "formal_root": "formal",
+  "full_proof": false,
+  "kinds": [
+    "admitted",
+    "axiom",
+    "parameter"
+  ]
+}
