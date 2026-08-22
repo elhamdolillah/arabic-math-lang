@@ -350,6 +350,31 @@
       "depends_on": [
         "runtime/kernel-runtime-bridge-v1"
       ]
+    },
+    {
+      "id": "integrity/replay-validator-v1",
+      "kind": "runtime",
+      "path": "vnext/tools/replay_validator.py",
+      "owner": "uori-v9-integrity",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "implemented",
+      "max_error": 0,
+      "depends_on": [
+        "runtime/kernel-runtime-bridge-v1",
+        "file/evidence-chain-v1"
+      ]
+    },
+    {
+      "id": "test/replay-validator-v1",
+      "kind": "test",
+      "path": "vnext/tests/test_replay_validator.py",
+      "owner": "uori-v9-integrity",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": [
+        "integrity/replay-validator-v1"
+      ]
     }
   ],
   "acceptance": {
