@@ -109,6 +109,46 @@
       "status": "verified",
       "max_error": 0,
       "depends_on": ["hardware/probe-classification"]
+    },
+    {
+      "id": "kernel/gateway-v1",
+      "kind": "runtime",
+      "path": "vnext/tools/kernel_gateway.py",
+      "owner": "uori-v9-kernel",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "implemented",
+      "max_error": 0,
+      "depends_on": ["abi/v1-deterministic-lowering"]
+    },
+    {
+      "id": "test/kernel-gateway-v1",
+      "kind": "test",
+      "path": "vnext/tests/test_kernel_gateway.py",
+      "owner": "uori-v9-kernel",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": ["kernel/gateway-v1"]
+    },
+    {
+      "id": "runtime/resource-contract-v1",
+      "kind": "runtime",
+      "path": "vnext/tools/resource_contract.py",
+      "owner": "uori-v9-runtime",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "implemented",
+      "max_error": 0,
+      "depends_on": ["abi/v1-deterministic-lowering", "kernel/gateway-v1"]
+    },
+    {
+      "id": "test/resource-contract-v1",
+      "kind": "test",
+      "path": "vnext/tests/test_resource_contract.py",
+      "owner": "uori-v9-runtime",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": ["runtime/resource-contract-v1"]
     }
   ],
   "acceptance": {
