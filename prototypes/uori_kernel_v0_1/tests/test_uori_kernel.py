@@ -50,6 +50,26 @@ class UoriKernelTests(unittest.TestCase):
             with self.assertRaises(GrammarSpecError):
                 validate_arabic_grammar(handle.name)
 
+    def test_arabic_grammar_rejects_duplicate_algorithm(self):
+        source = Path(__file__).parents[1] / "source" / "grammar_examples.ar"
+        original = source.read_text(encoding="utf-8")
+        try:
+            source.write_text(original.replace("دالة مربع", "خوارزمية تصنيف_عدد"), encoding="utf-8")
+            with self.assertRaises(GrammarSpecError):
+                validate_arabic_grammar(source)
+        finally:
+            source.write_text(original, encoding="utf-8")
+
+    def test_arabic_grammar_requires_loop_termination_contract(self):
+        source = Path(__file__).parents[1] / "source" / "grammar_examples.ar"
+        original = source.read_text(encoding="utf-8")
+        try:
+            source.write_text(original.replace("شرط_الإنهاء: العداد ينقص حتى الصفر\n", ""), encoding="utf-8")
+            with self.assertRaises(GrammarSpecError):
+                validate_arabic_grammar(source)
+        finally:
+            source.write_text(original, encoding="utf-8")
+
     def test_arabic_execution_plan_contract_loads(self):
         source = Path(__file__).parents[1] / "source" / "execution_plan.ar"
         plan = load_plan_spec(source)
