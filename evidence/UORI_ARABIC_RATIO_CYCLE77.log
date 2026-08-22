@@ -1,0 +1,13 @@
+=== UORI ARABIC SOURCE RATIO ===
+2026-08-22T21:48:05Z
+GIT_TRACKED_FILES=1129
+MEASURED_SOURCE_FILES=637
+MEASURED_SOURCE_LINES=210277
+.ar FILES=28 LINES=987
+.ar FILE_PERCENT=4.3956
+.ar LINE_PERCENT=0.4694
+METHOD=git ls-files; extensions=.ar,.py,.asm,.sh,.v,.rs,.wat,.json; UTF-8 line count
+--- RECENT COMMITS ---
+[33mf2d915e[m uori: generate ABI artifacts from Arabic contract
+[33ma2be76a[m uori: define Arabic kernel ABI contract
+[33m1abdf3f[m uori: bind trusted Python backend from Arabic registry
