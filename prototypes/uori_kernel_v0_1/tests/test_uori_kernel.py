@@ -21,6 +21,9 @@ class UoriKernelTests(unittest.TestCase):
         specs = load_arabic_specs(source)
         self.assertEqual(len(specs), 4)
         self.assertEqual({spec.operation for spec in specs}, {"جمع", "طرح", "جذر", "قاسم_مشترك"})
+        gcd = next(spec for spec in specs if spec.operation == "قاسم_مشترك")
+        self.assertEqual(gcd.domain, "أعداد_صحيحة_غير_سالبة")
+        self.assertIn("نفاد_الوقود", gcd.failure)
 
     def test_arabic_registry_rejects_unknown_field(self):
         with NamedTemporaryFile("w", encoding="utf-8", suffix=".ar") as handle:

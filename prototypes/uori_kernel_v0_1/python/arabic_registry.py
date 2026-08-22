@@ -24,10 +24,12 @@ class ArabicAlgorithmSpec:
     determinism: str
     termination: str
     fuel: int
+    domain: str
+    failure: str
 
 
 _ALLOWED_FIELDS = {
-    "العملية", "الإصدار", "المدخل", "المخرج", "التصنيف", "الإنهاء", "الوقود"
+    "العملية", "الإصدار", "المدخل", "المخرج", "التصنيف", "الإنهاء", "الوقود", "المجال", "الفشل"
 }
 
 
@@ -55,7 +57,7 @@ def load_arabic_specs(path: str | Path) -> tuple[ArabicAlgorithmSpec, ...]:
 
     specs: list[ArabicAlgorithmSpec] = []
     for record in records:
-        required = {"الاسم", "المعرف", "العملية", "الإصدار", "المدخل", "المخرج", "التصنيف", "الإنهاء", "الوقود"}
+        required = {"الاسم", "المعرف", "العملية", "الإصدار", "المدخل", "المخرج", "التصنيف", "الإنهاء", "الوقود", "المجال", "الفشل"}
         actual_fields = set(record) - {"السطر"}
         if actual_fields - required or required - actual_fields:
             raise RegistrySpecError(f"حقول ناقصة في السطر {record.get('السطر')}")
@@ -71,7 +73,9 @@ def load_arabic_specs(path: str | Path) -> tuple[ArabicAlgorithmSpec, ...]:
             raise RegistrySpecError("المواصفة غير حتمية أو بلا إنهاء مثبت")
         specs.append(ArabicAlgorithmSpec(
             record["الاسم"], record["المعرف"], record["العملية"], version,
-            inputs, record["المخرج"], record["التصنيف"], record["الإنهاء"], fuel,
+            inputs, record["المخرج"],             record["التصنيف"], record["الإنهاء"], fuel,
+            record["المجال"], record["الفشل"],
+
         ))
     if not specs:
         raise RegistrySpecError("السجل العربي فارغ")
