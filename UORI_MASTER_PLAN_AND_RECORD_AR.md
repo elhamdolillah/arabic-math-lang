@@ -2,8 +2,8 @@
 
 > هذه الوثيقة تجمع سجل المشروع ووثائقه Markdown في ملف واحد، وتضع قبل المحتوى الأصلي خريطة تنفيذية موحدة. المحتوى الأصلي محفوظ بعد الفاصل مع مساره، حتى يستطيع المراجع الرجوع إلى مصدر كل فقرة.
 
-**تاريخ التوليد:** 2026-08-22T12:42:23.719397+00:00  
-**عدد ملفات Markdown المدمجة:** 99
+**تاريخ التوليد:** 2026-08-22T12:50:23.013755+00:00  
+**عدد ملفات Markdown المدمجة:** 100
 
 ## 1. التعريف الكلي
 
@@ -147,46 +147,47 @@ ABI حتمي → runtime → جسر النواة
 | 57 | `docs/QURAN_LAWS.md` | 📖 استنباط قوانين وقواعد القرآن الكريم باللغة الرياضية العربية |
 | 58 | `docs/RESEARCH_PAPER.md` | اللغة الرياضية العربية: مُجمّع AOT ذاتي الاستضافة مع ملكية خطية وأنواع جبرية |
 | 59 | `docs/THREADS_GUIDE.md` | 🧵 دليل البرمجة المتوازية |
-| 60 | `docs/UORI_APK_AR.md` | UORI Global APK |
+| 60 | `docs/UORI_APK_AR.md` | UORI Global: APK والواجهات المتكيفة |
 | 61 | `docs/UORI_Automatic_Compiler_Roadmap_AR.md` | هدف UORI: مترجم تلقائي من المعادلة إلى كود سريع |
 | 62 | `docs/UORI_DETERMINISTIC_LLM_AR.md` | UORI Deterministic LLM |
 | 63 | `docs/UORI_Evidence_Contract_AR.md` | عقد النتيجة الموثقة في UORI |
-| 64 | `docs/UORI_LANGUAGE_AR.md` | لغة UORI العربية الرياضية |
-| 65 | `docs/UORI_OS_AR.md` | UORI OS: النواة وبيئة التشغيل |
-| 66 | `docs/UORI_OVERVIEW_AR.md` | UORI: الرؤية الكلية والمنظومة المترابطة |
-| 67 | `docs/UORI_STATUS_AR.md` | الحالة الموثقة لمنظومة UORI |
-| 68 | `docs/research/C40_Q32_VERIFICATION_AR.md` | تقرير التحقق العددي لـ C40 و Q32.32 |
-| 69 | `docs/research/C40_Q64_REPAIR_PLAN_AR.md` | خطة إصلاح C40 باستخدام Q64.64 |
-| 70 | `formal/C40_Q32_Pow_Assumption_Audit.md` | تدقيق فرضيات الربط الدلالي لدالة «قوة» |
-| 71 | `tests/c40_q32_verification/C40_FORMAL_PROOF_SPEC_AR.md` | مواصفات الإثبات الرسمي لدالة أُس C40 |
-| 72 | `tests/c40_q32_verification/C40_POW_SEMANTIC_LINK_AR.md` | عقد الربط الدلالي لدالة «قوة» — C40 |
-| 73 | `tests/c40_q32_verification/C40_Q163_128_SPEC_AR.md` | مواصفة إصلاح C40: exp بدقة Q1.63 وحاصل 128-bit |
-| 74 | `tests/c40_q32_verification/C40_Q64_REPAIR_FINAL_REPORT_AR.md` | التقرير النهائي لإصلاح دالة أُس في C40 |
-| 75 | `tests/c40_q32_verification/C40_Q64_UNIT_CONTRACT_AR.md` | عقد وحدة C40 عالية الدقة |
-| 76 | `tests/c40_q32_verification/C40_SQRT_Q32_PROGRESS_REPORT_AR.md` | تقرير إضافة الجذر التربيعي في C40 |
-| 77 | `tests/c40_q32_verification/EXP_DIAGNOSTIC_FINDINGS_AR.md` | نتائج تشخيص C40 exp |
-| 78 | `tests/c40_q32_verification/README_AR.md` | أدلة تحقق C40 وQ32.32 |
-| 79 | `versions/academic/DESIGN_PRINCIPLES.md` | 📐 Design Principles |
-| 80 | `versions/academic/FULL_PAPER.md` | Arabic Mathematical Language: Axiomatic Design of a Linearly-Typed, Arabic-Native Programming Language |
-| 81 | `versions/academic/PAPER_ABSTRACT.md` | Arabic Mathematical Language: An Axiomatic Approach to Linear Type Systems |
-| 82 | `versions/academic/README_ACADEMIC.md` | Arabic Mathematical Language (AML) |
-| 83 | `versions/technical/HACKER_NEWS_POST.md` | Show HN: I built a complete Arabic programming language that compiles to x86_64 without libc |
-| 84 | `versions/technical/LINKEDIN_POST.md` | 🚀 I Built a Complete Arabic Programming Language from Scratch |
-| 85 | `versions/technical/README_EN.md` | Arabic Mathematical Language (AML) |
-| 86 | `vnext/README_AR.md` | UORI v9 — الإصدار الدستوري المعزول |
-| 87 | `vnext/reports/PHASES_151_200_AR.md` | تقرير مراحل UORI من 151 إلى 200 |
-| 88 | `vnext/reports/PHASES_201_250_AR.md` | تقرير مراحل UORI من 201 إلى 250 |
-| 89 | `vnext/reports/PHASES_251_300_AR.md` | تقرير مراحل UORI من 251 إلى 300 |
-| 90 | `vnext/reports/PHASES_301_377_AR.md` | تقرير مراحل UORI من 301 إلى 377 |
-| 91 | `vnext/reports/PHASES_378_454_AR.md` | تقرير مراحل UORI من 378 إلى 454 |
-| 92 | `vnext/reports/PHASES_455_531_AR.md` | تقرير المراحل 455–531 من UORI |
-| 93 | `vnext/reports/PHASES_532_608_AR.md` | تقرير المراحل 532–608 من UORI |
-| 94 | `vnext/reports/PHASES_609_685_AR.md` | تقرير المراحل 609–685 من UORI |
-| 95 | `vnext/reports/PHASES_686_762_AR.md` | تقرير المراحل 686–762 |
-| 96 | `vnext/reports/PHASES_763_839_AR.md` | تقرير المراحل 763–839 |
-| 97 | `vnext/reports/PHASES_840_916_AR.md` | تقرير المراحل 840–916 |
-| 98 | `vnext/reports/PHASES_917_993_AR.md` | تقرير المراحل 917–993 |
-| 99 | `vnext/reports/RETROACTIVE_COQ_REEXECUTION_20260822_AR.md` | التقرير الاستعادي لإعادة تنفيذ مواضع Coq المحجوبة |
+| 64 | `docs/UORI_GLOBAL_ADAPTIVE_PLATFORM_AR.md` | UORI: منصة تشغيل وتواصل عالمية متكيفة |
+| 65 | `docs/UORI_LANGUAGE_AR.md` | لغة UORI العربية الرياضية |
+| 66 | `docs/UORI_OS_AR.md` | UORI OS: طبقة التشغيل والتواصل العالمية |
+| 67 | `docs/UORI_OVERVIEW_AR.md` | UORI: الرؤية الكلية والمنظومة المترابطة |
+| 68 | `docs/UORI_STATUS_AR.md` | الحالة الموثقة لمنظومة UORI |
+| 69 | `docs/research/C40_Q32_VERIFICATION_AR.md` | تقرير التحقق العددي لـ C40 و Q32.32 |
+| 70 | `docs/research/C40_Q64_REPAIR_PLAN_AR.md` | خطة إصلاح C40 باستخدام Q64.64 |
+| 71 | `formal/C40_Q32_Pow_Assumption_Audit.md` | تدقيق فرضيات الربط الدلالي لدالة «قوة» |
+| 72 | `tests/c40_q32_verification/C40_FORMAL_PROOF_SPEC_AR.md` | مواصفات الإثبات الرسمي لدالة أُس C40 |
+| 73 | `tests/c40_q32_verification/C40_POW_SEMANTIC_LINK_AR.md` | عقد الربط الدلالي لدالة «قوة» — C40 |
+| 74 | `tests/c40_q32_verification/C40_Q163_128_SPEC_AR.md` | مواصفة إصلاح C40: exp بدقة Q1.63 وحاصل 128-bit |
+| 75 | `tests/c40_q32_verification/C40_Q64_REPAIR_FINAL_REPORT_AR.md` | التقرير النهائي لإصلاح دالة أُس في C40 |
+| 76 | `tests/c40_q32_verification/C40_Q64_UNIT_CONTRACT_AR.md` | عقد وحدة C40 عالية الدقة |
+| 77 | `tests/c40_q32_verification/C40_SQRT_Q32_PROGRESS_REPORT_AR.md` | تقرير إضافة الجذر التربيعي في C40 |
+| 78 | `tests/c40_q32_verification/EXP_DIAGNOSTIC_FINDINGS_AR.md` | نتائج تشخيص C40 exp |
+| 79 | `tests/c40_q32_verification/README_AR.md` | أدلة تحقق C40 وQ32.32 |
+| 80 | `versions/academic/DESIGN_PRINCIPLES.md` | 📐 Design Principles |
+| 81 | `versions/academic/FULL_PAPER.md` | Arabic Mathematical Language: Axiomatic Design of a Linearly-Typed, Arabic-Native Programming Language |
+| 82 | `versions/academic/PAPER_ABSTRACT.md` | Arabic Mathematical Language: An Axiomatic Approach to Linear Type Systems |
+| 83 | `versions/academic/README_ACADEMIC.md` | Arabic Mathematical Language (AML) |
+| 84 | `versions/technical/HACKER_NEWS_POST.md` | Show HN: I built a complete Arabic programming language that compiles to x86_64 without libc |
+| 85 | `versions/technical/LINKEDIN_POST.md` | 🚀 I Built a Complete Arabic Programming Language from Scratch |
+| 86 | `versions/technical/README_EN.md` | Arabic Mathematical Language (AML) |
+| 87 | `vnext/README_AR.md` | UORI v9 — الإصدار الدستوري المعزول |
+| 88 | `vnext/reports/PHASES_151_200_AR.md` | تقرير مراحل UORI من 151 إلى 200 |
+| 89 | `vnext/reports/PHASES_201_250_AR.md` | تقرير مراحل UORI من 201 إلى 250 |
+| 90 | `vnext/reports/PHASES_251_300_AR.md` | تقرير مراحل UORI من 251 إلى 300 |
+| 91 | `vnext/reports/PHASES_301_377_AR.md` | تقرير مراحل UORI من 301 إلى 377 |
+| 92 | `vnext/reports/PHASES_378_454_AR.md` | تقرير مراحل UORI من 378 إلى 454 |
+| 93 | `vnext/reports/PHASES_455_531_AR.md` | تقرير المراحل 455–531 من UORI |
+| 94 | `vnext/reports/PHASES_532_608_AR.md` | تقرير المراحل 532–608 من UORI |
+| 95 | `vnext/reports/PHASES_609_685_AR.md` | تقرير المراحل 609–685 من UORI |
+| 96 | `vnext/reports/PHASES_686_762_AR.md` | تقرير المراحل 686–762 |
+| 97 | `vnext/reports/PHASES_763_839_AR.md` | تقرير المراحل 763–839 |
+| 98 | `vnext/reports/PHASES_840_916_AR.md` | تقرير المراحل 840–916 |
+| 99 | `vnext/reports/PHASES_917_993_AR.md` | تقرير المراحل 917–993 |
+| 100 | `vnext/reports/RETROACTIVE_COQ_REEXECUTION_20260822_AR.md` | التقرير الاستعادي لإعادة تنفيذ مواضع Coq المحجوبة |
 
 ## 9. المحتوى الأصلي المدمج حسب المسار
 
@@ -9049,15 +9050,19 @@ jmp .pattern_default
 
 ## المصدر 60: `docs/UORI_APK_AR.md`
 
-**بصمة المصدر وقت الدمج:** `b7c5ca6e37c96c8d0c6cf202b85f3ddbfe70957e62ef034f8d3d961827afc699`
+**بصمة المصدر وقت الدمج:** `5ab85748d6e5c8d9e8c1ddc78eebcb5af92ac9d81810bcdc1e8cd6c37c78b2a0`
 
-# UORI Global APK
+# UORI Global: APK والواجهات المتكيفة
 
 [العودة إلى خريطة UORI](UORI_OVERVIEW_AR.md)
 
 ## الغرض
 
-تطبيق UORI Global APK هو واجهة المستخدم العالمية للمنظومة. يهدف إلى تمكين المستخدم من كتابة الصياغة العربية الرياضية، واستقبال شرح أو اقتراح من طبقة LLM، وتشغيل البرامج عبر runtime محكوم بالعقود، من دون خلط واجهة الاستخدام بسلطات النواة.
+UORI Global هو طبقة وصول متكيفة للمستخدم إلى لغة UORI وطبقة LLM وبيئة التشغيل والتواصل العالمي. قد يكون أحد أشكاله تطبيق APK على الهاتف، لكنه ليس الشكل الوحيد ولا تعريف UORI كله. فقد تظهر المنظومة كواجهة ساعة أو تلفاز أو لوحة خادم أو جهاز متخصص بحسب قدرات الجهاز ومداخله ومخارجه وسياق المستخدم.
+
+يهدف الشكل التطبيقي إلى تمكين المستخدم من كتابة الصياغة العربية الرياضية، واستقبال شرح أو اقتراح من طبقة LLM، وتشغيل البرامج عبر runtime محكوم بالعقود، من دون خلط واجهة الاستخدام بسلطات النواة.
+
+> **لا يملك UORI شكلاً ثابتاً؛ الجهاز والمستخدم يحددان الشكل، بينما تضمن UORI اتساق العقود والصلاحيات والأدلة.**
 
 ## الحدود الأمنية
 
@@ -9065,12 +9070,18 @@ jmp .pattern_default
 
 ## الحالة
 
-**الحالة: مخطط.** لا يثبت وجود تطبيق APK قابل للتثبيت أو منشور من وجود ملفات اللغة والمترجم فقط. يلزم لاحقاً مستودع تطبيق مستقل أو مجلد Android موثق، وملف بناء، واختبار تثبيت وتشغيل، وسياسة صلاحيات، وسلسلة SHA-256 للنسخة المنشورة.
+**الحالة: مخطط/قيد التصميم.** لا يثبت وجود تطبيق APK قابل للتثبيت أو منشور، ولا توجد موائمات مثبتة لكل فئات الأجهزة المذكورة. يلزم لاحقاً مستودع تطبيق أو طبقات واجهة موثقة، وملفات بناء، واختبارات تثبيت وتشغيل لكل فئة، وسياسة صلاحيات، وسلسلة SHA-256 للنسخ المنشورة.
 
 ## بنية التكامل المستهدفة
 
 ```text
-APK → واجهة UORI → محلل/مترجم اللغة → عقود ABI → runtime/OS
+الجهاز + المداخل والمخارج + المستخدم
+                    ↓
+موائم UORI ومولّد الواجهة المناسبة
+                    ↓
+واجهة APK أو ساعة أو تلفاز أو خادم أو جهاز متخصص
+                    ↓
+لغة UORI → عقود ABI → runtime/OS
                     ↘ LLM للاقتراح والشرح فقط
 ```
 
@@ -9329,7 +9340,88 @@ APK → واجهة UORI → محلل/مترجم اللغة → عقود ABI → 
 
 ---
 
-## المصدر 64: `docs/UORI_LANGUAGE_AR.md`
+## المصدر 64: `docs/UORI_GLOBAL_ADAPTIVE_PLATFORM_AR.md`
+
+**بصمة المصدر وقت الدمج:** `e4245c3f6e966e91d71bfc5e3dfa28a1cc3f14590739eb2f4e408fdd317904a0`
+
+# UORI: منصة تشغيل وتواصل عالمية متكيفة
+
+[العودة إلى الوثيقة المرجعية الموحدة](../UORI_MASTER_PLAN_AND_RECORD_AR.md)
+
+## التعريف الأساسي
+
+**UORI ليس نظام تشغيل ثابتاً لجهاز واحد، وليس له شكل واجهة محدد مسبقاً.** UORI هو منظومة عالمية تربط أنظمة التشغيل المختلفة والعتاد المتنوع، وتوفر لغة وعقوداً وطبقة تواصل موحدة تسمح للأجهزة والخدمات بالتعاون مع الحفاظ على العزل والصلاحيات والأدلة.
+
+يمكن أن تتكون منظومة UORI من عدة أجزاء موزعة، بحيث يمثل كل جزء طبقة تشغيل أو موائمًا لعتاد معين: ساعة ذكية، هاتف، تلفاز ذكي، حاسوب، خادم ويب، خادم LLM، خادم فيديو متدفق، جهاز طبي أو عقدة صناعية. لا يعني ذلك أن جميع هذه الأجهزة تشترك في نواة واحدة حرفياً؛ بل تتشارك في **العقود والبروتوكولات والهوية والدلالات**، بينما يبقى التنفيذ المحلي مناسباً لمعالج الجهاز ونظامه وموارده.
+
+## مبدأ الواجهة المتكيفة
+
+لا يملك UORI مظهراً واحداً. تتشكل الواجهة من اتحاد ثلاثة عناصر:
+
+> **شكل UORI = قدرات الجهاز + المداخل والمخارج + نية المستخدم وسياقه**
+
+فإذا كان الجهاز آلة حاسبة، تظهر الوظائف الحسابية بأقل واجهة لازمة. وإذا كان ساعة يد، تُعرض المعلومات في شاشة صغيرة وبلمس أو صوت أو اهتزاز. وإذا كان تلفازاً ذكياً، تتسع الواجهة للمشاهدة والتحكم عن بعد. وإذا كان طرفاً طبياً، قد يعرض تخطيط القلب للطبيب ضمن سياق صلاحيات وتدقيق مناسبين. المثال يصف قابلية التكيف المعمارية، ولا يثبت وجود منتج طبي أو اعتماد سريري.
+
+| نوع العقدة | المداخل والمخرجات المتوقعة | شكل UORI المحتمل | القيد الأساسي |
+|---|---|---|---|
+| ساعة ذكية | لمس محدود، صوت، اهتزاز، حساسات | بطاقات وتنبيهات وأوامر قصيرة | طاقة وشاشة وخصوصية |
+| تلفاز ذكي | جهاز تحكم، صوت، شاشة كبيرة | لوحة مشاهدة وتحكم متعددة النوافذ | عزل الحسابات والمحتوى |
+| خادم ويب | شبكة، سجلات، واجهات API | لوحة تشغيل أو خدمة بلا واجهة مرئية | المصادقة والعزل والتوافر |
+| خادم LLM | GPU/CPU، شبكة، طوابير طلبات | خدمة استدلال وتدقيق مخرجات | الحتمية، التتبع، وعدم تنفيذ الاقتراح مباشرة |
+| خادم فيديو متدفق | تخزين، شبكة، ترميز، CDN | خدمة بث ومراقبة | النطاق الترددي والحقوق والسياسات |
+| جهاز طبي | حساسات، شاشة، اتصال مقيد | عرض سريري أو سجل قياسات | لا اعتماد طبي بلا تحقق وتنظيم مستقل |
+
+## الطبقات المشتركة
+
+تتشارك عقد UORI في طبقات معيارية، لا في شكل مادي واحد:
+
+1. **هوية وعقود:** تعريف العقدة، قدراتها، مواردها، وإصدارات البروتوكولات.
+2. **لغة ودلالة:** تمثيل عربي رياضي قابل للتحليل والتحقق قبل التنفيذ.
+3. **تواصل آمن:** قنوات مصادق عليها، صلاحيات أقل ما يمكن، وسجل قابل للمراجعة.
+4. **موائم الجهاز:** تحويل العقد المشتركة إلى ABI وواجهات نظام مناسبة للمعالج ونظام التشغيل المحلي.
+5. **مُولّد الواجهة:** اختيار الشكل المناسب لقدرات الجهاز وسياق المستخدم، مع عدم منح الواجهة صلاحيات تتجاوز العقد.
+6. **الأدلة والامتناع:** إظهار حالة الدليل، ورفض العملية عند نقص الشروط أو عدم كفاية الثقة.
+
+## علاقة الأجزاء ببعضها
+
+```text
+              ┌──────────────────────────────┐
+              │       UORI العالمي            │
+              │ هوية + عقود + تواصل + أدلة   │
+              └──────────────┬───────────────┘
+                             │
+       ┌─────────────────────┼─────────────────────┐
+       │                     │                     │
+   عقدة ساعة            عقدة تلفاز             عقدة خادم
+   موائم محلي            موائم محلي            موائم محلي
+       │                     │                     │
+   حساسات/لمس          شاشة/تحكم              Web/LLM/Video
+
+الواجهة لا تُفرض عالمياً؛ بل تُركّب محلياً من قدرات الجهاز ونية المستخدم.
+```
+
+## ما هو مثبت وما هو هدف
+
+| الادعاء | التصنيف الصحيح |
+|---|---|
+| وجود رؤية UORI كمنظومة متعددة الطبقات | تعريف معماري موثق في هذه الوثيقة |
+| وجود مترجم واختبارات وواجهات runtime في المستودع | يُثبت فقط بالملفات والاختبارات المرتبطة بها |
+| ربط كل أنظمة التشغيل وكل العتاد في العالم | هدف بعيد المدى، وليس إنجازاً مثبتاً |
+| واجهة تتكيف مع الجهاز والمستخدم | مبدأ تصميم ورؤية تنفيذية |
+| تشغيل ساعة وتلفاز وخوادم وعتاد طبي عبر UORI | أهداف تكاملية تحتاج موائمات واختبارات مستقلة |
+| تشغيل طبي معتمد أو تشخيص سريري | غير مثبت، ويتطلب تحققاً وتنظيماً مستقلاً |
+
+## المسار الاستراتيجي
+
+في المدى القصير، تُثبت عقود العقدة والقدرات والواجهة المتكيفة في نماذج برمجية معزولة، وتُربط كل طبقة بـREADME والوثيقة الموحدة. في المدى المتوسط، تُبنى موائمات متعددة للأهداف x86-64 وARM64 وWASM، ثم موائمات لأجهزة محدودة الموارد وخدمات الخوادم، مع اختبار التكافؤ الدلالي والتواصل الآمن. في المدى البعيد، يمكن الانتقال إلى منظومة UORI موزعة واسعة النطاق، بشرط إثبات الهوية والتوافق والأمان وقابلية التشغيل لكل فئة عتاد قبل توسيع الادعاء.
+
+## قاعدة حاكمة
+
+> لا يحدد UORI شكله بنفسه؛ الجهاز والمستخدم يحددان الشكل، أما UORI فيضمن أن الشكل الناتج يظل متوافقاً مع العقد والصلاحيات والأدلة.
+
+---
+
+## المصدر 65: `docs/UORI_LANGUAGE_AR.md`
 
 **بصمة المصدر وقت الدمج:** `aaa8e66f993378f431b4f943789965cb515334803cd75fe0e1043588f7fe32b3`
 
@@ -9366,25 +9458,27 @@ APK → واجهة UORI → محلل/مترجم اللغة → عقود ABI → 
 
 ---
 
-## المصدر 65: `docs/UORI_OS_AR.md`
+## المصدر 66: `docs/UORI_OS_AR.md`
 
-**بصمة المصدر وقت الدمج:** `e4045815866897a14b8645e568105604889e1ee4b8b5a4f632ed7c0a76d6cbd5`
+**بصمة المصدر وقت الدمج:** `4878a2485e3c2fd610cecdcec7b0ba3d2aae7c721f6758a4279fd39da80af89c`
 
-# UORI OS: النواة وبيئة التشغيل
+# UORI OS: طبقة التشغيل والتواصل العالمية
 
 [العودة إلى خريطة UORI](UORI_OVERVIEW_AR.md)
 
 ## الغرض
 
-يمثل UORI OS الطبقة التي تستضيف runtime والجسر الحتمي وواجهات النظام، بحيث تنتقل البرامج من عقود لغة UORI إلى تنفيذ مضبوط الصلاحيات. وتشمل الرؤية المستقبلية نواة وبيئة تشغيل وواجهات عربية، لكنها لا تُعد مكتملة لمجرد وجود شيفرة syscall أو نموذج تشغيل.
+يمثل UORI OS طبقة تشغيل وتواصل موزعة لا ترتبط بجهاز واحد. فهي تستضيف عقود الهوية والقدرات والتواصل، وتربط runtime والجسر الحتمي وواجهات النظام المحلية، بحيث تنتقل البرامج من عقود لغة UORI إلى تنفيذ مضبوط الصلاحيات على ساعة أو تلفاز أو حاسوب أو خادم ويب أو خادم LLM أو خادم فيديو أو جهاز متخصص. قد تختلف النواة ونظام التشغيل المحلي من عقدة إلى أخرى، بينما توحّد UORI الدلالات والعقود والبروتوكولات ونتائج التحقق.
 
 ## العلاقة ببقية المنظومة
+
+لا يفرض UORI واجهة أو مكتباً ثابتاً. يعلن كل جهاز قدراته ومداخله ومخارجه، ويحدد المستخدم سياق العمل، ثم تُركّب واجهة مناسبة ضمن العقد. لذلك قد تكون الواجهة آلة حاسبة أو ساعة أو شاشة تلفاز أو لوحة خادم أو عرضاً طبياً مقيداً؛ والشكل ليس جزءاً ثابتاً من هوية UORI.
 
 تستقبل النواة مخرجات المترجم عبر ABI محدد، وتقدم للـLLM والواجهة التطبيقية خدمات محكومة بعقود. ويجب أن يمر كل طلب عبر مسار: **Lookup → Authorize → Bridge**. أما فحص البيئة والأجهزة فيبقى للقراءة فقط ما لم توجد موافقة وعقد مستقلان.
 
 ## الحالة
 
-**الحالة: نموذج أولي/قيد التحقق.** توجد في المستودع ملفات مرتبطة بـsyscalls وruntime واختبارات أمان، لكن لا يوجد في الصفحة الحالية دليل مستقل على نظام تشغيل UORI قابل للإقلاع على عتاد حقيقي. لذلك تُحفظ هذه العبارة كهدف معماري لا كإنجاز مكتمل.
+**الحالة: نموذج أولي/قيد التحقق.** توجد في المستودع ملفات مرتبطة بـsyscalls وruntime واختبارات أمان، لكن لا يوجد في الصفحة الحالية دليل مستقل على منصة UORI عالمية تربط جميع فئات العتاد أو نظام تشغيل UORI قابلاً للإقلاع على عتاد حقيقي. لذلك توصف العالمية والتكامل الشامل كهدفين معماريين بعيدَي المدى لا كإنجاز مكتمل.
 
 ## ما يلزم لإثبات النظام
 
@@ -9399,13 +9493,13 @@ APK → واجهة UORI → محلل/مترجم اللغة → عقود ABI → 
 
 ---
 
-## المصدر 66: `docs/UORI_OVERVIEW_AR.md`
+## المصدر 67: `docs/UORI_OVERVIEW_AR.md`
 
-**بصمة المصدر وقت الدمج:** `dcbf4a15830feedb5cef6f8e47bda6382e886eab512723c765754692bba0b837`
+**بصمة المصدر وقت الدمج:** `19a8e7752cf2aae843f9d86e771c90ae060a17721907ba9e917b520b1d08803b`
 
 # UORI: الرؤية الكلية والمنظومة المترابطة
 
-> **UORI** هو الاسم الجامع لمنظومة عربية رياضية حتمية: لغة برمجة، وطبقة استدلال لغوي، وبيئة تشغيل/نواة، وواجهة تطبيق عالمية.
+> **UORI** هو الاسم الجامع لمنصة تشغيل وتواصل عالمية متكيفة تربط أنظمة التشغيل والعتاد المتنوع في جميع أنحاء العالم. تستخدم المنصة لغة عربية رياضية حتمية، وعقوداً وبروتوكولات موحدة، وموائمات محلية، وتولّد واجهتها وفق قدرات الجهاز ومداخله ومخارجه وسياق المستخدم. قد تظهر كآلة حاسبة، أو ساعة، أو تلفاز، أو لوحة خادم، أو واجهة طبية؛ وليس لها شكل ثابت مسبقاً.
 
 هذه الصفحة هي نقطة الدخول الرئيسية لفهم المشروع. وهي لا تعتبر أي طبقة مكتملة لمجرد وجود اسمها في خارطة الطريق؛ بل تربط كل ادعاء بملف تنفيذ أو اختبار أو دليل ذي بصمة.
 
@@ -9415,36 +9509,40 @@ APK → واجهة UORI → محلل/مترجم اللغة → عقود ABI → 
 |---|---|---|---|
 | **لغة UORI العربية الرياضية** | صياغة عربية رياضية تجمع مفاهيم مختارة من لغات البرمجة العالمية في نحو وأنواع وعقود عربية | توجد مكونات مترجم واختبارات متعددة؛ الحالة الدقيقة تتبع سجل الأدلة لا العبارات التاريخية | [مرجع اللغة](UORI_LANGUAGE_AR.md) |
 | **UORI Deterministic LLM** | طبقة تقترح الفرضيات أو تشرحها، مع منعها من إصدار نتيجة بلا دليل أو تجاوز العقود | هدف معماري/بحثي؛ لا يُثبت هذا المستودع وحده وجود نموذج LLM حتمي مكتمل | [مرجع LLM](UORI_DETERMINISTIC_LLM_AR.md) |
-| **UORI OS** | نواة وruntime وجسر ABI بحدود صلاحيات وقراءة فقط عند فحص البيئة | توجد شيفرات واختبارات لجوانب من runtime وsyscalls؛ لا يثبت ذلك نظام تشغيل مكتمل | [مرجع النظام](UORI_OS_AR.md) |
-| **UORI Global APK** | واجهة مستخدم عالمية تستعمل اللغة وطبقة الاستدلال وبيئة التشغيل | هدف منتج مستقبلي ما لم يوجد تطبيق APK وبناء موثق في دليل مستقل | [مرجع APK](UORI_APK_AR.md) |
+| **UORI OS والمنصة الموزعة** | طبقة عقود وتواصل وموائمات تربط أنظمة تشغيل وعتاداً متنوعاً، مع runtime وجسور محلية | رؤية عالمية؛ توجد شيفرات واختبارات لجوانب من runtime وsyscalls، ولا يثبت ذلك اكتمال منصة عالمية | [مرجع النظام](UORI_OS_AR.md) و[المنصة المتكيفة](UORI_GLOBAL_ADAPTIVE_PLATFORM_AR.md) |
+| **UORI Global والواجهات المتكيفة** | واجهة تُركّب بحسب الجهاز والمداخل والمخارج والمستخدم؛ قد تكون APK أو واجهة ساعة أو تلفاز أو خادم | مبدأ معماري وأهداف تكاملية؛ لا يثبت وجود تطبيق APK أو كل الموائمات | [مرجع APK](UORI_APK_AR.md) و[المنصة المتكيفة](UORI_GLOBAL_ADAPTIVE_PLATFORM_AR.md) |
 
 ## تدفق المنظومة
 
 ```text
-المستخدم
-  ↓
-واجهة UORI العالمية (APK)
-  ↓
-طبقة اللغة العربية الرياضية + واجهة الأوامر
-  ↓
-LLM حتمي: اقتراح/شرح فقط، لا اعتماد بلا دليل
-  ↓
-المترجم والتحقق الفتري والعقود
-  ↓
-runtime / ABI / جسر النواة
-  ↓
-UORI OS أو نموذج التنفيذ المعزول
+الجهاز + نظام التشغيل المحلي + المداخل والمخارج
+                         ↓
+              موائم UORI المحلي وقدرات العقدة
+                         ↓
+ UORI العالمي: هوية + عقود + بروتوكولات + تواصل آمن + أدلة
+                         ↓
+       واجهة تتشكل بحسب الجهاز والمستخدم معاً
+                         ↓
+لغة UORI العربية الرياضية ← LLM للاقتراح والشرح فقط
+                         ↓
+       مترجم + تحقق فتري + ABI + runtime + جسر
+                         ↓
+أجهزة وخدمات متنوعة: ساعة | تلفاز | ويب | LLM | فيديو | طب
 ```
 
 ## قواعد الحالة والدليل
 
 يجب استعمال إحدى الحالات التالية في كل وثيقة: **مثبت بالدليل**، **نموذج أولي**، **قيد الاختبار**، **مخطط**، أو **ممتنع عن التصنيف**. وعبارات مثل «حتمي» أو «عالمي» أو «نظام تشغيل» لا تُعامل كحقائق تشغيلية إلا إذا أرفقت باختبار، أو عقد، أو ملف بناء، أو سجل بصمة SHA-256.
 
+## مبدأ الشكل غير المحدد
+
+لا يملك UORI مكتباً أو شاشة أو تخطيطاً واحداً. **الجهاز يحدد ما يمكن عرضه وإدخاله وإخراجه، والمستخدم يحدد ما يحتاجه وكيف يتفاعل، وUORI يركّب الواجهة التي تحقق العقد ضمن حدود الأمان.** لذلك فإن APK ليس تعريف UORI كله، بل أحد أشكال الوصول الممكنة.
+
 ## لماذا توجد أسماء متعددة؟
 
 الاسم التاريخي للمستودع هو `arabic-math-lang`، وتظهر في بعض الملفات تسميات AML أو «اللغة الرياضية العربية»، بينما يمثل UORI الهوية الجامعة المقترحة. هذا التعدد كان سبباً مباشراً في ضعف فهم القارئ ومحركات البحث؛ لذلك يجب استخدام العبارة التالية في الصفحات الجديدة:
 
-> **UORI (arabic-math-lang): منظومة عربية رياضية حتمية، تبدأ بلغة البرمجة وتمتد إلى LLM وبيئة التشغيل وواجهة APK.**
+> **UORI (arabic-math-lang): منصة تشغيل وتواصل عالمية متكيفة، تبدأ بلغة عربية رياضية حتمية وتربط LLM والموائمات المحلية وبيئات التشغيل والواجهات التي يحدد شكلها الجهاز والمستخدم.**
 
 ## ما الذي لا تدعيه الصفحة؟
 
@@ -9452,7 +9550,7 @@ UORI OS أو نموذج التنفيذ المعزول
 
 ## مسار القراءة المقترح
 
-يبدأ المراجع من [README](../README.md)، ثم يقرأ [مرجع اللغة](UORI_LANGUAGE_AR.md)، وبعده [مرجع LLM](UORI_DETERMINISTIC_LLM_AR.md)، و[مرجع النظام](UORI_OS_AR.md)، و[مرجع APK](UORI_APK_AR.md)، ثم ينتقل إلى [خارطة الطريق](../ROADMAP.md) وملفات الأدلة. أما المساهمون فيرجعون إلى [دليل المساهمة](../CONTRIBUTING.md).
+يبدأ المراجع من [README](../README.md)، ثم يقرأ [المنصة العالمية المتكيفة](UORI_GLOBAL_ADAPTIVE_PLATFORM_AR.md)، وبعدها [مرجع اللغة](UORI_LANGUAGE_AR.md)، و[مرجع LLM](UORI_DETERMINISTIC_LLM_AR.md)، و[مرجع النظام](UORI_OS_AR.md)، و[مرجع APK والواجهات](UORI_APK_AR.md)، ثم ينتقل إلى [خارطة الطريق](../ROADMAP.md) وملفات الأدلة. أما المساهمون فيرجعون إلى [دليل المساهمة](../CONTRIBUTING.md).
 
 ## المصدر
 
@@ -9460,7 +9558,7 @@ UORI OS أو نموذج التنفيذ المعزول
 
 ---
 
-## المصدر 67: `docs/UORI_STATUS_AR.md`
+## المصدر 68: `docs/UORI_STATUS_AR.md`
 
 **بصمة المصدر وقت الدمج:** `6a12412911bd8442e1dfb1362e2fbc621ff0e20e8ab589972b3f212538e62b3a`
 
@@ -9490,7 +9588,7 @@ UORI OS أو نموذج التنفيذ المعزول
 
 ---
 
-## المصدر 68: `docs/research/C40_Q32_VERIFICATION_AR.md`
+## المصدر 69: `docs/research/C40_Q32_VERIFICATION_AR.md`
 
 **بصمة المصدر وقت الدمج:** `6cf93ef72565661a19c38d2a235576bca017bc7de7e9b41b7266604041d4f1e7`
 
@@ -9585,7 +9683,7 @@ MERGE=not-performed
 
 ---
 
-## المصدر 69: `docs/research/C40_Q64_REPAIR_PLAN_AR.md`
+## المصدر 70: `docs/research/C40_Q64_REPAIR_PLAN_AR.md`
 
 **بصمة المصدر وقت الدمج:** `79f354a337c63937540a2f776c5a410275be7ad94b340dfb20fd443319e82aeb`
 
@@ -9636,7 +9734,7 @@ output_Q32  = round(scaled / 2^32)
 
 ---
 
-## المصدر 70: `formal/C40_Q32_Pow_Assumption_Audit.md`
+## المصدر 71: `formal/C40_Q32_Pow_Assumption_Audit.md`
 
 **بصمة المصدر وقت الدمج:** `60d0bf86632195fc33602bef7f87b65118f86cd9da2d9a0976c0f7b08bd770c0`
 
@@ -9701,7 +9799,7 @@ Parameter reject_paths_sound :
 
 ---
 
-## المصدر 71: `tests/c40_q32_verification/C40_FORMAL_PROOF_SPEC_AR.md`
+## المصدر 72: `tests/c40_q32_verification/C40_FORMAL_PROOF_SPEC_AR.md`
 
 **بصمة المصدر وقت الدمج:** `9feca863bfb574704629f059ff877cbd455b370e28c0a9c63de9ac099e75045d`
 
@@ -9784,7 +9882,7 @@ x = k * ln(2) + r
 
 ---
 
-## المصدر 72: `tests/c40_q32_verification/C40_POW_SEMANTIC_LINK_AR.md`
+## المصدر 73: `tests/c40_q32_verification/C40_POW_SEMANTIC_LINK_AR.md`
 
 **بصمة المصدر وقت الدمج:** `117aa31722699e91dcf11f58b666ecbc9115e97cb7377d5dd6a41e1286e0b079`
 
@@ -9894,7 +9992,7 @@ x = k * ln(2) + r
 
 ---
 
-## المصدر 73: `tests/c40_q32_verification/C40_Q163_128_SPEC_AR.md`
+## المصدر 74: `tests/c40_q32_verification/C40_Q163_128_SPEC_AR.md`
 
 **بصمة المصدر وقت الدمج:** `e2ec3dd2af00fa75072d151ce57c5bc02985e294d4ea6d21379bd95bdf1c7149`
 
@@ -9988,7 +10086,7 @@ output_Q32 = round(scaled_Q63 / 2^31)
 
 ---
 
-## المصدر 74: `tests/c40_q32_verification/C40_Q64_REPAIR_FINAL_REPORT_AR.md`
+## المصدر 75: `tests/c40_q32_verification/C40_Q64_REPAIR_FINAL_REPORT_AR.md`
 
 **بصمة المصدر وقت الدمج:** `42d7a74e9fa2618fcc34a4f3b5ddd8c1c7895e42cbe53e3eb1c6236999217ec5`
 
@@ -10071,7 +10169,7 @@ The final evidence is 8/8 reproduction cases, 21/21 Q32.32 stress cases on the V
 
 ---
 
-## المصدر 75: `tests/c40_q32_verification/C40_Q64_UNIT_CONTRACT_AR.md`
+## المصدر 76: `tests/c40_q32_verification/C40_Q64_UNIT_CONTRACT_AR.md`
 
 **بصمة المصدر وقت الدمج:** `894e1871ec0d39a1d29aaafbdfdb6895f5acc635c189c5eb5bba516a4ebcd8ca`
 
@@ -10130,7 +10228,7 @@ out = round_Q64_to_Q32(y)
 
 ---
 
-## المصدر 76: `tests/c40_q32_verification/C40_SQRT_Q32_PROGRESS_REPORT_AR.md`
+## المصدر 77: `tests/c40_q32_verification/C40_SQRT_Q32_PROGRESS_REPORT_AR.md`
 
 **بصمة المصدر وقت الدمج:** `8195ebf617c797b103b502ae3364b0387bbc6f6b4e05f36f7ccaa0306f314b06`
 
@@ -10184,7 +10282,7 @@ s² ≤ x·2³² < (s+1)²
 
 ---
 
-## المصدر 77: `tests/c40_q32_verification/EXP_DIAGNOSTIC_FINDINGS_AR.md`
+## المصدر 78: `tests/c40_q32_verification/EXP_DIAGNOSTIC_FINDINGS_AR.md`
 
 **بصمة المصدر وقت الدمج:** `6ad0d4d059ae54b40f111c75be821c6fb41a35116824f622ecdde3eae7eb9e0b`
 
@@ -10206,7 +10304,7 @@ s² ≤ x·2³² < (s+1)²
 
 ---
 
-## المصدر 78: `tests/c40_q32_verification/README_AR.md`
+## المصدر 79: `tests/c40_q32_verification/README_AR.md`
 
 **بصمة المصدر وقت الدمج:** `25ac9df145f1f7237d97405aeb91ae19be058ee847887aafe5ab06472b111295`
 
@@ -10239,7 +10337,7 @@ gcc -O2 -Wall -Wextra tests/c40_q32_verification/test_mixed_mul_q64.c /tmp/mixed
 
 ---
 
-## المصدر 79: `versions/academic/DESIGN_PRINCIPLES.md`
+## المصدر 80: `versions/academic/DESIGN_PRINCIPLES.md`
 
 **بصمة المصدر وقت الدمج:** `8410dddfb0298a52507201682f54516fbedbf6fcef0ad2f2f746cff671564af6`
 
@@ -10398,7 +10496,7 @@ If you use this work in academic research, please cite:
 
 ---
 
-## المصدر 80: `versions/academic/FULL_PAPER.md`
+## المصدر 81: `versions/academic/FULL_PAPER.md`
 
 **بصمة المصدر وقت الدمج:** `cf787d86d94f34b06c694d53862b314bb36c5c1d387d2e4d435bf1e575e8e643`
 
@@ -11508,7 +11606,7 @@ This is not just a motto—it is the spirit of continuous learning and improveme
 
 ---
 
-## المصدر 81: `versions/academic/PAPER_ABSTRACT.md`
+## المصدر 82: `versions/academic/PAPER_ABSTRACT.md`
 
 **بصمة المصدر وقت الدمج:** `c5fb1185f92dcae5f7e64c937d27ed7ce7d53f62997b06e1d3a03137f59e61d1`
 
@@ -11789,7 +11887,7 @@ AML demonstrates that:
 
 ---
 
-## المصدر 82: `versions/academic/README_ACADEMIC.md`
+## المصدر 83: `versions/academic/README_ACADEMIC.md`
 
 **بصمة المصدر وقت الدمج:** `5403f151e3d06e0926ec94961e387284b38d34dfbca6a6e614f2749242b1d506`
 
@@ -12011,7 +12109,7 @@ MIT License - see [LICENSE](../../LICENSE)
 
 ---
 
-## المصدر 83: `versions/technical/HACKER_NEWS_POST.md`
+## المصدر 84: `versions/technical/HACKER_NEWS_POST.md`
 
 **بصمة المصدر وقت الدمج:** `193c6e1265cd840573e1b2c26934e4179ac5f392107c8818d2b9926726e940fd`
 
@@ -12141,7 +12239,7 @@ I'm happy to answer questions about:
 
 ---
 
-## المصدر 84: `versions/technical/LINKEDIN_POST.md`
+## المصدر 85: `versions/technical/LINKEDIN_POST.md`
 
 **بصمة المصدر وقت الدمج:** `be0c76ea82a12fccaf29417fdc0273edd4b8e782d7cf8a451e523a064601a2e5`
 
@@ -12263,7 +12361,7 @@ I'm looking for contributors in:
 
 ---
 
-## المصدر 85: `versions/technical/README_EN.md`
+## المصدر 86: `versions/technical/README_EN.md`
 
 **بصمة المصدر وقت الدمج:** `080b65312366096d43dce4dbde28a05439707566e61218319ae078f71476f249`
 
@@ -12619,7 +12717,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 86: `vnext/README_AR.md`
+## المصدر 87: `vnext/README_AR.md`
 
 **بصمة المصدر وقت الدمج:** `8b9251591ad57102c93b8a1d3281c9181838bf3feb4805c98a587c963ebef7fa`
 
@@ -12655,7 +12753,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 87: `vnext/reports/PHASES_151_200_AR.md`
+## المصدر 88: `vnext/reports/PHASES_151_200_AR.md`
 
 **بصمة المصدر وقت الدمج:** `c7b8ad2063c05ab8e2931d951570e63044399d29029cc3b27f61a006e717ebbe`
 
@@ -12691,7 +12789,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 88: `vnext/reports/PHASES_201_250_AR.md`
+## المصدر 89: `vnext/reports/PHASES_201_250_AR.md`
 
 **بصمة المصدر وقت الدمج:** `12e043b9a2b6be40a86b6d2339f060480d0d96ff37bc98133d205b63aaee80d7`
 
@@ -12726,7 +12824,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 89: `vnext/reports/PHASES_251_300_AR.md`
+## المصدر 90: `vnext/reports/PHASES_251_300_AR.md`
 
 **بصمة المصدر وقت الدمج:** `693953734793af2438e5d0a50c0e98f562032a09cb01634a974dbb54e819df47`
 
@@ -12761,7 +12859,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 90: `vnext/reports/PHASES_301_377_AR.md`
+## المصدر 91: `vnext/reports/PHASES_301_377_AR.md`
 
 **بصمة المصدر وقت الدمج:** `e4b00d1deb4cca647cae3f3f2cc08fac38fb473fe7915fe3f4397799a9dc274f`
 
@@ -12795,7 +12893,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 91: `vnext/reports/PHASES_378_454_AR.md`
+## المصدر 92: `vnext/reports/PHASES_378_454_AR.md`
 
 **بصمة المصدر وقت الدمج:** `6c04b602c90d452f6a08b74f80e93ecdd071a9d298eca6b99faee08c9063134b`
 
@@ -12834,7 +12932,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 92: `vnext/reports/PHASES_455_531_AR.md`
+## المصدر 93: `vnext/reports/PHASES_455_531_AR.md`
 
 **بصمة المصدر وقت الدمج:** `9d49a625045ea4069dbe8274d47862ef111e2826d94c72fb0d2450f9397e993a`
 
@@ -12868,7 +12966,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 93: `vnext/reports/PHASES_532_608_AR.md`
+## المصدر 94: `vnext/reports/PHASES_532_608_AR.md`
 
 **بصمة المصدر وقت الدمج:** `077cfdfef0ab6cc920c20fd2cdd802a1a887909f5b108e5b3f1500432ed3df4d`
 
@@ -12921,7 +13019,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 94: `vnext/reports/PHASES_609_685_AR.md`
+## المصدر 95: `vnext/reports/PHASES_609_685_AR.md`
 
 **بصمة المصدر وقت الدمج:** `6d408724d3c6bbf50ede221a78cd9e1b7ecdd68afb9bb16764a17b60baba072f`
 
@@ -12967,7 +13065,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 95: `vnext/reports/PHASES_686_762_AR.md`
+## المصدر 96: `vnext/reports/PHASES_686_762_AR.md`
 
 **بصمة المصدر وقت الدمج:** `c3a366e824e0c1cf346bc74ed946327ccf46c3ebb9a4da28789e921509d96d31`
 
@@ -13009,7 +13107,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 96: `vnext/reports/PHASES_763_839_AR.md`
+## المصدر 97: `vnext/reports/PHASES_763_839_AR.md`
 
 **بصمة المصدر وقت الدمج:** `2bbcef7dc62b8ea5288e602da21820bd092f69fee30474619f42936074613332`
 
@@ -13049,7 +13147,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 97: `vnext/reports/PHASES_840_916_AR.md`
+## المصدر 98: `vnext/reports/PHASES_840_916_AR.md`
 
 **بصمة المصدر وقت الدمج:** `1e20393c0d00ec090b5d8e9ebe050ab92cfb84584bb9f0594b22b3c093a0b7cd`
 
@@ -13088,7 +13186,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 98: `vnext/reports/PHASES_917_993_AR.md`
+## المصدر 99: `vnext/reports/PHASES_917_993_AR.md`
 
 **بصمة المصدر وقت الدمج:** `8a7a2a0f87c0e5cc73ff2f1a567155f1f2499fc74008f097fcdfa06332d30b91`
 
@@ -13129,7 +13227,7 @@ MIT License - see [LICENSE](../LICENSE)
 
 ---
 
-## المصدر 99: `vnext/reports/RETROACTIVE_COQ_REEXECUTION_20260822_AR.md`
+## المصدر 100: `vnext/reports/RETROACTIVE_COQ_REEXECUTION_20260822_AR.md`
 
 **بصمة المصدر وقت الدمج:** `af74e1f35849a13b26b330b423122de5d12e873cd15c6fa462b0f1757dddc83a`
 
