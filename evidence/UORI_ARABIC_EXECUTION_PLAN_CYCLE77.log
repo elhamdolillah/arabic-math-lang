@@ -1,0 +1,25 @@
+=== UORI ARABIC EXECUTION PLAN ===
+2026-08-22T21:44:05Z
+TEST=python3 -m unittest discover -s prototypes/uori_kernel_v0_1/tests -p test_*.py -v
+test_arabic_execution_plan_contract_loads (test_uori_kernel.UoriKernelTests.test_arabic_execution_plan_contract_loads) ... ok
+test_arabic_execution_plan_rejects_direct_source_execution (test_uori_kernel.UoriKernelTests.test_arabic_execution_plan_rejects_direct_source_execution) ... ok
+test_arabic_registry_rejects_unknown_field (test_uori_kernel.UoriKernelTests.test_arabic_registry_rejects_unknown_field) ... ok
+test_arabic_registry_source_loads (test_uori_kernel.UoriKernelTests.test_arabic_registry_source_loads) ... ok
+test_deterministic_add (test_uori_kernel.UoriKernelTests.test_deterministic_add) ... ok
+test_deterministic_gcd (test_uori_kernel.UoriKernelTests.test_deterministic_gcd) ... ok
+test_deterministic_sqrt (test_uori_kernel.UoriKernelTests.test_deterministic_sqrt) ... ok
+test_deterministic_subtract (test_uori_kernel.UoriKernelTests.test_deterministic_subtract) ... ok
+test_plan_tampering_is_rejected (test_uori_kernel.UoriKernelTests.test_plan_tampering_is_rejected) ... ok
+test_requires_logical_boot (test_uori_kernel.UoriKernelTests.test_requires_logical_boot) ... ok
+test_unknown_request_abstains_without_execution (test_uori_kernel.UoriKernelTests.test_unknown_request_abstains_without_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.004s
+
+OK
+PY_COMPILE=PASS
+--- SHA256 ---
+ca8904a12fb9352fbf0a55e6bf1e926f73644abc4b289235c947bc68f613ed0e  prototypes/uori_kernel_v0_1/source/execution_plan.ar
+46ac214a32dca0766225955023e0dc16d3d4d507da74c61732e2ddecebdca66a  prototypes/uori_kernel_v0_1/python/arabic_plan.py
+9d8b5c2189b7f4cff2e896cab3bfd861428910b2c416d61a1d212124d5ad38fe  prototypes/uori_kernel_v0_1/python/uori_kernel.py
+5690e31837ad55f403ab9863a4322d74d35af92de9af7121f19ec7a87c82fdd1  prototypes/uori_kernel_v0_1/tests/test_uori_kernel.py

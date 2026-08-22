@@ -14,6 +14,7 @@ import math
 from pathlib import Path
 from typing import Callable, Mapping
 
+from arabic_plan import PlanSpecError, load_plan_spec
 from arabic_registry import RegistrySpecError, load_arabic_specs
 
 
@@ -153,6 +154,11 @@ class UoriKernel:
         self.hardware = hardware
         self.registry = AlgorithmRegistry()
         self.booted = False
+        plan_path = Path(__file__).resolve().parents[1] / "source" / "execution_plan.ar"
+        try:
+            self.plan_spec = load_plan_spec(plan_path)
+        except (OSError, PlanSpecError) as exc:
+            raise KernelFault(f"تعذر اعتماد مواصفة خطة التنفيذ العربية: {exc}") from exc
         self._register_builtins()
 
     def _register_builtins(self) -> None:
@@ -208,15 +214,15 @@ class UoriKernel:
         ev = algorithm.evidence
         if not (ev.deterministic and ev.termination_proven and ev.resource_bound > 0):
             raise KernelFault("دليل القبول ناقص")
-        if self.hardware.memory_bytes < 4096:
-            raise KernelFault("ذاكرة غير كافية")
+        if self.hardware.memory_bytes < self.plan_spec.minimum_memory:
+            raise KernelFault("ذاكرة غير كافية وفق عقد الخطة العربية")
         plan = ExecutionPlan(
             algorithm=algorithm,
             intent=intent,
             cpu_budget=ev.resource_bound,
-            memory_budget=4096,
-            fuel_budget=ev.resource_bound,
-            capability="math.deterministic",
+            memory_budget=self.plan_spec.minimum_memory,
+            fuel_budget=max(ev.resource_bound, self.plan_spec.minimum_fuel),
+            capability=self.plan_spec.capability,
             plan_sha256="",
         )
         return ExecutionPlan(
@@ -233,9 +239,9 @@ class UoriKernel:
         try:
             if not plan.is_intact():
                 raise KernelFault("بصمة خطة التنفيذ غير مطابقة")
-            if plan.capability != "math.deterministic":
+            if plan.capability != self.plan_spec.capability:
                 raise KernelFault("قدرة التنفيذ غير مصرح بها")
-            if plan.cpu_budget <= 0 or plan.memory_budget < 4096 or plan.fuel_budget <= 0:
+            if plan.cpu_budget <= 0 or plan.memory_budget < self.plan_spec.minimum_memory or plan.fuel_budget < self.plan_spec.minimum_fuel:
                 raise KernelFault("ميزانية خطة التنفيذ غير صالحة")
             value = plan.algorithm.implementation(plan.intent.arguments)
             if not isinstance(value, int) or isinstance(value, bool):

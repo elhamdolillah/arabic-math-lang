@@ -6,6 +6,7 @@ from tempfile import NamedTemporaryFile
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "python"))
 
+from arabic_plan import PlanSpecError, load_plan_spec
 from arabic_registry import RegistrySpecError, load_arabic_specs
 from uori_kernel import HardwareProfile, KernelStatus, UoriKernel
 
@@ -24,6 +25,21 @@ class UoriKernelTests(unittest.TestCase):
         gcd = next(spec for spec in specs if spec.operation == "قاسم_مشترك")
         self.assertEqual(gcd.domain, "أعداد_صحيحة_غير_سالبة")
         self.assertIn("نفاد_الوقود", gcd.failure)
+
+    def test_arabic_execution_plan_contract_loads(self):
+        source = Path(__file__).parents[1] / "source" / "execution_plan.ar"
+        plan = load_plan_spec(source)
+        self.assertEqual(plan.determinism, "حتمي")
+        self.assertEqual(plan.capability, "math.deterministic")
+        self.assertEqual(plan.minimum_memory, 4096)
+        self.assertEqual(plan.source_execution, "صحيح")
+
+    def test_arabic_execution_plan_rejects_direct_source_execution(self):
+        with NamedTemporaryFile("w", encoding="utf-8", suffix=".ar") as handle:
+            handle.write("خطة_التنفيذ: uori.execution.plan.v1\\nالتصنيف: حتمي\\nالقدرة: math.deterministic\\nالذاكرة_الدنيا: 4096\\nالوقود_الأدنى: 1\\nالدليل_المطلوب: حتمي\\nعند_الفشل: امتناع_آمن\\nلا_تنفيذ_مباشر_للمصدر: خطأ\\n")
+            handle.flush()
+            with self.assertRaises(PlanSpecError):
+                load_plan_spec(handle.name)
 
     def test_arabic_registry_rejects_unknown_field(self):
         with NamedTemporaryFile("w", encoding="utf-8", suffix=".ar") as handle:
