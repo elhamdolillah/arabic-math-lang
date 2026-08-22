@@ -169,6 +169,26 @@
       "status": "verified",
       "max_error": 0,
       "depends_on": ["runtime/execution-pipeline-v1"]
+    },
+    {
+      "id": "constitution/decision-v1",
+      "kind": "instruction",
+      "path": "vnext/tools/constitutional_decision.py",
+      "owner": "uori-v9-governance",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "implemented",
+      "max_error": 0,
+      "depends_on": ["file/trace", "runtime/execution-pipeline-v1"]
+    },
+    {
+      "id": "test/constitution-decision-v1",
+      "kind": "test",
+      "path": "vnext/tests/test_constitutional_decision.py",
+      "owner": "uori-v9-governance",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": ["constitution/decision-v1"]
     }
   ],
   "acceptance": {
