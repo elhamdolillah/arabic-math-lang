@@ -1,0 +1,141 @@
+DIGEST b399647267afa939c41247d9ef61f47c
+FUORI.C40_Q32_Sqrt_Newton_Link
+R24:29 Coq.ZArith.ZArith <> <> lib
+R31:33 Coq.micromega.Lia <> <> lib
+def 372:381 <> sqrt_guard
+R388:388 Coq.Numbers.BinNums <> Z ind
+binder 384:384 <> n:1
+R393:393 Coq.Numbers.BinNums <> Z ind
+R404:408 Coq.ZArith.BinInt <> ::Z_scope:x_'<=?'_x not
+R403:403 UORI.C40_Q32_Sqrt_Newton_Link <> n:1 var
+R416:416 UORI.C40_Q32_Sqrt_Newton_Link <> n:1 var
+def 438:453 <> newton_candidate
+R462:462 Coq.Numbers.BinNums <> Z ind
+binder 456:456 <> n:2
+binder 458:458 <> x:3
+R467:467 Coq.Numbers.BinNums <> Z ind
+R474:474 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R484:487 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R476:478 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R475:475 UORI.C40_Q32_Sqrt_Newton_Link <> x:3 var
+R480:482 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R479:479 UORI.C40_Q32_Sqrt_Newton_Link <> n:2 var
+R483:483 UORI.C40_Q32_Sqrt_Newton_Link <> x:3 var
+def 503:511 <> sqrt_stop
+R526:526 Coq.Numbers.BinNums <> Z ind
+binder 514:517 <> prev:4
+binder 519:522 <> next:5
+R531:534 Coq.Init.Datatypes <> bool ind
+R546:550 Coq.ZArith.BinInt <> ::Z_scope:x_'>=?'_x not
+R542:545 UORI.C40_Q32_Sqrt_Newton_Link <> next:5 var
+R551:554 UORI.C40_Q32_Sqrt_Newton_Link <> prev:4 var
+def 570:582 <> sqrt_contract
+R591:591 Coq.Numbers.BinNums <> Z ind
+binder 585:585 <> n:6
+binder 587:587 <> r:7
+R612:615 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R607:610 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R611:611 UORI.C40_Q32_Sqrt_Newton_Link <> r:7 var
+R626:629 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R621:624 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R617:619 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R616:616 UORI.C40_Q32_Sqrt_Newton_Link <> r:7 var
+R620:620 UORI.C40_Q32_Sqrt_Newton_Link <> r:7 var
+R625:625 UORI.C40_Q32_Sqrt_Newton_Link <> n:6 var
+R631:633 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R630:630 UORI.C40_Q32_Sqrt_Newton_Link <> n:6 var
+R634:634 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R640:644 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R650:650 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R636:638 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R635:635 UORI.C40_Q32_Sqrt_Newton_Link <> r:7 var
+R646:648 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R645:645 UORI.C40_Q32_Sqrt_Newton_Link <> r:7 var
+prf 660:674 <> sqrt_guard_zero
+R690:692 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R678:687 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_guard def
+prf 728:741 <> sqrt_guard_one
+R757:759 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R745:754 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_guard def
+prf 795:816 <> sqrt_guard_nonnegative
+R831:831 Coq.Numbers.BinNums <> Z ind
+binder 827:827 <> n:8
+R842:845 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R837:840 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R841:841 UORI.C40_Q32_Sqrt_Newton_Link <> n:8 var
+R847:850 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R851:860 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_guard def
+R862:862 UORI.C40_Q32_Sqrt_Newton_Link <> n:8 var
+R896:905 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_guard def
+R921:925 Coq.ZArith.BinInt <> ::Z_scope:x_'<=?'_x not
+R921:925 Coq.ZArith.BinInt <> ::Z_scope:x_'<=?'_x not
+prf 955:985 <> sqrt_stop_true_returns_previous
+R1010:1010 Coq.Numbers.BinNums <> Z ind
+binder 996:996 <> n:9
+binder 998:1001 <> prev:10
+binder 1003:1006 <> next:11
+R1027:1032 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1019:1022 Coq.ZArith.BinInt <> ::Z_scope:x_'>='_x not
+R1015:1018 UORI.C40_Q32_Sqrt_Newton_Link <> next:11 var
+R1023:1026 UORI.C40_Q32_Sqrt_Newton_Link <> prev:10 var
+R1033:1033 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1060:1066 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1053:1055 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1034:1042 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_stop def
+R1044:1047 UORI.C40_Q32_Sqrt_Newton_Link <> prev:10 var
+R1049:1052 UORI.C40_Q32_Sqrt_Newton_Link <> next:11 var
+R1056:1059 Coq.Init.Datatypes <> true constr
+R1087:1092 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1067:1079 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_contract def
+R1081:1081 UORI.C40_Q32_Sqrt_Newton_Link <> n:9 var
+R1083:1086 UORI.C40_Q32_Sqrt_Newton_Link <> prev:10 var
+R1093:1105 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_contract def
+R1107:1107 UORI.C40_Q32_Sqrt_Newton_Link <> n:9 var
+R1109:1112 UORI.C40_Q32_Sqrt_Newton_Link <> prev:10 var
+prf 1197:1225 <> newton_transition_is_explicit
+R1242:1242 Coq.Numbers.BinNums <> Z ind
+binder 1236:1236 <> n:12
+binder 1238:1238 <> x:13
+R1253:1258 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1248:1251 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R1247:1247 UORI.C40_Q32_Sqrt_Newton_Link <> x:13 var
+R1279:1281 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1259:1274 UORI.C40_Q32_Sqrt_Newton_Link <> newton_candidate def
+R1276:1276 UORI.C40_Q32_Sqrt_Newton_Link <> n:12 var
+R1278:1278 UORI.C40_Q32_Sqrt_Newton_Link <> x:13 var
+R1282:1282 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R1292:1295 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R1284:1286 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1283:1283 UORI.C40_Q32_Sqrt_Newton_Link <> x:13 var
+R1288:1290 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R1287:1287 UORI.C40_Q32_Sqrt_Newton_Link <> n:12 var
+R1291:1291 UORI.C40_Q32_Sqrt_Newton_Link <> x:13 var
+def 1562:1573 <> stop_refines
+R1590:1590 Coq.Numbers.BinNums <> Z ind
+binder 1576:1576 <> n:14
+binder 1578:1581 <> prev:15
+binder 1583:1586 <> next:16
+R1617:1620 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1609:1612 Coq.ZArith.BinInt <> ::Z_scope:x_'>='_x not
+R1605:1608 UORI.C40_Q32_Sqrt_Newton_Link <> next:16 var
+R1613:1616 UORI.C40_Q32_Sqrt_Newton_Link <> prev:15 var
+R1641:1644 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1621:1633 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_contract def
+R1635:1635 UORI.C40_Q32_Sqrt_Newton_Link <> n:14 var
+R1637:1640 UORI.C40_Q32_Sqrt_Newton_Link <> prev:15 var
+R1645:1657 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_contract def
+R1659:1659 UORI.C40_Q32_Sqrt_Newton_Link <> n:14 var
+R1661:1664 UORI.C40_Q32_Sqrt_Newton_Link <> prev:15 var
+prf 1674:1691 <> stop_refines_sound
+R1716:1716 Coq.Numbers.BinNums <> Z ind
+binder 1702:1702 <> n:17
+binder 1704:1707 <> prev:18
+binder 1709:1712 <> next:19
+R1721:1732 UORI.C40_Q32_Sqrt_Newton_Link <> stop_refines def
+R1734:1734 UORI.C40_Q32_Sqrt_Newton_Link <> n:17 var
+R1736:1739 UORI.C40_Q32_Sqrt_Newton_Link <> prev:18 var
+R1741:1744 UORI.C40_Q32_Sqrt_Newton_Link <> next:19 var
+R1835:1856 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_guard_nonnegative thm
+R1877:1907 UORI.C40_Q32_Sqrt_Newton_Link <> sqrt_stop_true_returns_previous thm
+R1928:1956 UORI.C40_Q32_Sqrt_Newton_Link <> newton_transition_is_explicit thm
+R1977:1994 UORI.C40_Q32_Sqrt_Newton_Link <> stop_refines_sound thm

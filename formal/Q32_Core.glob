@@ -1,0 +1,97 @@
+DIGEST 8d7c81671f514c20de278409a4eceff5
+FUORI.Q32_Core
+R24:29 Coq.ZArith.ZArith <> <> lib
+R31:33 Coq.micromega.Lia <> <> lib
+def 325:337 <> q32_frac_bits
+R341:341 Coq.Numbers.BinNums <> Z ind
+def 361:369 <> q32_scale
+R373:373 Coq.Numbers.BinNums <> Z ind
+def 401:407 <> q32_max
+R411:411 Coq.Numbers.BinNums <> Z ind
+def 448:454 <> q32_min
+R458:458 Coq.Numbers.BinNums <> Z ind
+prf 492:509 <> q32_scale_positive
+R514:516 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R517:525 UORI.Q32_Core <> q32_scale def
+R542:550 UORI.Q32_Core <> q32_scale def
+prf 570:587 <> q32_bounds_ordered
+R602:605 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R598:600 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R591:597 UORI.Q32_Core <> q32_min def
+R607:609 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R610:616 UORI.Q32_Core <> q32_max def
+R633:639 UORI.Q32_Core <> q32_min def
+R642:648 UORI.Q32_Core <> q32_max def
+def 673:684 <> q32_in_range
+R691:691 Coq.Numbers.BinNums <> Z ind
+binder 687:687 <> x:1
+R718:721 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R713:716 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R706:712 UORI.Q32_Core <> q32_min def
+R717:717 UORI.Q32_Core <> x:1 var
+R723:726 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R722:722 UORI.Q32_Core <> x:1 var
+R727:733 UORI.Q32_Core <> q32_max def
+prf 743:759 <> q32_zero_in_range
+R763:774 UORI.Q32_Core <> q32_in_range def
+R793:804 UORI.Q32_Core <> q32_in_range def
+R807:813 UORI.Q32_Core <> q32_min def
+R816:822 UORI.Q32_Core <> q32_max def
+def 847:853 <> q32_abs
+R860:860 Coq.Numbers.BinNums <> Z ind
+binder 856:856 <> x:2
+R865:865 Coq.Numbers.BinNums <> Z ind
+R870:874 Coq.ZArith.BinInt Z abs def
+R876:876 UORI.Q32_Core <> x:2 var
+prf 886:904 <> q32_abs_nonnegative
+R919:919 Coq.Numbers.BinNums <> Z ind
+binder 915:915 <> x:3
+R923:926 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R927:933 UORI.Q32_Core <> q32_abs def
+R935:935 UORI.Q32_Core <> x:3 var
+R966:972 UORI.Q32_Core <> q32_abs def
+R983:994 Coq.ZArith.BinInt Z abs_nonneg thm
+R983:994 Coq.ZArith.BinInt Z abs_nonneg thm
+prf 1009:1020 <> q32_abs_spec
+R1035:1035 Coq.Numbers.BinNums <> Z ind
+binder 1031:1031 <> x:4
+R1053:1056 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R1049:1051 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1040:1046 UORI.Q32_Core <> q32_abs def
+R1048:1048 UORI.Q32_Core <> x:4 var
+R1052:1052 UORI.Q32_Core <> x:4 var
+R1066:1068 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1057:1063 UORI.Q32_Core <> q32_abs def
+R1065:1065 UORI.Q32_Core <> x:4 var
+R1069:1069 Coq.ZArith.BinInt <> ::Z_scope:'-'_x not
+R1070:1070 UORI.Q32_Core <> x:4 var
+R1101:1107 UORI.Q32_Core <> q32_abs def
+R1122:1132 Coq.ZArith.ZArith_dec <> Z_le_gt_dec def
+R1153:1160 Coq.ZArith.BinInt Z abs_eq thm
+R1182:1190 Coq.ZArith.BinInt Z abs_neq thm
+R1122:1132 Coq.ZArith.ZArith_dec <> Z_le_gt_dec def
+R1153:1160 Coq.ZArith.BinInt Z abs_eq thm
+R1182:1190 Coq.ZArith.BinInt Z abs_neq thm
+def 1216:1229 <> q32_square_sum
+R1238:1238 Coq.Numbers.BinNums <> Z ind
+binder 1232:1232 <> x:5
+binder 1234:1234 <> y:6
+R1243:1243 Coq.Numbers.BinNums <> Z ind
+R1253:1255 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1249:1251 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1248:1248 UORI.Q32_Core <> x:5 var
+R1252:1252 UORI.Q32_Core <> x:5 var
+R1257:1259 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1256:1256 UORI.Q32_Core <> y:6 var
+R1260:1260 UORI.Q32_Core <> y:6 var
+prf 1270:1295 <> q32_square_sum_nonnegative
+R1312:1312 Coq.Numbers.BinNums <> Z ind
+binder 1306:1306 <> x:7
+binder 1308:1308 <> y:8
+R1318:1321 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1322:1335 UORI.Q32_Core <> q32_square_sum def
+R1337:1337 UORI.Q32_Core <> x:7 var
+R1339:1339 UORI.Q32_Core <> y:8 var
+R1372:1385 UORI.Q32_Core <> q32_square_sum def
+R1419:1437 UORI.Q32_Core <> q32_abs_nonnegative thm
+R1458:1483 UORI.Q32_Core <> q32_square_sum_nonnegative thm

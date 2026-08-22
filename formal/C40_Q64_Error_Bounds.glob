@@ -1,0 +1,4 @@
+DIGEST 427f7ad47f90c9328de0eea5e4907360
+FUORI.C40_Q64_Error_Bounds
+R24:29 Coq.ZArith.ZArith <> <> lib
+R31:33 Coq.micromega.Lia <> <> lib

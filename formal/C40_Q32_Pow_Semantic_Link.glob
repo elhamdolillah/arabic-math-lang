@@ -1,0 +1,682 @@
+DIGEST 89e20fc67bdcda353d41515ee7d700b1
+FUORI.C40_Q32_Pow_Semantic_Link
+R485:490 Coq.ZArith.ZArith <> <> lib
+R492:494 Coq.micromega.Lia <> <> lib
+def 530:538 <> q32_scale
+R542:542 Coq.Numbers.BinNums <> Z ind
+def 570:576 <> q32_min
+R580:580 Coq.Numbers.BinNums <> Z ind
+R596:598 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R599:607 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+def 621:627 <> q32_max
+R631:631 Coq.Numbers.BinNums <> Z ind
+R659:662 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R676:676 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R647:649 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R650:658 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R672:674 Coq.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R663:671 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+def 691:696 <> in_q32
+R703:703 Coq.Numbers.BinNums <> Z ind
+binder 699:699 <> x:1
+R723:726 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R728:731 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R716:722 UORI.C40_Q32_Pow_Semantic_Link <> q32_min def
+R727:727 UORI.C40_Q32_Pow_Semantic_Link <> x:1 var
+R727:727 UORI.C40_Q32_Pow_Semantic_Link <> x:1 var
+R732:738 UORI.C40_Q32_Pow_Semantic_Link <> q32_max def
+def 752:757 <> in_exp
+R764:764 Coq.Numbers.BinNums <> Z ind
+binder 760:760 <> n:2
+R778:781 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R783:786 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R782:782 UORI.C40_Q32_Pow_Semantic_Link <> n:2 var
+R782:782 UORI.C40_Q32_Pow_Semantic_Link <> n:2 var
+rec 799:807 <> pow_state
+proj 816:824 <> st_result
+proj 833:841 <> st_factor
+proj 850:855 <> st_exp
+R828:828 Coq.Numbers.BinNums <> Z ind
+R845:845 Coq.Numbers.BinNums <> Z ind
+R859:859 Coq.Numbers.BinNums <> Z ind
+def 876:888 <> initial_state
+R897:897 Coq.Numbers.BinNums <> Z ind
+binder 891:891 <> a:7
+binder 893:893 <> n:8
+R902:910 UORI.C40_Q32_Pow_Semantic_Link <> pow_state rec
+R920:928 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R920:928 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R920:928 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R944:952 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R944:952 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R960:965 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R960:965 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R933:941 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R957:957 UORI.C40_Q32_Pow_Semantic_Link <> a:7 var
+R970:970 UORI.C40_Q32_Pow_Semantic_Link <> n:8 var
+def 1099:1113 <> qmul_with_error
+R1126:1126 Coq.Numbers.BinNums <> Z ind
+binder 1116:1116 <> x:9
+binder 1118:1118 <> y:10
+binder 1120:1120 <> r:11
+binder 1122:1122 <> e:12
+R1158:1160 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1154:1156 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1142:1144 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1145:1153 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R1157:1157 UORI.C40_Q32_Pow_Semantic_Link <> r:11 var
+R1170:1172 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1166:1168 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1162:1164 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1165:1165 UORI.C40_Q32_Pow_Semantic_Link <> x:9 var
+R1169:1169 UORI.C40_Q32_Pow_Semantic_Link <> y:10 var
+R1186:1188 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1174:1176 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1177:1185 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R1189:1189 UORI.C40_Q32_Pow_Semantic_Link <> e:12 var
+def 1204:1225 <> valid_projection_error
+R1232:1232 Coq.Numbers.BinNums <> Z ind
+binder 1228:1228 <> e:13
+R1248:1251 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R1253:1256 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R1252:1252 UORI.C40_Q32_Pow_Semantic_Link <> e:13 var
+R1252:1252 UORI.C40_Q32_Pow_Semantic_Link <> e:13 var
+def 1273:1282 <> state_safe
+R1289:1297 UORI.C40_Q32_Pow_Semantic_Link <> pow_state rec
+binder 1285:1285 <> s:14
+R1332:1335 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1312:1317 UORI.C40_Q32_Pow_Semantic_Link <> in_q32 def
+R1320:1328 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R1330:1330 UORI.C40_Q32_Pow_Semantic_Link <> s:14 var
+R1356:1359 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1336:1341 UORI.C40_Q32_Pow_Semantic_Link <> in_q32 def
+R1344:1352 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R1354:1354 UORI.C40_Q32_Pow_Semantic_Link <> s:14 var
+R1360:1365 UORI.C40_Q32_Pow_Semantic_Link <> in_exp def
+R1368:1373 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R1375:1375 UORI.C40_Q32_Pow_Semantic_Link <> s:14 var
+def 1391:1397 <> bit_one
+R1404:1404 Coq.Numbers.BinNums <> Z ind
+binder 1400:1400 <> n:15
+R1417:1423 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R1429:1430 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R1428:1428 Coq.Numbers.BinNums <> Z ind
+binder 1424:1424 <> k:16
+R1432:1434 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1431:1431 UORI.C40_Q32_Pow_Semantic_Link <> n:15 var
+R1440:1442 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1436:1438 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1439:1439 UORI.C40_Q32_Pow_Semantic_Link <> k:16 var
+def 1659:1669 <> result_step
+R1679:1687 UORI.C40_Q32_Pow_Semantic_Link <> pow_state rec
+binder 1672:1672 <> s:17
+binder 1674:1675 <> s':18
+R1695:1695 Coq.Numbers.BinNums <> Z ind
+binder 1691:1691 <> e:19
+R1722:1727 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1718:1720 Coq.ZArith.BinInt <> ::Z_scope:x_'>'_x not
+R1710:1715 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R1717:1717 UORI.C40_Q32_Pow_Semantic_Link <> s:17 var
+R1746:1751 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1728:1734 UORI.C40_Q32_Pow_Semantic_Link <> bit_one def
+R1737:1742 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R1744:1744 UORI.C40_Q32_Pow_Semantic_Link <> s:17 var
+R1816:1821 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1752:1766 UORI.C40_Q32_Pow_Semantic_Link <> qmul_with_error def
+R1769:1777 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R1779:1779 UORI.C40_Q32_Pow_Semantic_Link <> s:17 var
+R1783:1791 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R1793:1793 UORI.C40_Q32_Pow_Semantic_Link <> s:17 var
+R1801:1809 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R1811:1812 UORI.C40_Q32_Pow_Semantic_Link <> s':18 var
+R1815:1815 UORI.C40_Q32_Pow_Semantic_Link <> e:19 var
+R1848:1853 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1834:1836 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1822:1830 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R1832:1833 UORI.C40_Q32_Pow_Semantic_Link <> s':18 var
+R1837:1845 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R1847:1847 UORI.C40_Q32_Pow_Semantic_Link <> s:17 var
+R1863:1865 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1854:1859 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R1861:1862 UORI.C40_Q32_Pow_Semantic_Link <> s':18 var
+R1866:1871 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R1873:1873 UORI.C40_Q32_Pow_Semantic_Link <> s:17 var
+def 1888:1898 <> square_step
+R1908:1916 UORI.C40_Q32_Pow_Semantic_Link <> pow_state rec
+binder 1901:1901 <> s:20
+binder 1903:1904 <> s':21
+R1924:1924 Coq.Numbers.BinNums <> Z ind
+binder 1920:1920 <> e:22
+R1951:1956 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1947:1949 Coq.ZArith.BinInt <> ::Z_scope:x_'>'_x not
+R1939:1944 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R1946:1946 UORI.C40_Q32_Pow_Semantic_Link <> s:20 var
+R2021:2026 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1957:1971 UORI.C40_Q32_Pow_Semantic_Link <> qmul_with_error def
+R1974:1982 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R1984:1984 UORI.C40_Q32_Pow_Semantic_Link <> s:20 var
+R1988:1996 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R1998:1998 UORI.C40_Q32_Pow_Semantic_Link <> s:20 var
+R2006:2014 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R2016:2017 UORI.C40_Q32_Pow_Semantic_Link <> s':21 var
+R2020:2020 UORI.C40_Q32_Pow_Semantic_Link <> e:22 var
+R2053:2058 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R2039:2041 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2027:2035 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R2037:2038 UORI.C40_Q32_Pow_Semantic_Link <> s':21 var
+R2042:2050 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R2052:2052 UORI.C40_Q32_Pow_Semantic_Link <> s:20 var
+R2068:2070 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2059:2064 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R2066:2067 UORI.C40_Q32_Pow_Semantic_Link <> s':21 var
+R2079:2081 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R2071:2076 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R2078:2078 UORI.C40_Q32_Pow_Semantic_Link <> s:20 var
+prf 2092:2118 <> initial_state_exp_invariant
+binder 2131:2131 <> a:23
+binder 2133:2133 <> n:24
+R2144:2147 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2136:2141 UORI.C40_Q32_Pow_Semantic_Link <> in_exp def
+R2143:2143 UORI.C40_Q32_Pow_Semantic_Link <> n:24 var
+R2174:2176 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2148:2153 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R2156:2168 UORI.C40_Q32_Pow_Semantic_Link <> initial_state def
+R2170:2170 UORI.C40_Q32_Pow_Semantic_Link <> a:23 var
+R2172:2172 UORI.C40_Q32_Pow_Semantic_Link <> n:24 var
+R2177:2177 UORI.C40_Q32_Pow_Semantic_Link <> n:24 var
+prf 2220:2246 <> initial_state_result_is_one
+binder 2259:2259 <> a:25
+binder 2261:2261 <> n:26
+R2293:2295 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2264:2272 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R2275:2287 UORI.C40_Q32_Pow_Semantic_Link <> initial_state def
+R2289:2289 UORI.C40_Q32_Pow_Semantic_Link <> a:25 var
+R2291:2291 UORI.C40_Q32_Pow_Semantic_Link <> n:26 var
+R2296:2304 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+prf 2347:2366 <> exponent_check_sound
+binder 2379:2379 <> n:27
+R2394:2397 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2383:2386 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R2388:2391 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R2387:2387 UORI.C40_Q32_Pow_Semantic_Link <> n:27 var
+R2387:2387 UORI.C40_Q32_Pow_Semantic_Link <> n:27 var
+R2398:2403 UORI.C40_Q32_Pow_Semantic_Link <> in_exp def
+R2405:2405 UORI.C40_Q32_Pow_Semantic_Link <> n:27 var
+R2430:2435 UORI.C40_Q32_Pow_Semantic_Link <> in_exp def
+prf 2455:2485 <> exponent_shift_preserves_nonneg
+binder 2498:2498 <> n:28
+R2507:2510 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2502:2505 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R2506:2506 UORI.C40_Q32_Pow_Semantic_Link <> n:28 var
+R2512:2515 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R2517:2519 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R2516:2516 UORI.C40_Q32_Pow_Semantic_Link <> n:28 var
+R2544:2552 Coq.ZArith.BinInt Z div_pos thm
+R2544:2552 Coq.ZArith.BinInt Z div_pos thm
+prf 2572:2608 <> exponent_shift_decreases_for_positive
+binder 2621:2621 <> n:29
+R2630:2633 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2625:2628 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R2629:2629 UORI.C40_Q32_Pow_Semantic_Link <> n:29 var
+R2639:2641 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R2635:2637 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R2634:2634 UORI.C40_Q32_Pow_Semantic_Link <> n:29 var
+R2642:2642 UORI.C40_Q32_Pow_Semantic_Link <> n:29 var
+R2666:2673 Coq.ZArith.BinInt Z div_lt thm
+R2666:2673 Coq.ZArith.BinInt Z div_lt thm
+prf 2693:2722 <> exponent_shift_preserves_range
+binder 2735:2735 <> n:30
+R2746:2749 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2738:2743 UORI.C40_Q32_Pow_Semantic_Link <> in_exp def
+R2745:2745 UORI.C40_Q32_Pow_Semantic_Link <> n:30 var
+R2750:2755 UORI.C40_Q32_Pow_Semantic_Link <> in_exp def
+R2759:2761 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R2758:2758 UORI.C40_Q32_Pow_Semantic_Link <> n:30 var
+R2794:2799 UORI.C40_Q32_Pow_Semantic_Link <> in_exp def
+R2824:2854 UORI.C40_Q32_Pow_Semantic_Link <> exponent_shift_preserves_nonneg thm
+R2824:2854 UORI.C40_Q32_Pow_Semantic_Link <> exponent_shift_preserves_nonneg thm
+R2872:2891 Coq.ZArith.BinInt Z div_le_upper_bound thm
+R2872:2891 Coq.ZArith.BinInt Z div_le_upper_bound thm
+prf 2911:2928 <> initial_state_safe
+binder 2941:2941 <> a:31
+binder 2943:2943 <> n:32
+R2954:2957 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2946:2951 UORI.C40_Q32_Pow_Semantic_Link <> in_q32 def
+R2953:2953 UORI.C40_Q32_Pow_Semantic_Link <> a:31 var
+R2966:2969 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2958:2963 UORI.C40_Q32_Pow_Semantic_Link <> in_exp def
+R2965:2965 UORI.C40_Q32_Pow_Semantic_Link <> n:32 var
+R2970:2979 UORI.C40_Q32_Pow_Semantic_Link <> state_safe def
+R2982:2994 UORI.C40_Q32_Pow_Semantic_Link <> initial_state def
+R2996:2996 UORI.C40_Q32_Pow_Semantic_Link <> a:31 var
+R2998:2998 UORI.C40_Q32_Pow_Semantic_Link <> n:32 var
+R3036:3045 UORI.C40_Q32_Pow_Semantic_Link <> state_safe def
+R3048:3060 UORI.C40_Q32_Pow_Semantic_Link <> initial_state def
+R3104:3107 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R3118:3121 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R3104:3107 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R3118:3121 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+prf 3195:3223 <> qmul_with_error_unique_result
+binder 3236:3236 <> x:33
+binder 3238:3238 <> y:34
+binder 3240:3241 <> r1:35
+binder 3243:3244 <> r2:36
+binder 3246:3246 <> e:37
+R3277:3284 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3253:3267 UORI.C40_Q32_Pow_Semantic_Link <> qmul_with_error def
+R3269:3269 UORI.C40_Q32_Pow_Semantic_Link <> x:33 var
+R3271:3271 UORI.C40_Q32_Pow_Semantic_Link <> y:34 var
+R3273:3274 UORI.C40_Q32_Pow_Semantic_Link <> r1:35 var
+R3276:3276 UORI.C40_Q32_Pow_Semantic_Link <> e:37 var
+R3309:3316 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3285:3299 UORI.C40_Q32_Pow_Semantic_Link <> qmul_with_error def
+R3301:3301 UORI.C40_Q32_Pow_Semantic_Link <> x:33 var
+R3303:3303 UORI.C40_Q32_Pow_Semantic_Link <> y:34 var
+R3305:3306 UORI.C40_Q32_Pow_Semantic_Link <> r2:36 var
+R3308:3308 UORI.C40_Q32_Pow_Semantic_Link <> e:37 var
+R3319:3321 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3317:3318 UORI.C40_Q32_Pow_Semantic_Link <> r1:35 var
+R3322:3323 UORI.C40_Q32_Pow_Semantic_Link <> r2:36 var
+R3370:3384 UORI.C40_Q32_Pow_Semantic_Link <> qmul_with_error def
+R3387:3395 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+prf 3422:3442 <> qmul_zero_error_exact
+binder 3455:3455 <> x:38
+binder 3457:3457 <> y:39
+binder 3459:3459 <> r:40
+R3489:3496 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3466:3480 UORI.C40_Q32_Pow_Semantic_Link <> qmul_with_error def
+R3482:3482 UORI.C40_Q32_Pow_Semantic_Link <> x:38 var
+R3484:3484 UORI.C40_Q32_Pow_Semantic_Link <> y:39 var
+R3486:3486 UORI.C40_Q32_Pow_Semantic_Link <> r:40 var
+R3514:3516 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3510:3512 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R3498:3500 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R3501:3509 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R3513:3513 UORI.C40_Q32_Pow_Semantic_Link <> r:40 var
+R3522:3524 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R3518:3520 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R3521:3521 UORI.C40_Q32_Pow_Semantic_Link <> x:38 var
+R3525:3525 UORI.C40_Q32_Pow_Semantic_Link <> y:39 var
+R3550:3564 UORI.C40_Q32_Pow_Semantic_Link <> qmul_with_error def
+R3567:3575 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+def 3835:3845 <> q32_project
+R3852:3852 Coq.Numbers.BinNums <> Z ind
+binder 3848:3848 <> p:41
+R3857:3857 Coq.Numbers.BinNums <> Z ind
+R3863:3865 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R3862:3862 UORI.C40_Q32_Pow_Semantic_Link <> p:41 var
+R3866:3874 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+def 3888:3900 <> q32_remainder
+R3907:3907 Coq.Numbers.BinNums <> Z ind
+binder 3903:3903 <> p:42
+R3912:3912 Coq.Numbers.BinNums <> Z ind
+R3918:3922 Coq.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R3917:3917 UORI.C40_Q32_Pow_Semantic_Link <> p:42 var
+R3923:3931 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+prf 3941:3968 <> q32_projection_decomposition
+binder 3981:3981 <> p:43
+R3989:3991 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3988:3988 UORI.C40_Q32_Pow_Semantic_Link <> p:43 var
+R4017:4019 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R4001:4003 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R3992:4000 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R4004:4014 UORI.C40_Q32_Pow_Semantic_Link <> q32_project def
+R4016:4016 UORI.C40_Q32_Pow_Semantic_Link <> p:43 var
+R4020:4032 UORI.C40_Q32_Pow_Semantic_Link <> q32_remainder def
+R4034:4034 UORI.C40_Q32_Pow_Semantic_Link <> p:43 var
+R4063:4073 UORI.C40_Q32_Pow_Semantic_Link <> q32_project def
+R4076:4088 UORI.C40_Q32_Pow_Semantic_Link <> q32_remainder def
+R4091:4099 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R4116:4124 Coq.ZArith.BinInt Z div_mod thm
+R4116:4124 Coq.ZArith.BinInt Z div_mod thm
+prf 4165:4189 <> q32_remainder_nonnegative
+binder 4202:4202 <> p:44
+R4206:4209 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R4210:4222 UORI.C40_Q32_Pow_Semantic_Link <> q32_remainder def
+R4224:4224 UORI.C40_Q32_Pow_Semantic_Link <> p:44 var
+R4253:4265 UORI.C40_Q32_Pow_Semantic_Link <> q32_remainder def
+R4268:4276 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R4293:4307 Coq.ZArith.BinInt Z mod_pos_bound thm
+R4293:4307 Coq.ZArith.BinInt Z mod_pos_bound thm
+prf 4348:4372 <> q32_remainder_below_scale
+binder 4385:4385 <> p:45
+R4403:4405 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R4388:4400 UORI.C40_Q32_Pow_Semantic_Link <> q32_remainder def
+R4402:4402 UORI.C40_Q32_Pow_Semantic_Link <> p:45 var
+R4406:4414 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R4443:4455 UORI.C40_Q32_Pow_Semantic_Link <> q32_remainder def
+R4458:4466 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R4483:4497 Coq.ZArith.BinInt Z mod_pos_bound thm
+R4483:4497 Coq.ZArith.BinInt Z mod_pos_bound thm
+prf 4538:4572 <> q32_projection_exact_when_divisible
+binder 4585:4585 <> p:46
+binder 4587:4587 <> r:47
+R4611:4614 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R4595:4597 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4594:4594 UORI.C40_Q32_Pow_Semantic_Link <> p:46 var
+R4607:4609 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R4598:4606 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R4610:4610 UORI.C40_Q32_Pow_Semantic_Link <> r:47 var
+R4628:4630 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4615:4625 UORI.C40_Q32_Pow_Semantic_Link <> q32_project def
+R4627:4627 UORI.C40_Q32_Pow_Semantic_Link <> p:46 var
+R4631:4631 UORI.C40_Q32_Pow_Semantic_Link <> r:47 var
+R4665:4675 UORI.C40_Q32_Pow_Semantic_Link <> q32_project def
+R4678:4686 UORI.C40_Q32_Pow_Semantic_Link <> q32_scale def
+R4711:4720 Coq.ZArith.BinInt Z mul_comm thm
+R4711:4720 Coq.ZArith.BinInt Z mul_comm thm
+R4711:4720 Coq.ZArith.BinInt Z mul_comm thm
+R4731:4740 Coq.ZArith.Zdiv <> Z_div_mult thm
+R4731:4740 Coq.ZArith.Zdiv <> Z_div_mult thm
+def 4972:4979 <> asm_view
+R4986:4994 UORI.C40_Q32_Pow_Semantic_Link <> pow_state rec
+binder 4982:4982 <> s:48
+R5014:5014 Coq.Numbers.BinNums <> Z ind
+binder 4998:5000 <> rax:49
+binder 5002:5003 <> r8:50
+binder 5005:5006 <> r9:51
+binder 5008:5010 <> rcx:52
+R5046:5049 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R5032:5034 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5029:5031 UORI.C40_Q32_Pow_Semantic_Link <> rax:49 var
+R5035:5043 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R5045:5045 UORI.C40_Q32_Pow_Semantic_Link <> s:48 var
+R5066:5071 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R5052:5054 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5050:5051 UORI.C40_Q32_Pow_Semantic_Link <> r8:50 var
+R5055:5063 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R5065:5065 UORI.C40_Q32_Pow_Semantic_Link <> s:48 var
+R5088:5091 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R5074:5076 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5072:5073 UORI.C40_Q32_Pow_Semantic_Link <> r9:51 var
+R5077:5085 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R5087:5087 UORI.C40_Q32_Pow_Semantic_Link <> s:48 var
+R5095:5097 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5092:5094 UORI.C40_Q32_Pow_Semantic_Link <> rcx:52 var
+R5098:5103 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R5105:5105 UORI.C40_Q32_Pow_Semantic_Link <> s:48 var
+prf 5115:5129 <> asm_view_unique
+binder 5142:5142 <> s:53
+binder 5144:5146 <> rax:54
+binder 5148:5149 <> r8:55
+binder 5151:5152 <> r9:56
+binder 5154:5156 <> rcx:57
+binder 5158:5161 <> rax':58
+binder 5163:5165 <> r8':59
+binder 5167:5169 <> r9':60
+binder 5171:5174 <> rcx':61
+R5205:5212 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5181:5188 UORI.C40_Q32_Pow_Semantic_Link <> asm_view def
+R5190:5190 UORI.C40_Q32_Pow_Semantic_Link <> s:53 var
+R5192:5194 UORI.C40_Q32_Pow_Semantic_Link <> rax:54 var
+R5196:5197 UORI.C40_Q32_Pow_Semantic_Link <> r8:55 var
+R5199:5200 UORI.C40_Q32_Pow_Semantic_Link <> r9:56 var
+R5202:5204 UORI.C40_Q32_Pow_Semantic_Link <> rcx:57 var
+R5241:5248 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5213:5220 UORI.C40_Q32_Pow_Semantic_Link <> asm_view def
+R5222:5222 UORI.C40_Q32_Pow_Semantic_Link <> s:53 var
+R5224:5227 UORI.C40_Q32_Pow_Semantic_Link <> rax':58 var
+R5229:5231 UORI.C40_Q32_Pow_Semantic_Link <> r8':59 var
+R5233:5235 UORI.C40_Q32_Pow_Semantic_Link <> r9':60 var
+R5237:5240 UORI.C40_Q32_Pow_Semantic_Link <> rcx':61 var
+R5259:5262 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R5252:5254 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5249:5251 UORI.C40_Q32_Pow_Semantic_Link <> rax:54 var
+R5255:5258 UORI.C40_Q32_Pow_Semantic_Link <> rax':58 var
+R5271:5274 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R5265:5267 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5263:5264 UORI.C40_Q32_Pow_Semantic_Link <> r8:55 var
+R5268:5270 UORI.C40_Q32_Pow_Semantic_Link <> r8':59 var
+R5283:5286 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R5277:5279 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5275:5276 UORI.C40_Q32_Pow_Semantic_Link <> r9:56 var
+R5280:5282 UORI.C40_Q32_Pow_Semantic_Link <> r9':60 var
+R5290:5292 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5287:5289 UORI.C40_Q32_Pow_Semantic_Link <> rcx:57 var
+R5293:5296 UORI.C40_Q32_Pow_Semantic_Link <> rcx':61 var
+R5364:5371 UORI.C40_Q32_Pow_Semantic_Link <> asm_view def
+def 5768:5788 <> asm_result_transition
+R5798:5806 UORI.C40_Q32_Pow_Semantic_Link <> pow_state rec
+binder 5791:5791 <> s:62
+binder 5793:5794 <> s':63
+R5834:5834 Coq.Numbers.BinNums <> Z ind
+binder 5814:5816 <> rax:64
+binder 5818:5820 <> rdx:65
+binder 5822:5823 <> r8:66
+binder 5825:5826 <> r9:67
+binder 5828:5830 <> rcx:68
+R5842:5842 Coq.Numbers.BinNums <> Z ind
+binder 5838:5838 <> e:69
+R5881:5886 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R5857:5864 UORI.C40_Q32_Pow_Semantic_Link <> asm_view def
+R5866:5866 UORI.C40_Q32_Pow_Semantic_Link <> s:62 var
+R5868:5870 UORI.C40_Q32_Pow_Semantic_Link <> rax:64 var
+R5872:5873 UORI.C40_Q32_Pow_Semantic_Link <> r8:66 var
+R5875:5876 UORI.C40_Q32_Pow_Semantic_Link <> r9:67 var
+R5878:5880 UORI.C40_Q32_Pow_Semantic_Link <> rcx:68 var
+R5905:5910 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R5887:5897 UORI.C40_Q32_Pow_Semantic_Link <> result_step def
+R5899:5899 UORI.C40_Q32_Pow_Semantic_Link <> s:62 var
+R5901:5902 UORI.C40_Q32_Pow_Semantic_Link <> s':63 var
+R5904:5904 UORI.C40_Q32_Pow_Semantic_Link <> e:69 var
+R5929:5932 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R5914:5916 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5911:5913 UORI.C40_Q32_Pow_Semantic_Link <> rax:64 var
+R5917:5925 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R5927:5928 UORI.C40_Q32_Pow_Semantic_Link <> s':63 var
+R5935:5937 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5933:5934 UORI.C40_Q32_Pow_Semantic_Link <> r8:66 var
+R5938:5946 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R5948:5949 UORI.C40_Q32_Pow_Semantic_Link <> s':63 var
+def 5964:5984 <> asm_square_transition
+R5994:6002 UORI.C40_Q32_Pow_Semantic_Link <> pow_state rec
+binder 5987:5987 <> s:70
+binder 5989:5990 <> s':71
+R6030:6030 Coq.Numbers.BinNums <> Z ind
+binder 6010:6012 <> rax:72
+binder 6014:6016 <> rdx:73
+binder 6018:6019 <> r8:74
+binder 6021:6022 <> r9:75
+binder 6024:6026 <> rcx:76
+R6038:6038 Coq.Numbers.BinNums <> Z ind
+binder 6034:6034 <> e:77
+R6077:6082 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6053:6060 UORI.C40_Q32_Pow_Semantic_Link <> asm_view def
+R6062:6062 UORI.C40_Q32_Pow_Semantic_Link <> s:70 var
+R6064:6066 UORI.C40_Q32_Pow_Semantic_Link <> rax:72 var
+R6068:6069 UORI.C40_Q32_Pow_Semantic_Link <> r8:74 var
+R6071:6072 UORI.C40_Q32_Pow_Semantic_Link <> r9:75 var
+R6074:6076 UORI.C40_Q32_Pow_Semantic_Link <> rcx:76 var
+R6101:6106 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6083:6093 UORI.C40_Q32_Pow_Semantic_Link <> square_step def
+R6095:6095 UORI.C40_Q32_Pow_Semantic_Link <> s:70 var
+R6097:6098 UORI.C40_Q32_Pow_Semantic_Link <> s':71 var
+R6100:6100 UORI.C40_Q32_Pow_Semantic_Link <> e:77 var
+R6125:6128 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6110:6112 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6107:6109 UORI.C40_Q32_Pow_Semantic_Link <> rax:72 var
+R6113:6121 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R6123:6124 UORI.C40_Q32_Pow_Semantic_Link <> s':71 var
+R6131:6133 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6129:6130 UORI.C40_Q32_Pow_Semantic_Link <> r9:75 var
+R6134:6142 UORI.C40_Q32_Pow_Semantic_Link <> st_factor proj
+R6144:6145 UORI.C40_Q32_Pow_Semantic_Link <> s':71 var
+def 6160:6179 <> asm_reject_condition
+R6186:6194 UORI.C40_Q32_Pow_Semantic_Link <> pow_state rec
+binder 6182:6182 <> s:78
+R6208:6208 Coq.Numbers.BinNums <> Z ind
+binder 6198:6200 <> rax:79
+binder 6202:6204 <> rcx:80
+R6223:6223 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6293:6299 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6236:6239 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R6232:6234 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R6224:6229 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R6231:6231 UORI.C40_Q32_Pow_Semantic_Link <> s:78 var
+R6253:6260 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R6292:6292 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R6242:6244 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R6245:6250 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R6252:6252 UORI.C40_Q32_Pow_Semantic_Link <> s:78 var
+R6276:6279 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6272:6274 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6261:6269 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R6271:6271 UORI.C40_Q32_Pow_Semantic_Link <> s:78 var
+R6288:6290 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6280:6285 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R6287:6287 UORI.C40_Q32_Pow_Semantic_Link <> s:78 var
+R6317:6320 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6303:6305 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6300:6302 UORI.C40_Q32_Pow_Semantic_Link <> rax:79 var
+R6306:6314 UORI.C40_Q32_Pow_Semantic_Link <> st_result proj
+R6316:6316 UORI.C40_Q32_Pow_Semantic_Link <> s:78 var
+R6324:6326 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6321:6323 UORI.C40_Q32_Pow_Semantic_Link <> rcx:80 var
+R6327:6332 UORI.C40_Q32_Pow_Semantic_Link <> st_exp proj
+R6334:6334 UORI.C40_Q32_Pow_Semantic_Link <> s:78 var
+ax 6348:6370 <> step_asm_refines_result
+binder 6383:6383 <> s:81
+binder 6385:6386 <> s':82
+binder 6388:6390 <> rax:83
+binder 6392:6394 <> rdx:84
+binder 6396:6397 <> r8:85
+binder 6399:6400 <> r9:86
+binder 6402:6404 <> rcx:87
+binder 6406:6406 <> e:88
+R6413:6433 UORI.C40_Q32_Pow_Semantic_Link <> asm_result_transition def
+R6435:6435 UORI.C40_Q32_Pow_Semantic_Link <> s:81 var
+R6437:6438 UORI.C40_Q32_Pow_Semantic_Link <> s':82 var
+R6440:6442 UORI.C40_Q32_Pow_Semantic_Link <> rax:83 var
+R6444:6446 UORI.C40_Q32_Pow_Semantic_Link <> rdx:84 var
+R6448:6449 UORI.C40_Q32_Pow_Semantic_Link <> r8:85 var
+R6451:6452 UORI.C40_Q32_Pow_Semantic_Link <> r9:86 var
+R6454:6456 UORI.C40_Q32_Pow_Semantic_Link <> rcx:87 var
+R6458:6458 UORI.C40_Q32_Pow_Semantic_Link <> e:88 var
+ax 6471:6493 <> step_asm_refines_square
+binder 6506:6506 <> s:90
+binder 6508:6509 <> s':91
+binder 6511:6513 <> rax:92
+binder 6515:6517 <> rdx:93
+binder 6519:6520 <> r8:94
+binder 6522:6523 <> r9:95
+binder 6525:6527 <> rcx:96
+binder 6529:6529 <> e:97
+R6536:6556 UORI.C40_Q32_Pow_Semantic_Link <> asm_square_transition def
+R6558:6558 UORI.C40_Q32_Pow_Semantic_Link <> s:90 var
+R6560:6561 UORI.C40_Q32_Pow_Semantic_Link <> s':91 var
+R6563:6565 UORI.C40_Q32_Pow_Semantic_Link <> rax:92 var
+R6567:6569 UORI.C40_Q32_Pow_Semantic_Link <> rdx:93 var
+R6571:6572 UORI.C40_Q32_Pow_Semantic_Link <> r8:94 var
+R6574:6575 UORI.C40_Q32_Pow_Semantic_Link <> r9:95 var
+R6577:6579 UORI.C40_Q32_Pow_Semantic_Link <> rcx:96 var
+R6581:6581 UORI.C40_Q32_Pow_Semantic_Link <> e:97 var
+ax 6594:6611 <> reject_paths_sound
+binder 6624:6624 <> s:99
+binder 6626:6628 <> rax:100
+binder 6630:6632 <> rcx:101
+R6665:6668 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6635:6654 UORI.C40_Q32_Pow_Semantic_Link <> asm_reject_condition def
+R6656:6656 UORI.C40_Q32_Pow_Semantic_Link <> s:99 var
+R6658:6660 UORI.C40_Q32_Pow_Semantic_Link <> rax:100 var
+R6662:6664 UORI.C40_Q32_Pow_Semantic_Link <> rcx:101 var
+R6669:6672 Coq.Init.Logic <> True ind
+prf 6684:6714 <> semantic_link_contracts_assumed
+R6964:6969 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6720:6720 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6806:6812 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6728:6728 <> s:103
+binder 6730:6731 <> s':104
+binder 6733:6735 <> rax:105
+binder 6737:6739 <> rdx:106
+binder 6741:6742 <> r8:107
+binder 6744:6745 <> r9:108
+binder 6747:6749 <> rcx:109
+binder 6751:6751 <> e:110
+R6760:6780 UORI.C40_Q32_Pow_Semantic_Link <> asm_result_transition def
+R6782:6782 UORI.C40_Q32_Pow_Semantic_Link <> s:103 var
+R6784:6785 UORI.C40_Q32_Pow_Semantic_Link <> s':104 var
+R6787:6789 UORI.C40_Q32_Pow_Semantic_Link <> rax:105 var
+R6791:6793 UORI.C40_Q32_Pow_Semantic_Link <> rdx:106 var
+R6795:6796 UORI.C40_Q32_Pow_Semantic_Link <> r8:107 var
+R6798:6799 UORI.C40_Q32_Pow_Semantic_Link <> r9:108 var
+R6801:6803 UORI.C40_Q32_Pow_Semantic_Link <> rcx:109 var
+R6805:6805 UORI.C40_Q32_Pow_Semantic_Link <> e:110 var
+R6813:6813 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6899:6906 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R6963:6963 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6821:6821 <> s:111
+binder 6823:6824 <> s':112
+binder 6826:6828 <> rax:113
+binder 6830:6832 <> rdx:114
+binder 6834:6835 <> r8:115
+binder 6837:6838 <> r9:116
+binder 6840:6842 <> rcx:117
+binder 6844:6844 <> e:118
+R6853:6873 UORI.C40_Q32_Pow_Semantic_Link <> asm_square_transition def
+R6875:6875 UORI.C40_Q32_Pow_Semantic_Link <> s:111 var
+R6877:6878 UORI.C40_Q32_Pow_Semantic_Link <> s':112 var
+R6880:6882 UORI.C40_Q32_Pow_Semantic_Link <> rax:113 var
+R6884:6886 UORI.C40_Q32_Pow_Semantic_Link <> rdx:114 var
+R6888:6889 UORI.C40_Q32_Pow_Semantic_Link <> r8:115 var
+R6891:6892 UORI.C40_Q32_Pow_Semantic_Link <> r9:116 var
+R6894:6896 UORI.C40_Q32_Pow_Semantic_Link <> rcx:117 var
+R6898:6898 UORI.C40_Q32_Pow_Semantic_Link <> e:118 var
+binder 6914:6914 <> s:119
+binder 6916:6918 <> rax:120
+binder 6920:6922 <> rcx:121
+R6955:6958 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6925:6944 UORI.C40_Q32_Pow_Semantic_Link <> asm_reject_condition def
+R6946:6946 UORI.C40_Q32_Pow_Semantic_Link <> s:119 var
+R6948:6950 UORI.C40_Q32_Pow_Semantic_Link <> rax:120 var
+R6952:6954 UORI.C40_Q32_Pow_Semantic_Link <> rcx:121 var
+R6959:6962 Coq.Init.Logic <> True ind
+R6970:6970 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R7056:7062 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 6978:6978 <> s:122
+binder 6980:6981 <> s':123
+binder 6983:6985 <> rax:124
+binder 6987:6989 <> rdx:125
+binder 6991:6992 <> r8:126
+binder 6994:6995 <> r9:127
+binder 6997:6999 <> rcx:128
+binder 7001:7001 <> e:129
+R7010:7030 UORI.C40_Q32_Pow_Semantic_Link <> asm_result_transition def
+R7032:7032 UORI.C40_Q32_Pow_Semantic_Link <> s:122 var
+R7034:7035 UORI.C40_Q32_Pow_Semantic_Link <> s':123 var
+R7037:7039 UORI.C40_Q32_Pow_Semantic_Link <> rax:124 var
+R7041:7043 UORI.C40_Q32_Pow_Semantic_Link <> rdx:125 var
+R7045:7046 UORI.C40_Q32_Pow_Semantic_Link <> r8:126 var
+R7048:7049 UORI.C40_Q32_Pow_Semantic_Link <> r9:127 var
+R7051:7053 UORI.C40_Q32_Pow_Semantic_Link <> rcx:128 var
+R7055:7055 UORI.C40_Q32_Pow_Semantic_Link <> e:129 var
+R7063:7063 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R7149:7156 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R7213:7213 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+binder 7071:7071 <> s:130
+binder 7073:7074 <> s':131
+binder 7076:7078 <> rax:132
+binder 7080:7082 <> rdx:133
+binder 7084:7085 <> r8:134
+binder 7087:7088 <> r9:135
+binder 7090:7092 <> rcx:136
+binder 7094:7094 <> e:137
+R7103:7123 UORI.C40_Q32_Pow_Semantic_Link <> asm_square_transition def
+R7125:7125 UORI.C40_Q32_Pow_Semantic_Link <> s:130 var
+R7127:7128 UORI.C40_Q32_Pow_Semantic_Link <> s':131 var
+R7130:7132 UORI.C40_Q32_Pow_Semantic_Link <> rax:132 var
+R7134:7136 UORI.C40_Q32_Pow_Semantic_Link <> rdx:133 var
+R7138:7139 UORI.C40_Q32_Pow_Semantic_Link <> r8:134 var
+R7141:7142 UORI.C40_Q32_Pow_Semantic_Link <> r9:135 var
+R7144:7146 UORI.C40_Q32_Pow_Semantic_Link <> rcx:136 var
+R7148:7148 UORI.C40_Q32_Pow_Semantic_Link <> e:137 var
+binder 7164:7164 <> s:138
+binder 7166:7168 <> rax:139
+binder 7170:7172 <> rcx:140
+R7205:7208 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R7175:7194 UORI.C40_Q32_Pow_Semantic_Link <> asm_reject_condition def
+R7196:7196 UORI.C40_Q32_Pow_Semantic_Link <> s:138 var
+R7198:7200 UORI.C40_Q32_Pow_Semantic_Link <> rax:139 var
+R7202:7204 UORI.C40_Q32_Pow_Semantic_Link <> rcx:140 var
+R7209:7212 Coq.Init.Logic <> True ind
+R7266:7280 UORI.C40_Q32_Pow_Semantic_Link <> asm_view_unique thm
+R7301:7331 UORI.C40_Q32_Pow_Semantic_Link <> semantic_link_contracts_assumed thm

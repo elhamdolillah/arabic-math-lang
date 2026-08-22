@@ -1,0 +1,237 @@
+DIGEST 519784a870719f3a6250ef1192349799
+FUORI.C40_Q32_Pow_Bounds
+R393:398 Coq.ZArith.ZArith <> <> lib
+R400:402 Coq.micromega.Lia <> <> lib
+R404:407 Coq.Lists.List <> <> lib
+R417:429 Coq.Lists.List ListNotations <> mod
+def 465:473 <> q32_scale
+R477:477 Coq.Numbers.BinNums <> Z ind
+def 505:511 <> q32_min
+R515:515 Coq.Numbers.BinNums <> Z ind
+R531:533 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R534:542 UORI.C40_Q32_Pow_Bounds <> q32_scale def
+def 556:562 <> q32_max
+R566:566 Coq.Numbers.BinNums <> Z ind
+R594:597 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R611:611 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R582:584 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R585:593 UORI.C40_Q32_Pow_Bounds <> q32_scale def
+R607:609 Coq.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R598:606 UORI.C40_Q32_Pow_Bounds <> q32_scale def
+def 626:631 <> in_q32
+R638:638 Coq.Numbers.BinNums <> Z ind
+binder 634:634 <> x:1
+R658:661 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R663:666 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R651:657 UORI.C40_Q32_Pow_Bounds <> q32_min def
+R662:662 UORI.C40_Q32_Pow_Bounds <> x:1 var
+R662:662 UORI.C40_Q32_Pow_Bounds <> x:1 var
+R667:673 UORI.C40_Q32_Pow_Bounds <> q32_max def
+def 783:793 <> pow_integer
+R800:800 Coq.Numbers.BinNums <> Z ind
+binder 796:796 <> a:2
+R808:810 Coq.Init.Datatypes <> nat ind
+binder 804:804 <> n:3
+R815:815 Coq.Numbers.BinNums <> Z ind
+R828:828 UORI.C40_Q32_Pow_Bounds <> n:3 var
+R839:839 Coq.Init.Datatypes <> O constr
+R850:850 Coq.Init.Datatypes <> S constr
+R858:860 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R857:857 UORI.C40_Q32_Pow_Bounds <> a:2 var
+R861:871 UORI.C40_Q32_Pow_Bounds <> pow_integer:4 def
+R873:873 UORI.C40_Q32_Pow_Bounds <> a:2 var
+def 1001:1016 <> projection_error
+R1023:1023 Coq.Numbers.BinNums <> Z ind
+binder 1019:1019 <> d:6
+R1039:1042 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R1044:1047 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R1043:1043 UORI.C40_Q32_Pow_Bounds <> d:6 var
+R1043:1043 UORI.C40_Q32_Pow_Bounds <> d:6 var
+def 1062:1071 <> sum_errors
+R1079:1082 Coq.Init.Datatypes <> list ind
+R1084:1084 Coq.Numbers.BinNums <> Z ind
+binder 1074:1075 <> ds:7
+R1089:1089 Coq.Numbers.BinNums <> Z ind
+R1102:1103 UORI.C40_Q32_Pow_Bounds <> ds:7 var
+R1114:1115 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R1127:1130 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R1138:1140 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1141:1150 UORI.C40_Q32_Pow_Bounds <> sum_errors:8 def
+prf 1169:1184 <> sum_errors_bound
+binder 1197:1198 <> ds:10
+R1231:1238 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1205:1210 Coq.Lists.List <> Forall ind
+R1229:1230 UORI.C40_Q32_Pow_Bounds <> ds:10 var
+R1212:1227 UORI.C40_Q32_Pow_Bounds <> projection_error def
+R1265:1268 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R1282:1290 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R1242:1244 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1245:1252 Coq.ZArith.BinInt Z of_nat def
+R1255:1260 Coq.Init.Datatypes <> length def
+R1262:1263 UORI.C40_Q32_Pow_Bounds <> ds:10 var
+R1269:1278 UORI.C40_Q32_Pow_Bounds <> sum_errors def
+R1280:1281 UORI.C40_Q32_Pow_Bounds <> ds:10 var
+R1269:1278 UORI.C40_Q32_Pow_Bounds <> sum_errors def
+R1280:1281 UORI.C40_Q32_Pow_Bounds <> ds:10 var
+R1293:1295 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1296:1303 Coq.ZArith.BinInt Z of_nat def
+R1306:1311 Coq.Init.Datatypes <> length def
+R1313:1314 UORI.C40_Q32_Pow_Bounds <> ds:10 var
+R1466:1481 UORI.C40_Q32_Pow_Bounds <> projection_error def
+def 1627:1635 <> pow_model
+R1642:1642 Coq.Numbers.BinNums <> Z ind
+binder 1638:1638 <> a:11
+R1650:1652 Coq.Init.Datatypes <> nat ind
+binder 1646:1646 <> n:12
+R1661:1664 Coq.Init.Datatypes <> list ind
+R1666:1666 Coq.Numbers.BinNums <> Z ind
+binder 1656:1657 <> ds:13
+R1671:1671 Coq.Numbers.BinNums <> Z ind
+R1693:1695 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1678:1688 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R1690:1690 UORI.C40_Q32_Pow_Bounds <> a:11 var
+R1692:1692 UORI.C40_Q32_Pow_Bounds <> n:12 var
+R1696:1705 UORI.C40_Q32_Pow_Bounds <> sum_errors def
+R1707:1708 UORI.C40_Q32_Pow_Bounds <> ds:13 var
+prf 1718:1738 <> pow_model_error_bound
+binder 1751:1751 <> a:14
+binder 1753:1753 <> n:15
+binder 1755:1756 <> ds:16
+R1776:1783 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1772:1774 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1763:1768 Coq.Init.Datatypes <> length def
+R1770:1771 UORI.C40_Q32_Pow_Bounds <> ds:16 var
+R1775:1775 UORI.C40_Q32_Pow_Bounds <> n:15 var
+R1810:1817 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1784:1789 Coq.Lists.List <> Forall ind
+R1808:1809 UORI.C40_Q32_Pow_Bounds <> ds:16 var
+R1791:1806 UORI.C40_Q32_Pow_Bounds <> projection_error def
+R1834:1837 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R1872:1880 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R1821:1823 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1824:1831 Coq.ZArith.BinInt Z of_nat def
+R1833:1833 UORI.C40_Q32_Pow_Bounds <> n:15 var
+R1854:1856 Coq.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R1838:1846 UORI.C40_Q32_Pow_Bounds <> pow_model def
+R1848:1848 UORI.C40_Q32_Pow_Bounds <> a:14 var
+R1850:1850 UORI.C40_Q32_Pow_Bounds <> n:15 var
+R1852:1853 UORI.C40_Q32_Pow_Bounds <> ds:16 var
+R1857:1867 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R1869:1869 UORI.C40_Q32_Pow_Bounds <> a:14 var
+R1871:1871 UORI.C40_Q32_Pow_Bounds <> n:15 var
+R1854:1856 Coq.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R1838:1846 UORI.C40_Q32_Pow_Bounds <> pow_model def
+R1848:1848 UORI.C40_Q32_Pow_Bounds <> a:14 var
+R1850:1850 UORI.C40_Q32_Pow_Bounds <> n:15 var
+R1852:1853 UORI.C40_Q32_Pow_Bounds <> ds:16 var
+R1857:1867 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R1869:1869 UORI.C40_Q32_Pow_Bounds <> a:14 var
+R1871:1871 UORI.C40_Q32_Pow_Bounds <> n:15 var
+R1883:1885 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1886:1893 Coq.ZArith.BinInt Z of_nat def
+R1895:1895 UORI.C40_Q32_Pow_Bounds <> n:15 var
+R1942:1950 UORI.C40_Q32_Pow_Bounds <> pow_model def
+R1967:1982 UORI.C40_Q32_Pow_Bounds <> sum_errors_bound thm
+R1967:1982 UORI.C40_Q32_Pow_Bounds <> sum_errors_bound thm
+R2096:2098 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2078:2080 Coq.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R2062:2064 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2047:2057 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R2065:2074 UORI.C40_Q32_Pow_Bounds <> sum_errors def
+R2081:2091 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R2099:2108 UORI.C40_Q32_Pow_Bounds <> sum_errors def
+R2096:2098 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2078:2080 Coq.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R2062:2064 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2047:2057 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R2065:2074 UORI.C40_Q32_Pow_Bounds <> sum_errors def
+R2081:2091 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R2099:2108 UORI.C40_Q32_Pow_Bounds <> sum_errors def
+prf 2335:2361 <> bounded_error_preserves_q32
+binder 2374:2378 <> exact:17
+binder 2380:2382 <> err:18
+binder 2384:2388 <> bound:19
+R2405:2412 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2396:2399 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R2400:2404 UORI.C40_Q32_Pow_Bounds <> bound:19 var
+R2435:2442 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2419:2422 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R2426:2429 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R2413:2413 Coq.ZArith.BinInt <> ::Z_scope:'-'_x not
+R2414:2418 UORI.C40_Q32_Pow_Bounds <> bound:19 var
+R2423:2425 UORI.C40_Q32_Pow_Bounds <> err:18 var
+R2423:2425 UORI.C40_Q32_Pow_Bounds <> err:18 var
+R2430:2434 UORI.C40_Q32_Pow_Bounds <> bound:19 var
+R2486:2493 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2458:2461 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R2467:2470 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R2450:2452 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2443:2449 UORI.C40_Q32_Pow_Bounds <> q32_min def
+R2453:2457 UORI.C40_Q32_Pow_Bounds <> bound:19 var
+R2462:2466 UORI.C40_Q32_Pow_Bounds <> exact:17 var
+R2462:2466 UORI.C40_Q32_Pow_Bounds <> exact:17 var
+R2478:2480 Coq.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R2471:2477 UORI.C40_Q32_Pow_Bounds <> q32_max def
+R2481:2485 UORI.C40_Q32_Pow_Bounds <> bound:19 var
+R2494:2499 UORI.C40_Q32_Pow_Bounds <> in_q32 def
+R2507:2509 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2502:2506 UORI.C40_Q32_Pow_Bounds <> exact:17 var
+R2510:2512 UORI.C40_Q32_Pow_Bounds <> err:18 var
+R2578:2583 UORI.C40_Q32_Pow_Bounds <> in_q32 def
+prf 2702:2735 <> pow_model_no_overflow_under_margin
+binder 2748:2748 <> a:20
+binder 2750:2750 <> n:21
+binder 2752:2753 <> ds:22
+R2773:2780 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2769:2771 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2760:2765 Coq.Init.Datatypes <> length def
+R2767:2768 UORI.C40_Q32_Pow_Bounds <> ds:22 var
+R2772:2772 UORI.C40_Q32_Pow_Bounds <> n:21 var
+R2807:2814 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2781:2786 Coq.Lists.List <> Forall ind
+R2805:2806 UORI.C40_Q32_Pow_Bounds <> ds:22 var
+R2788:2803 UORI.C40_Q32_Pow_Bounds <> projection_error def
+R2892:2899 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2840:2843 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R2859:2866 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<='_x not
+R2822:2824 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2815:2821 UORI.C40_Q32_Pow_Bounds <> q32_min def
+R2827:2829 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R2830:2837 Coq.ZArith.BinInt Z of_nat def
+R2839:2839 UORI.C40_Q32_Pow_Bounds <> n:21 var
+R2844:2854 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R2856:2856 UORI.C40_Q32_Pow_Bounds <> a:20 var
+R2858:2858 UORI.C40_Q32_Pow_Bounds <> n:21 var
+R2844:2854 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R2856:2856 UORI.C40_Q32_Pow_Bounds <> a:20 var
+R2858:2858 UORI.C40_Q32_Pow_Bounds <> n:21 var
+R2874:2876 Coq.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R2867:2873 UORI.C40_Q32_Pow_Bounds <> q32_max def
+R2879:2881 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R2882:2889 Coq.ZArith.BinInt Z of_nat def
+R2891:2891 UORI.C40_Q32_Pow_Bounds <> n:21 var
+R2900:2905 UORI.C40_Q32_Pow_Bounds <> in_q32 def
+R2908:2916 UORI.C40_Q32_Pow_Bounds <> pow_model def
+R2918:2918 UORI.C40_Q32_Pow_Bounds <> a:20 var
+R2920:2920 UORI.C40_Q32_Pow_Bounds <> n:21 var
+R2922:2923 UORI.C40_Q32_Pow_Bounds <> ds:22 var
+R2979:3005 UORI.C40_Q32_Pow_Bounds <> bounded_error_preserves_q32 thm
+R3019:3029 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R3048:3057 UORI.C40_Q32_Pow_Bounds <> sum_errors def
+R3077:3079 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R3080:3087 Coq.ZArith.BinInt Z of_nat def
+R2979:3005 UORI.C40_Q32_Pow_Bounds <> bounded_error_preserves_q32 thm
+R3019:3029 UORI.C40_Q32_Pow_Bounds <> pow_integer def
+R3048:3057 UORI.C40_Q32_Pow_Bounds <> sum_errors def
+R3077:3079 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R3080:3087 Coq.ZArith.BinInt Z of_nat def
+R3119:3134 UORI.C40_Q32_Pow_Bounds <> sum_errors_bound thm
+R3119:3134 UORI.C40_Q32_Pow_Bounds <> sum_errors_bound thm
+ax 3364:3389 <> assembly_pow_refines_model
+prf 3408:3447 <> model_does_not_claim_assembly_refinement
+R3479:3482 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R3453:3478 UORI.C40_Q32_Pow_Bounds <> assembly_pow_refines_model defax
+R3483:3508 UORI.C40_Q32_Pow_Bounds <> assembly_pow_refines_model defax
+R3562:3577 UORI.C40_Q32_Pow_Bounds <> sum_errors_bound thm
+R3598:3618 UORI.C40_Q32_Pow_Bounds <> pow_model_error_bound thm
+R3639:3672 UORI.C40_Q32_Pow_Bounds <> pow_model_no_overflow_under_margin thm

@@ -1,0 +1,4 @@
+branch=uori-cycle151
+commit_before_archive=5a219cc1c4d2e9d6eef9b670d55115edfcdb607e
+created_utc=2026-08-22T17:50:05Z
+source_repo=https://github.com/elhamdolillah/arabic-math-lang.git

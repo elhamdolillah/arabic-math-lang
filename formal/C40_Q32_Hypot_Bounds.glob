@@ -1,0 +1,106 @@
+DIGEST 4c718450da08f9c6326caf7b4e13979c
+FUORI.C40_Q32_Hypot_Bounds
+R24:29 Coq.ZArith.ZArith <> <> lib
+R31:33 Coq.micromega.Lia <> <> lib
+def 345:353 <> hypot_q32
+R362:362 Coq.Numbers.BinNums <> Z ind
+binder 356:356 <> x:1
+binder 358:358 <> y:2
+R367:367 Coq.Numbers.BinNums <> Z ind
+R372:377 Coq.ZArith.BinInt Z sqrt def
+R385:387 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R381:383 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R380:380 UORI.C40_Q32_Hypot_Bounds <> x:1 var
+R384:384 UORI.C40_Q32_Hypot_Bounds <> x:1 var
+R389:391 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R388:388 UORI.C40_Q32_Hypot_Bounds <> y:2 var
+R392:392 UORI.C40_Q32_Hypot_Bounds <> y:2 var
+prf 403:423 <> hypot_q32_nonnegative
+R440:440 Coq.Numbers.BinNums <> Z ind
+binder 434:434 <> x:3
+binder 436:436 <> y:4
+R451:454 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R446:449 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R450:450 UORI.C40_Q32_Hypot_Bounds <> x:3 var
+R461:464 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R456:459 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R460:460 UORI.C40_Q32_Hypot_Bounds <> y:4 var
+R466:469 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R470:478 UORI.C40_Q32_Hypot_Bounds <> hypot_q32 def
+R480:480 UORI.C40_Q32_Hypot_Bounds <> x:3 var
+R482:482 UORI.C40_Q32_Hypot_Bounds <> y:4 var
+R521:529 UORI.C40_Q32_Hypot_Bounds <> hypot_q32 def
+R540:552 Coq.ZArith.BinInt Z sqrt_nonneg thm
+R540:552 Coq.ZArith.BinInt Z sqrt_nonneg thm
+prf 567:582 <> hypot_q32_bounds
+R599:599 Coq.Numbers.BinNums <> Z ind
+binder 593:593 <> x:5
+binder 595:595 <> y:6
+R610:613 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R605:608 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R609:609 UORI.C40_Q32_Hypot_Bounds <> x:5 var
+R620:625 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R615:618 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R619:619 UORI.C40_Q32_Hypot_Bounds <> y:6 var
+R635:643 UORI.C40_Q32_Hypot_Bounds <> hypot_q32 def
+R645:645 UORI.C40_Q32_Hypot_Bounds <> x:5 var
+R647:647 UORI.C40_Q32_Hypot_Bounds <> y:6 var
+binder 630:630 <> h:7
+R659:662 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<'_x not
+R676:678 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<'_x not
+R655:657 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R654:654 UORI.C40_Q32_Hypot_Bounds <> h:7 var
+R658:658 UORI.C40_Q32_Hypot_Bounds <> h:7 var
+R668:670 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R664:666 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R663:663 UORI.C40_Q32_Hypot_Bounds <> x:5 var
+R667:667 UORI.C40_Q32_Hypot_Bounds <> x:5 var
+R672:674 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R671:671 UORI.C40_Q32_Hypot_Bounds <> y:6 var
+R675:675 UORI.C40_Q32_Hypot_Bounds <> y:6 var
+R668:670 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R664:666 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R663:663 UORI.C40_Q32_Hypot_Bounds <> x:5 var
+R667:667 UORI.C40_Q32_Hypot_Bounds <> x:5 var
+R672:674 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R671:671 UORI.C40_Q32_Hypot_Bounds <> y:6 var
+R675:675 UORI.C40_Q32_Hypot_Bounds <> y:6 var
+R679:679 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R685:689 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R695:695 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R681:683 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R680:680 UORI.C40_Q32_Hypot_Bounds <> h:7 var
+R691:693 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R690:690 UORI.C40_Q32_Hypot_Bounds <> h:7 var
+R734:742 UORI.C40_Q32_Hypot_Bounds <> hypot_q32 def
+R761:764 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R770:772 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R766:768 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R774:776 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R761:764 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R770:772 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R766:768 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R774:776 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R802:812 Coq.ZArith.BinInt Z sqrt_spec thm
+R820:822 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R816:818 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R824:826 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R802:812 Coq.ZArith.BinInt Z sqrt_spec thm
+R820:822 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R816:818 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R824:826 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+prf 877:894 <> hypot_q32_symmetry
+R911:911 Coq.Numbers.BinNums <> Z ind
+binder 905:905 <> x:8
+binder 907:907 <> y:9
+R929:931 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R916:924 UORI.C40_Q32_Hypot_Bounds <> hypot_q32 def
+R926:926 UORI.C40_Q32_Hypot_Bounds <> x:8 var
+R928:928 UORI.C40_Q32_Hypot_Bounds <> y:9 var
+R932:940 UORI.C40_Q32_Hypot_Bounds <> hypot_q32 def
+R942:942 UORI.C40_Q32_Hypot_Bounds <> y:9 var
+R944:944 UORI.C40_Q32_Hypot_Bounds <> x:8 var
+R977:985 UORI.C40_Q32_Hypot_Bounds <> hypot_q32 def
+R1031:1046 UORI.C40_Q32_Hypot_Bounds <> hypot_q32_bounds thm
+R1067:1087 UORI.C40_Q32_Hypot_Bounds <> hypot_q32_nonnegative thm
+R1108:1125 UORI.C40_Q32_Hypot_Bounds <> hypot_q32_symmetry thm

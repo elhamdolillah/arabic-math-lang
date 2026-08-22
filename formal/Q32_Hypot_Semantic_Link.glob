@@ -1,0 +1,165 @@
+DIGEST ddb93e47be12f5902d03cc1340f5fadc
+FUORI.Q32_Hypot_Semantic_Link
+R24:29 Coq.ZArith.ZArith <> <> lib
+R31:33 Coq.micromega.Lia <> <> lib
+R51:63 UORI.Q32_Core <> <> lib
+def 353:367 <> q32_hypot_model
+R376:376 Coq.Numbers.BinNums <> Z ind
+binder 370:370 <> x:1
+binder 372:372 <> y:2
+R381:381 Coq.Numbers.BinNums <> Z ind
+R388:393 Coq.ZArith.BinInt Z sqrt def
+R396:409 UORI.Q32_Core <> q32_square_sum def
+R411:411 UORI.Q32_Hypot_Semantic_Link <> x:1 var
+R413:413 UORI.Q32_Hypot_Semantic_Link <> y:2 var
+def 429:446 <> q32_hypot_contract
+R457:457 Coq.Numbers.BinNums <> Z ind
+binder 449:449 <> x:3
+binder 451:451 <> y:4
+binder 453:453 <> r:5
+R478:483 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R473:476 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R477:477 UORI.Q32_Hypot_Semantic_Link <> r:5 var
+R511:516 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R489:492 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R485:487 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R484:484 UORI.Q32_Hypot_Semantic_Link <> r:5 var
+R488:488 UORI.Q32_Hypot_Semantic_Link <> r:5 var
+R493:506 UORI.Q32_Core <> q32_square_sum def
+R508:508 UORI.Q32_Hypot_Semantic_Link <> x:3 var
+R510:510 UORI.Q32_Hypot_Semantic_Link <> y:4 var
+R535:537 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R517:530 UORI.Q32_Core <> q32_square_sum def
+R532:532 UORI.Q32_Hypot_Semantic_Link <> x:3 var
+R534:534 UORI.Q32_Hypot_Semantic_Link <> y:4 var
+R538:538 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R544:548 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R554:554 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R540:542 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R539:539 UORI.Q32_Hypot_Semantic_Link <> r:5 var
+R550:552 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R549:549 UORI.Q32_Hypot_Semantic_Link <> r:5 var
+prf 564:584 <> q32_hypot_nonnegative
+R601:601 Coq.Numbers.BinNums <> Z ind
+binder 595:595 <> x:6
+binder 597:597 <> y:7
+R607:610 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R611:625 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_model def
+R627:627 UORI.Q32_Hypot_Semantic_Link <> x:6 var
+R629:629 UORI.Q32_Hypot_Semantic_Link <> y:7 var
+R662:676 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_model def
+R687:699 Coq.ZArith.BinInt Z sqrt_nonneg thm
+R687:699 Coq.ZArith.BinInt Z sqrt_nonneg thm
+prf 714:737 <> q32_hypot_contract_holds
+R754:754 Coq.Numbers.BinNums <> Z ind
+binder 748:748 <> x:8
+binder 750:750 <> y:9
+R759:776 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_contract def
+R778:778 UORI.Q32_Hypot_Semantic_Link <> x:8 var
+R780:780 UORI.Q32_Hypot_Semantic_Link <> y:9 var
+R783:797 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_model def
+R799:799 UORI.Q32_Hypot_Semantic_Link <> x:8 var
+R801:801 UORI.Q32_Hypot_Semantic_Link <> y:9 var
+R835:852 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_contract def
+R855:869 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_model def
+R886:911 UORI.Q32_Core <> q32_square_sum_nonnegative thm
+R886:911 UORI.Q32_Core <> q32_square_sum_nonnegative thm
+R944:956 Coq.ZArith.BinInt Z sqrt_nonneg thm
+R944:956 Coq.ZArith.BinInt Z sqrt_nonneg thm
+R975:985 Coq.ZArith.BinInt Z sqrt_spec thm
+R988:1001 UORI.Q32_Core <> q32_square_sum def
+R975:985 Coq.ZArith.BinInt Z sqrt_spec thm
+R988:1001 UORI.Q32_Core <> q32_square_sum def
+R1132:1140 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1114:1127 UORI.Q32_Core <> q32_square_sum def
+R1141:1141 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1173:1183 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1215:1215 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1169:1171 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1142:1147 Coq.ZArith.BinInt Z sqrt def
+R1150:1163 UORI.Q32_Core <> q32_square_sum def
+R1211:1213 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1184:1189 Coq.ZArith.BinInt Z sqrt def
+R1192:1205 UORI.Q32_Core <> q32_square_sum def
+R1132:1140 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1114:1127 UORI.Q32_Core <> q32_square_sum def
+R1141:1141 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1173:1183 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1215:1215 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1169:1171 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1142:1147 Coq.ZArith.BinInt Z sqrt def
+R1150:1163 UORI.Q32_Core <> q32_square_sum def
+R1211:1213 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1184:1189 Coq.ZArith.BinInt Z sqrt def
+R1192:1205 UORI.Q32_Core <> q32_square_sum def
+prf 1256:1280 <> q32_hypot_contract_unique
+R1301:1301 Coq.Numbers.BinNums <> Z ind
+binder 1291:1291 <> x:10
+binder 1293:1293 <> y:11
+binder 1295:1295 <> r:12
+binder 1297:1297 <> s:13
+R1330:1335 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1306:1323 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_contract def
+R1325:1325 UORI.Q32_Hypot_Semantic_Link <> x:10 var
+R1327:1327 UORI.Q32_Hypot_Semantic_Link <> y:11 var
+R1329:1329 UORI.Q32_Hypot_Semantic_Link <> r:12 var
+R1360:1365 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1336:1353 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_contract def
+R1355:1355 UORI.Q32_Hypot_Semantic_Link <> x:10 var
+R1357:1357 UORI.Q32_Hypot_Semantic_Link <> y:11 var
+R1359:1359 UORI.Q32_Hypot_Semantic_Link <> s:13 var
+R1367:1369 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1366:1366 UORI.Q32_Hypot_Semantic_Link <> r:12 var
+R1370:1370 UORI.Q32_Hypot_Semantic_Link <> s:13 var
+R1489:1492 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1489:1492 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1511:1521 Coq.ZArith.ZArith_dec <> Z_le_gt_dec def
+R1511:1521 Coq.ZArith.ZArith_dec <> Z_le_gt_dec def
+R1605:1608 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1588:1588 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1594:1598 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1604:1604 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1590:1592 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1600:1602 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1610:1612 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1605:1608 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1588:1588 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1594:1598 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1604:1604 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1590:1592 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1600:1602 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1610:1612 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1654:1657 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1654:1657 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1676:1686 Coq.ZArith.ZArith_dec <> Z_le_gt_dec def
+R1676:1686 Coq.ZArith.ZArith_dec <> Z_le_gt_dec def
+R1770:1773 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1753:1753 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1759:1763 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1769:1769 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1755:1757 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1765:1767 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1775:1777 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1770:1773 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1753:1753 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1759:1763 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1769:1769 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1755:1757 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1765:1767 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1775:1777 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+prf 1821:1839 <> q32_hypot_symmetric
+R1856:1856 Coq.Numbers.BinNums <> Z ind
+binder 1850:1850 <> x:14
+binder 1852:1852 <> y:15
+R1880:1882 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1861:1875 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_model def
+R1877:1877 UORI.Q32_Hypot_Semantic_Link <> x:14 var
+R1879:1879 UORI.Q32_Hypot_Semantic_Link <> y:15 var
+R1883:1897 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_model def
+R1899:1899 UORI.Q32_Hypot_Semantic_Link <> y:15 var
+R1901:1901 UORI.Q32_Hypot_Semantic_Link <> x:14 var
+R1934:1948 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_model def
+R1951:1964 UORI.Q32_Core <> q32_square_sum def
+R2010:2033 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_contract_holds thm
+R2054:2078 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_contract_unique thm
+R2099:2117 UORI.Q32_Hypot_Semantic_Link <> q32_hypot_symmetric thm

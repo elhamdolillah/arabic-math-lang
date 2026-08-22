@@ -1,0 +1,4 @@
+DIGEST c1047752d3a9c3bb571c520f77f6ae28
+FUORI.C40_Q32_Pow_Closed_Arithmetic
+R24:29 Coq.ZArith.ZArith <> <> lib
+R31:33 Coq.micromega.Lia <> <> lib

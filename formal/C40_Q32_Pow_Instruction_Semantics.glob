@@ -1,0 +1,196 @@
+DIGEST 481776e9abd28ad6fd17e22e992aecf9
+FUORI.C40_Q32_Pow_Instruction_Semantics
+R666:671 Coq.ZArith.ZArith <> <> lib
+R673:675 Coq.micromega.Lia <> <> lib
+def 711:721 <> q32_scale_i
+R725:725 Coq.Numbers.BinNums <> Z ind
+R731:733 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+def 749:760 <> word64_scale
+R764:764 Coq.Numbers.BinNums <> Z ind
+R770:772 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+def 789:801 <> q32_project_i
+R808:808 Coq.Numbers.BinNums <> Z ind
+binder 804:804 <> p:1
+R813:813 Coq.Numbers.BinNums <> Z ind
+R819:821 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R818:818 UORI.C40_Q32_Pow_Instruction_Semantics <> p:1 var
+R822:832 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_scale_i def
+def 846:860 <> q32_remainder_i
+R867:867 Coq.Numbers.BinNums <> Z ind
+binder 863:863 <> p:2
+R872:872 Coq.Numbers.BinNums <> Z ind
+R878:882 Coq.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R877:877 UORI.C40_Q32_Pow_Instruction_Semantics <> p:2 var
+R883:893 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_scale_i def
+def 908:916 <> sar_model
+R923:923 Coq.Numbers.BinNums <> Z ind
+binder 919:919 <> x:3
+R935:937 Coq.Init.Datatypes <> nat ind
+binder 927:931 <> shift:4
+R942:942 Coq.Numbers.BinNums <> Z ind
+R948:951 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R972:972 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R947:947 UORI.C40_Q32_Pow_Instruction_Semantics <> x:3 var
+R953:956 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R971:971 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R957:964 Coq.ZArith.BinInt Z of_nat def
+R966:970 UORI.C40_Q32_Pow_Instruction_Semantics <> shift:4 var
+def 987:996 <> shrd_model
+R1010:1010 Coq.Numbers.BinNums <> Z ind
+binder 999:1001 <> low:5
+binder 1003:1006 <> high:6
+R1022:1024 Coq.Init.Datatypes <> nat ind
+binder 1014:1018 <> shift:7
+R1029:1029 Coq.Numbers.BinNums <> Z ind
+R1064:1066 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1039:1042 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R1063:1063 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R1036:1038 UORI.C40_Q32_Pow_Instruction_Semantics <> low:5 var
+R1044:1047 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R1062:1062 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R1048:1055 Coq.ZArith.BinInt Z of_nat def
+R1057:1061 UORI.C40_Q32_Pow_Instruction_Semantics <> shift:7 var
+R1071:1074 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1100:1100 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1067:1070 UORI.C40_Q32_Pow_Instruction_Semantics <> high:6 var
+R1076:1079 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R1099:1099 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R1082:1084 Coq.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R1085:1092 Coq.ZArith.BinInt Z of_nat def
+R1094:1098 UORI.C40_Q32_Pow_Instruction_Semantics <> shift:7 var
+def 1115:1132 <> sign_extended_high
+R1146:1146 Coq.Numbers.BinNums <> Z ind
+binder 1135:1137 <> low:8
+binder 1139:1142 <> high:9
+R1161:1161 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R1182:1187 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R1208:1208 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R1170:1173 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1166:1168 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1162:1165 UORI.C40_Q32_Pow_Instruction_Semantics <> high:9 var
+R1175:1178 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1179:1181 UORI.C40_Q32_Pow_Instruction_Semantics <> low:8 var
+R1197:1200 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1192:1194 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1188:1191 UORI.C40_Q32_Pow_Instruction_Semantics <> high:9 var
+R1204:1206 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1201:1203 UORI.C40_Q32_Pow_Instruction_Semantics <> low:8 var
+prf 1218:1235 <> q32_scale_positive
+R1240:1242 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1243:1253 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_scale_i def
+R1272:1282 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_scale_i def
+R1295:1295 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1301:1304 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1300:1300 Coq.Numbers.BinNums <> Z ind
+R1295:1295 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1301:1304 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1300:1300 Coq.Numbers.BinNums <> Z ind
+prf 1337:1366 <> q32_projection_decomposition_i
+binder 1379:1379 <> p:10
+R1387:1389 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1386:1386 UORI.C40_Q32_Pow_Instruction_Semantics <> p:10 var
+R1419:1421 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1401:1403 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1390:1400 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_scale_i def
+R1404:1416 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_project_i def
+R1418:1418 UORI.C40_Q32_Pow_Instruction_Semantics <> p:10 var
+R1422:1436 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_remainder_i def
+R1438:1438 UORI.C40_Q32_Pow_Instruction_Semantics <> p:10 var
+R1469:1481 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_project_i def
+R1484:1498 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_remainder_i def
+R1501:1511 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_scale_i def
+R1528:1536 Coq.ZArith.BinInt Z div_mod thm
+R1542:1544 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R1528:1536 Coq.ZArith.BinInt Z div_mod thm
+R1542:1544 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+prf 1575:1601 <> q32_remainder_i_nonnegative
+binder 1614:1614 <> p:11
+R1618:1621 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1622:1636 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_remainder_i def
+R1638:1638 UORI.C40_Q32_Pow_Instruction_Semantics <> p:11 var
+R1669:1683 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_remainder_i def
+R1686:1696 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_scale_i def
+R1713:1727 Coq.ZArith.BinInt Z mod_pos_bound thm
+R1733:1735 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R1713:1727 Coq.ZArith.BinInt Z mod_pos_bound thm
+R1733:1735 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+prf 1766:1792 <> q32_remainder_i_below_scale
+binder 1805:1805 <> p:12
+R1825:1827 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1808:1822 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_remainder_i def
+R1824:1824 UORI.C40_Q32_Pow_Instruction_Semantics <> p:12 var
+R1828:1838 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_scale_i def
+R1869:1883 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_remainder_i def
+R1886:1896 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_scale_i def
+R1913:1927 Coq.ZArith.BinInt Z mod_pos_bound thm
+R1933:1935 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R1913:1927 Coq.ZArith.BinInt Z mod_pos_bound thm
+R1933:1935 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+prf 1966:1979 <> sar_model_zero
+binder 1990:1990 <> x:13
+R2006:2008 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1993:2001 UORI.C40_Q32_Pow_Instruction_Semantics <> sar_model def
+R2003:2003 UORI.C40_Q32_Pow_Instruction_Semantics <> x:13 var
+R2009:2009 UORI.C40_Q32_Pow_Instruction_Semantics <> x:13 var
+R2040:2048 UORI.C40_Q32_Pow_Instruction_Semantics <> sar_model def
+R2068:2076 Coq.ZArith.BinInt Z div_1_r thm
+R2068:2076 Coq.ZArith.BinInt Z div_1_r thm
+R2068:2076 Coq.ZArith.BinInt Z div_1_r thm
+prf 2106:2127 <> shrd_model_is_explicit
+binder 2140:2142 <> low:14
+binder 2144:2147 <> high:15
+binder 2149:2153 <> shift:16
+R2185:2193 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2160:2169 UORI.C40_Q32_Pow_Instruction_Semantics <> shrd_model def
+R2171:2173 UORI.C40_Q32_Pow_Instruction_Semantics <> low:14 var
+R2175:2178 UORI.C40_Q32_Pow_Instruction_Semantics <> high:15 var
+R2180:2184 UORI.C40_Q32_Pow_Instruction_Semantics <> shift:16 var
+R2222:2224 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2197:2200 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R2221:2221 Coq.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R2194:2196 UORI.C40_Q32_Pow_Instruction_Semantics <> low:14 var
+R2202:2205 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R2220:2220 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R2206:2213 Coq.ZArith.BinInt Z of_nat def
+R2215:2219 UORI.C40_Q32_Pow_Instruction_Semantics <> shift:16 var
+R2229:2232 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R2258:2258 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R2225:2228 UORI.C40_Q32_Pow_Instruction_Semantics <> high:15 var
+R2234:2237 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R2257:2257 Coq.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R2240:2242 Coq.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R2243:2250 Coq.ZArith.BinInt Z of_nat def
+R2252:2256 UORI.C40_Q32_Pow_Instruction_Semantics <> shift:16 var
+prf 2303:2334 <> sign_extended_high_nonzero_cases
+binder 2347:2349 <> low:17
+binder 2351:2354 <> high:18
+R2388:2391 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2361:2378 UORI.C40_Q32_Pow_Instruction_Semantics <> sign_extended_high def
+R2380:2382 UORI.C40_Q32_Pow_Instruction_Semantics <> low:17 var
+R2384:2387 UORI.C40_Q32_Pow_Instruction_Semantics <> high:18 var
+R2400:2403 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R2396:2398 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2392:2395 UORI.C40_Q32_Pow_Instruction_Semantics <> high:18 var
+R2408:2410 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2404:2407 UORI.C40_Q32_Pow_Instruction_Semantics <> high:18 var
+prf 2494:2531 <> sign_extended_high_accepts_nonnegative
+binder 2544:2546 <> low:19
+R2557:2560 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2550:2553 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R2554:2556 UORI.C40_Q32_Pow_Instruction_Semantics <> low:19 var
+R2561:2578 UORI.C40_Q32_Pow_Instruction_Semantics <> sign_extended_high def
+R2580:2582 UORI.C40_Q32_Pow_Instruction_Semantics <> low:19 var
+prf 2634:2668 <> sign_extended_high_accepts_negative
+binder 2681:2683 <> low:20
+R2693:2696 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2689:2691 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R2686:2688 UORI.C40_Q32_Pow_Instruction_Semantics <> low:20 var
+R2697:2714 UORI.C40_Q32_Pow_Instruction_Semantics <> sign_extended_high def
+R2716:2718 UORI.C40_Q32_Pow_Instruction_Semantics <> low:20 var
+R2786:2815 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_projection_decomposition_i thm
+R2836:2862 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_remainder_i_nonnegative thm
+R2883:2909 UORI.C40_Q32_Pow_Instruction_Semantics <> q32_remainder_i_below_scale thm
+R2930:2943 UORI.C40_Q32_Pow_Instruction_Semantics <> sar_model_zero thm
+R2964:2995 UORI.C40_Q32_Pow_Instruction_Semantics <> sign_extended_high_nonzero_cases thm
+R3016:3053 UORI.C40_Q32_Pow_Instruction_Semantics <> sign_extended_high_accepts_nonnegative thm
+R3074:3108 UORI.C40_Q32_Pow_Instruction_Semantics <> sign_extended_high_accepts_negative thm

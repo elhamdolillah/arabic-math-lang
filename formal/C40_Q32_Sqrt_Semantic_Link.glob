@@ -1,0 +1,172 @@
+DIGEST 63952595e06792c619dee2f0183297b4
+FUORI.C40_Q32_Sqrt_Semantic_Link
+R24:29 Coq.ZArith.ZArith <> <> lib
+R31:33 Coq.micromega.Lia <> <> lib
+def 248:256 <> q32_scale
+R260:260 Coq.Numbers.BinNums <> Z ind
+def 288:297 <> sqrt_input
+R304:304 Coq.Numbers.BinNums <> Z ind
+binder 300:300 <> x:1
+R309:309 Coq.Numbers.BinNums <> Z ind
+R315:317 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R314:314 UORI.C40_Q32_Sqrt_Semantic_Link <> x:1 var
+R318:326 UORI.C40_Q32_Sqrt_Semantic_Link <> q32_scale def
+def 340:349 <> sqrt_model
+R356:356 Coq.Numbers.BinNums <> Z ind
+binder 352:352 <> x:2
+R361:361 Coq.Numbers.BinNums <> Z ind
+R366:371 Coq.ZArith.BinInt Z sqrt def
+R374:383 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_input def
+R385:385 UORI.C40_Q32_Sqrt_Semantic_Link <> x:2 var
+prf 396:413 <> q32_scale_positive
+R418:420 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R421:429 UORI.C40_Q32_Sqrt_Semantic_Link <> q32_scale def
+R446:454 UORI.C40_Q32_Sqrt_Semantic_Link <> q32_scale def
+prf 474:495 <> sqrt_input_nonnegative
+R510:510 Coq.Numbers.BinNums <> Z ind
+binder 506:506 <> x:3
+R521:524 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R516:519 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R520:520 UORI.C40_Q32_Sqrt_Semantic_Link <> x:3 var
+R526:529 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R530:539 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_input def
+R541:541 UORI.C40_Q32_Sqrt_Semantic_Link <> x:3 var
+R575:584 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_input def
+R587:595 UORI.C40_Q32_Sqrt_Semantic_Link <> q32_scale def
+prf 617:638 <> sqrt_model_nonnegative
+R653:653 Coq.Numbers.BinNums <> Z ind
+binder 649:649 <> x:4
+R664:667 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R659:662 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R663:663 UORI.C40_Q32_Sqrt_Semantic_Link <> x:4 var
+R669:672 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R673:682 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_model def
+R684:684 UORI.C40_Q32_Sqrt_Semantic_Link <> x:4 var
+R718:727 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_model def
+R738:750 Coq.ZArith.BinInt Z sqrt_nonneg thm
+R738:750 Coq.ZArith.BinInt Z sqrt_nonneg thm
+prf 765:781 <> sqrt_model_bounds
+R796:796 Coq.Numbers.BinNums <> Z ind
+binder 792:792 <> x:5
+R807:812 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R802:805 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R806:806 UORI.C40_Q32_Sqrt_Semantic_Link <> x:5 var
+R822:831 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_model def
+R833:833 UORI.C40_Q32_Sqrt_Semantic_Link <> x:5 var
+binder 817:817 <> r:6
+R845:848 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<'_x not
+R861:863 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<'_x not
+R841:843 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R840:840 UORI.C40_Q32_Sqrt_Semantic_Link <> r:6 var
+R844:844 UORI.C40_Q32_Sqrt_Semantic_Link <> r:6 var
+R849:858 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_input def
+R860:860 UORI.C40_Q32_Sqrt_Semantic_Link <> x:5 var
+R849:858 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_input def
+R860:860 UORI.C40_Q32_Sqrt_Semantic_Link <> x:5 var
+R864:864 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R870:874 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R880:880 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R866:868 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R865:865 UORI.C40_Q32_Sqrt_Semantic_Link <> r:6 var
+R876:878 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R875:875 UORI.C40_Q32_Sqrt_Semantic_Link <> r:6 var
+R914:923 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_model def
+R940:961 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_input_nonnegative thm
+R940:961 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_input_nonnegative thm
+R990:1000 Coq.ZArith.BinInt Z sqrt_spec thm
+R1003:1012 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_input def
+R990:1000 Coq.ZArith.BinInt Z sqrt_spec thm
+R1003:1012 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_input def
+def 1186:1197 <> sqrt_step_ok
+R1206:1206 Coq.Numbers.BinNums <> Z ind
+binder 1200:1200 <> n:7
+binder 1202:1202 <> r:8
+R1227:1230 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1222:1225 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1226:1226 UORI.C40_Q32_Sqrt_Semantic_Link <> r:8 var
+R1241:1244 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R1236:1239 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1232:1234 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1231:1231 UORI.C40_Q32_Sqrt_Semantic_Link <> r:8 var
+R1235:1235 UORI.C40_Q32_Sqrt_Semantic_Link <> r:8 var
+R1240:1240 UORI.C40_Q32_Sqrt_Semantic_Link <> n:7 var
+R1246:1248 Coq.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1245:1245 UORI.C40_Q32_Sqrt_Semantic_Link <> n:7 var
+R1249:1249 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1255:1259 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1265:1265 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1251:1253 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1250:1250 UORI.C40_Q32_Sqrt_Semantic_Link <> r:8 var
+R1261:1263 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1260:1260 UORI.C40_Q32_Sqrt_Semantic_Link <> r:8 var
+prf 1275:1293 <> sqrt_step_ok_unique
+R1312:1312 Coq.Numbers.BinNums <> Z ind
+binder 1304:1304 <> n:9
+binder 1306:1306 <> r:10
+binder 1308:1308 <> s:11
+R1333:1336 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1317:1328 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_step_ok def
+R1330:1330 UORI.C40_Q32_Sqrt_Semantic_Link <> n:9 var
+R1332:1332 UORI.C40_Q32_Sqrt_Semantic_Link <> r:10 var
+R1353:1356 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1337:1348 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_step_ok def
+R1350:1350 UORI.C40_Q32_Sqrt_Semantic_Link <> n:9 var
+R1352:1352 UORI.C40_Q32_Sqrt_Semantic_Link <> s:11 var
+R1358:1360 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R1357:1357 UORI.C40_Q32_Sqrt_Semantic_Link <> r:10 var
+R1361:1361 UORI.C40_Q32_Sqrt_Semantic_Link <> s:11 var
+R1478:1481 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1478:1481 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1500:1510 Coq.ZArith.ZArith_dec <> Z_le_gt_dec def
+R1500:1510 Coq.ZArith.ZArith_dec <> Z_le_gt_dec def
+R1581:1584 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1564:1564 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1570:1574 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1580:1580 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1566:1568 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1576:1578 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1586:1588 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1581:1584 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1564:1564 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1570:1574 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1580:1580 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1566:1568 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1576:1578 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1586:1588 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1636:1639 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1636:1639 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1658:1668 Coq.ZArith.ZArith_dec <> Z_le_gt_dec def
+R1658:1668 Coq.ZArith.ZArith_dec <> Z_le_gt_dec def
+R1739:1742 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1722:1722 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1728:1732 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1738:1738 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1724:1726 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1734:1736 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1744:1746 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1739:1742 Coq.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1722:1722 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1728:1732 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1738:1738 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R1724:1726 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1734:1736 Coq.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R1744:1746 Coq.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+ax 1940:1958 <> low_level_sqrt_step
+R1963:1966 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1962:1962 Coq.Numbers.BinNums <> Z ind
+R1968:1971 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1967:1967 Coq.Numbers.BinNums <> Z ind
+ax 1985:2017 <> low_level_sqrt_step_refines_model
+R2034:2034 Coq.Numbers.BinNums <> Z ind
+binder 2028:2028 <> n:13
+binder 2030:2030 <> r:14
+R2062:2065 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2039:2057 UORI.C40_Q32_Sqrt_Semantic_Link <> low_level_sqrt_step defax
+R2059:2059 UORI.C40_Q32_Sqrt_Semantic_Link <> n:13 var
+R2061:2061 UORI.C40_Q32_Sqrt_Semantic_Link <> r:14 var
+R2066:2077 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_step_ok def
+R2079:2079 UORI.C40_Q32_Sqrt_Semantic_Link <> n:13 var
+R2081:2081 UORI.C40_Q32_Sqrt_Semantic_Link <> r:14 var
+R2103:2119 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_model_bounds thm
+R2140:2158 UORI.C40_Q32_Sqrt_Semantic_Link <> sqrt_step_ok_unique thm
+R2179:2211 UORI.C40_Q32_Sqrt_Semantic_Link <> low_level_sqrt_step_refines_model prfax
