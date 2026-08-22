@@ -6,6 +6,7 @@ from tempfile import NamedTemporaryFile
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "python"))
 
+from arabic_grammar import GrammarSpecError, validate_arabic_grammar
 from arabic_plan import PlanSpecError, load_plan_spec
 from arabic_registry import RegistrySpecError, load_arabic_specs
 from uori_kernel import HardwareProfile, KernelStatus, UoriKernel
@@ -25,6 +26,22 @@ class UoriKernelTests(unittest.TestCase):
         gcd = next(spec for spec in specs if spec.operation == "قاسم_مشترك")
         self.assertEqual(gcd.domain, "أعداد_صحيحة_غير_سالبة")
         self.assertIn("نفاد_الوقود", gcd.failure)
+
+    def test_arabic_grammar_examples_validate(self):
+        source = Path(__file__).parents[1] / "source" / "grammar_examples.ar"
+        summary = validate_arabic_grammar(source)
+        self.assertEqual(summary.algorithms, 2)
+        self.assertEqual(summary.functions, 1)
+        self.assertEqual(summary.conditions, 3)
+        self.assertEqual(summary.bounded_loops, 1)
+        self.assertEqual(summary.returns, 5)
+
+    def test_arabic_grammar_rejects_dynamic_execution(self):
+        with NamedTemporaryFile("w", encoding="utf-8", suffix=".ar") as handle:
+            handle.write("دالة اختبار(س: عدد_صحيح) -> عدد_صحيح\\nأعد eval(س)\\n")
+            handle.flush()
+            with self.assertRaises(GrammarSpecError):
+                validate_arabic_grammar(handle.name)
 
     def test_arabic_execution_plan_contract_loads(self):
         source = Path(__file__).parents[1] / "source" / "execution_plan.ar"
