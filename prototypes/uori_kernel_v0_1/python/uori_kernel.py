@@ -11,7 +11,10 @@ from enum import Enum
 import hashlib
 import json
 import math
+from pathlib import Path
 from typing import Callable, Mapping
+
+from arabic_registry import RegistrySpecError, load_arabic_specs
 
 
 class KernelStatus(str, Enum):
@@ -153,16 +156,27 @@ class UoriKernel:
         self._register_builtins()
 
     def _register_builtins(self) -> None:
-        for algorithm_id, operation, fn, bound in (
-            ("uori.math.add", "جمع", _add, 1),
-            ("uori.math.subtract", "طرح", _subtract, 1),
-            ("uori.math.sqrt144", "جذر", _sqrt_144, 1),
-            ("uori.math.gcd", "قاسم_مشترك", _gcd, 128),
-        ):
-            source = f"{algorithm_id}:v1:{operation}:{bound}".encode()
+        implementations: dict[str, Callable[[tuple[int, ...]], int]] = {
+            "جمع": _add,
+            "طرح": _subtract,
+            "جذر": _sqrt_144,
+            "قاسم_مشترك": _gcd,
+        }
+        source_path = Path(__file__).resolve().parents[1] / "source" / "algorithms.ar"
+        try:
+            specifications = load_arabic_specs(source_path)
+        except (OSError, RegistrySpecError) as exc:
+            raise KernelFault(f"تعذر اعتماد السجل العربي: {exc}") from exc
+        for spec in specifications:
+            implementation = implementations.get(spec.operation)
+            if implementation is None:
+                raise KernelFault(f"لا توجد خلفية مضمّنة للعملية: {spec.operation}")
+            source = f"{spec.algorithm_id}:v{spec.version}:{spec.operation}:{spec.fuel}".encode()
             digest = hashlib.sha256(source).hexdigest()
-            evidence = Evidence(algorithm_id, 1, True, True, bound, digest)
-            self.registry.register(Algorithm(algorithm_id, 1, operation, True, fn, evidence))
+            evidence = Evidence(spec.algorithm_id, spec.version, True, True, spec.fuel, digest)
+            self.registry.register(Algorithm(
+                spec.algorithm_id, spec.version, spec.operation, True, implementation, evidence
+            ))
 
     def boot(self) -> dict[str, object]:
         # إقلاع منطقي فقط؛ لا يدّعي التعامل مع BIOS/UEFI أو العتاد الحقيقي.

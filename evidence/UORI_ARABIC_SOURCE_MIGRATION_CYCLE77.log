@@ -1,0 +1,24 @@
+=== UORI ARABIC SOURCE MIGRATION ===
+2026-08-22T21:41:59Z
+SCOPE=مصدر سجل الخوارزميات العربية + محلل مقيد + ربط بالنواة المرجعية
+TEST=python3 -m unittest discover -s prototypes/uori_kernel_v0_1/tests -p test_*.py -v
+test_arabic_registry_rejects_unknown_field (test_uori_kernel.UoriKernelTests.test_arabic_registry_rejects_unknown_field) ... ok
+test_arabic_registry_source_loads (test_uori_kernel.UoriKernelTests.test_arabic_registry_source_loads) ... ok
+test_deterministic_add (test_uori_kernel.UoriKernelTests.test_deterministic_add) ... ok
+test_deterministic_gcd (test_uori_kernel.UoriKernelTests.test_deterministic_gcd) ... ok
+test_deterministic_sqrt (test_uori_kernel.UoriKernelTests.test_deterministic_sqrt) ... ok
+test_deterministic_subtract (test_uori_kernel.UoriKernelTests.test_deterministic_subtract) ... ok
+test_plan_tampering_is_rejected (test_uori_kernel.UoriKernelTests.test_plan_tampering_is_rejected) ... ok
+test_requires_logical_boot (test_uori_kernel.UoriKernelTests.test_requires_logical_boot) ... ok
+test_unknown_request_abstains_without_execution (test_uori_kernel.UoriKernelTests.test_unknown_request_abstains_without_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.003s
+
+OK
+PY_COMPILE=PASS
+--- SHA256 ---
+246fc547a2b38e52d1e53229cf8af0ec7e6f3c47f46048c56d7e31708e6e815f  prototypes/uori_kernel_v0_1/source/algorithms.ar
+bb78c6b70ffd78a07f5a448279cfb992486e302798914b31b83a724f3819a47f  prototypes/uori_kernel_v0_1/python/arabic_registry.py
+63c6dfac09c5e448097010a18d12e98e0e3e43da57340cd6227ab69730f780fe  prototypes/uori_kernel_v0_1/python/uori_kernel.py
+d96439cf1f6d7645b6dc4ed272629053fb81e63eed18e72321e6f9f6a9977696  prototypes/uori_kernel_v0_1/tests/test_uori_kernel.py

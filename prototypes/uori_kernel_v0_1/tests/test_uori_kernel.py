@@ -2,9 +2,11 @@ import sys
 import unittest
 from dataclasses import replace
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "python"))
 
+from arabic_registry import RegistrySpecError, load_arabic_specs
 from uori_kernel import HardwareProfile, KernelStatus, UoriKernel
 
 
@@ -13,6 +15,19 @@ class UoriKernelTests(unittest.TestCase):
         kernel = UoriKernel(HardwareProfile("reference-x86_64", 1024 * 1024, False, "test-input"))
         kernel.boot()
         return kernel
+
+    def test_arabic_registry_source_loads(self):
+        source = Path(__file__).parents[1] / "source" / "algorithms.ar"
+        specs = load_arabic_specs(source)
+        self.assertEqual(len(specs), 4)
+        self.assertEqual({spec.operation for spec in specs}, {"جمع", "طرح", "جذر", "قاسم_مشترك"})
+
+    def test_arabic_registry_rejects_unknown_field(self):
+        with NamedTemporaryFile("w", encoding="utf-8", suffix=".ar") as handle:
+            handle.write("خوارزمية اختبار: uori.test\\nعملية: اختبار\\nمجهول: تنفيذ\\n")
+            handle.flush()
+            with self.assertRaises(RegistrySpecError):
+                load_arabic_specs(handle.name)
 
     def test_deterministic_add(self):
         result = self.kernel().handle("احسب جمع 7 5")
