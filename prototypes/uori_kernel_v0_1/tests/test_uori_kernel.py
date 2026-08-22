@@ -8,6 +8,7 @@ sys.path.insert(0, str(Path(__file__).parents[1] / "python"))
 
 from arabic_abi import validate_abi
 from arabic_grammar import GrammarSpecError, validate_arabic_grammar
+from generate_abi_artifacts import generate as generate_abi_artifacts
 from arabic_plan import PlanSpecError, load_plan_spec
 from arabic_registry import RegistrySpecError, load_arabic_specs
 from uori_kernel import HardwareProfile, KernelStatus, UoriKernel
@@ -33,6 +34,23 @@ class UoriKernelTests(unittest.TestCase):
         summary = validate_abi(source)
         self.assertEqual(summary["calls"], 3)
         self.assertGreater(summary["lines"], 20)
+
+    def test_generated_abi_artifacts_are_deterministic_and_descriptive(self):
+        root = Path(__file__).parents[1]
+        abi = root / "source" / "uori_abi.ar"
+        with NamedTemporaryFile("w+", encoding="utf-8", suffix=".json") as json_a, NamedTemporaryFile("w+", encoding="utf-8", suffix=".sh") as shell_a, NamedTemporaryFile("w+", encoding="utf-8", suffix=".json") as json_b, NamedTemporaryFile("w+", encoding="utf-8", suffix=".sh") as shell_b:
+            generate_abi_artifacts(abi, json_a.name, shell_a.name)
+            generate_abi_artifacts(abi, json_b.name, shell_b.name)
+            json_a.seek(0)
+            json_b.seek(0)
+            shell_a.seek(0)
+            shell_b.seek(0)
+            self.assertEqual(json_a.read(), json_b.read())
+            shell_text = shell_a.read()
+            self.assertEqual(shell_text, shell_b.read())
+            self.assertNotIn("eval", shell_text)
+            self.assertNotIn("exec", shell_text)
+            self.assertIn("UORI_ABI_INTERFACE=", shell_text)
 
     def test_arabic_grammar_examples_validate(self):
         source = Path(__file__).parents[1] / "source" / "grammar_examples.ar"
