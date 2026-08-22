@@ -1,0 +1,11 @@
+UORI CYCLE 77 CHAIN UPDATE
+HEAD_BEFORE_CHAIN_UPDATE=7087161cf8bc0548416c5daf783feacf9bbb7fb3
+Added entries:
+7d22bb1f539e403da896191adee5efff84df119d7b72b10d116aaf58999d5b41  evidence/UORI_CYCLE77_VERIFICATION_FINAL.log
+d12e3e5d9eeabf513b1ac9f9602163c9419b232b430e091124d9cd834bd07243  prototypes/uori_kernel_v0_1/python/measure_arabic_ratio.py
+2897b6e426c525faec475c57643619e55ca845b1a4389e26900c8e42fd6deb28  prototypes/uori_kernel_v0_1/python/security_ast_check.py
+Tracked evidence:
+evidence/UORI_CYCLE77_VERIFICATION_FINAL.log
+prototypes/uori_kernel_v0_1/python/measure_arabic_ratio.py
+prototypes/uori_kernel_v0_1/python/security_ast_check.py
+Working tree note: pre-existing generated Coq/cache/archive artifacts remain intentionally uncommitted.

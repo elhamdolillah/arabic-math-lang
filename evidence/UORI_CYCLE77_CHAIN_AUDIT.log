@@ -1,0 +1,40 @@
+=== HEAD ===
+7087161cf8bc0548416c5daf783feacf9bbb7fb3
+=== BRANCH ===
+## [32muori-cycle151[m...[31morigin/uori-cycle151[m
+ [31mM[m .nia.cache
+ [31mM[m formal/C40_Q32_Pow_Closed_Arithmetic.glob
+ [31mM[m formal/C40_Q64_Error_Bounds.glob
+ [31mM[m formal/Q32_Complex.glob
+[31m??[m UORI_KERNEL_PROTOTYPE_v0.1.zip
+[31m??[m UORI_KERNEL_PROTOTYPE_v0.1.zip.sha256
+[31m??[m formal/C40_Q32_Pow_Closed_Arithmetic.vo
+[31m??[m formal/C40_Q32_Pow_Closed_Arithmetic.vok
+[31m??[m formal/C40_Q32_Pow_Closed_Arithmetic.vos
+[31m??[m formal/C40_Q64_Error_Bounds.vo
+[31m??[m formal/C40_Q64_Error_Bounds.vok
+[31m??[m formal/C40_Q64_Error_Bounds.vos
+[31m??[m formal/Q32_Complex.vo
+[31m??[m formal/Q32_Complex.vok
+[31m??[m formal/Q32_Complex.vos
+=== CHAIN TAIL ===
+b0a72b72bc55a5d42dc88afb4033ad731b8ffa37a0da07b45e8e800315d27f50  RESTORE_GUIDE_AR.md
+b85fc1e85e573afeb168740a1548c3394a5a417f7af93fcc12090612e7ed5515  ARCHIVE_RELEASE_METADATA.txt
+2b8f27e757a103e8fbf0460a6698309857d92e89f13335926db871cc7d23a7f9  evidence/uori_archive_full_test_output.log
+b5919068a747396793c98c946315cadb0bc192399ede28dfdebbd37b71efde44  evidence/uori_archive_chain_verification.log
+35a4a1151183e76bc6884320a730dc65413afe8972b982a13472cfbe915b9b8b  evidence/uori_archive_chain_final_status_ar.log
+f7a699db49180b3f8997bc2faa3408d1db94723d79de25d41c2bb19ad0147c58  vnext/rust/uori_wasm_transpiler/Cargo.toml
+39a6d3960e87a3fe30cc968fec0dcd1036b50e84580842cee5ef05edcef97332  vnext/rust/uori_wasm_transpiler/src/lib.rs
+b82a2e39e02d65be31ec91c43b9d0087339345bf7b4c9ccff25bda775658a66f  vnext/rust/uori_wasm_transpiler/src/main.rs
+98fc96f56d0e776f8cc39c18b505c9e64debc085e75b32398e135b46356fca39  evidence/vnext_rust_wasm_transpiler_execution_ar.log
+1e885f21df787f35eec909f0230fcc18edccb4bd2006fb50be77b6ed11a59f09  vnext/tools/test_discovery_report.py
+2f89fbc2c5d8cf4441efb57039d1aaa723bf78b29c7ffa68a5c9b297fddb6c19  evidence/UORI_77_CYCLE151_PROGRESS_AR.md
+37a56a63481efd82212b989cfae22183ad96172fd2782148f40d20abe8e8cb44  evidence/vnext_cycle151_coq_asm_boundary_ar.log
+=== EVIDENCE HASHES ===
+7d22bb1f539e403da896191adee5efff84df119d7b72b10d116aaf58999d5b41  evidence/UORI_CYCLE77_VERIFICATION_FINAL.log
+d12e3e5d9eeabf513b1ac9f9602163c9419b232b430e091124d9cd834bd07243  prototypes/uori_kernel_v0_1/python/measure_arabic_ratio.py
+2897b6e426c525faec475c57643619e55ca845b1a4389e26900c8e42fd6deb28  prototypes/uori_kernel_v0_1/python/security_ast_check.py
+=== TRACKED CHECK ===
+evidence/UORI_CYCLE77_VERIFICATION_FINAL.log
+prototypes/uori_kernel_v0_1/python/measure_arabic_ratio.py
+prototypes/uori_kernel_v0_1/python/security_ast_check.py
