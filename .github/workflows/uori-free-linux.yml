@@ -1,0 +1,52 @@
+name: UORI Free Linux Verification
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - uori-cycle151
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Python and Coq
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y coq
+          python3 --version
+          coqc --version
+
+      - name: Run UORI operational gate
+        run: |
+          set -euo pipefail
+          for f in vnext/tests/test_*.py; do
+            echo "=== $f ==="
+            python3 "$f"
+          done
+          python3 -m py_compile vnext/tools/*.py vnext/tests/*.py
+          python3 vnext/tools/validate_manifest.py vnext/manifest.json
+          python3 vnext/tools/native_execution_probe.py
+          python3 vnext/tools/replay_validator.py
+
+      - name: Build formal Coq units
+        run: |
+          set -euo pipefail
+          printf '%s\n' '-Q formal UORI' > .CoqProject
+          find formal -maxdepth 1 -type f -name '*.v' -printf '%p\n' | sort >> .CoqProject
+          coq_makefile -f .CoqProject -o Makefile.uori
+          make -f Makefile.uori -j2
+          echo 'FORMAL_STATUS=BUILD_PASS_LIMITED'
+
+      - name: Constitutional classification
+        run: |
+          echo 'OPERATIONAL=PASS'
+          echo 'FORMAL=BUILD_PASS_LIMITED'
+          echo 'HARDWARE=NOT_PROVEN_GITHUB_HOSTED_VIRTUALIZED'
