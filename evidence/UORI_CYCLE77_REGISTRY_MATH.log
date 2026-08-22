@@ -1,0 +1,18 @@
+=== UORI CYCLE 77 REGISTRY EXTENSION ===
+2026-08-22T21:34:51Z
+CHANGE=إضافة الجمع والطرح إلى سجل الخوارزميات الحتمية
+test_deterministic_add (test_uori_kernel.UoriKernelTests.test_deterministic_add) ... ok
+test_deterministic_gcd (test_uori_kernel.UoriKernelTests.test_deterministic_gcd) ... ok
+test_deterministic_sqrt (test_uori_kernel.UoriKernelTests.test_deterministic_sqrt) ... ok
+test_deterministic_subtract (test_uori_kernel.UoriKernelTests.test_deterministic_subtract) ... ok
+test_plan_tampering_is_rejected (test_uori_kernel.UoriKernelTests.test_plan_tampering_is_rejected) ... ok
+test_requires_logical_boot (test_uori_kernel.UoriKernelTests.test_requires_logical_boot) ... ok
+test_unknown_request_abstains_without_execution (test_uori_kernel.UoriKernelTests.test_unknown_request_abstains_without_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.001s
+
+OK
+STATUS=PASS
+e515a8404f4aa498e7882c09df304f565b292d4a422dba0bdd4fe55fc99e13a8  prototypes/uori_kernel_v0_1/python/uori_kernel.py
+6e9afd7547d21d71a72f5583e84554daf42381a0a1f1a84c21e16d83f4086a72  prototypes/uori_kernel_v0_1/tests/test_uori_kernel.py

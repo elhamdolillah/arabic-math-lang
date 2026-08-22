@@ -1,0 +1,18 @@
+[package]
+name = "uori-kernel-abi"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["staticlib"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+opt-level = "s"
+
+# لا توجد اعتماديات خارجية في عقد ABI الأولي.
+# البناء الفعلي no_std يحتاج target specification وrustc/cargo مثبتين.

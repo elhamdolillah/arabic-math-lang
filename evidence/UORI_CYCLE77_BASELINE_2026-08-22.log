@@ -1,0 +1,27 @@
+=== UORI CYCLE 77 BASELINE ===
+2026-08-22T21:32:26Z
+BRANCH=uori-cycle151
+COMMIT=c812f7e6b6d29bcc5b151c5bd4d3aff811d1f9d7
+--- STATUS ---
+[31m??[m UORI_KERNEL_PROTOTYPE_v0.1.zip
+[31m??[m UORI_KERNEL_PROTOTYPE_v0.1.zip.sha256
+[31m??[m prototypes/
+--- FILE COUNTS ---
+TRACKED=1100
+WORKTREE=1240
+AR_FILES=24
+PY_FILES=239
+ASM_FILES=294
+--- TOOLS ---
+/usr/bin/python3
+/usr/bin/nasm
+/usr/bin/ld
+/usr/bin/coqc
+--- PROTOTYPE ---
+prototypes/uori_kernel_v0_1/README_AR.md
+prototypes/uori_kernel_v0_1/evidence/verification.log
+prototypes/uori_kernel_v0_1/python/uori_kernel.py
+prototypes/uori_kernel_v0_1/rust/Cargo.toml
+prototypes/uori_kernel_v0_1/rust/linker.ld
+prototypes/uori_kernel_v0_1/rust/src/lib.rs
+prototypes/uori_kernel_v0_1/tests/test_uori_kernel.py

@@ -1,0 +1,71 @@
+=== formal/C40_Q32_Hypot_Bounds.v ===
+Closed under the global context
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/C40_Q32_Pow_Bounds.v ===
+Closed under the global context
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/C40_Q32_Pow_Closed_Arithmetic.v ===
+Closed under the global context
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/C40_Q32_Pow_Instruction_Semantics.v ===
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/C40_Q32_Pow_Semantic_Link.v ===
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/C40_Q32_Sqrt_Bounds.v ===
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/C40_Q32_Sqrt_Newton_Link.v ===
+Closed under the global context
+Closed under the global context
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/C40_Q32_Sqrt_Semantic_Link.v ===
+Closed under the global context
+Closed under the global context
+Axioms:
+low_level_sqrt_step_refines_model
+  : forall n r : Z, low_level_sqrt_step n r -> sqrt_step_ok n r
+RC=0
+=== formal/C40_Q64_Error_Bounds.v ===
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/C40_Q64_Model.v ===
+Closed under the global context
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/Q32_Complex.v ===
+Closed under the global context
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/Q32_Core.v ===
+Closed under the global context
+Closed under the global context
+RC=0
+=== formal/Q32_Hypot_Semantic_Link.v ===
+Closed under the global context
+Closed under the global context
+Closed under the global context
+RC=0
+TOTAL=13
+PASS=13
+FAIL=0

@@ -1,0 +1,157 @@
+=== vnext/tests/test_abi_contract.py ===
+VNEXT_ABI_LOWERING=PASS
+VNEXT_ABI_HASH=PASS
+VNEXT_ABI_CHAIN=PASS
+VNEXT_ABI_ABSTENTION=PASS
+RC=0
+=== vnext/tests/test_acceptance_gate.py ===
+VNEXT_ACCEPTANCE_INTERVAL=PASS
+VNEXT_ACCEPTANCE_ABSTENTION=PASS
+RC=0
+=== vnext/tests/test_algorithm_acceptance.py ===
+VNEXT_ACCEPTANCE_SAFETY_FIRST=PASS
+VNEXT_ACCEPTANCE_TERMINATION_GATE=PASS
+VNEXT_ACCEPTANCE_HARDWARE_GUARD=PASS
+VNEXT_ACCEPTANCE_CONFIDENTIALITY_GUARD=PASS
+VNEXT_ACCEPTANCE_MAJORITY_VOTE=PASS
+VNEXT_ACCEPTANCE_VOTE_DEDUP=PASS
+RC=0
+=== vnext/tests/test_algorithm_admission.py ===
+VNEXT_ADMISSION_DETERMINISTIC_PRIORITY=PASS
+VNEXT_ADMISSION_REJECTION_LOG=PASS
+VNEXT_ADMISSION_ABSTENTION=PASS
+RC=0
+=== vnext/tests/test_compile_print.py ===
+VNEXT_RESULT_CONTRACT=PASS
+VNEXT_DETERMINISTIC_PATH=PASS
+VNEXT_ABSTENTION_ON_PARSE_ERROR=PASS
+RC=0
+=== vnext/tests/test_constitutional_decision.py ===
+VNEXT_RULES_1_4=PASS
+VNEXT_RULE_5_ABSTENTION=PASS
+VNEXT_CONSTITUTIONAL_DECISION=PASS
+RC=0
+=== vnext/tests/test_evidence_chain.py ===
+VNEXT_EVIDENCE_CHAIN=PASS
+VNEXT_EVIDENCE_TAMPER_REJECTION=PASS
+VNEXT_EVIDENCE_ORDER_REJECTION=PASS
+RC=0
+=== vnext/tests/test_execution_pipeline.py ===
+VNEXT_PIPELINE_ADMISSION=PASS
+VNEXT_PIPELINE_BOUNDARY=PASS
+VNEXT_PIPELINE_RUNTIME=PASS
+VNEXT_PIPELINE_STATUS_SEPARATION=PASS
+RC=0
+=== vnext/tests/test_formal_assumption_audit.py ===
+RC=0
+=== vnext/tests/test_hardware_probe.py ===
+VNEXT_HARDWARE_CLASSIFICATION=PASS
+VNEXT_HARDWARE_ABSTENTION=PASS
+VNEXT_NO_HARDWARE_OVERCLAIM=PASS
+RC=0
+=== vnext/tests/test_kernel_gateway.py ===
+VNEXT_KERNEL_GATEWAY=PASS
+VNEXT_CAPABILITY_BOUNDARY=PASS
+VNEXT_SYSCALL_ABSTENTION=PASS
+RC=0
+=== vnext/tests/test_kernel_runtime_bridge.py ===
+VNEXT_KERNEL_RUNTIME_BRIDGE=PASS
+VNEXT_INTEGRATED_EVIDENCE=PASS
+RC=0
+=== vnext/tests/test_native_execution_probe.py ===
+VNEXT_NATIVE_PROBE_EXECUTION=PASS
+VNEXT_NATIVE_PROOF_NOT_OVERCLAIMED=PASS
+RC=0
+=== vnext/tests/test_numeric_contract.py ===
+VNEXT_Q32_ADD=PASS
+VNEXT_INTERVAL_BOUNDS=PASS
+VNEXT_NUMERIC_ABSTENTION=PASS
+RC=0
+=== vnext/tests/test_parser.py ===
+VNEXT_PARSER=PASS
+VNEXT_AST=PASS
+VNEXT_NEGATIVE_CASES=3/3
+RC=0
+=== vnext/tests/test_pipeline_audit.py ===
+VNEXT_PIPELINE_AUDIT=PASS
+VNEXT_PIPELINE_ORDER_REJECTION=PASS
+RC=0
+=== vnext/tests/test_recursion_acceptance_matrix.py ===
+VNEXT_RECURSION_LINEAR=PASS
+VNEXT_RECURSION_NONLINEAR=PASS
+VNEXT_RECURSION_MUTUAL=PASS
+VNEXT_RECURSION_NONDECREASING_REJECT=PASS
+VNEXT_RECURSION_RUNTIME_GUARD=PASS
+RC=0
+=== vnext/tests/test_recursion_graph.py ===
+VNEXT_RECURSION_DIRECT_SCC=PASS
+VNEXT_RECURSION_MUTUAL_SCC=PASS
+VNEXT_RECURSION_ACYCLIC=PASS
+RC=0
+=== vnext/tests/test_recursion_guard.py ===
+VNEXT_GUARD_FUEL=PASS
+VNEXT_GUARD_STACK_DEPTH=PASS
+VNEXT_GUARD_MEMORY=PASS
+VNEXT_GUARD_BALANCED_PATH=PASS
+RC=0
+=== vnext/tests/test_replay_validator.py ===
+VNEXT_REPLAY_DETERMINISM=PASS
+VNEXT_REPLAY_BOUNDARY=PASS
+RC=0
+=== vnext/tests/test_resource_contract.py ===
+VNEXT_RESOURCE_ADMISSION=PASS
+VNEXT_RESOURCE_LIMIT=PASS
+VNEXT_RESOURCE_ABSTENTION=PASS
+RC=0
+=== vnext/tests/test_runtime_dispatch.py ===
+VNEXT_RUNTIME_DISPATCH=PASS
+VNEXT_RUNTIME_OUTPUT=PASS
+VNEXT_RUNTIME_ABSTENTION=PASS
+RC=0
+=== vnext/tests/test_termination_certificate.py ===
+VNEXT_RANKING_NATURAL=PASS
+VNEXT_RANKING_LEXICOGRAPHIC=PASS
+VNEXT_RANKING_NONDECREASE_REJECTION=PASS
+VNEXT_RANKING_FINGERPRINT=PASS
+RC=0
+=== vnext/tests/test_ui_gateway.py ===
+VNEXT_UI_ARABIC_INPUT=PASS
+VNEXT_UI_DETERMINISTIC_REQUEST_HASH=PASS
+VNEXT_UI_NO_EXECUTION=PASS
+VNEXT_UI_ABSTENTION=PASS
+RC=0
+=== vnext/tests/test_uori_lookup.py ===
+VNEXT_UORI_LOOKUP_IDENTITY=PASS
+VNEXT_UORI_LOOKUP_ROUNDTRIP=PASS
+VNEXT_UORI_LOOKUP_SOURCE_REF_NONEXECUTABLE=PASS
+VNEXT_UORI_LOOKUP_REJECTION=PASS
+RC=0
+=== vnext/tests/test_vnext_manifest.py ===
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.002s
+
+OK
+UORI_V9_MANIFEST=VALID
+UORI_V9_COMPONENTS=30
+UORI_V9_DESTRUCTIVE_REPLACE=REJECTED
+RC=0
+=== vnext/tests/test_wasm_gate.py ===
+VNEXT_WASM_GATE_ALLOWLIST=PASS
+VNEXT_WASM_GATE_FINGERPRINT=PASS
+VNEXT_WASM_GATE_FORBIDDEN_FEATURES=PASS
+VNEXT_WASM_GATE_RESOURCE_LIMIT=PASS
+RC=0
+TOTAL=27
+PASS=27
+FAIL=0
+test_deterministic_gcd (test_uori_kernel.UoriKernelTests.test_deterministic_gcd) ... ok
+test_deterministic_sqrt (test_uori_kernel.UoriKernelTests.test_deterministic_sqrt) ... ok
+test_requires_logical_boot (test_uori_kernel.UoriKernelTests.test_requires_logical_boot) ... ok
+test_unknown_request_abstains_without_execution (test_uori_kernel.UoriKernelTests.test_unknown_request_abstains_without_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+PROTOTYPE_RC=0

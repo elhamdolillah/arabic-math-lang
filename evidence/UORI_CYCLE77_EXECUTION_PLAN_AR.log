@@ -1,0 +1,18 @@
+=== UORI CYCLE 77 EXECUTION PLAN ===
+2026-08-22T21:34:27Z
+CHANGE=إضافة بصمة خطة التنفيذ وميزانية الوقود والقدرة والتحقق قبل التنفيذ
+TEST_COMMAND=python3 -m unittest discover -s prototypes/uori_kernel_v0_1/tests -p test_*.py -v
+test_deterministic_gcd (test_uori_kernel.UoriKernelTests.test_deterministic_gcd) ... ok
+test_deterministic_sqrt (test_uori_kernel.UoriKernelTests.test_deterministic_sqrt) ... ok
+test_plan_tampering_is_rejected (test_uori_kernel.UoriKernelTests.test_plan_tampering_is_rejected) ... ok
+test_requires_logical_boot (test_uori_kernel.UoriKernelTests.test_requires_logical_boot) ... ok
+test_unknown_request_abstains_without_execution (test_uori_kernel.UoriKernelTests.test_unknown_request_abstains_without_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+OK
+STATUS=PASS
+--- SHA256 ---
+c6c111d60c7121f61194484cfd4ce437b8d1ca9a3316c21528040a916be8e837  prototypes/uori_kernel_v0_1/python/uori_kernel.py
+0674758f08cadc56af8b23fdf7b3d7c5f49e98346b58985e2789a20f1725b9ae  prototypes/uori_kernel_v0_1/tests/test_uori_kernel.py
