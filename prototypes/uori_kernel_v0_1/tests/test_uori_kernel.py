@@ -6,6 +6,7 @@ from tempfile import NamedTemporaryFile
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "python"))
 
+from arabic_abi import validate_abi
 from arabic_grammar import GrammarSpecError, validate_arabic_grammar
 from arabic_plan import PlanSpecError, load_plan_spec
 from arabic_registry import RegistrySpecError, load_arabic_specs
@@ -26,6 +27,12 @@ class UoriKernelTests(unittest.TestCase):
         gcd = next(spec for spec in specs if spec.operation == "قاسم_مشترك")
         self.assertEqual(gcd.domain, "أعداد_صحيحة_غير_سالبة")
         self.assertIn("نفاد_الوقود", gcd.failure)
+
+    def test_arabic_abi_spec_validates(self):
+        source = Path(__file__).parents[1] / "source" / "uori_abi.ar"
+        summary = validate_abi(source)
+        self.assertEqual(summary["calls"], 3)
+        self.assertGreater(summary["lines"], 20)
 
     def test_arabic_grammar_examples_validate(self):
         source = Path(__file__).parents[1] / "source" / "grammar_examples.ar"

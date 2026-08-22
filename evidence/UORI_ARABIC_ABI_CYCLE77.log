@@ -1,0 +1,26 @@
+=== UORI ARABIC ABI ===
+2026-08-22T21:47:00Z
+test_arabic_abi_spec_validates (test_uori_kernel.UoriKernelTests.test_arabic_abi_spec_validates) ... ok
+test_arabic_execution_plan_contract_loads (test_uori_kernel.UoriKernelTests.test_arabic_execution_plan_contract_loads) ... ok
+test_arabic_execution_plan_rejects_direct_source_execution (test_uori_kernel.UoriKernelTests.test_arabic_execution_plan_rejects_direct_source_execution) ... ok
+test_arabic_grammar_examples_validate (test_uori_kernel.UoriKernelTests.test_arabic_grammar_examples_validate) ... ok
+test_arabic_grammar_rejects_dynamic_execution (test_uori_kernel.UoriKernelTests.test_arabic_grammar_rejects_dynamic_execution) ... ok
+test_arabic_registry_rejects_unknown_field (test_uori_kernel.UoriKernelTests.test_arabic_registry_rejects_unknown_field) ... ok
+test_arabic_registry_source_loads (test_uori_kernel.UoriKernelTests.test_arabic_registry_source_loads) ... ok
+test_deterministic_add (test_uori_kernel.UoriKernelTests.test_deterministic_add) ... ok
+test_deterministic_gcd (test_uori_kernel.UoriKernelTests.test_deterministic_gcd) ... ok
+test_deterministic_sqrt (test_uori_kernel.UoriKernelTests.test_deterministic_sqrt) ... ok
+test_deterministic_subtract (test_uori_kernel.UoriKernelTests.test_deterministic_subtract) ... ok
+test_plan_tampering_is_rejected (test_uori_kernel.UoriKernelTests.test_plan_tampering_is_rejected) ... ok
+test_requires_logical_boot (test_uori_kernel.UoriKernelTests.test_requires_logical_boot) ... ok
+test_unknown_request_abstains_without_execution (test_uori_kernel.UoriKernelTests.test_unknown_request_abstains_without_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.005s
+
+OK
+PY_COMPILE=PASS
+--- SHA256 ---
+a164d3a391f8079a2f230227b03801ef3878f812b46aed8e1854e5ff00eda195  prototypes/uori_kernel_v0_1/source/uori_abi.ar
+5fdd58f3b2f25ec66c8198a1504fa5b5e49bad48fbf9164f62c83700d1f72d82  prototypes/uori_kernel_v0_1/python/arabic_abi.py
+53c17e1cdc76412107000d938fef19f69f2dac318315127e8777378ecd663344  prototypes/uori_kernel_v0_1/tests/test_uori_kernel.py
