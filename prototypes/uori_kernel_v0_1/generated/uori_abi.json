@@ -1,0 +1,13 @@
+{
+  "calls": [
+    "ابدأ_النواة",
+    "نفذ_خوارزمية",
+    "اكتب_جهاز"
+  ],
+  "interface": "uori.abi",
+  "summary": {
+    "calls": 3,
+    "lines": 24
+  },
+  "version": "1"
+}
