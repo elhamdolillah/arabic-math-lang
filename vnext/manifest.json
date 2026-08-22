@@ -149,6 +149,26 @@
       "status": "verified",
       "max_error": 0,
       "depends_on": ["runtime/resource-contract-v1"]
+    },
+    {
+      "id": "runtime/execution-pipeline-v1",
+      "kind": "runtime",
+      "path": "vnext/tools/execution_pipeline.py",
+      "owner": "uori-v9-runtime",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "implemented",
+      "max_error": 0,
+      "depends_on": ["runtime/resource-contract-v1", "kernel/gateway-v1"]
+    },
+    {
+      "id": "test/execution-pipeline-v1",
+      "kind": "test",
+      "path": "vnext/tests/test_execution_pipeline.py",
+      "owner": "uori-v9-runtime",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": ["runtime/execution-pipeline-v1"]
     }
   ],
   "acceptance": {
