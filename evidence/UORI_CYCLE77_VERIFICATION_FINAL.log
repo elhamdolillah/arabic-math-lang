@@ -1,0 +1,37 @@
+=== KERNEL TESTS ===
+test_arabic_abi_spec_validates (test_uori_kernel.UoriKernelTests.test_arabic_abi_spec_validates) ... ok
+test_arabic_execution_plan_contract_loads (test_uori_kernel.UoriKernelTests.test_arabic_execution_plan_contract_loads) ... ok
+test_arabic_execution_plan_rejects_direct_source_execution (test_uori_kernel.UoriKernelTests.test_arabic_execution_plan_rejects_direct_source_execution) ... ok
+test_arabic_grammar_examples_validate (test_uori_kernel.UoriKernelTests.test_arabic_grammar_examples_validate) ... ok
+test_arabic_grammar_rejects_duplicate_algorithm (test_uori_kernel.UoriKernelTests.test_arabic_grammar_rejects_duplicate_algorithm) ... ok
+test_arabic_grammar_rejects_dynamic_execution (test_uori_kernel.UoriKernelTests.test_arabic_grammar_rejects_dynamic_execution) ... ok
+test_arabic_grammar_requires_loop_termination_contract (test_uori_kernel.UoriKernelTests.test_arabic_grammar_requires_loop_termination_contract) ... ok
+test_arabic_registry_rejects_unknown_field (test_uori_kernel.UoriKernelTests.test_arabic_registry_rejects_unknown_field) ... ok
+test_arabic_registry_source_loads (test_uori_kernel.UoriKernelTests.test_arabic_registry_source_loads) ... ok
+test_deterministic_abs (test_uori_kernel.UoriKernelTests.test_deterministic_abs) ... ok
+test_deterministic_add (test_uori_kernel.UoriKernelTests.test_deterministic_add) ... ok
+test_deterministic_gcd (test_uori_kernel.UoriKernelTests.test_deterministic_gcd) ... ok
+test_deterministic_lcm (test_uori_kernel.UoriKernelTests.test_deterministic_lcm) ... ok
+test_deterministic_mod (test_uori_kernel.UoriKernelTests.test_deterministic_mod) ... ok
+test_deterministic_sqrt (test_uori_kernel.UoriKernelTests.test_deterministic_sqrt) ... ok
+test_deterministic_subtract (test_uori_kernel.UoriKernelTests.test_deterministic_subtract) ... ok
+test_generated_abi_artifacts_are_deterministic_and_descriptive (test_uori_kernel.UoriKernelTests.test_generated_abi_artifacts_are_deterministic_and_descriptive) ... ok
+test_modulo_zero_is_rejected (test_uori_kernel.UoriKernelTests.test_modulo_zero_is_rejected) ... ok
+test_plan_tampering_is_rejected (test_uori_kernel.UoriKernelTests.test_plan_tampering_is_rejected) ... ok
+test_requires_logical_boot (test_uori_kernel.UoriKernelTests.test_requires_logical_boot) ... ok
+test_unknown_request_abstains_without_execution (test_uori_kernel.UoriKernelTests.test_unknown_request_abstains_without_execution) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.010s
+
+OK
+=== PY_COMPILE ===
+=== AST GUARD ===
+AST_GUARD=PASS files=8
+=== RATIO ===
+SOURCE_FILES=637
+SOURCE_LINES=210418
+ARABIC_FILES=28
+ARABIC_LINES=1020
+ARABIC_FILE_RATIO=4.3956%
+ARABIC_LINE_RATIO=0.4847%
