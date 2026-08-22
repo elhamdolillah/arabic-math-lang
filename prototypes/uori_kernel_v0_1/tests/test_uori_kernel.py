@@ -22,8 +22,8 @@ class UoriKernelTests(unittest.TestCase):
     def test_arabic_registry_source_loads(self):
         source = Path(__file__).parents[1] / "source" / "algorithms.ar"
         specs = load_arabic_specs(source)
-        self.assertEqual(len(specs), 4)
-        self.assertEqual({spec.operation for spec in specs}, {"جمع", "طرح", "جذر", "قاسم_مشترك"})
+        self.assertEqual(len(specs), 7)
+        self.assertEqual({spec.operation for spec in specs}, {"جمع", "طرح", "جذر", "قاسم_مشترك", "قيمة_مطلقة", "باقي_القسمة", "مضاعف_مشترك"})
         gcd = next(spec for spec in specs if spec.operation == "قاسم_مشترك")
         self.assertEqual(gcd.domain, "أعداد_صحيحة_غير_سالبة")
         self.assertIn("نفاد_الوقود", gcd.failure)
@@ -92,6 +92,26 @@ class UoriKernelTests(unittest.TestCase):
         result = self.kernel().handle("احسب قاسم 84 30")
         self.assertIs(result.status, KernelStatus.ACCEPTED)
         self.assertEqual(result.value, 6)
+
+    def test_deterministic_abs(self):
+        result = self.kernel().handle("احسب قيمة مطلقة -17")
+        self.assertIs(result.status, KernelStatus.ACCEPTED)
+        self.assertEqual(result.value, 17)
+
+    def test_deterministic_mod(self):
+        result = self.kernel().handle("احسب باقي 17 5")
+        self.assertIs(result.status, KernelStatus.ACCEPTED)
+        self.assertEqual(result.value, 2)
+
+    def test_deterministic_lcm(self):
+        result = self.kernel().handle("احسب مضاعف 12 18")
+        self.assertIs(result.status, KernelStatus.ACCEPTED)
+        self.assertEqual(result.value, 36)
+
+    def test_modulo_zero_is_rejected(self):
+        result = self.kernel().handle("احسب باقي 17 0")
+        self.assertIs(result.status, KernelStatus.REJECTED)
+        self.assertIn("صفر", result.message)
 
     def test_unknown_request_abstains_without_execution(self):
         result = self.kernel().handle("نفذ كوداً خارجياً")

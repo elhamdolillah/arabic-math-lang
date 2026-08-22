@@ -133,6 +133,34 @@ def _gcd(args: tuple[int, ...]) -> int:
     return a
 
 
+def _abs(args: tuple[int, ...]) -> int:
+    if len(args) != 1 or any(isinstance(value, bool) for value in args):
+        raise KernelFault("مدخل القيمة المطلقة يجب أن يكون عدداً صحيحاً واحداً")
+    if args[0] == -(1 << 63):
+        raise KernelFault("تجاوز مجال القيمة المطلقة")
+    return abs(args[0])
+
+
+def _mod(args: tuple[int, ...]) -> int:
+    if len(args) != 2 or any(isinstance(value, bool) for value in args):
+        raise KernelFault("مدخل باقي القسمة يجب أن يكون عددين صحيحين")
+    if args[1] == 0:
+        raise KernelFault("القسمة على صفر غير مسموحة")
+    return args[0] % args[1]
+
+
+def _lcm(args: tuple[int, ...]) -> int:
+    if len(args) != 2 or any(isinstance(value, bool) for value in args) or min(args) < 0:
+        raise KernelFault("مدخل المضاعف المشترك يجب أن يكون عددين صحيحين غير سالبين")
+    a, b = args
+    if a == 0 or b == 0:
+        return 0
+    value = (a // math.gcd(a, b)) * b
+    if value > (1 << 63) - 1:
+        raise KernelFault("تجاوز مجال المضاعف المشترك")
+    return value
+
+
 class AlgorithmRegistry:
     def __init__(self) -> None:
         self._items: dict[str, Algorithm] = {}
@@ -168,6 +196,9 @@ class UoriKernel:
             "طرح": _subtract,
             "جذر": _sqrt_144,
             "قاسم_مشترك": _gcd,
+            "قيمة_مطلقة": _abs,
+            "باقي_القسمة": _mod,
+            "مضاعف_مشترك": _lcm,
         }
         source_path = Path(__file__).resolve().parents[1] / "source" / "algorithms.ar"
         try:
@@ -206,6 +237,17 @@ class UoriKernel:
             parts = normalized.split()
             if len(parts) == 4 and parts[2].isdigit() and parts[3].isdigit():
                 return Intent("قاسم_مشترك", (int(parts[2]), int(parts[3])), normalized)
+        for prefix, operation, count in (
+            ("احسب قيمة مطلقة ", "قيمة_مطلقة", 4),
+            ("احسب باقي ", "باقي_القسمة", 4),
+            ("احسب مضاعف ", "مضاعف_مشترك", 4),
+        ):
+            if normalized.startswith(prefix):
+                parts = normalized.split()
+                if len(parts) == count:
+                    raw = parts[3:] if operation == "قيمة_مطلقة" else parts[2:]
+                    if all(value.lstrip("-").isdigit() for value in raw):
+                        return Intent(operation, tuple(int(value) for value in raw), normalized)
         raise KernelFault("الطلب خارج مجموعة النوايا المثبتة")
 
     def authorize(self, intent: Intent) -> ExecutionPlan:
