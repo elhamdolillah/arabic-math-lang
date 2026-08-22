@@ -28,11 +28,18 @@ def interval_add(left: tuple[int, int], right: tuple[int, int]) -> tuple[int, in
     return add_q32(lo, rlo), add_q32(hi, rhi)
 
 
+def _ceil_div(value: int, divisor: int) -> int:
+    return -((-value) // divisor)
+
+
 def interval_mul(left: tuple[int, int], right: tuple[int, int]) -> tuple[int, int]:
     lo, hi = left
     rlo, rhi = right
     if lo > hi or rlo > rhi:
         raise NumericAbstention("فترية غير مرتبة")
+    for value in (lo, hi, rlo, rhi):
+        check_q32(value)
     products = [lo * rlo, lo * rhi, hi * rlo, hi * rhi]
-    scaled = [value // SCALE for value in products]
-    return check_q32(min(scaled)), check_q32(max(scaled))
+    lower = min(products) // SCALE
+    upper = _ceil_div(max(products), SCALE)
+    return check_q32(lower), check_q32(upper)

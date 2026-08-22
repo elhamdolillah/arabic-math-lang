@@ -14,6 +14,10 @@ def main() -> None:
     assert interval_add((1, 2), (3, 4)) == (4, 6)
     one = SCALE
     assert interval_mul((one, one), (one, one)) == (one, one)
+    half = SCALE // 2
+    quarter = (half * half) // SCALE
+    assert interval_mul((-half, half), (half, half)) == (-quarter, quarter)
+    assert interval_mul((0, half), (0, half))[1] >= (half * half) // SCALE
     try:
         interval_add((2, 1), (0, 1))
     except NumericAbstention:

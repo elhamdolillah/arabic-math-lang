@@ -48,7 +48,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 16,
-      "depends_on": ["data/result-contract"]
+      "depends_on": [
+        "data/result-contract"
+      ]
     },
     {
       "id": "compiler/v9-print-parser",
@@ -58,7 +60,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["instruction/core"]
+      "depends_on": [
+        "instruction/core"
+      ]
     },
     {
       "id": "compiler/v9-print-contract",
@@ -68,7 +72,10 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["compiler/v9-print-parser", "data/result-contract"]
+      "depends_on": [
+        "compiler/v9-print-parser",
+        "data/result-contract"
+      ]
     },
     {
       "id": "abi/v1-deterministic-lowering",
@@ -78,7 +85,10 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "implemented",
       "max_error": 0,
-      "depends_on": ["compiler/v9-print-contract", "file/trace"]
+      "depends_on": [
+        "compiler/v9-print-contract",
+        "file/trace"
+      ]
     },
     {
       "id": "test/v1-abi-contract",
@@ -88,7 +98,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["abi/v1-deterministic-lowering"]
+      "depends_on": [
+        "abi/v1-deterministic-lowering"
+      ]
     },
     {
       "id": "hardware/probe-classification",
@@ -98,7 +110,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "implemented",
       "max_error": 0,
-      "depends_on": ["file/trace"]
+      "depends_on": [
+        "file/trace"
+      ]
     },
     {
       "id": "test/hardware-probe",
@@ -108,7 +122,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["hardware/probe-classification"]
+      "depends_on": [
+        "hardware/probe-classification"
+      ]
     },
     {
       "id": "kernel/gateway-v1",
@@ -118,7 +134,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "implemented",
       "max_error": 0,
-      "depends_on": ["abi/v1-deterministic-lowering"]
+      "depends_on": [
+        "abi/v1-deterministic-lowering"
+      ]
     },
     {
       "id": "test/kernel-gateway-v1",
@@ -128,7 +146,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["kernel/gateway-v1"]
+      "depends_on": [
+        "kernel/gateway-v1"
+      ]
     },
     {
       "id": "runtime/resource-contract-v1",
@@ -138,7 +158,10 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "implemented",
       "max_error": 0,
-      "depends_on": ["abi/v1-deterministic-lowering", "kernel/gateway-v1"]
+      "depends_on": [
+        "abi/v1-deterministic-lowering",
+        "kernel/gateway-v1"
+      ]
     },
     {
       "id": "test/resource-contract-v1",
@@ -148,7 +171,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["runtime/resource-contract-v1"]
+      "depends_on": [
+        "runtime/resource-contract-v1"
+      ]
     },
     {
       "id": "runtime/execution-pipeline-v1",
@@ -158,7 +183,10 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "implemented",
       "max_error": 0,
-      "depends_on": ["runtime/resource-contract-v1", "kernel/gateway-v1"]
+      "depends_on": [
+        "runtime/resource-contract-v1",
+        "kernel/gateway-v1"
+      ]
     },
     {
       "id": "test/execution-pipeline-v1",
@@ -168,7 +196,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["runtime/execution-pipeline-v1"]
+      "depends_on": [
+        "runtime/execution-pipeline-v1"
+      ]
     },
     {
       "id": "constitution/decision-v1",
@@ -178,7 +208,10 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "implemented",
       "max_error": 0,
-      "depends_on": ["file/trace", "runtime/execution-pipeline-v1"]
+      "depends_on": [
+        "file/trace",
+        "runtime/execution-pipeline-v1"
+      ]
     },
     {
       "id": "test/constitution-decision-v1",
@@ -188,7 +221,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["constitution/decision-v1"]
+      "depends_on": [
+        "constitution/decision-v1"
+      ]
     },
     {
       "id": "file/evidence-chain-v1",
@@ -198,7 +233,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "implemented",
       "max_error": 0,
-      "depends_on": ["file/trace"]
+      "depends_on": [
+        "file/trace"
+      ]
     },
     {
       "id": "test/evidence-chain-v1",
@@ -208,7 +245,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["file/evidence-chain-v1"]
+      "depends_on": [
+        "file/evidence-chain-v1"
+      ]
     },
     {
       "id": "file/numeric-contract-v1",
@@ -218,7 +257,9 @@
       "evidence_mode": "INTERVAL",
       "status": "implemented",
       "max_error": 0,
-      "depends_on": ["constitution/decision-v1"]
+      "depends_on": [
+        "constitution/decision-v1"
+      ]
     },
     {
       "id": "test/numeric-contract-v1",
@@ -228,7 +269,9 @@
       "evidence_mode": "INTERVAL",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["file/numeric-contract-v1"]
+      "depends_on": [
+        "file/numeric-contract-v1"
+      ]
     },
     {
       "id": "file/pipeline-audit-v1",
@@ -238,7 +281,10 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "implemented",
       "max_error": 0,
-      "depends_on": ["file/evidence-chain-v1", "runtime/execution-pipeline-v1"]
+      "depends_on": [
+        "file/evidence-chain-v1",
+        "runtime/execution-pipeline-v1"
+      ]
     },
     {
       "id": "test/pipeline-audit-v1",
@@ -248,7 +294,9 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["file/pipeline-audit-v1"]
+      "depends_on": [
+        "file/pipeline-audit-v1"
+      ]
     },
     {
       "id": "file/acceptance-gate-v1",
@@ -258,7 +306,10 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "implemented",
       "max_error": 0,
-      "depends_on": ["constitution/decision-v1", "file/evidence-chain-v1"]
+      "depends_on": [
+        "constitution/decision-v1",
+        "file/evidence-chain-v1"
+      ]
     },
     {
       "id": "test/acceptance-gate-v1",
@@ -268,7 +319,37 @@
       "evidence_mode": "DETERMINISTIC",
       "status": "verified",
       "max_error": 0,
-      "depends_on": ["file/acceptance-gate-v1"]
+      "depends_on": [
+        "file/acceptance-gate-v1"
+      ]
+    },
+    {
+      "id": "runtime/kernel-runtime-bridge-v1",
+      "kind": "runtime",
+      "path": "vnext/tools/kernel_runtime_bridge.py",
+      "owner": "uori-v9-integration",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "implemented",
+      "max_error": 0,
+      "depends_on": [
+        "abi/v1-deterministic-lowering",
+        "kernel/gateway-v1",
+        "runtime/execution-pipeline-v1",
+        "file/pipeline-audit-v1",
+        "file/acceptance-gate-v1"
+      ]
+    },
+    {
+      "id": "test/kernel-runtime-bridge-v1",
+      "kind": "test",
+      "path": "vnext/tests/test_kernel_runtime_bridge.py",
+      "owner": "uori-v9-integration",
+      "evidence_mode": "DETERMINISTIC",
+      "status": "verified",
+      "max_error": 0,
+      "depends_on": [
+        "runtime/kernel-runtime-bridge-v1"
+      ]
     }
   ],
   "acceptance": {
