@@ -236,6 +236,19 @@ jobs:
           grep -Fx 'SOURCE_EXECUTION=NOT_PERFORMED' evidence/MAL_ATTACHED_MECHANISMS_31_39.stdout
           grep -Fx 'STATUS=0' evidence/MAL_ATTACHED_MECHANISMS_31_39.stdout
 
+      - name: Verify governed MAL dual execution
+        run: |
+          set -eux
+          python3 tests/test_mal_dual_execution.py | tee evidence/MAL_DUAL_EXECUTION_STATIC.stdout
+          python3 scripts/mal_dual_execution.py | tee evidence/MAL_DUAL_EXECUTION.stdout
+          sha256sum evidence/MAL_DUAL_EXECUTION_STATIC.stdout evidence/MAL_DUAL_EXECUTION.stdout > evidence/MAL_DUAL_EXECUTION.sha256
+          grep -Fx 'MAL_DUAL_STATIC_CHECK=PASS' evidence/MAL_DUAL_EXECUTION_STATIC.stdout
+          grep -Fx 'MAL_DUAL_EXECUTION=PASS' evidence/MAL_DUAL_EXECUTION.stdout
+          grep -Fx 'SOURCE_EXECUTION=NOT_PERFORMED_UNTRUSTED_SOURCE' evidence/MAL_DUAL_EXECUTION.stdout
+          grep -Fx 'NETWORK=DISABLED_BY_CONTRACT' evidence/MAL_DUAL_EXECUTION.stdout
+          grep -Fx 'AUTO_PROMOTION=DENY' evidence/MAL_DUAL_EXECUTION.stdout
+          grep -Fx 'STATUS=0' evidence/MAL_DUAL_EXECUTION.stdout
+
       - name: Upload Rust Arena evidence
         uses: actions/upload-artifact@v4
         with:
@@ -273,6 +286,13 @@ jobs:
             tests/test_attached_mechanisms_31_39.py
             evidence/MAL_ATTACHED_MECHANISMS_31_39.stdout
             evidence/MAL_ATTACHED_MECHANISMS_31_39.sha256
+            protocol/MAL_DUAL_EXECUTION_CONTRACT_AR.md
+            tests/MAL_DUAL_EXECUTION_CORPUS_AR.json
+            tests/test_mal_dual_execution.py
+            scripts/mal_dual_execution.py
+            evidence/MAL_DUAL_EXECUTION_STATIC.stdout
+            evidence/MAL_DUAL_EXECUTION.stdout
+            evidence/MAL_DUAL_EXECUTION.sha256
 
   mal-arabic-coverage-audit:
     name: MAL Arabic coverage audit
