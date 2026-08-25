@@ -366,7 +366,7 @@ jobs:
           mkdir -p evidence/mal-continuation
           python3 scripts/monitor_mal_unified_corpus.py \
             --corpus tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json \
-            --expected-sha256 6cd873fdbb59f5de7105d6aa854f0dc85746031a7ad4c34eb7d6267fa6b45fde \
+            --expected-sha256 86be165a591c9f3f9935a1fe7e7245bfb257d28166f229abc8332b7afb3782ca \
             | tee evidence/mal-continuation/unified-corpus-sha256.stdout
           sha256sum evidence/mal-continuation/unified-corpus-sha256.stdout > evidence/mal-continuation/unified-corpus-sha256.sha256
           grep -Fx 'CORPUS_PRESENT=YES' evidence/mal-continuation/unified-corpus-sha256.stdout

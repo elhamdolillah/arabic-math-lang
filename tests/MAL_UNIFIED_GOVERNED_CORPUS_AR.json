@@ -569,6 +569,61 @@
       "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_121_126_CORPUS_AR.json"
     },
     {
+      "id": 127,
+      "name": "rust_nonzero_u32",
+      "target": "Rust",
+      "decision": "RESEARCH",
+      "positive": "واجهة NonZeroU32 الآمنة لا تنشئ قيمة صفرية وتتيح تمرير invariant غير صفري إلى الدوال",
+      "counterexample": "unsafe أو اختلاف ABI وniche optimization لا يتحول تلقائياً إلى عقد MAL، كما أن النوع غير موجود في Grammar v0.1",
+      "gap": "لا يوجد بعد نوع غير صفري أو نظام refinement types أو corpus قبول ورفض خاص به",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_127_131_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_127_131_CORPUS_AR.json"
+    },
+    {
+      "id": 128,
+      "name": "go_trimpath",
+      "target": "Go",
+      "decision": "RESEARCH",
+      "positive": "يقلل المسارات المطلقة في ميتاداتا Go ويزيل أحد مصادر اختلاف مكان البناء",
+      "counterexample": "لا يعالج وحده build id أو وقت البناء أو compiler version أو build tags أو اختلاف التبعيات، فلا يثبت تطابقاً ثنائياً كاملاً",
+      "gap": "عقد البناء hermetic ومصفوفة toolchain ومقارنة ثنائية مستقلة غير مثبتة",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_127_131_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_127_131_CORPUS_AR.json"
+    },
+    {
+      "id": 129,
+      "name": "c_fesetround",
+      "target": "C",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "positive": "يتيح اختيار وضع تقريب IEEE-754 قبل عمليات فاصلة عائمة لاحقة",
+      "counterexample": "التحسينات وFENV_ACCESS والدقة الزائدة والعتاد والاستثناءات قد تغير النتيجة، كما أن الحساب العائم خارج أساس MAL الحالي",
+      "gap": "عقد IEEE-754 كامل وإثبات عتادي ومعالجة NaN وsubnormal وexceptions غير موجود",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_127_131_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_127_131_CORPUS_AR.json"
+    },
+    {
+      "id": 130,
+      "name": "cpp_atomic_ref_seq_cst",
+      "target": "C++",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "positive": "يشارك الوصول الذري seq_cst إلى الكائن في ترتيب كلي متسق مع ترتيب كل خيط",
+      "counterexample": "الترتيب الكلي لا يحدد جدولة الخيوط ولا يضمن نتيجة حتمية عامة، كما أن الوصول غير الذري أو lifetime غير الصحيح يعيد الخطر",
+      "gap": "نموذج تزامن وجدولة وownership ومحاذاة قابلة للتحقق غير موجود",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_127_131_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_127_131_CORPUS_AR.json"
+    },
+    {
+      "id": 131,
+      "name": "javascript_object_prevent_extensions",
+      "target": "JavaScript",
+      "decision": "RESEARCH",
+      "positive": "يمنع إضافة خصائص جديدة إلى الكائن وفق قواعد JavaScript",
+      "counterexample": "يمكن حذف الخصائص وتعديل القيم، ولذلك لا يثبت مجموعة مفاتيح ثابتة أو immutability عميقة، وقد يؤثر proxy والسياق التنفيذي",
+      "gap": "سجل canonical وسياسة مفاتيح وترتيب وقواعد proxy والفشل غير محددة في MAL",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_127_131_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_127_131_CORPUS_AR.json"
+    },
+    {
       "id": "array_shape_equal",
       "name": "array_shape_equal",
       "target": "internal",
@@ -838,6 +893,7 @@
     "protocol/MAL_ATTACHED_MECHANISMS_101_105_REGISTRY_AR.json",
     "protocol/MAL_ATTACHED_MECHANISMS_116_120_REGISTRY_AR.json",
     "protocol/MAL_ATTACHED_MECHANISMS_121_126_REGISTRY_AR.json",
+    "protocol/MAL_ATTACHED_MECHANISMS_127_131_REGISTRY_AR.json",
     "protocol/MAL_ATTACHED_MECHANISMS_31_39_REGISTRY_AR.json",
     "protocol/MAL_ATTACHED_MECHANISMS_40_45_REGISTRY_AR.json",
     "protocol/MAL_ATTACHED_MECHANISMS_46_50_REGISTRY_AR.json",
@@ -847,6 +903,7 @@
     "tests/MAL_ATTACHED_MECHANISMS_101_105_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_116_120_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_121_126_CORPUS_AR.json",
+    "tests/MAL_ATTACHED_MECHANISMS_127_131_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_31_39_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_40_45_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_46_50_CORPUS_AR.json",
