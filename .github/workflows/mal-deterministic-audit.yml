@@ -181,6 +181,12 @@ jobs:
           bash scripts/run_mal_ownership_arena_rust.sh | tee evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
           sha256sum evidence/MAL_OWNERSHIP_ARENA_RUST.stdout > evidence/MAL_OWNERSHIP_ARENA_RUST.sha256
 
+      - name: Verify MAL language-lineage registry
+        run: |
+          set -eux
+          python3 tests/test_language_lineage_registry.py | tee evidence/MAL_LANGUAGE_LINEAGE_REGISTRY.stdout
+          sha256sum evidence/MAL_LANGUAGE_LINEAGE_REGISTRY.stdout > evidence/MAL_LANGUAGE_LINEAGE_REGISTRY.sha256
+
       - name: Verify Rust Arena evidence
         run: |
           grep -Fx 'MAL_OWNERSHIP_ARENA_RUST=PASS' evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
@@ -200,6 +206,11 @@ jobs:
             rust/mal_ownership_arena/Cargo.lock
             rust/mal_ownership_arena/src/lib.rs
             scripts/run_mal_ownership_arena_rust.sh
+            evidence/MAL_LANGUAGE_LINEAGE_REGISTRY.stdout
+            evidence/MAL_LANGUAGE_LINEAGE_REGISTRY.sha256
+            protocol/MAL_LANGUAGE_LINEAGE_INTEGRATION_AR.md
+            protocol/MAL_LANGUAGE_LINEAGE_REGISTRY_AR.json
+            tests/test_language_lineage_registry.py
 
   mal-cross-env-compare:
     name: Compare cross-environment SHA-256 manifests
