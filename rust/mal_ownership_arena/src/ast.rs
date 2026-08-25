@@ -10,6 +10,7 @@ pub enum AstOpcode {
     Multiply,
     Divide,
     PassThrough,
+    Sequence,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

@@ -15,6 +15,7 @@ CORPUS_DIRS = (
     ROOT / "corpus" / "stage0_18_files",
     ROOT / "corpus" / "stage1_9_files",
     ROOT / "corpus" / "stage2_12_files",
+    ROOT / "corpus" / "stage3_15_files",
 )
 OUT = ROOT / "evidence" / "MAL_DIFFERENTIAL_EXECUTION_2026-08-25.json"
 
@@ -35,7 +36,7 @@ def run_one(path: Path) -> dict[str, object]:
     )
     stdout = process.stdout.decode("utf-8", errors="strict")
     stderr = process.stderr.decode("utf-8", errors="strict")
-    if process.returncode == 0 and "STATUS=PARSED" in stdout:
+    if process.returncode == 0 and ("STATUS=PARSED" in stdout or "STATUS=EVALUATED" in stdout):
         status = "PARSED_EXTENSION_SCOPED"
     elif "STATUS=ABSTAIN" in stdout:
         status = "ABSTAIN"

@@ -1,11 +1,11 @@
-"""نموذج Python مرجعي مستقل للنحو المحدود في MAL وامتداد Stage 2 الحسابي."""
+"""نموذج Python مرجعي مستقل للنحو والتقييم المحدودين في MAL."""
 
 from __future__ import annotations
 
 import re
 from pathlib import Path
 
-_TOKEN = re.compile(r"[^\s=+*/()\-]+|[=+*/()\-]", re.UNICODE)
+_TOKEN = re.compile(r"\r\n|\n|[^\s=+*/()\-]+|[=+*/()\-]", re.UNICODE)
 _FORBIDDEN = ("eval", "exec", "unsafe")
 _MAX_U64 = 18_446_744_073_709_551_615
 
@@ -19,6 +19,7 @@ class ReferenceParser:
         self.tokens = _TOKEN.findall(source)
         self.index = 0
         self.ast_count = 0
+        self.symbols: dict[str, int] = {}
 
     def take(self) -> str:
         if self.index >= len(self.tokens):
@@ -32,17 +33,36 @@ class ReferenceParser:
             return None
         return self.tokens[self.index]
 
-    def parse(self) -> tuple[int, int]:
+    def skip_separators(self) -> None:
+        while self.peek() in ("\n", "\r\n"):
+            self.take()
+
+    def parse(self) -> tuple[int, int, str, int]:
+        self.skip_separators()
+        root_id, value, opcode, right_id = self.parse_declaration()
+        while True:
+            self.skip_separators()
+            if self.peek() is None:
+                return root_id, value, opcode, right_id
+            next_id, next_value, _opcode, _right_id = self.parse_declaration()
+            sequence_id = self.ast_count
+            self.ast_count += 1
+            root_id = sequence_id
+            right_id = next_id
+            value = next_value
+            opcode = "SEQUENCE"
+
+    def parse_declaration(self) -> tuple[int, int, str, int]:
         declaration = self.take()
         if not declaration.startswith("بنية_"):
             raise ReferenceError
         if self.take() != "=":
             raise ReferenceError
-        expression, root_id = self.parse_additive()
-        if self.peek() is not None:
-            raise ReferenceError
-        self.ast_count += 1  # عقدة التصريح
-        return root_id, expression
+        value, expression_id = self.parse_additive()
+        declaration_id = self.ast_count
+        self.ast_count += 1
+        self.symbols[declaration] = value
+        return declaration_id, value, "__last_value__", expression_id
 
     def parse_additive(self) -> tuple[int, int]:
         value, node_id = self.parse_multiplicative()
@@ -85,11 +105,16 @@ class ReferenceParser:
             if self.take() != ")":
                 raise ReferenceError
             return result
-        if not token.isascii() or not token.isdigit():
-            raise ReferenceError
-        value = int(token, 10)
-        if value > _MAX_U64:
-            raise ReferenceError
+        if token.isascii() and token.isdigit():
+            value = int(token, 10)
+            if value > _MAX_U64:
+                raise ReferenceError
+        else:
+            if not token or token in ("\n", "\r\n"):
+                raise ReferenceError
+            value = self.symbols.get(token)
+            if value is None:
+                raise ReferenceError
         node_id = self.ast_count
         self.ast_count += 1
         return value, node_id
@@ -108,21 +133,28 @@ def reference_case(path: Path) -> dict[str, object]:
         return abstain()
     try:
         parser = ReferenceParser(source)
-        root_id, _value = parser.parse()
+        root_id, value, opcode, right_id = parser.parse()
     except (ReferenceError, ValueError, RecursionError):
         return abstain()
 
-    token_count = len(parser.tokens)
     return {
         "status": "PARSED_EXTENSION_SCOPED",
         "stdout": (
-            "STATUS=PARSED\n"
+            "STATUS=EVALUATED\n"
+            "VALUE={value}\n"
             "ROOT_NODE_ID={root}\n"
-            "ROOT_OPCODE=DECLARE_NODE\n"
-            "ROOT_RIGHT_NODE_ID={root_expr}\n"
+            "ROOT_OPCODE={opcode}\n"
+            "ROOT_RIGHT_NODE_ID={right}\n"
             "TOKEN_COUNT={tokens}\n"
             "AST_COUNT={ast}\n"
-        ).format(root=parser.ast_count - 1, root_expr=root_id, tokens=token_count, ast=parser.ast_count),
+        ).format(
+            value=value,
+            root=root_id,
+            opcode=("DECLARE_NODE" if opcode == "__last_value__" else opcode),
+            right=right_id,
+            tokens=len(parser.tokens),
+            ast=parser.ast_count,
+        ),
     }
 
 

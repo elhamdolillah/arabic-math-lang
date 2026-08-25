@@ -3,8 +3,10 @@ use std::fs;
 use std::process::ExitCode;
 
 use mal_ownership_arena::ast::{AstNode, AstOpcode};
+use mal_ownership_arena::evaluator::DeterministicEvaluator;
 use mal_ownership_arena::lexer::LexicalToken;
 use mal_ownership_arena::parser::DeterministicParser;
+use mal_ownership_arena::symbols::ArenaSymbolTable;
 use mal_ownership_arena::{FixedArena, NodeID};
 
 const TOKEN_CAPACITY: usize = 256;
@@ -51,6 +53,16 @@ fn main() -> ExitCode {
         }
     };
 
+    let mut symbols = ArenaSymbolTable::<1024>::new();
+    let value = match DeterministicEvaluator::evaluate(&ast_arena, root, &mut symbols) {
+        Ok(value) => value,
+        Err(_) => {
+            println!("STATUS=ABSTAIN");
+            println!("ERROR=UNSUPPORTED_OR_INVALID_SYNTAX");
+            return ExitCode::from(1);
+        }
+    };
+
     let node = match ast_arena.get(root) {
         Ok(value) => value,
         Err(_) => {
@@ -69,13 +81,15 @@ fn main() -> ExitCode {
         AstOpcode::Multiply => "MULTIPLY",
         AstOpcode::Divide => "DIVIDE",
         AstOpcode::PassThrough => "PASS_THROUGH",
+        AstOpcode::Sequence => "SEQUENCE",
     };
     let literal = match node.right {
         Some(NodeID(id)) => id.to_string(),
         None => "NONE".to_owned(),
     };
 
-    println!("STATUS=PARSED");
+    println!("STATUS=EVALUATED");
+    println!("VALUE={value}");
     println!("ROOT_NODE_ID={}", root.0);
     println!("ROOT_OPCODE={opcode}");
     println!("ROOT_RIGHT_NODE_ID={literal}");

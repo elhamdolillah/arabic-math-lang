@@ -15,6 +15,7 @@ pub enum TokenKind {
     Number(u64),
     RestrictedEvaluator,
     Unknown,
+    StatementSep,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -51,6 +52,14 @@ impl<'a> DeterministicLexer<'a> {
         arena: &mut FixedArena<LexicalToken<'a>, N>,
     ) -> Result<Option<NodeID>, LexerError> {
         let remainder = self.source.get(self.cursor..).ok_or(LexerError::NumericOverflow)?;
+        if remainder.starts_with("\r\n") || remainder.starts_with('\n') {
+            let consumed = if remainder.starts_with("\r\n") { 2 } else { 1 };
+            let slice = &remainder[..consumed];
+            let next_id = arena.next_node_id()?;
+            let id = arena.allocate(LexicalToken { kind: TokenKind::StatementSep, slice, node_id: next_id })?;
+            self.cursor = self.cursor.checked_add(consumed).ok_or(LexerError::NumericOverflow)?;
+            return Ok(Some(id));
+        }
         let trimmed = remainder.trim_start();
         let skipped = remainder.len() - trimmed.len();
         self.cursor = self.cursor.checked_add(skipped).ok_or(LexerError::NumericOverflow)?;
