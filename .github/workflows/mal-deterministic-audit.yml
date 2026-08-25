@@ -237,6 +237,7 @@ jobs:
           grep -Fx 'STATUS=0' evidence/MAL_ATTACHED_MECHANISMS_31_39.stdout
 
       - name: Verify governed MAL dual execution
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
           set -eux
           python3 tests/test_mal_dual_execution.py | tee evidence/MAL_DUAL_EXECUTION_STATIC.stdout
@@ -294,7 +295,9 @@ jobs:
             evidence/MAL_DUAL_EXECUTION.stdout
             evidence/MAL_DUAL_EXECUTION.sha256
 
+  # Resource policy: extra reporting runs only once daily or by explicit manual dispatch.
   mal-arabic-coverage-audit:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     name: MAL Arabic coverage audit
     runs-on: ubuntu-22.04
     timeout-minutes: 10
@@ -335,7 +338,9 @@ jobs:
           path: evidence/mal-arabic-coverage.tar.gz
           retention-days: 7
 
+  # Resource policy: never run the continuation queue on every push or pull request.
   mal-automated-continuation:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     name: Resume governed MAL verification tasks
     runs-on: ubuntu-22.04
     timeout-minutes: 15
