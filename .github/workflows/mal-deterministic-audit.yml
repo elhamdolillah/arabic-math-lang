@@ -320,7 +320,7 @@ jobs:
         run: grep -Fx 'CROSS_ENV_COMPARE=PASS' evidence/cross-env/comparison.stdout
 
       - name: Render Pull Request report
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         run: |
           python3 scripts/render_mal_pr_report.py \
             --comparison evidence/cross-env/comparison.json \
