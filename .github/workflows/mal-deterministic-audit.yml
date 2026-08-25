@@ -37,6 +37,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Verify interpreter
         run: python3 --version
@@ -65,7 +66,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mal-cross-env-${{ matrix.label }}-${{ github.sha }}
+          name: mal-cross-env-${{ matrix.label }}-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
           path: |
             evidence/cross-env/${{ matrix.label }}.json
@@ -98,6 +99,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Build pinned Alpine musl audit image
         run: docker build --pull --file ci/alpine-malus.Dockerfile --tag mal-alpine-malus:3.20 .
@@ -139,7 +141,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mal-cross-env-alpine-3.20-musl-${{ github.sha }}
+          name: mal-cross-env-alpine-3.20-musl-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
           path: |
             evidence/cross-env/alpine-3.20-musl.json
@@ -171,6 +173,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Verify Rust toolchain
         run: |
@@ -223,7 +226,7 @@ jobs:
       - name: Upload Rust Arena evidence
         uses: actions/upload-artifact@v4
         with:
-          name: mal-ownership-arena-rust-${{ github.sha }}
+          name: mal-ownership-arena-rust-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
           path: |
             evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
@@ -267,23 +270,24 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Download Ubuntu 22.04 evidence
         uses: actions/download-artifact@v4
         with:
-          name: mal-cross-env-ubuntu-22.04-${{ github.sha }}
+          name: mal-cross-env-ubuntu-22.04-${{ github.event.pull_request.head.sha || github.sha }}
           path: evidence/cross-env/raw/ubuntu-22.04
 
       - name: Download Ubuntu 24.04 evidence
         uses: actions/download-artifact@v4
         with:
-          name: mal-cross-env-ubuntu-24.04-${{ github.sha }}
+          name: mal-cross-env-ubuntu-24.04-${{ github.event.pull_request.head.sha || github.sha }}
           path: evidence/cross-env/raw/ubuntu-24.04
 
       - name: Download Alpine musl evidence
         uses: actions/download-artifact@v4
         with:
-          name: mal-cross-env-alpine-3.20-musl-${{ github.sha }}
+          name: mal-cross-env-alpine-3.20-musl-${{ github.event.pull_request.head.sha || github.sha }}
           path: evidence/cross-env/raw/alpine-3.20-musl
 
       - name: Materialize exactly one manifest per environment
@@ -314,7 +318,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mal-cross-env-comparison-${{ github.sha }}
+          name: mal-cross-env-comparison-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
           path: evidence/cross-env/
 
@@ -340,6 +344,6 @@ jobs:
         if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/upload-artifact@v4
         with:
-          name: mal-pr-report-${{ github.sha }}
+          name: mal-pr-report-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
           path: evidence/cross-env/pr-report.md
