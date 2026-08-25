@@ -364,6 +364,20 @@ jobs:
           mkdir -p /tmp/mal-continuation
           cp -a . /tmp/mal-continuation/source
           mkdir -p evidence/mal-continuation
+          python3 scripts/monitor_mal_unified_corpus.py \
+            --corpus tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json \
+            --expected-sha256 edb842a5272e20155f97adcca2abfcfc4f06d51f0b910678cb30ebfb6ddeb341 \
+            | tee evidence/mal-continuation/unified-corpus-sha256.stdout
+          sha256sum evidence/mal-continuation/unified-corpus-sha256.stdout > evidence/mal-continuation/unified-corpus-sha256.sha256
+          grep -Fx 'CORPUS_PRESENT=YES' evidence/mal-continuation/unified-corpus-sha256.stdout
+          grep -Fx 'CHECKSUM_MATCH=YES' evidence/mal-continuation/unified-corpus-sha256.stdout
+          grep -Fx 'STATUS=0' evidence/mal-continuation/unified-corpus-sha256.stdout
+          python3 tests/test_mal_unified_corpus_monitor.py | tee evidence/mal-continuation/unified-corpus-monitor-test.stdout
+          sha256sum evidence/mal-continuation/unified-corpus-monitor-test.stdout > evidence/mal-continuation/unified-corpus-monitor-test.sha256
+          grep -Fx 'MAL_UNIFIED_CORPUS_MONITOR_TEST=PASS' evidence/mal-continuation/unified-corpus-monitor-test.stdout
+          grep -Fx 'FAIL_CLOSED_MISMATCH=PASS' evidence/mal-continuation/unified-corpus-monitor-test.stdout
+          grep -Fx 'FAIL_CLOSED_MISSING=PASS' evidence/mal-continuation/unified-corpus-monitor-test.stdout
+          grep -Fx 'STATUS=0' evidence/mal-continuation/unified-corpus-monitor-test.stdout
           python3 tests/test_attached_mechanisms_40_45.py | tee evidence/mal-continuation/mechanisms-40-45.stdout
           sha256sum evidence/mal-continuation/mechanisms-40-45.stdout > evidence/mal-continuation/mechanisms-40-45.sha256
           (cd /tmp/mal-continuation/source && python3 scripts/mal_automated_continuation.py) > evidence/mal-continuation/result.stdout
@@ -402,6 +416,8 @@ jobs:
           cp tests/MAL_ATTACHED_MECHANISMS_40_45_CORPUS_AR.json evidence/mal-continuation/
           cp tests/MAL_ATTACHED_MECHANISMS_46_50_CORPUS_AR.json evidence/mal-continuation/
           cp tests/test_attached_mechanisms_46_50.py evidence/mal-continuation/
+          cp scripts/monitor_mal_unified_corpus.py evidence/mal-continuation/
+          cp tests/test_mal_unified_corpus_monitor.py evidence/mal-continuation/
       - name: Compress continuation evidence
         if: always()
         run: tar -czf evidence/mal-continuation.tar.gz -C evidence mal-continuation
