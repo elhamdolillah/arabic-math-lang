@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-FRONTEND = Path("/home/ubuntu/uori-mediator-kit/.wheel_inspect/tools/uori_frontend.py")
+FRONTEND = ROOT / "frontend/uori_frontend.py"
 sys.path.insert(0, str(FRONTEND.parent))
 sys.path.insert(0, str(ROOT / "extensions"))
 import uori_frontend  # trusted parser artifact
@@ -37,7 +37,7 @@ def main() -> int:
     print("NODE_IDS=CONTIGUOUS_FROM_1")
     print("POINTERS=NONE")
     print("EXECUTION=NOT_PERFORMED")
-    print(f"IR_OUTPUT={OUT}")
+    print("IR_OUTPUT=evidence/MAL_DIR_CORPUS.stdout")
     return 0
 
 if __name__ == "__main__":
