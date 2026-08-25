@@ -3,4 +3,5 @@ protocol/UORI_FOUR_RULES_ADOPTION_CONTRACT_AR.md: OK
 corpus/four_rules_corpus.json: OK
 extensions/uori_validated_math.py: OK
 tests_four_rules.py: OK
-STATUS=0
+evidence/MAL_OWNERSHIP_ARENA_RUST.stdout: OK
+evidence/MAL_OWNERSHIP_ARENA_RUST_REPORT_AR.md: OK

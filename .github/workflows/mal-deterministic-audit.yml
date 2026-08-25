@@ -156,9 +156,54 @@ jobs:
             evidence/MAL_GRAMMAR_GATE_COMPARATOR.stdout
             evidence/MAL_GRAMMAR_GATE_COMPARATOR_ARTIFACTS.sha256
 
+  mal-ownership-arena-rust:
+    name: MAL Ownership Arena (Rust)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      CARGO_NET_OFFLINE: "true"
+      CARGO_TERM_COLOR: never
+      RUSTFLAGS: -C debuginfo=0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Verify Rust toolchain
+        run: |
+          rustc --version
+          cargo --version
+
+      - name: Run pointer-free Arena tests
+        run: |
+          set -eux
+          bash scripts/run_mal_ownership_arena_rust.sh | tee evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
+          sha256sum evidence/MAL_OWNERSHIP_ARENA_RUST.stdout > evidence/MAL_OWNERSHIP_ARENA_RUST.sha256
+
+      - name: Verify Rust Arena evidence
+        run: |
+          grep -Fx 'MAL_OWNERSHIP_ARENA_RUST=PASS' evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
+          grep -Fx 'RAW_POINTERS=FORBIDDEN' evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
+          grep -Fx 'UNSAFE_CODE=FORBIDDEN' evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
+          grep -Fx 'STATUS=0' evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
+
+      - name: Upload Rust Arena evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: mal-ownership-arena-rust-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
+            evidence/MAL_OWNERSHIP_ARENA_RUST.sha256
+            rust/mal_ownership_arena/Cargo.toml
+            rust/mal_ownership_arena/Cargo.lock
+            rust/mal_ownership_arena/src/lib.rs
+            scripts/run_mal_ownership_arena_rust.sh
+
   mal-cross-env-compare:
     name: Compare cross-environment SHA-256 manifests
-    needs: [mal-cross-env-build, mal-cross-env-alpine]
+    needs: [mal-cross-env-build, mal-cross-env-alpine, mal-ownership-arena-rust]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
