@@ -1,0 +1,16 @@
+{
+  "schema": "MAL_AUTOMATED_CONTINUATION_QUEUE_v0.1",
+  "policy": "verification_only",
+  "automatic_merge": false,
+  "baseline_mutation": false,
+  "feature_promotion": false,
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "tasks": [
+    {"id": "grammar_parser", "status": "pending", "argv": ["tests/run_mal_grammar_corpus.py"], "purpose": "إعادة إنتاج دليل parser"},
+    {"id": "extensions_v02", "status": "pending", "argv": ["tests/test_mal_extensions_v0_2.py"], "purpose": "التحقق من عقد v0.2"},
+    {"id": "gadt_rank_research", "status": "pending", "argv": ["research/test_gadt_rank_checker.py"], "purpose": "إعادة فحص GADT وrank-polymorphism البحثي"},
+    {"id": "attached_31_39", "status": "pending", "argv": ["tests/test_attached_mechanisms_31_39.py"], "purpose": "إعادة فحص آليات 31–39"},
+    {"id": "arabic_coverage", "status": "pending", "argv": ["tests/test_mal_arabic_coverage_audit.py"], "purpose": "تحديث قياس التغطية العربية"}
+  ]
+}
