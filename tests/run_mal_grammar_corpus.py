@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -25,6 +26,13 @@ import uori_frontend  # type: ignore  # trusted local parser artifact only
 
 def canonical(value: object) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def canonical_diagnostic(exc: Exception) -> str:
+    """Remove implementation-dependent repr details from parser diagnostics."""
+    message = str(exc)
+    message = re.sub(r"\'[^\']*\'", "\'<TOKEN>\'", message)
+    return message
 
 
 def main() -> int:
@@ -50,7 +58,7 @@ def main() -> int:
         except Exception as exc:  # parser diagnostics are data, never executed
             record["parser_status"] = "ERROR"
             record["ast"] = None
-            record["diagnostics"] = [{"kind": "SYNTAX", "message": str(exc)}]
+            record["diagnostics"] = [{"kind": "SYNTAX", "message": canonical_diagnostic(exc)}]
             parser_fail += 1
         records.append(record)
 
