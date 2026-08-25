@@ -364,14 +364,22 @@ jobs:
           mkdir -p /tmp/mal-continuation
           cp -a . /tmp/mal-continuation/source
           mkdir -p evidence/mal-continuation
+          python3 tests/test_attached_mechanisms_40_45.py | tee evidence/mal-continuation/mechanisms-40-45.stdout
+          sha256sum evidence/mal-continuation/mechanisms-40-45.stdout > evidence/mal-continuation/mechanisms-40-45.sha256
           (cd /tmp/mal-continuation/source && python3 scripts/mal_automated_continuation.py) > evidence/mal-continuation/result.stdout
           sha256sum evidence/mal-continuation/result.stdout > evidence/mal-continuation/SHA256SUMS
+          grep -Fx 'FORBIDDEN_PROMOTION=PASS' evidence/mal-continuation/mechanisms-40-45.stdout
+          grep -Fx 'COUNTEREXAMPLES_PRESENT=PASS' evidence/mal-continuation/mechanisms-40-45.stdout
+          grep -Fx 'STATUS=0' evidence/mal-continuation/mechanisms-40-45.stdout
           grep -Fx 'SOURCE_EXECUTION=NOT_PERFORMED' evidence/mal-continuation/result.stdout
           grep -Fx 'NETWORK=DISABLED_BY_CONTRACT' evidence/mal-continuation/result.stdout
           grep -Fx 'AUTO_MERGE=DENY' evidence/mal-continuation/result.stdout
           grep -Fx 'BASELINE_MUTATED=NO' evidence/mal-continuation/result.stdout
           grep -Fx 'STATUS=0' evidence/mal-continuation/result.stdout
           git diff --exit-code
+          cp protocol/MAL_ATTACHED_MECHANISMS_REVIEW_40_45_AR.md evidence/mal-continuation/
+          cp protocol/MAL_ATTACHED_MECHANISMS_40_45_REGISTRY_AR.json evidence/mal-continuation/
+          cp tests/MAL_ATTACHED_MECHANISMS_40_45_CORPUS_AR.json evidence/mal-continuation/
       - name: Compress continuation evidence
         if: always()
         run: tar -czf evidence/mal-continuation.tar.gz -C evidence mal-continuation
