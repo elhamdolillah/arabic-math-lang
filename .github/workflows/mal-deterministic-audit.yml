@@ -43,6 +43,11 @@ jobs:
       - name: Verify interpreter
         run: python3 --version
 
+      - name: Clear prior cross-environment evidence
+        run: |
+          rm -rf evidence/cross-env
+          mkdir -p evidence/cross-env
+
       - name: Generate cross-environment manifest
         run: |
           mkdir -p evidence/cross-env
@@ -64,11 +69,12 @@ jobs:
             > "evidence/cross-env/${{ matrix.label }}.sha256"
 
       - name: Upload environment evidence
-        if: always()
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: mal-cross-env-${{ matrix.label }}-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
+          retention-days: 7
           path: |
             evidence/cross-env/${{ matrix.label }}.json
             evidence/cross-env/${{ matrix.label }}.stdout
@@ -106,6 +112,11 @@ jobs:
       - name: Build pinned Alpine musl audit image
         run: docker build --pull --file ci/alpine-malus.Dockerfile --tag mal-alpine-malus:3.20 .
 
+      - name: Clear prior cross-environment evidence
+        run: |
+          rm -rf evidence/cross-env
+          mkdir -p evidence/cross-env
+
       - name: Run deterministic audit inside Alpine musl
         run: |
           mkdir -p evidence/cross-env
@@ -140,11 +151,12 @@ jobs:
             > evidence/cross-env/alpine-3.20-musl.sha256
 
       - name: Upload Alpine evidence
-        if: always()
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: mal-cross-env-alpine-3.20-musl-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
+          retention-days: 7
           path: |
             evidence/cross-env/alpine-3.20-musl.json
             evidence/cross-env/alpine-3.20-musl.stdout
@@ -250,11 +262,22 @@ jobs:
           grep -Fx 'AUTO_PROMOTION=DENY' evidence/MAL_DUAL_EXECUTION.stdout
           grep -Fx 'STATUS=0' evidence/MAL_DUAL_EXECUTION.stdout
 
+      - name: Verify MAL-DIR validator differential execution
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          set -eux
+          python3 scripts/mal_dir_validator_differential.py | tee evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout
+          sha256sum evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.json > evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.sha256
+          grep -Fx 'MAL_DIR_DIFFERENTIAL=PASS' evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout
+          grep -Fx 'FAILURES=0' evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout
+          grep -Fx 'AUTO_PROMOTION=DENY' evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout
+
       - name: Upload Rust Arena evidence
         uses: actions/upload-artifact@v4
         with:
           name: mal-ownership-arena-rust-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
+          retention-days: 7
           path: |
             evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
             evidence/MAL_OWNERSHIP_ARENA_RUST.sha256
@@ -294,6 +317,12 @@ jobs:
             evidence/MAL_DUAL_EXECUTION_STATIC.stdout
             evidence/MAL_DUAL_EXECUTION.stdout
             evidence/MAL_DUAL_EXECUTION.sha256
+            evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout
+            evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.json
+            evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.sha256
+            scripts/mal_dir_validator_differential.py
+            protocol/MAL_FLAT_INDEX_ARENA_CONTRACT_v0.1_AR.md
+            extensions/mal_dir_validator.ar
 
   # Resource policy: extra reporting runs only once daily or by explicit manual dispatch.
   mal-arabic-coverage-audit:
@@ -330,13 +359,13 @@ jobs:
           grep -Fx 'STATUS=0' evidence/mal-arabic-coverage/audit.stdout
           git diff --exit-code -- . ':!evidence/mal-arabic-coverage/'
       - name: Upload Arabic coverage report
-        if: always()
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: mal-arabic-coverage-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
-          path: evidence/mal-arabic-coverage.tar.gz
           retention-days: 7
+          path: evidence/mal-arabic-coverage.tar.gz
 
   # Resource policy: never run the continuation queue on every push or pull request.
   mal-automated-continuation:
@@ -422,7 +451,7 @@ jobs:
         if: always()
         run: tar -czf evidence/mal-continuation.tar.gz -C evidence mal-continuation
       - name: Upload continuation evidence
-        if: always()
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: mal-continuation-${{ github.event.pull_request.head.sha || github.sha }}
@@ -491,11 +520,12 @@ jobs:
             > evidence/cross-env/comparison.sha256
 
       - name: Upload comparison evidence
-        if: always()
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: mal-cross-env-comparison-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
+          retention-days: 7
           path: evidence/cross-env/
 
       - name: Enforce comparison success
@@ -522,4 +552,5 @@ jobs:
         with:
           name: mal-pr-report-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
+          retention-days: 7
           path: evidence/cross-env/pr-report.md
