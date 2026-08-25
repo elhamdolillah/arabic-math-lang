@@ -98,6 +98,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Build pinned Alpine musl audit image
+        run: docker build --pull --file ci/alpine-malus.Dockerfile --tag mal-alpine-malus:3.20 .
+
       - name: Run deterministic audit inside Alpine musl
         run: |
           mkdir -p evidence/cross-env
@@ -110,9 +113,8 @@ jobs:
             -e GITHUB_SHA="${GITHUB_SHA}" \
             -v "${GITHUB_WORKSPACE}:/work" \
             -w /work \
-            python:3.12-alpine3.20 \
-            sh -euxc 'apk add --no-cache bash coreutils git >/dev/null && \
-              python3 --version && \
+            mal-alpine-malus:3.20 \
+            sh -euxc 'python3 --version && \
               python3 scripts/run_mal_cross_env_manifest.py \
                 --label alpine-3.20-musl \
                 --output evidence/cross-env/alpine-3.20-musl.json \
