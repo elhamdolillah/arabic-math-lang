@@ -316,6 +316,83 @@
       "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json"
     },
     {
+      "id": 94,
+      "name": "scheme_call_cc_control",
+      "target": "Scheme",
+      "decision": "RESEARCH",
+      "positive": "يمكن تمثيل نقطة الاستمرارية صراحة ضمن عقد تحكم محدود",
+      "counterexample": "إعادة الاستمرارية أو غياب حد الوقود قد يؤدي إلى تكرار غير منته أو استهلاك غير محدود",
+      "gap": "تمثيل الاستمرارية وإعادة الدخول والإنهاء غير معرّف في MAL",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_94_100_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json"
+    },
+    {
+      "id": 95,
+      "name": "smalltalk_single_dispatch",
+      "target": "Smalltalk",
+      "decision": "RESEARCH",
+      "positive": "يمكن تثبيت الإرسال الأحادي بجدول بحث canonical لصنف المستقبل والمرسل",
+      "counterexample": "تعديل الأصناف أو اختلاف ترتيب الوراثة قد يغير الطريقة المختارة",
+      "gap": "ترتيب الوراثة وصورة الأصناف وتعديلها أثناء التنفيذ غير مثبتة",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_94_100_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json"
+    },
+    {
+      "id": 96,
+      "name": "tcl_braced_expr",
+      "target": "Tcl",
+      "decision": "RESEARCH",
+      "positive": "يمكن عزل التعبير المعقوف عن إعادة التحليل النصي المتكرر",
+      "counterexample": "تحويلات الأنواع أو الحالة الخارجية قد تبقى غير حتمية إذا لم يحددها العقد",
+      "gap": "تحليل التعبير مرة واحدة لا يحدد كل دلالات الأنواع والتحويلات",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_94_100_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json"
+    },
+    {
+      "id": 97,
+      "name": "simula_event_list",
+      "target": "Simula",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "positive": "يمكن ترتيب الأحداث بمفتاح حتمي يجمع الزمن ورقم الإدراج",
+      "counterexample": "تساوي الأزمنة أو استعمال زمن عائم بلا عقد قد يبدل ترتيب التنفيذ",
+      "gap": "كسر التعادل والزمن العائم وحدود التكرار غير مثبتة",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_94_100_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json"
+    },
+    {
+      "id": 98,
+      "name": "rexx_numeric_digits",
+      "target": "REXX",
+      "decision": "RESEARCH",
+      "positive": "يمكن تحديد دقة عشرية ثابتة ضمن نموذج عددي canonical",
+      "counterexample": "اختلاف التقريب أو الفيض أو تغيير الدقة ضمنياً قد يغير النتيجة",
+      "gap": "التقريب والفيض والدقة المتغيرة وحدود الموارد غير محددة",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_94_100_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json"
+    },
+    {
+      "id": 99,
+      "name": "apl_grade_permutation",
+      "target": "APL",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "positive": "يمكن تعريف ترتيب كلي مع كسر التعادل بالمؤشر الأصلي",
+      "counterexample": "استعمال ترتيب غير مستقر للقيم المتساوية قد ينتج ترتيباً مختلفاً",
+      "gap": "استقرار ترتيب المتساويات وكسر التعادل غير مضمونين في المقترح",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_94_100_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json"
+    },
+    {
+      "id": 100,
+      "name": "forth_create_does",
+      "target": "Forth",
+      "decision": "RESEARCH",
+      "positive": "يمكن ربط سلوك الكلمة ببيانات القاموس ضمن ABI ثابت",
+      "counterexample": "تغير حالة القاموس أو ترتيب التعريف أو المكدس قد يغير السلوك",
+      "gap": "حالة القاموس وABI والمكدسات وتنسيق الهدف تحتاج إلى عقد ثابت",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_94_100_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json"
+    },
+    {
       "id": "array_shape_equal",
       "name": "array_shape_equal",
       "target": "internal",
@@ -587,11 +664,13 @@
     "protocol/MAL_ATTACHED_MECHANISMS_46_50_REGISTRY_AR.json",
     "protocol/MAL_ATTACHED_MECHANISMS_78_80_REGISTRY_AR.json",
     "protocol/MAL_ATTACHED_MECHANISMS_81_85_REGISTRY_AR.json",
+    "protocol/MAL_ATTACHED_MECHANISMS_94_100_REGISTRY_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_31_39_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_40_45_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_46_50_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_78_80_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json",
+    "tests/MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json",
     "tests/MAL_DUAL_EXECUTION_CORPUS_AR.json",
     "tests/MAL_EXTENSIONS_V0_2_CORPUS_AR.json",
     "tests/MAL_GADT_RANK_RESEARCH_CORPUS_AR.json"

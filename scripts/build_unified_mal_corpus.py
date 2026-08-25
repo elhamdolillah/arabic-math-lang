@@ -11,6 +11,7 @@ REGISTRIES = [
     ROOT / "protocol/MAL_ATTACHED_MECHANISMS_46_50_REGISTRY_AR.json",
     ROOT / "protocol/MAL_ATTACHED_MECHANISMS_78_80_REGISTRY_AR.json",
     ROOT / "protocol/MAL_ATTACHED_MECHANISMS_81_85_REGISTRY_AR.json",
+    ROOT / "protocol/MAL_ATTACHED_MECHANISMS_94_100_REGISTRY_AR.json",
 ]
 CORPORA = [
     ROOT / "tests/MAL_ATTACHED_MECHANISMS_31_39_CORPUS_AR.json",
@@ -18,6 +19,7 @@ CORPORA = [
     ROOT / "tests/MAL_ATTACHED_MECHANISMS_46_50_CORPUS_AR.json",
     ROOT / "tests/MAL_ATTACHED_MECHANISMS_78_80_CORPUS_AR.json",
     ROOT / "tests/MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json",
+    ROOT / "tests/MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json",
     ROOT / "tests/MAL_EXTENSIONS_V0_2_CORPUS_AR.json",
     ROOT / "tests/MAL_GADT_RANK_RESEARCH_CORPUS_AR.json",
     ROOT / "tests/MAL_DUAL_EXECUTION_CORPUS_AR.json",
@@ -83,7 +85,7 @@ def main() -> int:
     out.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("UNIFIED_CORPUS=PASS")
     print(f"REGISTERED_ENTRIES={len(merged)}")
-    print("ATTACHED_MECHANISMS=31-50,78-85")
+    print("ATTACHED_MECHANISMS=31-50,78-85,94-100")
     print("OTHER_GOVERNED_CORPORA=V0_2,GADT_RANK,DUAL_EXECUTION")
     print("MISSING_RANGES=51-77")
     print("SOURCE_EXECUTION=NOT_PERFORMED")

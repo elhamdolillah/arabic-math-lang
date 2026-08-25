@@ -15,7 +15,7 @@ def main() -> int:
     assert data["runtime_features_admitted"] == 0
     assert len({str(e["id"]) for e in entries}) == len(entries)
     attached = {int(e["id"]) for e in entries if str(e["id"]).isdigit()}
-    assert set(range(31, 51)) | set(range(78, 86)) <= attached
+    assert set(range(31, 51)) | set(range(78, 86)) | set(range(94, 101)) <= attached
     for entry in entries:
         assert entry["decision"] in {
             "RESEARCH", "ABSTAIN_UNTIL_EVIDENCE", "POLICY_RESEARCH", "UNCLASSIFIED"
