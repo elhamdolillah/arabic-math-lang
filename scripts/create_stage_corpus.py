@@ -5,6 +5,7 @@ STAGE0 = ROOT / "corpus" / "stage0_18_files"
 STAGE1 = ROOT / "corpus" / "stage1_9_files"
 STAGE2 = ROOT / "corpus" / "stage2_12_files"
 STAGE3 = ROOT / "corpus" / "stage3_15_files"
+STAGE4 = ROOT / "corpus" / "stage4_16_files"
 
 
 def write(directory: Path, name: str, source: str) -> None:
@@ -66,6 +67,27 @@ def main() -> None:
     )
     for name, source in stage3:
         write(STAGE3, name, source)
+
+    stage4 = (
+        ("01_if_true_equal.ar", "إذا 5 == 5 فإن\nبنية_نتيجة = 1\nنهاية"),
+        ("02_if_false_equal.ar", "إذا 5 == 6 فإن\nبنية_نتيجة = 1\nنهاية"),
+        ("03_if_greater.ar", "إذا 9 > 3 فإن\nبنية_نتيجة = 9\nنهاية"),
+        ("04_if_less.ar", "إذا 2 < 8 فإن\nبنية_نتيجة = 8\nنهاية"),
+        ("05_if_not_equal.ar", "إذا 2 != 3 فإن\nبنية_نتيجة = 3\nنهاية"),
+        ("06_if_with_expression.ar", "إذا 2 + 3 == 5 فإن\nبنية_نتيجة = 5\nنهاية"),
+        ("07_if_nested_expression.ar", "إذا (2 * 3) > (1 + 4) فإن\nبنية_نتيجة = 6\nنهاية"),
+        ("08_if_multiline_sequence.ar", "بنية_س = 4\nإذا بنية_س > 0 فإن\nبنية_ص = بنية_س + 1\nنهاية"),
+        ("09_scope_shadowing.ar", "بنية_س = 1\nإذا 1 == 1 فإن\nبنية_س = 2\nنهاية"),
+        ("10_scope_unknown_after_exit.ar", "إذا 1 == 1 فإن\nبنية_محلي = 7\nنهاية\nبنية_خارج = بنية_محلي"),
+        ("11_scope_depth_overflow.ar", "إذا 1 == 1 فإن\nإذا 1 == 1 فإن\nبنية_عميق = 1\nنهاية\nنهاية"),
+        ("12_unclosed_if.ar", "إذا 1 == 1 فإن\nبنية_ناقص = 1"),
+        ("13_invalid_condition_divzero.ar", "إذا 1 / 0 == 0 فإن\nبنية_نتيجة = 1\nنهاية"),
+        ("14_forbidden_eval_in_if.ar", "إذا 1 == 1 فإن\neval(code)\nنهاية"),
+        ("15_forbidden_exec_in_if.ar", "إذا 1 == 1 فإن\nexec(code)\nنهاية"),
+        ("16_forbidden_unsafe_in_if.ar", "إذا 1 == 1 فإن\nunsafe { block }\nنهاية"),
+    )
+    for name, source in stage4:
+        write(STAGE4, name, source)
 
 
 if __name__ == "__main__":

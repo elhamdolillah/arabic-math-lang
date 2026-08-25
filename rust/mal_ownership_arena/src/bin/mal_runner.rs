@@ -82,6 +82,11 @@ fn main() -> ExitCode {
         AstOpcode::Divide => "DIVIDE",
         AstOpcode::PassThrough => "PASS_THROUGH",
         AstOpcode::Sequence => "SEQUENCE",
+        AstOpcode::IfStatement => "IF_STATEMENT",
+        AstOpcode::Equal => "EQUAL",
+        AstOpcode::NotEqual => "NOT_EQUAL",
+        AstOpcode::GreaterThan => "GREATER_THAN",
+        AstOpcode::LessThan => "LESS_THAN",
     };
     let literal = match node.right {
         Some(NodeID(id)) => id.to_string(),

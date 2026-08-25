@@ -47,11 +47,11 @@ impl<'a> DeterministicParser<'a> {
         ast_arena: &mut FixedArena<AstNode<'a>, N_AST>,
     ) -> Result<NodeID, ParseError> {
         self.skip_separators(token_arena)?;
-        let mut root = self.parse_declaration(token_arena, ast_arena)?;
+        let mut root = self.parse_statement(token_arena, ast_arena)?;
         loop {
             self.skip_separators(token_arena)?;
             if self.peek(token_arena)?.is_none() { break; }
-            let next = self.parse_declaration(token_arena, ast_arena)?;
+            let next = self.parse_statement(token_arena, ast_arena)?;
             let sequence_id = ast_arena.next_node_id()?;
             ast_arena.allocate(AstNode {
                 id: sequence_id,
@@ -66,6 +66,37 @@ impl<'a> DeterministicParser<'a> {
         Ok(root)
     }
 
+    fn parse_statement<const N_LEX: usize, const N_AST: usize>(
+        &mut self,
+        tokens: &mut FixedArena<LexicalToken<'a>, N_LEX>,
+        ast: &mut FixedArena<AstNode<'a>, N_AST>,
+    ) -> Result<NodeID, ParseError> {
+        if self.peek(tokens)?.is_some_and(|token| token.kind == TokenKind::KeywordIf) {
+            self.parse_if(tokens, ast)
+        } else {
+            self.parse_declaration(tokens, ast)
+        }
+    }
+
+    fn parse_if<const N_LEX: usize, const N_AST: usize>(
+        &mut self,
+        tokens: &mut FixedArena<LexicalToken<'a>, N_LEX>,
+        ast: &mut FixedArena<AstNode<'a>, N_AST>,
+    ) -> Result<NodeID, ParseError> {
+        let opening = self.take(tokens)?.ok_or(ParseError::UnexpectedEof)?;
+        if opening.kind != TokenKind::KeywordIf { return Err(ParseError::SyntaxError); }
+        let condition = self.parse_comparison(tokens, ast)?;
+        let then_token = self.take(tokens)?.ok_or(ParseError::UnexpectedEof)?;
+        if then_token.kind != TokenKind::KeywordThen { return Err(ParseError::SyntaxError); }
+        self.skip_separators(tokens)?;
+        let body = self.parse_statement(tokens, ast)?;
+        self.skip_separators(tokens)?;
+        let ending = self.take(tokens)?.ok_or(ParseError::UnexpectedEof)?;
+        if ending.kind != TokenKind::KeywordEnd { return Err(ParseError::SyntaxError); }
+        let id = ast.next_node_id()?;
+        ast.allocate(AstNode { id, opcode: AstOpcode::IfStatement, name: None, left: Some(condition), right: Some(body), numeric_value: 0 }).map_err(ParseError::from)
+    }
+
     fn parse_declaration<const N_LEX: usize, const N_AST: usize>(
         &mut self,
         tokens: &mut FixedArena<LexicalToken<'a>, N_LEX>,
@@ -78,7 +109,7 @@ impl<'a> DeterministicParser<'a> {
         if declaration.kind != TokenKind::KeywordNode { return Err(ParseError::SyntaxError); }
         let equals = self.take(tokens)?.ok_or(ParseError::UnexpectedEof)?;
         if equals.kind != TokenKind::Equals { return Err(ParseError::SyntaxError); }
-        let expression = self.parse_additive(tokens, ast)?;
+        let expression = self.parse_comparison(tokens, ast)?;
         let declaration_id = ast.next_node_id()?;
         ast.allocate(AstNode {
             id: declaration_id,
@@ -95,6 +126,25 @@ impl<'a> DeterministicParser<'a> {
             self.take(tokens)?;
         }
         Ok(())
+    }
+
+    fn parse_comparison<const N_LEX: usize, const N_AST: usize>(
+        &mut self, tokens: &mut FixedArena<LexicalToken<'a>, N_LEX>, ast: &mut FixedArena<AstNode<'a>, N_AST>,
+    ) -> Result<NodeID, ParseError> {
+        let mut left = self.parse_additive(tokens, ast)?;
+        loop {
+            let opcode = match self.peek(tokens)?.map(|token| token.kind) {
+                Some(TokenKind::EqualEqual) => AstOpcode::Equal,
+                Some(TokenKind::NotEqual) => AstOpcode::NotEqual,
+                Some(TokenKind::GreaterThan) => AstOpcode::GreaterThan,
+                Some(TokenKind::LessThan) => AstOpcode::LessThan,
+                _ => break,
+            };
+            self.take(tokens)?;
+            let right = self.parse_additive(tokens, ast)?;
+            left = self.make_comparison(ast, opcode, left, right)?;
+        }
+        Ok(left)
     }
 
     fn parse_additive<const N_LEX: usize, const N_AST: usize>(
@@ -155,6 +205,11 @@ impl<'a> DeterministicParser<'a> {
         }
     }
 
+    fn make_comparison<const N: usize>(&self, ast: &mut FixedArena<AstNode<'a>, N>, opcode: AstOpcode, left: NodeID, right: NodeID) -> Result<NodeID, ParseError> {
+        let id = ast.next_node_id()?;
+        ast.allocate(AstNode { id, opcode, name: None, left: Some(left), right: Some(right), numeric_value: 0 }).map_err(ParseError::from)
+    }
+
     fn make_binary<const N: usize>(&self, ast: &mut FixedArena<AstNode<'a>, N>, opcode: AstOpcode, left: NodeID, right: NodeID) -> Result<NodeID, ParseError> {
         let left_static = Self::is_static(ast, left)?;
         let right_static = Self::is_static(ast, right)?;
@@ -180,7 +235,7 @@ impl<'a> DeterministicParser<'a> {
         match node.opcode {
             AstOpcode::LiteralNum => Ok(true),
             AstOpcode::BindSymbol => Ok(false),
-            AstOpcode::Add | AstOpcode::Subtract | AstOpcode::Multiply | AstOpcode::Divide => {
+            AstOpcode::Add | AstOpcode::Subtract | AstOpcode::Multiply | AstOpcode::Divide | AstOpcode::Equal | AstOpcode::NotEqual | AstOpcode::GreaterThan | AstOpcode::LessThan => {
                 Ok(Self::is_static(ast, node.left.ok_or(ParseError::SyntaxError)?)?
                     && Self::is_static(ast, node.right.ok_or(ParseError::SyntaxError)?)?)
             }

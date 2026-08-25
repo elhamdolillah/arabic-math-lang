@@ -11,6 +11,11 @@ pub enum AstOpcode {
     Divide,
     PassThrough,
     Sequence,
+    IfStatement,
+    Equal,
+    NotEqual,
+    GreaterThan,
+    LessThan,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

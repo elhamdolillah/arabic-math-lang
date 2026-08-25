@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
-_TOKEN = re.compile(r"\r\n|\n|[^\s=+*/()\-]+|[=+*/()\-]", re.UNICODE)
+_TOKEN = re.compile(r"\r\n|\n|==|!=|>|<|[=+*/()\-]|[^\s=+*/()\-<>!]+", re.UNICODE)
 _FORBIDDEN = ("eval", "exec", "unsafe")
 _MAX_U64 = 18_446_744_073_709_551_615
 
@@ -14,110 +15,141 @@ class ReferenceError(Exception):
     pass
 
 
+@dataclass(frozen=True)
+class Node:
+    opcode: str
+    name: str | None = None
+    left: int | None = None
+    right: int | None = None
+    numeric_value: int = 0
+
+
 class ReferenceParser:
     def __init__(self, source: str) -> None:
         self.tokens = _TOKEN.findall(source)
         self.index = 0
-        self.ast_count = 0
-        self.symbols: dict[str, int] = {}
+        self.nodes: list[Node] = []
 
     def take(self) -> str:
-        if self.index >= len(self.tokens):
-            raise ReferenceError
-        token = self.tokens[self.index]
-        self.index += 1
-        return token
+        if self.index >= len(self.tokens): raise ReferenceError
+        token = self.tokens[self.index]; self.index += 1; return token
 
     def peek(self) -> str | None:
-        if self.index >= len(self.tokens):
-            return None
-        return self.tokens[self.index]
+        return self.tokens[self.index] if self.index < len(self.tokens) else None
 
     def skip_separators(self) -> None:
-        while self.peek() in ("\n", "\r\n"):
-            self.take()
+        while self.peek() in ("\n", "\r\n"): self.take()
 
-    def parse(self) -> tuple[int, int, str, int]:
-        self.skip_separators()
-        root_id, value, opcode, right_id = self.parse_declaration()
+    def alloc(self, node: Node) -> int:
+        node_id = len(self.nodes); self.nodes.append(node); return node_id
+
+    def parse(self) -> int:
+        self.skip_separators(); root = self.parse_statement()
         while True:
             self.skip_separators()
-            if self.peek() is None:
-                return root_id, value, opcode, right_id
-            next_id, next_value, _opcode, _right_id = self.parse_declaration()
-            sequence_id = self.ast_count
-            self.ast_count += 1
-            root_id = sequence_id
-            right_id = next_id
-            value = next_value
-            opcode = "SEQUENCE"
+            if self.peek() is None: return root
+            nxt = self.parse_statement()
+            root = self.alloc(Node("SEQUENCE", left=root, right=nxt, numeric_value=self.nodes[nxt].numeric_value))
 
-    def parse_declaration(self) -> tuple[int, int, str, int]:
-        declaration = self.take()
-        if not declaration.startswith("بنية_"):
-            raise ReferenceError
-        if self.take() != "=":
-            raise ReferenceError
-        value, expression_id = self.parse_additive()
-        declaration_id = self.ast_count
-        self.ast_count += 1
-        self.symbols[declaration] = value
-        return declaration_id, value, "__last_value__", expression_id
+    def parse_statement(self) -> int:
+        return self.parse_if() if self.peek() == "إذا" else self.parse_declaration()
 
-    def parse_additive(self) -> tuple[int, int]:
-        value, node_id = self.parse_multiplicative()
+    def parse_if(self) -> int:
+        if self.take() != "إذا": raise ReferenceError
+        condition = self.parse_comparison()
+        if self.take() != "فإن": raise ReferenceError
+        self.skip_separators(); body = self.parse_statement(); self.skip_separators()
+        if self.take() != "نهاية": raise ReferenceError
+        return self.alloc(Node("IF_STATEMENT", left=condition, right=body))
+
+    def parse_declaration(self) -> int:
+        name = self.take()
+        if not name.startswith("بنية_") or self.take() != "=": raise ReferenceError
+        expression = self.parse_comparison()
+        value = self.nodes[expression].numeric_value if self.is_static(expression) else 0
+        return self.alloc(Node("DECLARE_NODE", name=name, right=expression, numeric_value=value))
+
+    def parse_comparison(self) -> int:
+        left = self.parse_additive()
+        while self.peek() in ("==", "!=", ">", "<"):
+            op = {"==":"EQUAL", "!=":"NOT_EQUAL", ">":"GREATER_THAN", "<":"LESS_THAN"}[self.take()]
+            right = self.parse_additive(); left = self.alloc(Node(op, left=left, right=right))
+        return left
+
+    def parse_additive(self) -> int:
+        left = self.parse_multiplicative()
         while self.peek() in ("+", "-"):
-            operator = self.take()
-            right_value, right_id = self.parse_multiplicative()
-            if operator == "+":
-                value = value + right_value
-                if value > _MAX_U64:
-                    raise ReferenceError
-            else:
-                value -= right_value
-                if value < 0:
-                    raise ReferenceError
-            node_id = self.ast_count
-            self.ast_count += 1
-        return value, node_id
+            op = self.take(); right = self.parse_multiplicative(); value = 0
+            if self.is_static(left) and self.is_static(right):
+                value = self.nodes[left].numeric_value + self.nodes[right].numeric_value if op == "+" else self.nodes[left].numeric_value - self.nodes[right].numeric_value
+                if value < 0 or value > _MAX_U64: raise ReferenceError
+            left = self.alloc(Node("ADD" if op == "+" else "SUBTRACT", left=left, right=right, numeric_value=value))
+        return left
 
-    def parse_multiplicative(self) -> tuple[int, int]:
-        value, node_id = self.parse_factor()
+    def parse_multiplicative(self) -> int:
+        left = self.parse_factor()
         while self.peek() in ("*", "/"):
-            operator = self.take()
-            right_value, right_id = self.parse_factor()
-            if operator == "*":
-                value *= right_value
-                if value > _MAX_U64:
-                    raise ReferenceError
-            else:
-                if right_value == 0:
-                    raise ReferenceError
-                value //= right_value
-            node_id = self.ast_count
-            self.ast_count += 1
-        return value, node_id
+            op = self.take(); right = self.parse_factor(); value = 0
+            if self.is_static(left) and self.is_static(right):
+                rv = self.nodes[right].numeric_value
+                if op == "/":
+                    if rv == 0: raise ReferenceError
+                    value = self.nodes[left].numeric_value // rv
+                else: value = self.nodes[left].numeric_value * rv
+                if value > _MAX_U64: raise ReferenceError
+            left = self.alloc(Node("MULTIPLY" if op == "*" else "DIVIDE", left=left, right=right, numeric_value=value))
+        return left
 
-    def parse_factor(self) -> tuple[int, int]:
+    def parse_factor(self) -> int:
         token = self.take()
         if token == "(":
             result = self.parse_additive()
-            if self.take() != ")":
-                raise ReferenceError
+            if self.take() != ")": raise ReferenceError
             return result
         if token.isascii() and token.isdigit():
             value = int(token, 10)
-            if value > _MAX_U64:
-                raise ReferenceError
-        else:
-            if not token or token in ("\n", "\r\n"):
-                raise ReferenceError
-            value = self.symbols.get(token)
-            if value is None:
-                raise ReferenceError
-        node_id = self.ast_count
-        self.ast_count += 1
-        return value, node_id
+            if value > _MAX_U64: raise ReferenceError
+            return self.alloc(Node("LITERAL_NUM", numeric_value=value))
+        if not token or token in ("\n", "\r\n") or token in _FORBIDDEN: raise ReferenceError
+        return self.alloc(Node("BIND_SYMBOL", name=token))
+
+    def is_static(self, node_id: int) -> bool:
+        node = self.nodes[node_id]
+        if node.opcode == "LITERAL_NUM": return True
+        if node.opcode == "BIND_SYMBOL": return False
+        if node.opcode in {"ADD","SUBTRACT","MULTIPLY","DIVIDE","EQUAL","NOT_EQUAL","GREATER_THAN","LESS_THAN"}:
+            return self.is_static(node.left) and self.is_static(node.right)
+        return False
+
+
+class ReferenceEvaluator:
+    def __init__(self, nodes: list[Node]) -> None:
+        self.nodes = nodes; self.symbols: dict[str, int] = {}
+
+    def visit(self, node_id: int) -> int:
+        node = self.nodes[node_id]; op = node.opcode
+        if op == "LITERAL_NUM": return node.numeric_value
+        if op == "BIND_SYMBOL":
+            if node.name not in self.symbols: raise ReferenceError
+            return self.symbols[node.name]
+        if op == "DECLARE_NODE":
+            value = self.visit(node.right); self.symbols[node.name] = value; return value
+        if op == "SEQUENCE": self.visit(node.left); return self.visit(node.right)
+        if op == "IF_STATEMENT": return self.visit(node.right) if self.visit(node.left) > 0 else 0
+        if op in {"ADD","SUBTRACT","MULTIPLY","DIVIDE"}:
+            left, right = self.visit(node.left), self.visit(node.right)
+            if op == "ADD": value = left + right
+            elif op == "SUBTRACT": value = left - right
+            elif op == "MULTIPLY": value = left * right
+            else:
+                if right == 0: raise ReferenceError
+                value = left // right
+            if value < 0 or value > _MAX_U64: raise ReferenceError
+            return value
+        if op in {"EQUAL","NOT_EQUAL","GREATER_THAN","LESS_THAN"}:
+            left, right = self.visit(node.left), self.visit(node.right)
+            return int({"EQUAL":left==right,"NOT_EQUAL":left!=right,"GREATER_THAN":left>right,"LESS_THAN":left<right}[op])
+        raise ReferenceError
 
 
 def abstain() -> dict[str, object]:
@@ -133,8 +165,11 @@ def reference_case(path: Path) -> dict[str, object]:
         return abstain()
     try:
         parser = ReferenceParser(source)
-        root_id, value, opcode, right_id = parser.parse()
-    except (ReferenceError, ValueError, RecursionError):
+        root_id = parser.parse()
+        if parser.peek() is not None: raise ReferenceError
+        value = ReferenceEvaluator(parser.nodes).visit(root_id)
+        root = parser.nodes[root_id]
+    except (ReferenceError, ValueError, RecursionError, IndexError, TypeError):
         return abstain()
 
     return {
@@ -150,10 +185,10 @@ def reference_case(path: Path) -> dict[str, object]:
         ).format(
             value=value,
             root=root_id,
-            opcode=("DECLARE_NODE" if opcode == "__last_value__" else opcode),
-            right=right_id,
+            opcode=root.opcode,
+            right=root.right,
             tokens=len(parser.tokens),
-            ast=parser.ast_count,
+            ast=len(parser.nodes),
         ),
     }
 

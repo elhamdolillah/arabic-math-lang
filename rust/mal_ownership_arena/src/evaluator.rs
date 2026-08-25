@@ -58,7 +58,33 @@ impl DeterministicEvaluator {
                 Self::visit(ast, node.left.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
                 Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols)
             }
+            AstOpcode::Equal => Self::comparison(ast, node, symbols, |left, right| left == right),
+            AstOpcode::NotEqual => Self::comparison(ast, node, symbols, |left, right| left != right),
+            AstOpcode::GreaterThan => Self::comparison(ast, node, symbols, |left, right| left > right),
+            AstOpcode::LessThan => Self::comparison(ast, node, symbols, |left, right| left < right),
+            AstOpcode::IfStatement => {
+                let condition = Self::visit(ast, node.left.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
+                if condition > 0 {
+                    Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols)
+                } else {
+                    Ok(0)
+                }
+            }
         }
+    }
+
+    fn comparison<'a, const N_AST: usize, const N_SYMBOLS: usize, F>(
+        ast: &FixedArena<AstNode<'a>, N_AST>,
+        node: AstNode<'a>,
+        symbols: &mut ArenaSymbolTable<'a, N_SYMBOLS>,
+        operation: F,
+    ) -> Result<u64, EvaluatorError>
+    where
+        F: FnOnce(u64, u64) -> bool,
+    {
+        let left = Self::visit(ast, node.left.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
+        let right = Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
+        Ok(u64::from(operation(left, right)))
     }
 
     fn binary<'a, const N_AST: usize, const N_SYMBOLS: usize, F>(
