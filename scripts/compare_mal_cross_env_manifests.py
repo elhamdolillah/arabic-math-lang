@@ -19,7 +19,10 @@ def main() -> int:
     parser.add_argument("--input-dir", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    manifests = sorted(args.input_dir.glob("*.json"))
+    manifests = sorted(
+        path for path in args.input_dir.glob("*.json")
+        if path.name != args.output.name
+    )
     if len(manifests) < 2:
         print("CROSS_ENV_COMPARE=ABSTAIN")
         print("REASON=INSUFFICIENT_ENVIRONMENTS")
