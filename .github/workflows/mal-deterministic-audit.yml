@@ -172,12 +172,34 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Download matrix manifests
+      - name: Download Ubuntu 22.04 evidence
         uses: actions/download-artifact@v4
         with:
-          pattern: mal-cross-env-*-${{ github.sha }}
-          path: evidence/cross-env
-          merge-multiple: true
+          name: mal-cross-env-ubuntu-22.04-${{ github.sha }}
+          path: evidence/cross-env/raw/ubuntu-22.04
+
+      - name: Download Ubuntu 24.04 evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: mal-cross-env-ubuntu-24.04-${{ github.sha }}
+          path: evidence/cross-env/raw/ubuntu-24.04
+
+      - name: Download Alpine musl evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: mal-cross-env-alpine-3.20-musl-${{ github.sha }}
+          path: evidence/cross-env/raw/alpine-3.20-musl
+
+      - name: Materialize exactly one manifest per environment
+        run: |
+          set -eux
+          mkdir -p evidence/cross-env
+          find evidence/cross-env/raw/ubuntu-22.04 -type f -name 'ubuntu-22.04.json' -exec cp {} evidence/cross-env/ubuntu-22.04.json \;
+          find evidence/cross-env/raw/ubuntu-24.04 -type f -name 'ubuntu-24.04.json' -exec cp {} evidence/cross-env/ubuntu-24.04.json \;
+          find evidence/cross-env/raw/alpine-3.20-musl -type f -name 'alpine-3.20-musl.json' -exec cp {} evidence/cross-env/alpine-3.20-musl.json \;
+          test -s evidence/cross-env/ubuntu-22.04.json
+          test -s evidence/cross-env/ubuntu-24.04.json
+          test -s evidence/cross-env/alpine-3.20-musl.json
 
       - name: Compare canonical digests
         run: |
