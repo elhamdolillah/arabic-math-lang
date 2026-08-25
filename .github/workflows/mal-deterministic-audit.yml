@@ -82,6 +82,7 @@ jobs:
             evidence/MAL_DENY_POLICY_CI.sha256
             evidence/MAL_GRAMMAR_GATE_COMPARATOR.stdout
             evidence/MAL_GRAMMAR_GATE_COMPARATOR_ARTIFACTS.sha256
+            evidence/MAL_GRAMMAR_CORPUS_PARSER.stdout
 
   mal-cross-env-alpine:
     name: Deterministic audit (alpine-3.20-musl)
@@ -155,6 +156,7 @@ jobs:
             evidence/MAL_DENY_POLICY_CI.sha256
             evidence/MAL_GRAMMAR_GATE_COMPARATOR.stdout
             evidence/MAL_GRAMMAR_GATE_COMPARATOR_ARTIFACTS.sha256
+            evidence/MAL_GRAMMAR_CORPUS_PARSER.stdout
 
   mal-ownership-arena-rust:
     name: MAL Ownership Arena (Rust)
