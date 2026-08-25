@@ -1,0 +1,27 @@
+{
+  "arabic_math_lang_vs_all_percent": 0.24762983,
+  "arabic_math_lang_vs_python_percent": 0.9800147,
+  "counts_sloc": {
+    "arabic_math_lang": 560,
+    "assembly": 128325,
+    "json": 11962,
+    "other": 28647,
+    "python": 56582,
+    "wasm": 68
+  },
+  "excluded_dirs": [
+    ".buildozer",
+    ".git",
+    ".venv",
+    "__pycache__",
+    "node_modules",
+    "venv"
+  ],
+  "file_count_counted": 1040,
+  "files_sorted_sha256": "5799fa0884d1bfd82f6cffe42b347736d1a3558e7c53bd04ac44557aacab5761",
+  "python_vs_all_percent": 25.02034102,
+  "root": "/home/ubuntu/uori-mal-pr",
+  "schema": "UORI-MAL-SLOC-RATIO-0.1",
+  "source_date_epoch": "0",
+  "total_sloc": 226144
+}

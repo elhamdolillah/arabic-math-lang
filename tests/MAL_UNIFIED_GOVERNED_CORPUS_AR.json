@@ -1260,6 +1260,61 @@
       "gap": "تثبيت نوع descriptor ونمط الصرامة ومسارات Proxy",
       "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_196_200_REGISTRY_AR.json",
       "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_196_200_CORPUS_AR.json"
+    },
+    {
+      "id": 206,
+      "name": "lazy_initialization",
+      "target": "Scala_lazy_val",
+      "decision": "RESEARCH",
+      "positive": "تهيئة مؤجلة متزامنة وفق إصدار Scala مثبت",
+      "counterexample": "لا يثبت نقاء المهيئ وقد تكون التهيئة العودية غير معرفة أو تؤدي إلى جمود",
+      "gap": "تثبيت الإصدار ومنع recursion وإثبات الآثار الجانبية",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_206_210_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_206_210_CORPUS_AR.json"
+    },
+    {
+      "id": 207,
+      "name": "guarded_coroutining",
+      "target": "Prolog_when_2",
+      "decision": "RESEARCH",
+      "positive": "تأجيل الهدف حتى تحقق شرط مدعوم باستخدام attributed variables",
+      "counterexample": "لا يثبت استقلال النجاح أو عدد الحلول عن ترتيب الأهداف والآثار الجانبية",
+      "gap": "تثبيت dialect والتنفيذ ومواصفة الشرط",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_206_210_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_206_210_CORPUS_AR.json"
+    },
+    {
+      "id": 208,
+      "name": "selective_mailbox_receive",
+      "target": "Erlang_receive",
+      "decision": "RESEARCH",
+      "positive": "انتقاء أول رسالة مطابقة من صندوق البريد وفق النمط والحارس",
+      "counterexample": "لا يثبت ترتيب الوصول أو ثبات حالة الصندوق أو حتمية الجدولة",
+      "gap": "تثبيت مصادر الرسائل وجدولة العملية",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_206_210_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_206_210_CORPUS_AR.json"
+    },
+    {
+      "id": 209,
+      "name": "deterministic_string_inspection",
+      "target": "COBOL_INSPECT",
+      "decision": "RESEARCH",
+      "positive": "عد أو استبدال محارف ضمن مجال بيانات مثبت الترميز",
+      "counterexample": "تتأثر الدلالة بـ USAGE والترميز وDBCS وdialect",
+      "gap": "تثبيت dialect والمترجم وABI والترميز",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_206_210_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_206_210_CORPUS_AR.json"
+    },
+    {
+      "id": 210,
+      "name": "embedded_data_read_cursor",
+      "target": "BASIC_DATA_READ_RESTORE",
+      "decision": "RESEARCH",
+      "positive": "قراءة DATA حرفية وإعادة المؤشر بـ RESTORE ضمن dialect مثبت",
+      "counterexample": "لا توجد دلالة موحدة عابرة لكل dialects في المواضع والوسوم وتجاوز القراءة",
+      "gap": "تثبيت dialect والإصدار والترميز وقواعد المؤشر",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_206_210_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_206_210_CORPUS_AR.json"
     }
   ],
   "missing_ranges": [
@@ -1305,6 +1360,8 @@
     "tests/MAL_ATTACHED_MECHANISMS_181_182_CORPUS_AR.json",
     "protocol/MAL_ATTACHED_MECHANISMS_196_200_REGISTRY_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_196_200_CORPUS_AR.json",
+    "protocol/MAL_ATTACHED_MECHANISMS_206_210_REGISTRY_AR.json",
+    "tests/MAL_ATTACHED_MECHANISMS_206_210_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_31_39_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_40_45_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_46_50_CORPUS_AR.json",
