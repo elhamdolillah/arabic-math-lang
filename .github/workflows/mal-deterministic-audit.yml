@@ -110,6 +110,7 @@ jobs:
             -e SOURCE_DATE_EPOCH=0 \
             -e LC_ALL=C.UTF-8 \
             -e LANG=C.UTF-8 \
+            -e MAL_SKIP_GIT_DIFF=1 \
             -e GITHUB_SHA="${GITHUB_SHA}" \
             -v "${GITHUB_WORKSPACE}:/work" \
             -w /work \
@@ -123,7 +124,7 @@ jobs:
       - name: Verify Alpine manifest and generated audit output
         run: |
           python3 -m json.tool evidence/cross-env/alpine-3.20-musl.json >/dev/null
-          rm -rf extensions/__pycache__ tests/__pycache__
+          rm -rf extensions/__pycache__ tests/__pycache__ research/__pycache__ frontend/__pycache__
           git diff --exit-code -- . ':!evidence/MAL_CI_RUN.stdout' ':!evidence/MAL_CI_RUN.sha256' ':!evidence/cross-env/'
 
       - name: Hash Alpine evidence

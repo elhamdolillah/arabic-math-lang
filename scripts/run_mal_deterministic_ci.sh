@@ -54,4 +54,6 @@ printf 'EXECUTION=NOT_PERFORMED\n'
 printf 'SOURCE_EXECUTED=NO\n'
 printf 'NETWORK=DISABLED_BY_CONTRACT\n'
 rm -rf extensions/__pycache__ tests/__pycache__
-git diff --exit-code -- . ':!evidence/MAL_CI_RUN.stdout' ':!evidence/MAL_CI_RUN.sha256' ':!evidence/MAL_DENY_POLICY_CI.stdout' ':!evidence/MAL_DENY_POLICY_CI.sha256'
+if [ "${MAL_SKIP_GIT_DIFF:-0}" != "1" ]; then
+  git diff --exit-code -- . ':!evidence/MAL_CI_RUN.stdout' ':!evidence/MAL_CI_RUN.sha256' ':!evidence/MAL_DENY_POLICY_CI.stdout' ':!evidence/MAL_DENY_POLICY_CI.sha256'
+fi
