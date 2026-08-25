@@ -2,6 +2,10 @@
 
 use std::fmt;
 
+pub mod ast;
+pub mod lexer;
+pub mod parser;
+
 /// معرّف عقدة مسطّح ثابت، يبدأ من الصفر داخل كل FixedArena.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct NodeID(pub u32);
@@ -34,6 +38,14 @@ impl<T: Copy, const N: usize> FixedArena<T, N> {
         let id = u32::try_from(self.len).map_err(|_| FixedArenaError::CapacityExceeded)?;
         self.storage[self.len] = Some(value);
         self.len += 1;
+        Ok(NodeID(id))
+    }
+
+    pub fn next_node_id(&self) -> Result<NodeID, FixedArenaError> {
+        let id = u32::try_from(self.len).map_err(|_| FixedArenaError::CapacityExceeded)?;
+        if self.len >= N {
+            return Err(FixedArenaError::CapacityExceeded);
+        }
         Ok(NodeID(id))
     }
 

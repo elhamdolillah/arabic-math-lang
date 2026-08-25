@@ -1,0 +1,51 @@
+[1m[32m   Compiling[0m mal_ownership_arena v0.1.0 (/home/ubuntu/uori-mal-pr/rust/mal_ownership_arena)
+[1m[32m    Finished[0m release [optimized] target(s) in 19.93s
+[1m[32m     Running[0m unittests src/lib.rs (target/release/deps/mal_ownership_arena-5c551d0b8ee0e5d1)
+
+running 5 tests
+test tests::borrow_rules_are_fail_closed ... ok
+test tests::deterministic_first_free_slot_and_reuse_generation ... ok
+test tests::capacity_and_type_contracts_are_rejected ... ok
+test tests::scope_and_type_and_arena_mismatch_are_rejected ... ok
+test tests::stale_handle_is_rejected_after_release ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m     Running[0m tests/stage0_fixed_arena.rs (target/release/deps/stage0_fixed_arena-78ceaa817db0ed66)
+
+running 3 tests
+test stage0_invalid_index_is_rejected_without_panic ... ok
+test stage0_values_are_retrievable_by_node_id ... ok
+test stage0_10k_nodes_and_capacity_boundary ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m     Running[0m tests/stage1_lexer.rs (target/release/deps/stage1_lexer-57a092ec0e66de62)
+
+running 5 tests
+test stage1_lexer_allocates_deterministic_tokens ... ok
+test stage1_lexer_fails_closed_on_capacity ... ok
+test stage1_lexer_is_utf8_boundary_safe ... ok
+test stage1_lexer_rejects_numeric_overflow ... ok
+test stage1_lexer_marks_restricted_evaluator ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m     Running[0m tests/stage1_parser.rs (target/release/deps/stage1_parser-8fbdb0f623dcbd3f)
+
+running 4 tests
+test stage1_parser_builds_bounded_ast ... ok
+test stage1_parser_rejects_extra_tokens ... ok
+test stage1_parser_rejects_incomplete_expression ... ok
+test stage1_parser_rejects_restricted_evaluator ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m   Doc-tests[0m mal_ownership_arena
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+STATUS=0
