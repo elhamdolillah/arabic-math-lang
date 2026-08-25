@@ -1,0 +1,16 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.3.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {"id":46,"name":"index_based_arena_allocation","target":"Rust","decision":"RESEARCH","guard":"generation handles, bounds errors, capacity limits, and destructor-aware reset semantics required"},
+    {"id":47,"name":"range_constraints","target":"Ada","decision":"RESEARCH","guard":"fixed integer widths, overflow policy, check point, ABI, and structured failure required"},
+    {"id":48,"name":"checked_unchecked_arithmetic","target":"CSharp","decision":"RESEARCH","guard":"fixed width, signedness, integral-only modulo, conversion rules, and canonical overflow result required"},
+    {"id":49,"name":"protected_objects_priority_ceiling","target":"Ada","decision":"ABSTAIN_UNTIL_EVIDENCE","guard":"scheduler, queue policy, arrival order, task join, and deadlock model require deterministic evidence"},
+    {"id":50,"name":"do_concurrent_iteration_independence","target":"Fortran","decision":"RESEARCH","guard":"independence proof, side-effect boundary, reductions, numeric width, and race rejection required"}
+  ]
+}

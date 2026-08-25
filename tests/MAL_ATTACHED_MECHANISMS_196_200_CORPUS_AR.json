@@ -1,0 +1,77 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_196_200_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_196_200_REGISTRY_AR.json",
+  "cases": [
+    {
+      "id": "196-001",
+      "mechanism": 196,
+      "kind": "positive",
+      "description": "استخدام CYCLE لكشف دورة في استعلام WITH RECURSIVE وإنتاج is_cycle وpath",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "196-002",
+      "mechanism": 196,
+      "kind": "negative",
+      "description": "استنتاج ترتيب صفوف ثابت أو استقلال عن خطة التنفيذ من CYCLE وحده",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "197-001",
+      "mechanism": 197,
+      "kind": "positive",
+      "description": "إنشاء std::array<T,N> بحجم نوعي ثابت واستخدام at للوصول المفحوص",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "197-002",
+      "mechanism": 197,
+      "kind": "negative",
+      "description": "ادعاء أن std::array موجود دائمًا على المكدس أو أن operator[] يفحص الحدود",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "198-001",
+      "mechanism": 198,
+      "kind": "positive",
+      "description": "استخدام std::bitset<N> كسلسلة ثابتة من N بت مع عمليات منطقية محددة",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "198-002",
+      "mechanism": 198,
+      "kind": "negative",
+      "description": "ادعاء أن bitset يحدد ABI أو تنسيقًا ثنائيًا عابرًا للمنصات أو يضمن نجاح كل تحويل عددي",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "199-001",
+      "mechanism": 199,
+      "kind": "positive",
+      "description": "انتظار عدد محدد من الخيوط عند Barrier::wait ثم متابعة الدورة التالية",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "199-002",
+      "mechanism": 199,
+      "kind": "negative",
+      "description": "ادعاء أن Barrier يحدد ترتيب المخرجات أو هوية القائد أو جدولة الخيوط",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "200-001",
+      "mechanism": 200,
+      "kind": "positive",
+      "description": "تعريف خاصية بيانات بواصفات صريحة writable وenumerable وconfigurable",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "200-002",
+      "mechanism": 200,
+      "kind": "negative",
+      "description": "ادعاء أن Object.defineProperty يجمّد الكائن بعمق أو يمنع كل Proxy أو يضمن السلوك دون تثبيت strictness",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_165_169_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_165_169_REGISTRY_AR.json",
+  "cases": [
+    {"id":"165-001","mechanism":165,"kind":"positive","description":"معاملات serializable قابلة لترتيب تسلسلي ما","expected":"RESEARCH_ONLY"},
+    {"id":"165-002","mechanism":165,"kind":"negative","description":"اختلاف ترتيب retry أو الآثار الخارجية","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"166-001","mechanism":166,"kind":"positive","description":"A=-7 وB=3 مع rem=-1 وmod=2 وفق دلالة Ada","expected":"RESEARCH_ONLY"},
+    {"id":"166-002","mechanism":166,"kind":"negative","description":"B=0 أو overflow غير معقود","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"167-001","mechanism":167,"kind":"positive","description":"فحص FE_DIVBYZERO بعد مسح الأعلام مع FENV_ACCESS مثبت","expected":"RESEARCH_ONLY"},
+    {"id":"167-002","mechanism":167,"kind":"negative","description":"منصة أو compiler لا يثبتان fenv وIEEE-754","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"168-001","mechanism":168,"kind":"positive","description":"Object.is(NaN,NaN)=true وObject.is(+0,-0)=false","expected":"RESEARCH_ONLY"},
+    {"id":"168-002","mechanism":168,"kind":"negative","description":"استعمال Object.is لإثبات ترتيب أو هوية بنية كاملة","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"169-001","mechanism":169,"kind":"positive","description":"تطبيع NFC لسلسلتين متكافئتين قانونيًا","expected":"RESEARCH_ONLY"},
+    {"id":"169-002","mechanism":169,"kind":"negative","description":"استعمال NFKC في hash دون تثبيت الشكل وإصدار Unicode","expected":"ABSTAIN_UNTIL_EVIDENCE"}
+  ]
+}

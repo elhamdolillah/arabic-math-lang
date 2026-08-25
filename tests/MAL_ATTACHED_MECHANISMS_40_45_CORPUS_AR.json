@@ -1,0 +1,14 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.1.0",
+  "execution": "STATIC_ONLY",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "cases": [
+    {"id":40,"decision":"RESEARCH","positive":"non-null value is checked statically","counterexample":"!!, Java platform type, or initialization leakage can still fail"},
+    {"id":41,"decision":"RESEARCH","positive":"fixed binary and fixed pattern produce uniquely decoded fields","counterexample":"short or malformed binary must reject structurally; no crash-as-proof"},
+    {"id":42,"decision":"RESEARCH","positive":"strong-reference count can define a reclamation point","counterexample":"weak/unsafe references, autorelease, runtime ABI, and external resources are not covered"},
+    {"id":43,"decision":"RESEARCH","positive":"literal union and template type can restrict a static set","counterexample":"#${string} does not prove hexadecimal syntax for dynamic values"},
+    {"id":44,"decision":"POLICY_RESEARCH","positive":"effect composition may preserve declared action order","counterexample":"filesystem, network, scheduler, and environment observations are not deterministic by type alone"},
+    {"id":45,"decision":"RESEARCH","positive":"constant expression can have a fixed source-level value","counterexample":"identity/canonicalization and backend ABI require a specified runtime and evidence"}
+  ]
+}
