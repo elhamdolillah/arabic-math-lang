@@ -378,15 +378,27 @@ jobs:
           grep -Fx 'STATUS=0' evidence/mal-continuation/result.stdout
           python3 tests/test_attached_mechanisms_46_50.py | tee evidence/mal-continuation/mechanisms-46-50.stdout
           sha256sum evidence/mal-continuation/mechanisms-46-50.stdout > evidence/mal-continuation/mechanisms-46-50.sha256
+          python3 scripts/build_unified_mal_corpus.py | tee evidence/mal-continuation/unified-corpus-build.stdout
+          sha256sum evidence/mal-continuation/unified-corpus-build.stdout > evidence/mal-continuation/unified-corpus-build.sha256
+          python3 tests/test_mal_unified_corpus.py | tee evidence/mal-continuation/unified-corpus-check.stdout
+          sha256sum evidence/mal-continuation/unified-corpus-check.stdout > evidence/mal-continuation/unified-corpus-check.sha256
+          grep -Fx 'UNIFIED_CORPUS_CHECK=PASS' evidence/mal-continuation/unified-corpus-check.stdout
+          grep -Fx 'MISSING_RANGES_EXPLICIT=PASS' evidence/mal-continuation/unified-corpus-check.stdout
+          grep -Fx 'STATUS=0' evidence/mal-continuation/unified-corpus-check.stdout
           grep -Fx 'ATTACHED_MECHANISMS_46_50_CHECK=PASS' evidence/mal-continuation/mechanisms-46-50.stdout
           grep -Fx 'RUNTIME_FEATURES_ADMITTED=0' evidence/mal-continuation/mechanisms-46-50.stdout
           grep -Fx 'COUNTEREXAMPLES_PRESENT=PASS' evidence/mal-continuation/mechanisms-46-50.stdout
           grep -Fx 'STATUS=0' evidence/mal-continuation/mechanisms-46-50.stdout
+          cp tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json evidence/mal-continuation/
+          rm -f tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json
           git diff --exit-code
           cp protocol/MAL_ATTACHED_MECHANISMS_REVIEW_40_45_AR.md evidence/mal-continuation/
           cp protocol/MAL_ATTACHED_MECHANISMS_40_45_REGISTRY_AR.json evidence/mal-continuation/
           cp protocol/MAL_ATTACHED_MECHANISMS_REVIEW_46_50_AR.md evidence/mal-continuation/
           cp protocol/MAL_ATTACHED_MECHANISMS_46_50_REGISTRY_AR.json evidence/mal-continuation/
+          cp protocol/MAL_ATTACHED_MECHANISMS_78_80_REGISTRY_AR.json evidence/mal-continuation/
+          cp tests/MAL_ATTACHED_MECHANISMS_78_80_CORPUS_AR.json evidence/mal-continuation/
+          cp tests/test_mal_unified_corpus.py evidence/mal-continuation/
           cp tests/MAL_ATTACHED_MECHANISMS_40_45_CORPUS_AR.json evidence/mal-continuation/
           cp tests/MAL_ATTACHED_MECHANISMS_46_50_CORPUS_AR.json evidence/mal-continuation/
           cp tests/test_attached_mechanisms_46_50.py evidence/mal-continuation/
