@@ -2,6 +2,56 @@
 
 use std::fmt;
 
+/// معرّف عقدة مسطّح ثابت، يبدأ من الصفر داخل كل FixedArena.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct NodeID(pub u32);
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FixedArenaError {
+    CapacityExceeded,
+    InvalidIndex,
+    TypeMismatch,
+}
+
+/// Arena ثابتة السعة لمسار المرحلة صفر، دون Vec أو تخصيص وقت تشغيل داخلها.
+pub struct FixedArena<T, const N: usize> {
+    storage: [Option<T>; N],
+    len: usize,
+}
+
+impl<T: Copy, const N: usize> FixedArena<T, N> {
+    pub fn new() -> Self {
+        Self {
+            storage: [None; N],
+            len: 0,
+        }
+    }
+
+    pub fn allocate(&mut self, value: T) -> Result<NodeID, FixedArenaError> {
+        if self.len >= N {
+            return Err(FixedArenaError::CapacityExceeded);
+        }
+        let id = u32::try_from(self.len).map_err(|_| FixedArenaError::CapacityExceeded)?;
+        self.storage[self.len] = Some(value);
+        self.len += 1;
+        Ok(NodeID(id))
+    }
+
+    pub fn get(&self, id: NodeID) -> Result<&T, FixedArenaError> {
+        let idx = usize::try_from(id.0).map_err(|_| FixedArenaError::InvalidIndex)?;
+        if idx >= self.len {
+            return Err(FixedArenaError::InvalidIndex);
+        }
+        self.storage[idx].as_ref().ok_or(FixedArenaError::InvalidIndex)
+    }
+}
+
+impl<T: Copy, const N: usize> Default for FixedArena<T, N> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ArenaError {
     InvalidArenaOrScope,
