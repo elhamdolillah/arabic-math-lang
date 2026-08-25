@@ -54,6 +54,10 @@ impl DeterministicEvaluator {
                 Ok(left / right)
             }
             AstOpcode::PassThrough => Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols),
+            AstOpcode::Sequence => {
+                Self::visit(ast, node.left.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
+                Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols)
+            }
         }
     }
 
