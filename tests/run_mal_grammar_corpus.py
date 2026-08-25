@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-FRONTEND = Path("/home/ubuntu/uori-mediator-kit/.wheel_inspect/tools/uori_frontend.py")
+FRONTEND = ROOT / "frontend/uori_frontend.py"
 CORPUS = ROOT / "corpus/MAL_GRAMMAR_FREEZE_CORPUS_v0.1.json"
 OUT = ROOT / "evidence/MAL_GRAMMAR_CORPUS_PARSER.stdout"
 
@@ -57,7 +57,7 @@ def main() -> int:
     payload = {
         "harness": "MAL_GRAMMAR_CORPUS_PARSER",
         "version": "0.1.0",
-        "parser": str(FRONTEND),
+        "parser": "frontend/uori_frontend.py",
         "source_ref_executed": False,
         "network": "DISABLED_BY_CONTRACT",
         "cases": records,
@@ -71,7 +71,7 @@ def main() -> int:
     print(f"PARSER_ERROR={parser_fail}")
     print("SOURCE_REF_EXECUTED=NO")
     print("NETWORK=DISABLED_BY_CONTRACT")
-    print(f"AST_DIAGNOSTICS={OUT}")
+    print("AST_DIAGNOSTICS=evidence/MAL_GRAMMAR_CORPUS_PARSER.stdout")
     return 0
 
 
