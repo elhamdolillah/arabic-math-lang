@@ -1,0 +1,22 @@
+{
+  "schema": "MAL_COMPILE_TIME_REGISTRY_AR",
+  "version": "0.1.0",
+  "contract": "protocol/MAL_COMPILE_TIME_CONTRACT_v0.1_AR.md",
+  "workflow": "protocol/UORI_CFG_AST_FILTER_WORKFLOW_v0.1_AR.md",
+  "classification": "RESEARCH",
+  "runtime_feature_admitted": false,
+  "raw_pointers": "DENY",
+  "entries": [
+    {
+      "id": 164,
+      "name": "compile_time_conditional_ast_filter",
+      "target": "Rust_cfg_like",
+      "decision": "RESEARCH",
+      "positive": "التطبيع الحتمي وبصمات Hc وHs وHr وHf وHa وجسر sidecar منفذ ومختبر",
+      "counterexample": "لا يوجد parser/evaluator أصيل في MAL بعد، ولا يجوز اعتبار الجسر المؤقت تنفيذًا للنواة",
+      "gap": "إدخال parser وevaluator وفلترة AST داخل MAL مع تنفيذ مزدوج مستقل قبل الترفيع",
+      "bridge": "scripts/uori_compile_time_sidecar.py",
+      "source_contract": "protocol/MAL_COMPILE_TIME_CONTRACT_v0.1_AR.md"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_165_169_REGISTRY_AR",
+  "version": "0.1.0",
+  "classification": "RESEARCH",
+  "evidence": "protocol/EVIDENCE_165_169_AR.md",
+  "entries": [
+    {
+      "id": 165,
+      "name": "serializable_transaction_isolation",
+      "target": "SQL_SERIALIZABLE",
+      "decision": "RESEARCH",
+      "positive": "يمنح قابلية تفسير التنفيذ المتزامن بوصفه ترتيبًا تسلسليًا ما",
+      "counterexample": "لا يحدد وحده ترتيبًا وحيدًا ولا يحسم retry أو commit order أو الآثار الخارجية",
+      "gap": "عقد ترتيب معاملات وإعادة محاولة وآثار خارجية وحتمية موزعة"
+    },
+    {
+      "id": 166,
+      "name": "signed_remainder_and_modulus",
+      "target": "Ada_rem_mod",
+      "decision": "RESEARCH",
+      "positive": "دلالتا rem وmod محددتان للإشارات والعلاقة الجبرية",
+      "counterexample": "القسمة على الصفر وoverflow ونطاق النوع ما زالت تحتاج عقد MAL",
+      "gap": "أنواع صحيحة محددة العرض، overflow، وقاعدة قسمة صفرية"
+    },
+    {
+      "id": 167,
+      "name": "floating_exception_status_observation",
+      "target": "C_fetestexcept",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "positive": "يمكن فحص أعلام الاستثناءات المدعومة صراحة",
+      "counterexample": "الدعم وFENV_ACCESS وسلوك compiler والمنصة قد يختلف؛ لا يثبت حتمية عابرة للمنصات",
+      "gap": "عقد IEEE-754 وrounding وcompiler flags وABI ومصفوفة منصات"
+    },
+    {
+      "id": 168,
+      "name": "same_value_exact_comparison",
+      "target": "ECMAScript_Object_is",
+      "decision": "RESEARCH",
+      "positive": "SameValue يميز +0 عن -0 ويعد NaN مساويًا لـ NaN",
+      "counterexample": "هوية الكائنات ودلالات ECMAScript لا تثبت حتمية كل بنية أو ترتيب تنفيذ",
+      "gap": "نموذج قيمة وهوية وABI مستقل في MAL"
+    },
+    {
+      "id": 169,
+      "name": "unicode_normalization",
+      "target": "ECMAScript_String_normalize",
+      "decision": "RESEARCH",
+      "positive": "يوفر أشكال Unicode معيارية قابلة للاختيار",
+      "counterexample": "اختيار NFKC/NFKD قد يغير التمثيل، وإصدار جداول Unicode يؤثر في الحتمية",
+      "gap": "تثبيت الشكل وإصدار Unicode وسياسة استخدام الناتج في hash وABI"
+    }
+  ]
+}

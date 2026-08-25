@@ -268,7 +268,7 @@ jobs:
           set -eux
           python3 scripts/mal_dir_validator_differential.py | tee evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout
           sha256sum evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.json > evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.sha256
-          grep -Fx 'MAL_DIR_DIFFERENTIAL=PASS' evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout
+          grep -Fx 'MAL_DIR_DIFFERENTIAL_V02=PASS' evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout
           grep -Fx 'FAILURES=0' evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout
           grep -Fx 'AUTO_PROMOTION=DENY' evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.stdout
 
@@ -322,7 +322,12 @@ jobs:
             evidence/MAL_DIR_VALIDATOR_DIFFERENTIAL.sha256
             scripts/mal_dir_validator_differential.py
             protocol/MAL_FLAT_INDEX_ARENA_CONTRACT_v0.1_AR.md
+            protocol/MAL_DIR_SPEC_v0.2_ARENA_CONTRACT_AR.md
+            protocol/MAL_RESEARCH_CONTRACT_137_142_AR.md
+            protocol/MAL_ATTACHED_MECHANISMS_137_142_REGISTRY_AR.json
             extensions/mal_dir_validator.ar
+            tests/MAL_ATTACHED_MECHANISMS_137_142_CORPUS_AR.json
+            tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json
 
   # Resource policy: extra reporting runs only once daily or by explicit manual dispatch.
   mal-arabic-coverage-audit:
