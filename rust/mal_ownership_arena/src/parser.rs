@@ -121,6 +121,10 @@ impl<'a> DeterministicParser<'a> {
                 if closing.kind != TokenKind::RParen { return Err(ParseError::SyntaxError); }
                 Ok(value)
             }
+            TokenKind::Symbol => {
+                let id = ast.next_node_id()?;
+                ast.allocate(AstNode { id, opcode: AstOpcode::BindSymbol, name: Some(token.slice), left: None, right: None, numeric_value: 0 }).map_err(ParseError::from)
+            }
             TokenKind::RestrictedEvaluator => Err(ParseError::ConstitutionalViolation),
             _ => Err(ParseError::SyntaxError),
         }

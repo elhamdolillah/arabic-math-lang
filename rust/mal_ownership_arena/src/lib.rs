@@ -5,6 +5,8 @@ use std::fmt;
 pub mod ast;
 pub mod lexer;
 pub mod parser;
+pub mod symbols;
+pub mod evaluator;
 
 /// معرّف عقدة مسطّح ثابت، يبدأ من الصفر داخل كل FixedArena.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
