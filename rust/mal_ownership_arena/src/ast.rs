@@ -5,6 +5,10 @@ pub enum AstOpcode {
     BindSymbol,
     DeclareNode,
     LiteralNum,
+    Add,
+    Subtract,
+    Multiply,
+    Divide,
     PassThrough,
 }
 

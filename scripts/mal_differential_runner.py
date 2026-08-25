@@ -14,6 +14,7 @@ RUNNER = ROOT / "rust" / "mal_ownership_arena" / "target" / "release" / "mal_run
 CORPUS_DIRS = (
     ROOT / "corpus" / "stage0_18_files",
     ROOT / "corpus" / "stage1_9_files",
+    ROOT / "corpus" / "stage2_12_files",
 )
 OUT = ROOT / "evidence" / "MAL_DIFFERENTIAL_EXECUTION_2026-08-25.json"
 

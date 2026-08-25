@@ -64,6 +64,10 @@ fn main() -> ExitCode {
         AstOpcode::DeclareNode => "DECLARE_NODE",
         AstOpcode::BindSymbol => "BIND_SYMBOL",
         AstOpcode::LiteralNum => "LITERAL_NUM",
+        AstOpcode::Add => "ADD",
+        AstOpcode::Subtract => "SUBTRACT",
+        AstOpcode::Multiply => "MULTIPLY",
+        AstOpcode::Divide => "DIVIDE",
         AstOpcode::PassThrough => "PASS_THROUGH",
     };
     let literal = match node.right {
