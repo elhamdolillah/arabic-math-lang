@@ -204,6 +204,20 @@ jobs:
           grep -Fx 'FLOAT_WITHOUT_CONTRACT=ABSTAIN' evidence/MAL_EXTENSIONS_V0_2.stdout
           grep -Fx 'STATUS=0' evidence/MAL_EXTENSIONS_V0_2.stdout
 
+      - name: Verify GADT/rank research checker
+        run: |
+          set -eux
+          python3 research/test_gadt_rank_checker.py | tee evidence/GADT_RANK_CHECKER.stdout
+          sha256sum evidence/GADT_RANK_CHECKER.stdout > evidence/GADT_RANK_CHECKER.sha256
+          grep -Fx 'GADT_RANK_CHECKER=PASS' evidence/GADT_RANK_CHECKER.stdout
+          grep -Fx 'GADT_BOUNDED_EXHAUSTIVE=RESEARCH' evidence/GADT_RANK_CHECKER.stdout
+          grep -Fx 'RANK2_EXPLICIT_FORALL=RESEARCH' evidence/GADT_RANK_CHECKER.stdout
+          grep -Fx 'REFLECTION=DENY' evidence/GADT_RANK_CHECKER.stdout
+          grep -Fx 'IMPREDICATIVE=DENY' evidence/GADT_RANK_CHECKER.stdout
+          grep -Fx 'AMBIGUITY=ABSTAIN' evidence/GADT_RANK_CHECKER.stdout
+          grep -Fx 'SOURCE_EXECUTION=NOT_PERFORMED' evidence/GADT_RANK_CHECKER.stdout
+          grep -Fx 'STATUS=0' evidence/GADT_RANK_CHECKER.stdout
+
       - name: Upload Rust Arena evidence
         uses: actions/upload-artifact@v4
         with:
@@ -227,6 +241,14 @@ jobs:
             tests/test_mal_extensions_v0_2.py
             evidence/MAL_EXTENSIONS_V0_2.stdout
             evidence/MAL_EXTENSIONS_V0_2.sha256
+            evidence/GADT_RANK_CHECKER.stdout
+            evidence/GADT_RANK_CHECKER.sha256
+            research/gadt_rank_checker.py
+            research/test_gadt_rank_checker.py
+            protocol/MAL_GADT_RANK_RESEARCH_AR.md
+            protocol/MAL_GADT_RANK_RESEARCH_REGISTRY_AR.json
+            tests/MAL_GADT_RANK_RESEARCH_CORPUS_AR.json
+            tests/test_gadt_rank_research.py
 
   mal-cross-env-compare:
     name: Compare cross-environment SHA-256 manifests
