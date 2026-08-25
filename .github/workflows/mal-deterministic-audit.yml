@@ -187,12 +187,22 @@ jobs:
           python3 tests/test_language_lineage_registry.py | tee evidence/MAL_LANGUAGE_LINEAGE_REGISTRY.stdout
           sha256sum evidence/MAL_LANGUAGE_LINEAGE_REGISTRY.stdout > evidence/MAL_LANGUAGE_LINEAGE_REGISTRY.sha256
 
+      - name: Verify MAL v0.2 extension registry
+        run: |
+          set -eux
+          python3 tests/test_mal_extensions_v0_2.py | tee evidence/MAL_EXTENSIONS_V0_2.stdout
+          sha256sum evidence/MAL_EXTENSIONS_V0_2.stdout > evidence/MAL_EXTENSIONS_V0_2.sha256
+
       - name: Verify Rust Arena evidence
         run: |
           grep -Fx 'MAL_OWNERSHIP_ARENA_RUST=PASS' evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
           grep -Fx 'RAW_POINTERS=FORBIDDEN' evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
           grep -Fx 'UNSAFE_CODE=FORBIDDEN' evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
           grep -Fx 'STATUS=0' evidence/MAL_OWNERSHIP_ARENA_RUST.stdout
+          grep -Fx 'MAL_EXTENSIONS_V0_2_REGISTRY=PASS' evidence/MAL_EXTENSIONS_V0_2.stdout
+          grep -Fx 'RAW_POINTER_POLICY=DENY' evidence/MAL_EXTENSIONS_V0_2.stdout
+          grep -Fx 'FLOAT_WITHOUT_CONTRACT=ABSTAIN' evidence/MAL_EXTENSIONS_V0_2.stdout
+          grep -Fx 'STATUS=0' evidence/MAL_EXTENSIONS_V0_2.stdout
 
       - name: Upload Rust Arena evidence
         uses: actions/upload-artifact@v4
@@ -211,6 +221,12 @@ jobs:
             protocol/MAL_LANGUAGE_LINEAGE_INTEGRATION_AR.md
             protocol/MAL_LANGUAGE_LINEAGE_REGISTRY_AR.json
             tests/test_language_lineage_registry.py
+            protocol/MAL_EXTENSIONS_V0_2_AR.md
+            protocol/MAL_EXTENSIONS_V0_2_REGISTRY_AR.json
+            tests/MAL_EXTENSIONS_V0_2_CORPUS_AR.json
+            tests/test_mal_extensions_v0_2.py
+            evidence/MAL_EXTENSIONS_V0_2.stdout
+            evidence/MAL_EXTENSIONS_V0_2.sha256
 
   mal-cross-env-compare:
     name: Compare cross-environment SHA-256 manifests
