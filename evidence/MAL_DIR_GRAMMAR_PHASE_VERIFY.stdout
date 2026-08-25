@@ -1,0 +1,19 @@
+BRANCH=implementation/reproducible-build-2026-08-25
+HEAD=e83767d4b727e272163b92fd3663dc1061058579
+BASELINE=f56b8bd
+BASELINE_MODIFIED=NO
+evidence/MAL_DIR_CORPUS_RUN1.stdout: OK
+evidence/MAL_DIR_CORPUS_RUN2.stdout: OK
+evidence/MAL_DIR_CORPUS_RUN1.json: OK
+evidence/MAL_DIR_CORPUS_RUN2.json: OK
+evidence/tests/MAL_GRAMMAR_CORPUS_RUN1.stdout: OK
+evidence/tests/MAL_GRAMMAR_CORPUS_RUN2.stdout: OK
+evidence/tests/MAL_GRAMMAR_CORPUS_RUN3.stdout: OK
+evidence/tests/MAL_GRAMMAR_CORPUS_RUN1.ast_diagnostics.json: OK
+evidence/tests/MAL_GRAMMAR_CORPUS_RUN2.ast_diagnostics.json: OK
+evidence/tests/MAL_GRAMMAR_CORPUS_RUN3.ast_diagnostics.json: OK
+FILES_DIFFERENT_FROM_BASELINE=0
+[31m??[m evidence/MAL_DIR_GRAMMAR_PHASE_VERIFY.stdout
+SOURCE_REF_EXECUTED=NO
+NETWORK=DISABLED_BY_CONTRACT
+CHAIN_STATUS=0

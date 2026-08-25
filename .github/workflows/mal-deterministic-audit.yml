@@ -1,0 +1,223 @@
+name: MAL deterministic cross-environment audit
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 2 * * *"
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  mal-cross-env-build:
+    name: Deterministic audit (${{ matrix.label }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: ubuntu-22.04
+            runner: ubuntu-22.04
+          - label: ubuntu-24.04
+            runner: ubuntu-24.04
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    env:
+      PYTHONHASHSEED: "0"
+      SOURCE_DATE_EPOCH: "0"
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify interpreter
+        run: python3 --version
+
+      - name: Generate cross-environment manifest
+        run: |
+          mkdir -p evidence/cross-env
+          python3 scripts/run_mal_cross_env_manifest.py \
+            --label "${{ matrix.label }}" \
+            --output "evidence/cross-env/${{ matrix.label }}.json" \
+            | tee "evidence/cross-env/${{ matrix.label }}.stdout"
+
+      - name: Verify local manifest and generated audit output
+        run: |
+          python3 -m json.tool "evidence/cross-env/${{ matrix.label }}.json" >/dev/null
+          rm -rf extensions/__pycache__ tests/__pycache__
+          git diff --exit-code -- . ':!evidence/MAL_CI_RUN.stdout' ':!evidence/MAL_CI_RUN.sha256' ':!evidence/cross-env/'
+
+      - name: Hash manifest evidence
+        run: |
+          sha256sum "evidence/cross-env/${{ matrix.label }}.json" \
+            "evidence/cross-env/${{ matrix.label }}.stdout" \
+            > "evidence/cross-env/${{ matrix.label }}.sha256"
+
+      - name: Upload environment evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mal-cross-env-${{ matrix.label }}-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            evidence/cross-env/${{ matrix.label }}.json
+            evidence/cross-env/${{ matrix.label }}.stdout
+            evidence/cross-env/${{ matrix.label }}.sha256
+            evidence/MAL_CI_RUN.stdout
+            evidence/MAL_DIR_VALIDATOR_AUDIT_REPORT_AR.md
+            evidence/MAL_DIR_VALIDATOR.stdout
+            evidence/MAL_DIR_NODE_ANALYSIS.stdout
+            evidence/MAL_POLICY_GATE_COMPARATOR_RUN1.stdout
+            evidence/MAL_POLICY_GATE_COMPARATOR_REPRO.sha256
+            protocol/MAL_DENY_POLICY_v0.1_AR.md
+            evidence/MAL_DENY_POLICY_CI.stdout
+            evidence/MAL_DENY_POLICY_CI.sha256
+            evidence/MAL_GRAMMAR_GATE_COMPARATOR.stdout
+            evidence/MAL_GRAMMAR_GATE_COMPARATOR_ARTIFACTS.sha256
+
+  mal-cross-env-alpine:
+    name: Deterministic audit (alpine-3.20-musl)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONHASHSEED: "0"
+      SOURCE_DATE_EPOCH: "0"
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run deterministic audit inside Alpine musl
+        run: |
+          mkdir -p evidence/cross-env
+          docker run --rm \
+            --network none \
+            -e PYTHONHASHSEED=0 \
+            -e SOURCE_DATE_EPOCH=0 \
+            -e LC_ALL=C.UTF-8 \
+            -e LANG=C.UTF-8 \
+            -e GITHUB_SHA="${GITHUB_SHA}" \
+            -v "${GITHUB_WORKSPACE}:/work" \
+            -w /work \
+            python:3.12-alpine3.20 \
+            sh -euxc 'apk add --no-cache bash coreutils git >/dev/null && \
+              python3 --version && \
+              python3 scripts/run_mal_cross_env_manifest.py \
+                --label alpine-3.20-musl \
+                --output evidence/cross-env/alpine-3.20-musl.json \
+                | tee evidence/cross-env/alpine-3.20-musl.stdout'
+
+      - name: Verify Alpine manifest and generated audit output
+        run: |
+          python3 -m json.tool evidence/cross-env/alpine-3.20-musl.json >/dev/null
+          rm -rf extensions/__pycache__ tests/__pycache__
+          git diff --exit-code -- . ':!evidence/MAL_CI_RUN.stdout' ':!evidence/MAL_CI_RUN.sha256' ':!evidence/cross-env/'
+
+      - name: Hash Alpine evidence
+        run: |
+          sha256sum evidence/cross-env/alpine-3.20-musl.json \
+            evidence/cross-env/alpine-3.20-musl.stdout \
+            > evidence/cross-env/alpine-3.20-musl.sha256
+
+      - name: Upload Alpine evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mal-cross-env-alpine-3.20-musl-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            evidence/cross-env/alpine-3.20-musl.json
+            evidence/cross-env/alpine-3.20-musl.stdout
+            evidence/cross-env/alpine-3.20-musl.sha256
+            evidence/MAL_CI_RUN.stdout
+            evidence/MAL_DIR_VALIDATOR_AUDIT_REPORT_AR.md
+            evidence/MAL_DIR_VALIDATOR.stdout
+            evidence/MAL_DIR_NODE_ANALYSIS.stdout
+            evidence/MAL_POLICY_GATE_COMPARATOR_RUN1.stdout
+            evidence/MAL_POLICY_GATE_COMPARATOR_REPRO.sha256
+            protocol/MAL_DENY_POLICY_v0.1_AR.md
+            evidence/MAL_DENY_POLICY_CI.stdout
+            evidence/MAL_DENY_POLICY_CI.sha256
+            evidence/MAL_GRAMMAR_GATE_COMPARATOR.stdout
+            evidence/MAL_GRAMMAR_GATE_COMPARATOR_ARTIFACTS.sha256
+
+  mal-cross-env-compare:
+    name: Compare cross-environment SHA-256 manifests
+    needs: [mal-cross-env-build, mal-cross-env-alpine]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONHASHSEED: "0"
+      SOURCE_DATE_EPOCH: "0"
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Download matrix manifests
+        uses: actions/download-artifact@v4
+        with:
+          pattern: mal-cross-env-*-${{ github.sha }}
+          path: evidence/cross-env
+          merge-multiple: true
+
+      - name: Compare canonical digests
+        run: |
+          python3 scripts/compare_mal_cross_env_manifests.py \
+            --input-dir evidence/cross-env \
+            --output evidence/cross-env/comparison.json \
+            | tee evidence/cross-env/comparison.stdout
+
+      - name: Hash comparison evidence
+        run: |
+          sha256sum evidence/cross-env/comparison.json \
+            evidence/cross-env/comparison.stdout \
+            > evidence/cross-env/comparison.sha256
+
+      - name: Upload comparison evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mal-cross-env-comparison-${{ github.sha }}
+          if-no-files-found: error
+          path: evidence/cross-env/
+
+      - name: Enforce comparison success
+        run: grep -Fx 'CROSS_ENV_COMPARE=PASS' evidence/cross-env/comparison.stdout
+
+      - name: Render Pull Request report
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          python3 scripts/render_mal_pr_report.py \
+            --comparison evidence/cross-env/comparison.json \
+            --output evidence/cross-env/pr-report.md
+
+      - name: Publish or update Pull Request comment
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: bash scripts/publish_mal_pr_report.sh evidence/cross-env/pr-report.md
+
+      - name: Upload Pull Request report
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/upload-artifact@v4
+        with:
+          name: mal-pr-report-${{ github.sha }}
+          if-no-files-found: error
+          path: evidence/cross-env/pr-report.md

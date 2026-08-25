@@ -1,0 +1,19 @@
+{
+  "version": "research-fixture-v1",
+  "bootstrap": {
+    "stage1": "compiler-stage-1-fixture\n",
+    "stage2": "compiler-stage-2-fixture\n",
+    "stage3": "compiler-stage-2-fixture\n"
+  },
+  "binary_diffing": {
+    "equal_a": "deterministic-binary-fixture-v1\n",
+    "equal_b": "deterministic-binary-fixture-v1\n",
+    "different_b": "deterministic-binary-fixture-v2\n"
+  },
+  "fuzzing": [
+    {"seed": 0, "input": "٧×٦"},
+    {"seed": 1, "input": "٨+٣"},
+    {"seed": 2, "input": "[١,٢,٣]"},
+    {"seed": 3, "input": "دالة"}
+  ]
+}

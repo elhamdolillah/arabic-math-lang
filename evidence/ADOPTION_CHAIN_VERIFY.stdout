@@ -1,0 +1,6 @@
+evidence/REPRODUCIBILITY.stdout: OK
+protocol/UORI_FOUR_RULES_ADOPTION_CONTRACT_AR.md: OK
+corpus/four_rules_corpus.json: OK
+extensions/uori_validated_math.py: OK
+tests_four_rules.py: OK
+STATUS=0
