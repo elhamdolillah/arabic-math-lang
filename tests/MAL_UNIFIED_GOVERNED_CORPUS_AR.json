@@ -261,6 +261,61 @@
       "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_78_80_CORPUS_AR.json"
     },
     {
+      "id": 81,
+      "name": "bash_set_e_error_propagation",
+      "target": "Bash",
+      "decision": "RESEARCH",
+      "positive": "يمكن اعتماد سياسة فشل سريع داخل عقد تنفيذ محدود",
+      "counterexample": "الاستثناءات السياقية وآثار الأوامر السابقة لا تضمن التراجع التلقائي",
+      "gap": "استثناءات set -e وسلامة القوائم والأنابيب والاستدعاءات الفرعية غير محددة",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_81_85_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json"
+    },
+    {
+      "id": 82,
+      "name": "typescript_as_const_literal_readonly",
+      "target": "TypeScript",
+      "decision": "RESEARCH",
+      "positive": "يمكن تضييق القيم الحرفية وإسناد صفة القراءة في مرحلة الترجمة",
+      "counterexample": "التضييق الساكن لا يثبت عدم القابلية للتغيير وقت التشغيل ولا يحمي المراجع الخارجية",
+      "gap": "الفرق بين ضمان النوع الساكن وعدم التغيير العميق وقت التشغيل غير معرّف",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_81_85_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json"
+    },
+    {
+      "id": 83,
+      "name": "rust_repr_align",
+      "target": "Rust",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "positive": "يمكن تحديد حد أدنى لمحاذاة النوع ضمن هدف وABI مثبتين",
+      "counterexample": "اختبار العنوان بالمؤشرات الخام لا يثبت حتمية المخصص أو التخطيط المطلق وممنوع دستورياً",
+      "gap": "عقد تخطيط الهدف والمخصص والمحاذاة العابرة للبيئات غير موجود",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_81_85_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json"
+    },
+    {
+      "id": 84,
+      "name": "c_restrict_aliasing_contract",
+      "target": "C",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "positive": "يمكن استخدام قيد عدم الت alias في نموذج بحثي إذا أثبتته الواجهة",
+      "counterexample": "خرق الوعد قد يؤدي إلى سلوك غير معرّف، والنموذج القائم على المؤشرات يخالف سياسة المنع",
+      "gap": "التحقق الآمن من عدم الت alias والبديل الحتمي غير موجودين",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_81_85_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json"
+    },
+    {
+      "id": 85,
+      "name": "sql_unique_constraint",
+      "target": "SQL",
+      "decision": "RESEARCH",
+      "positive": "يمكن فرض ثابت فرادة عند حد قاعدة بيانات ذي مخطط محدد",
+      "counterexample": "دلالات NULL والترتيب والتعارض والعزل قد تختلف بين المحركات ولا تثبت ترتيب النتائج",
+      "gap": "إصدار المحرك والترميز والعزل وسلوك التعارض وترتيب الاستعلام غير محددة",
+      "source_registry": "protocol/MAL_ATTACHED_MECHANISMS_81_85_REGISTRY_AR.json",
+      "source_corpus": "tests/MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json"
+    },
+    {
       "id": "array_shape_equal",
       "name": "array_shape_equal",
       "target": "internal",
@@ -531,10 +586,12 @@
     "protocol/MAL_ATTACHED_MECHANISMS_40_45_REGISTRY_AR.json",
     "protocol/MAL_ATTACHED_MECHANISMS_46_50_REGISTRY_AR.json",
     "protocol/MAL_ATTACHED_MECHANISMS_78_80_REGISTRY_AR.json",
+    "protocol/MAL_ATTACHED_MECHANISMS_81_85_REGISTRY_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_31_39_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_40_45_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_46_50_CORPUS_AR.json",
     "tests/MAL_ATTACHED_MECHANISMS_78_80_CORPUS_AR.json",
+    "tests/MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json",
     "tests/MAL_DUAL_EXECUTION_CORPUS_AR.json",
     "tests/MAL_EXTENSIONS_V0_2_CORPUS_AR.json",
     "tests/MAL_GADT_RANK_RESEARCH_CORPUS_AR.json"
