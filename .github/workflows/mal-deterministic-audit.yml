@@ -274,6 +274,43 @@ jobs:
             evidence/MAL_ATTACHED_MECHANISMS_31_39.stdout
             evidence/MAL_ATTACHED_MECHANISMS_31_39.sha256
 
+  mal-arabic-coverage-audit:
+    name: MAL Arabic coverage audit
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      PYTHONHASHSEED: "0"
+      SOURCE_DATE_EPOCH: "0"
+      LC_ALL: C.UTF-8
+      LANG: C.UTF-8
+    steps:
+      - name: Checkout exact source commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Run deterministic coverage audit
+        run: |
+          set -eux
+          mkdir -p evidence/mal-arabic-coverage
+          python3 tests/test_mal_arabic_coverage_audit.py | tee evidence/mal-arabic-coverage/test.stdout
+          python3 scripts/mal_arabic_coverage_audit.py --output evidence/mal-arabic-coverage/report.json | tee evidence/mal-arabic-coverage/audit.stdout
+          sha256sum evidence/mal-arabic-coverage/report.json evidence/mal-arabic-coverage/audit.stdout evidence/mal-arabic-coverage/test.stdout > evidence/mal-arabic-coverage/SHA256SUMS
+          grep -Fx 'MAL_ARABIC_COVERAGE_TEST=PASS' evidence/mal-arabic-coverage/test.stdout
+          grep -Fx 'BASELINE_MODIFIED=NO' evidence/mal-arabic-coverage/audit.stdout
+          grep -Fx 'AUTO_MERGE=DENY' evidence/mal-arabic-coverage/audit.stdout
+          grep -Fx 'STATUS=0' evidence/mal-arabic-coverage/audit.stdout
+          git diff --exit-code -- . ':!evidence/mal-arabic-coverage/'
+      - name: Upload Arabic coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mal-arabic-coverage-${{ github.event.pull_request.head.sha || github.sha }}
+          if-no-files-found: error
+          path: evidence/mal-arabic-coverage/
+
   mal-cross-env-compare:
     name: Compare cross-environment SHA-256 manifests
     needs: [mal-cross-env-build, mal-cross-env-alpine, mal-ownership-arena-rust]
