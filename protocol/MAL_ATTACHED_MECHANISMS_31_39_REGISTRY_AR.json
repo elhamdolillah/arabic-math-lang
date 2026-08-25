@@ -1,0 +1,20 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.1.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {"id":31,"name":"arbitrary_precision_integer","target":"Python","decision":"RESEARCH","guard":"big-integer representation, fuel, memory bound, canonical serialization required"},
+    {"id":32,"name":"deterministic_hash_map_user_hasher","target":"Rust","decision":"ABSTAIN_UNTIL_EVIDENCE","guard":"fixed hasher does not establish iteration order; require sorted map or canonical key order"},
+    {"id":33,"name":"sequential_consistency_atomics","target":"C++","decision":"RESEARCH","guard":"seq_cst constrains memory order but does not fix scheduler/interleaving"},
+    {"id":34,"name":"fixed_precision_decimal","target":"C#","decision":"RESEARCH","guard":"precision, scale, rounding, overflow, and culture-independent serialization required"},
+    {"id":35,"name":"cooperative_coroutine","target":"Lua","decision":"RESEARCH","guard":"resume sequence must be explicit input; real-time scheduling excluded"},
+    {"id":36,"name":"proper_tail_call","target":"Scheme","decision":"RESEARCH","guard":"tail position and finite resource limits must be explicit"},
+    {"id":37,"name":"stable_c_abi_layout","target":"Rust","decision":"RESEARCH","guard":"target ABI, width, endian, padding, and unsafe boundary must be specified"},
+    {"id":38,"name":"abstract_data_type_hidden_invariant","target":"Haskell","decision":"RESEARCH","guard":"module/type checker must prevent constructor escape"},
+    {"id":39,"name":"software_transactional_memory","target":"Clojure","decision":"ABSTAIN_UNTIL_EVIDENCE","guard":"serializability does not fix commit order; sleep and scheduler are non-deterministic"}
+  ]
+}
