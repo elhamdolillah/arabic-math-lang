@@ -16,6 +16,9 @@ pub enum AstOpcode {
     NotEqual,
     GreaterThan,
     LessThan,
+    WhileLoop,
+    FunctionDecl,
+    FunctionCall,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

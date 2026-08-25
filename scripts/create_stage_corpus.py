@@ -6,6 +6,7 @@ STAGE1 = ROOT / "corpus" / "stage1_9_files"
 STAGE2 = ROOT / "corpus" / "stage2_12_files"
 STAGE3 = ROOT / "corpus" / "stage3_15_files"
 STAGE4 = ROOT / "corpus" / "stage4_16_files"
+STAGE5 = ROOT / "corpus" / "stage5_15_files"
 
 
 def write(directory: Path, name: str, source: str) -> None:
@@ -88,6 +89,26 @@ def main() -> None:
     )
     for name, source in stage4:
         write(STAGE4, name, source)
+
+    stage5 = (
+        ("01_loop_false.ar", "طالما 0 == 1 كرر\nبنية_نتيجة = 1\nنهاية"),
+        ("02_loop_false_less.ar", "طالما 5 < 2 كرر\nبنية_نتيجة = 9\nنهاية"),
+        ("03_func_basic.ar", "دالة بنية_ضعف(بنية_س) فإن\nبنية_نتيجة = بنية_س + بنية_س\nنهاية\nبنية_قيمة = بنية_ضعف(5)"),
+        ("04_func_constant.ar", "دالة بنية_ثابت(بنية_س) فإن\nبنية_نتيجة = 7\nنهاية\nبنية_قيمة = بنية_ثابت(2)"),
+        ("05_func_expression.ar", "دالة بنية_زيادة(بنية_س) فإن\nبنية_نتيجة = بنية_س + 1\nنهاية\nبنية_قيمة = بنية_زيادة(8)"),
+        ("06_func_zero.ar", "دالة بنية_صفر(بنية_س) فإن\nبنية_نتيجة = بنية_س * 0\nنهاية\nبنية_قيمة = بنية_صفر(8)"),
+        ("07_func_shadow_scope.ar", "بنية_س = 10\nدالة بنية_محلية(بنية_س) فإن\nبنية_نتيجة = بنية_س + 1\nنهاية\nبنية_قيمة = بنية_محلية(4)"),
+        ("08_func_chained.ar", "دالة بنية_زيادة(بنية_س) فإن\nبنية_نتيجة = بنية_س + 1\nنهاية\nبنية_أ = بنية_زيادة(2)\nبنية_ب = بنية_زيادة(بنية_أ)"),
+        ("09_fuel_exhausted.ar", "طالما 1 == 1 كرر\nبنية_دورة = 1\nنهاية"),
+        ("10_fuel_expression.ar", "طالما 2 > 1 كرر\nبنية_دورة = 0\nنهاية"),
+        ("11_recursive_call.ar", "دالة بنية_ذاتية(بنية_س) فإن\nبنية_نتيجة = بنية_ذاتية(بنية_س)\nنهاية\nبنية_قيمة = بنية_ذاتية(1)"),
+        ("12_unclosed_loop.ar", "طالما 0 == 1 كرر\nبنية_ناقص = 1"),
+        ("13_forbidden_loop_eval.ar", "طالما 0 == 1 كرر\neval(code)\nنهاية"),
+        ("14_forbidden_func_exec.ar", "دالة بنية_خطر(بنية_س) فإن\nexec(code)\nنهاية"),
+        ("15_forbidden_func_unsafe.ar", "دالة بنية_خطر(بنية_س) فإن\nunsafe { block }\nنهاية"),
+    )
+    for name, source in stage5:
+        write(STAGE5, name, source)
 
 
 if __name__ == "__main__":

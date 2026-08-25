@@ -87,6 +87,9 @@ fn main() -> ExitCode {
         AstOpcode::NotEqual => "NOT_EQUAL",
         AstOpcode::GreaterThan => "GREATER_THAN",
         AstOpcode::LessThan => "LESS_THAN",
+        AstOpcode::WhileLoop => "WHILE_LOOP",
+        AstOpcode::FunctionDecl => "FUNCTION_DECL",
+        AstOpcode::FunctionCall => "FUNCTION_CALL",
     };
     let literal = match node.right {
         Some(NodeID(id)) => id.to_string(),

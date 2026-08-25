@@ -2,102 +2,31 @@ use crate::ast::{AstNode, AstOpcode};
 use crate::symbols::{ArenaSymbolTable, SymbolError};
 use crate::{FixedArena, FixedArenaError, NodeID};
 
+pub const MAX_LOOP_FUEL: usize = 1000;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum EvaluatorError {
-    ArenaError(FixedArenaError),
-    SymbolError(SymbolError),
-    ArithmeticOverflow,
-    DivisionByZero,
-    InvalidNode,
-}
-
-impl From<FixedArenaError> for EvaluatorError {
-    fn from(error: FixedArenaError) -> Self { Self::ArenaError(error) }
-}
-
-impl From<SymbolError> for EvaluatorError {
-    fn from(error: SymbolError) -> Self { Self::SymbolError(error) }
-}
+pub enum EvaluatorError { ArenaError(FixedArenaError), SymbolError(SymbolError), ArithmeticOverflow, DivisionByZero, InvalidNode, FuelExhausted, FunctionNotFound, RecursiveCall }
+impl From<FixedArenaError> for EvaluatorError { fn from(e: FixedArenaError)->Self{Self::ArenaError(e)} }
+impl From<SymbolError> for EvaluatorError { fn from(e: SymbolError)->Self{Self::SymbolError(e)} }
 
 pub struct DeterministicEvaluator;
-
 impl DeterministicEvaluator {
-    pub fn evaluate<'a, const N_AST: usize, const N_SYMBOLS: usize>(
-        ast: &FixedArena<AstNode<'a>, N_AST>,
-        root: NodeID,
-        symbols: &mut ArenaSymbolTable<'a, N_SYMBOLS>,
-    ) -> Result<u64, EvaluatorError> {
-        Self::visit(ast, root, symbols)
-    }
-
-    fn visit<'a, const N_AST: usize, const N_SYMBOLS: usize>(
-        ast: &FixedArena<AstNode<'a>, N_AST>,
-        id: NodeID,
-        symbols: &mut ArenaSymbolTable<'a, N_SYMBOLS>,
-    ) -> Result<u64, EvaluatorError> {
-        let node = *ast.get(id)?;
-        match node.opcode {
-            AstOpcode::LiteralNum => Ok(node.numeric_value),
-            AstOpcode::BindSymbol => symbols.lookup(node.name.ok_or(EvaluatorError::InvalidNode)?).map(|entry| entry.value).map_err(EvaluatorError::from),
-            AstOpcode::DeclareNode => {
-                let value = Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
-                symbols.bind(node.name.ok_or(EvaluatorError::InvalidNode)?, value, id)?;
-                Ok(value)
-            }
-            AstOpcode::Add => Self::binary(ast, node, symbols, |left, right| left.checked_add(right)),
-            AstOpcode::Subtract => Self::binary(ast, node, symbols, |left, right| left.checked_sub(right)),
-            AstOpcode::Multiply => Self::binary(ast, node, symbols, |left, right| left.checked_mul(right)),
-            AstOpcode::Divide => {
-                let left = Self::visit(ast, node.left.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
-                let right = Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
-                if right == 0 { return Err(EvaluatorError::DivisionByZero); }
-                Ok(left / right)
-            }
-            AstOpcode::PassThrough => Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols),
-            AstOpcode::Sequence => {
-                Self::visit(ast, node.left.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
-                Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols)
-            }
-            AstOpcode::Equal => Self::comparison(ast, node, symbols, |left, right| left == right),
-            AstOpcode::NotEqual => Self::comparison(ast, node, symbols, |left, right| left != right),
-            AstOpcode::GreaterThan => Self::comparison(ast, node, symbols, |left, right| left > right),
-            AstOpcode::LessThan => Self::comparison(ast, node, symbols, |left, right| left < right),
-            AstOpcode::IfStatement => {
-                let condition = Self::visit(ast, node.left.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
-                if condition > 0 {
-                    Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols)
-                } else {
-                    Ok(0)
-                }
-            }
-        }
-    }
-
-    fn comparison<'a, const N_AST: usize, const N_SYMBOLS: usize, F>(
-        ast: &FixedArena<AstNode<'a>, N_AST>,
-        node: AstNode<'a>,
-        symbols: &mut ArenaSymbolTable<'a, N_SYMBOLS>,
-        operation: F,
-    ) -> Result<u64, EvaluatorError>
-    where
-        F: FnOnce(u64, u64) -> bool,
-    {
-        let left = Self::visit(ast, node.left.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
-        let right = Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
-        Ok(u64::from(operation(left, right)))
-    }
-
-    fn binary<'a, const N_AST: usize, const N_SYMBOLS: usize, F>(
-        ast: &FixedArena<AstNode<'a>, N_AST>,
-        node: AstNode<'a>,
-        symbols: &mut ArenaSymbolTable<'a, N_SYMBOLS>,
-        operation: F,
-    ) -> Result<u64, EvaluatorError>
-    where
-        F: FnOnce(u64, u64) -> Option<u64>,
-    {
-        let left = Self::visit(ast, node.left.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
-        let right = Self::visit(ast, node.right.ok_or(EvaluatorError::InvalidNode)?, symbols)?;
-        operation(left, right).ok_or(EvaluatorError::ArithmeticOverflow)
-    }
+ pub fn evaluate<'a,const A:usize,const S:usize>(ast:&FixedArena<AstNode<'a>,A>,root:NodeID,symbols:&mut ArenaSymbolTable<'a,S>)->Result<u64,EvaluatorError>{let mut fuel=MAX_LOOP_FUEL;Self::visit(ast,root,symbols,&mut fuel,None)}
+ fn visit<'a,const A:usize,const S:usize>(ast:&FixedArena<AstNode<'a>,A>,id:NodeID,s:&mut ArenaSymbolTable<'a,S>,fuel:&mut usize,active:Option<&'a str>)->Result<u64,EvaluatorError>{
+  let n=*ast.get(id)?; match n.opcode{
+   AstOpcode::LiteralNum=>Ok(n.numeric_value),
+   AstOpcode::BindSymbol=>s.lookup(n.name.ok_or(EvaluatorError::InvalidNode)?).map(|e|e.value).map_err(Into::into),
+   AstOpcode::DeclareNode=>{let v=Self::visit(ast,n.right.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;s.bind(n.name.ok_or(EvaluatorError::InvalidNode)?,v,id)?;Ok(v)},
+   AstOpcode::Sequence=>{Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;Self::visit(ast,n.right.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)},
+   AstOpcode::IfStatement=>{let c=Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;if c>0{Self::visit(ast,n.right.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)}else{Ok(0)}},
+   AstOpcode::WhileLoop=>{let mut last=0;loop{let c=Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;if c==0{return Ok(last)}if *fuel==0{return Err(EvaluatorError::FuelExhausted)}*fuel-=1;last=Self::visit(ast,n.right.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;}},
+   AstOpcode::FunctionDecl=>Ok(0),
+   AstOpcode::FunctionCall=>{let name=n.name.ok_or(EvaluatorError::InvalidNode)?;if active==Some(name){return Err(EvaluatorError::RecursiveCall)}let (param,body)=Self::find_function(ast,NodeID(0),name)?.ok_or(EvaluatorError::FunctionNotFound)?;let arg=Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;s.enter_scope()?;let result=s.bind(param,arg,id).and_then(|_|Self::visit(ast,body,s,fuel,Some(name)).map_err(|_|SymbolError::CapacityExceeded));let exit=s.exit_scope();match(result,exit){(Ok(v),Ok(_))=>Ok(v),(Err(e),_)=>Err(EvaluatorError::from(e)),(_,Err(e))=>Err(EvaluatorError::from(e))}},
+   AstOpcode::Equal=>Self::cmp(ast,n,s,fuel,active,|a,b|a==b),AstOpcode::NotEqual=>Self::cmp(ast,n,s,fuel,active,|a,b|a!=b),AstOpcode::GreaterThan=>Self::cmp(ast,n,s,fuel,active,|a,b|a>b),AstOpcode::LessThan=>Self::cmp(ast,n,s,fuel,active,|a,b|a<b),
+   AstOpcode::Add=>Self::bin(ast,n,s,fuel,active,|a,b|a.checked_add(b)),AstOpcode::Subtract=>Self::bin(ast,n,s,fuel,active,|a,b|a.checked_sub(b)),AstOpcode::Multiply=>Self::bin(ast,n,s,fuel,active,|a,b|a.checked_mul(b)),AstOpcode::Divide=>{let a=Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;let b=Self::visit(ast,n.right.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;if b==0{Err(EvaluatorError::DivisionByZero)}else{Ok(a/b)}},AstOpcode::PassThrough=>Self::visit(ast,n.right.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)
+  }
+ }
+ fn find_function<'a,const A:usize>(ast:&FixedArena<AstNode<'a>,A>,id:NodeID,name:&str)->Result<Option<(&'a str,NodeID)>,EvaluatorError>{let n=*ast.get(id)?;if n.opcode==AstOpcode::FunctionDecl&&n.name==Some(name){return Ok(Some((ast.get(n.left.ok_or(EvaluatorError::InvalidNode)?)?.name.ok_or(EvaluatorError::InvalidNode)?,n.right.ok_or(EvaluatorError::InvalidNode)?)))}for child in [n.left,n.right].into_iter().flatten(){if let Some(found)=Self::find_function(ast,child,name)?{return Ok(Some(found))}}Ok(None)}
+ fn cmp<'a,const A:usize,const S:usize,F:FnOnce(u64,u64)->bool>(ast:&FixedArena<AstNode<'a>,A>,n:AstNode<'a>,s:&mut ArenaSymbolTable<'a,S>,f:&mut usize,a:Option<&'a str>,op:F)->Result<u64,EvaluatorError>{let l=Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,f,a)?;let r=Self::visit(ast,n.right.ok_or(EvaluatorError::InvalidNode)?,s,f,a)?;Ok(op(l,r) as u64)}
+ fn bin<'a,const A:usize,const S:usize,F:FnOnce(u64,u64)->Option<u64>>(ast:&FixedArena<AstNode<'a>,A>,n:AstNode<'a>,s:&mut ArenaSymbolTable<'a,S>,f:&mut usize,a:Option<&'a str>,op:F)->Result<u64,EvaluatorError>{let l=Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,f,a)?;let r=Self::visit(ast,n.right.ok_or(EvaluatorError::InvalidNode)?,s,f,a)?;op(l,r).ok_or(EvaluatorError::ArithmeticOverflow)}
 }

@@ -7,6 +7,9 @@ pub enum TokenKind {
     KeywordIf,
     KeywordThen,
     KeywordEnd,
+    KeywordWhile,
+    KeywordRepeat,
+    KeywordFunction,
     Equals,
     EqualEqual,
     NotEqual,
@@ -144,6 +147,12 @@ impl<'a> DeterministicLexer<'a> {
                     TokenKind::KeywordThen
                 } else if slice == "نهاية" {
                     TokenKind::KeywordEnd
+                } else if slice == "طالما" {
+                    TokenKind::KeywordWhile
+                } else if slice == "كرر" {
+                    TokenKind::KeywordRepeat
+                } else if slice == "دالة" {
+                    TokenKind::KeywordFunction
                 } else if slice.as_bytes().iter().all(u8::is_ascii_digit) {
                     let number = slice
                         .parse::<u64>()
