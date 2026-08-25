@@ -297,7 +297,10 @@ jobs:
           mkdir -p evidence/mal-arabic-coverage
           python3 tests/test_mal_arabic_coverage_audit.py | tee evidence/mal-arabic-coverage/test.stdout
           python3 scripts/mal_arabic_coverage_audit.py --output evidence/mal-arabic-coverage/report.json | tee evidence/mal-arabic-coverage/audit.stdout
-          sha256sum evidence/mal-arabic-coverage/report.json evidence/mal-arabic-coverage/audit.stdout evidence/mal-arabic-coverage/test.stdout > evidence/mal-arabic-coverage/SHA256SUMS
+          python3 scripts/render_mal_coverage_summary.py evidence/mal-arabic-coverage/report.json evidence/mal-arabic-coverage/latest-summary.md | tee evidence/mal-arabic-coverage/summary.stdout
+          sha256sum evidence/mal-arabic-coverage/report.json evidence/mal-arabic-coverage/audit.stdout evidence/mal-arabic-coverage/test.stdout evidence/mal-arabic-coverage/latest-summary.md > evidence/mal-arabic-coverage/SHA256SUMS
+          cat evidence/mal-arabic-coverage/latest-summary.md >> "$GITHUB_STEP_SUMMARY"
+          tar -czf evidence/mal-arabic-coverage.tar.gz -C evidence mal-arabic-coverage
           grep -Fx 'MAL_ARABIC_COVERAGE_TEST=PASS' evidence/mal-arabic-coverage/test.stdout
           grep -Fx 'BASELINE_MODIFIED=NO' evidence/mal-arabic-coverage/audit.stdout
           grep -Fx 'AUTO_MERGE=DENY' evidence/mal-arabic-coverage/audit.stdout
@@ -309,7 +312,8 @@ jobs:
         with:
           name: mal-arabic-coverage-${{ github.event.pull_request.head.sha || github.sha }}
           if-no-files-found: error
-          path: evidence/mal-arabic-coverage/
+          path: evidence/mal-arabic-coverage.tar.gz
+          retention-days: 7
 
   mal-cross-env-compare:
     name: Compare cross-environment SHA-256 manifests
