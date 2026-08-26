@@ -20,7 +20,7 @@ a62f71e13d270fec856e7c6ef0addada06caa5f0dee211292e17f9a0a97a4c01  build_artifact
 cdcee2bcdc12d29dcf419324e2329dcab4f0d12fe28daa36e680d5b28f65a1ad  build_artifacts/stage6/mal_engine_stage6.wasm
 ```
 
-هذه القيم محفوظة في `evidence/STAGE6_BUILD_ARTIFACTS.sha256`، ويبلغ حجم الوحدة الثنائية WebAssembly الناتجة 509,310 بايت وفق مخرجات البناء والملف الناتج.
+هذه القيم محفوظة في `evidence/STAGE6_BUILD_ARTIFACTS.sha256`، ويبلغ حجم الوحدة الثنائية WebAssembly الناتجة 43 بايت وفق الملف الناتج؛ وهي وحدة WASM صحيحة بنيوياً، لكن صغرها يدل على أن المكتبة الحالية لا تصدّر واجهات تنفيذية عامة إلى WASM.
 
 ## التعديل البنيوي المحدود
 
