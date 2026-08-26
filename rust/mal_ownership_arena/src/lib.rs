@@ -6,6 +6,7 @@ pub mod ast;
 pub mod lexer;
 pub mod parser;
 pub mod symbols;
+pub mod wasm_safe_abi;
 pub mod evaluator;
 pub mod diagnostics;
 
