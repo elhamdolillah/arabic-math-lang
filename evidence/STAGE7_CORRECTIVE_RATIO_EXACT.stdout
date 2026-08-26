@@ -1,4 +1,27 @@
-ARABIC_SLOC=1512
-PYTHON_SLOC=57022
-ARABIC_VS_PYTHON_EXACT=2.583114087539%
-RATIO_GATE=PASS
+{
+  "arabic_math_lang_vs_all_percent": 0.55092002,
+  "arabic_math_lang_vs_python_percent": 2.57923646,
+  "counts_sloc": {
+    "arabic_math_lang": 1512,
+    "assembly": 128325,
+    "json": 48325,
+    "other": 39110,
+    "python": 57110,
+    "wasm": 68
+  },
+  "excluded_dirs": [
+    ".buildozer",
+    ".git",
+    ".venv",
+    "__pycache__",
+    "node_modules",
+    "venv"
+  ],
+  "file_count_counted": 1689,
+  "files_sorted_sha256": "56bebacd9640320645babe531cb6dabab33ea6c3cd870a96367e9f0440d9f474",
+  "python_vs_all_percent": 20.80889051,
+  "root": "/home/ubuntu/uori-mal-pr",
+  "schema": "UORI-MAL-SLOC-RATIO-0.1",
+  "source_date_epoch": "0",
+  "total_sloc": 274450
+}
