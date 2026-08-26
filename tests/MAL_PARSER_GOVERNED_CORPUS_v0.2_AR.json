@@ -1,0 +1,48 @@
+{
+  "schema": "MAL-PARSER-GOVERNED-CORPUS-0.2",
+  "language": "MAL",
+  "execution": "SOURCE_REF_EXECUTED=NO",
+  "policy": "FAIL_CLOSED",
+  "units": [
+    {
+      "unit": "حلل_أولي",
+      "cases": [
+        {"id": "primary_001", "input": "عدد صحيح", "expect": "PASS"},
+        {"id": "primary_002", "input": "رمز معرف", "expect": "PASS"},
+        {"id": "primary_003", "input": "مدخل فارغ", "expect": "ABSTAIN"}
+      ]
+    },
+    {
+      "unit": "الأقواس",
+      "cases": [
+        {"id": "paren_001", "input": "(تعبير أولي)", "expect": "PASS"},
+        {"id": "paren_002", "input": "(تعبير أولي", "expect": "ABSTAIN"},
+        {"id": "paren_003", "input": "()", "expect": "ABSTAIN"}
+      ]
+    },
+    {
+      "unit": "السلاسل",
+      "cases": [
+        {"id": "string_001", "input": "\"نص\"", "expect": "PASS"},
+        {"id": "string_002", "input": "\"رمز مجهول\"", "expect": "ABSTAIN"},
+        {"id": "string_003", "input": "\"", "expect": "ABSTAIN"}
+      ]
+    },
+    {
+      "unit": "الأعداد الحقيقية",
+      "cases": [
+        {"id": "real_001", "input": "3.14", "expect": "PASS"},
+        {"id": "real_002", "input": "NaN", "expect": "ABSTAIN"},
+        {"id": "real_003", "input": "Infinity", "expect": "ABSTAIN"}
+      ]
+    },
+    {
+      "unit": "استدعاء الدوال",
+      "cases": [
+        {"id": "call_001", "input": "دالة()", "expect": "PASS"},
+        {"id": "call_002", "input": "دالة(عدد)", "expect": "PASS"},
+        {"id": "call_003", "input": "دالة(,)", "expect": "ABSTAIN"}
+      ]
+    }
+  ]
+}

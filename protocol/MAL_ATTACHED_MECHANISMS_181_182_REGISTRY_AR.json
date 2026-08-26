@@ -1,0 +1,26 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_181_182_REGISTRY_AR",
+  "version": "0.1.0",
+  "classification": "RESEARCH",
+  "evidence": "protocol/EVIDENCE_181_182_AR.md",
+  "entries": [
+    {
+      "id": 181,
+      "name": "compile_time_index_sequence",
+      "target": "CXX_std_index_sequence",
+      "decision": "RESEARCH",
+      "guarantee": "توليد سلسلة فهارس وقت الترجمة بطول حزمة الأنواع",
+      "counterexample": "لا يثبت index_sequence وحده نقاء جسم التوسعة أو ترتيب تقييم كل تعبير",
+      "gap": "تحليل fold expression وقواعد sequencing والآثار الجانبية"
+    },
+    {
+      "id": 182,
+      "name": "scoped_multi_lock",
+      "target": "CXX_std_scoped_lock",
+      "decision": "RESEARCH",
+      "guarantee": "إدارة RAII متعددة الأقفال مع خوارزمية تجنب الجمود وفق شروط Lockable",
+      "counterexample": "ترتيب الاكتساب غير محدد، وجدولة الخيوط والناتج المرئي غير حتميين",
+      "gap": "عقد جدولة وتحديد حالة مشتركة وإثبات عدم وجود آثار خارجية غير مرتبة"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.1.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {
+      "id": 127,
+      "name": "rust_nonzero_u32",
+      "target": "Rust",
+      "decision": "RESEARCH",
+      "guard_ar": "يضمن النوع أن القيمة المقبولة غير صفرية عبر واجهة آمنة، لكن MAL لا يملك بعد عقد أنواع غير صفرية أو دليلاً على تمثيل niche وABI مستقلين عن المترجم",
+      "required_evidence_ar": "عقد نوعي صريح، مسار إنشاء آمن، رفض الصفر، قواعد القسمة والفهرسة، وإثبات عبر backends دون unsafe أو مؤشرات خام"
+    },
+    {
+      "id": 128,
+      "name": "go_trimpath",
+      "target": "Go",
+      "decision": "RESEARCH",
+      "guard_ar": "يزيل المسارات المطلقة من بعض ميتاداتا البناء، لكنه لا يكفي وحده لإثبات تطابق ثنائي؛ فإصدار المترجم وbuild id وtags وملفات الوحدات وSOURCE_DATE_EPOCH ما زالت مؤثرة",
+      "required_evidence_ar": "عقد toolchain hermetic، تثبيت المصدر والتبعيات والخيارات والوقت، وبناءان مستقلان مع مقارنة ثنائية كاملة"
+    },
+    {
+      "id": 129,
+      "name": "c_fesetround",
+      "target": "C",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "يتحكم في وضع التقريب في بيئة الفاصلة العائمة، لكنه يدخل في مجال الحساب العائم الممنوع حالياً، وقد تتأثر الدلالة بتحسينات المترجم وFENV_ACCESS والعتاد والاستثناءات والدقة الزائدة",
+      "required_evidence_ar": "عقد IEEE-754 كامل، flags مثبتة، منع التحسينات المخالفة، إثبات عتادي متعدد، ومعالجة الاستثناءات والـNaN وsubnormal"
+    },
+    {
+      "id": 130,
+      "name": "cpp_atomic_ref_seq_cst",
+      "target": "C++",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "يوفر ترتيباً كلياً للعمليات الذرية المتوافقة، لكنه لا يثبت ترتيب جدولة الخيوط أو نتيجة حتمية عامة، ويتطلب محاذاة وعمر كائن وسلامة جميع الوصولات",
+      "required_evidence_ar": "نموذج تزامن MAL، جدولة قابلة للتكرار، عقد ownership وlifetime والمحاذاة، ومنع الوصول غير الذري والمؤشرات الخام"
+    },
+    {
+      "id": 131,
+      "name": "javascript_object_prevent_extensions",
+      "target": "JavaScript",
+      "decision": "RESEARCH",
+      "guard_ar": "يمنع إضافة خصائص جديدة، لكنه يسمح بحذف الخصائص وتغييرها، فلا يثبت مجموعة مفاتيح ثابتة ولا immutability عميقة؛ كما يلزم ضبط proxy وstrict mode وترتيب المفاتيح",
+      "required_evidence_ar": "سجل MAL canonical، سياسة مفاتيح وترتيب صريحة، منع proxy أو عقده، وقواعد فشل موحدة عند الإضافة والحذف والتعديل"
+    }
+  ]
+}

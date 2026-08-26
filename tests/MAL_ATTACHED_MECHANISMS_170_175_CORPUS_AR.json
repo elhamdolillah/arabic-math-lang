@@ -1,0 +1,19 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_170_175_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_170_175_REGISTRY_AR.json",
+  "cases": [
+    {"id":"170-001","mechanism":170,"kind":"positive","description":"offsetof لحقل عادي ضمن struct وتخطيط ABI مثبت","expected":"RESEARCH_ONLY"},
+    {"id":"170-002","mechanism":170,"kind":"negative","description":"offsetof لحقل bit-field أو ABI غير مثبت","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"171-001","mechanism":171,"kind":"positive","description":"alignas بقيمة محاذاة صحيحة مثبتة في عقد التخطيط","expected":"RESEARCH_ONLY"},
+    {"id":"171-002","mechanism":171,"kind":"negative","description":"استخدام عنوان runtime لإثبات compile-time أو محاذاة غير صالحة","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"172-001","mechanism":172,"kind":"positive","description":"فرز مستقر مع comparator نقي ثابت متعدٍ وlocale مثبت","expected":"RESEARCH_ONLY"},
+    {"id":"172-002","mechanism":172,"kind":"negative","description":"comparator غير متعدٍ أو localeCompare دون locale/options مثبتة","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"173-001","mechanism":173,"kind":"positive","description":"HashCode.Combine للاستخدام الداخلي داخل عملية واحدة","expected":"RESEARCH_ONLY"},
+    {"id":"173-002","mechanism":173,"kind":"negative","description":"استعمال الناتج كبصمة artifact عبر عمليتين أو إصدارين","expected":"ABSTAIN_FOR_EXTERNAL_HASH"},
+    {"id":"174-001","mechanism":174,"kind":"positive","description":"newtype مع اشتقاق GHC موثق ضمن نسخة compiler مثبتة","expected":"RESEARCH_ONLY"},
+    {"id":"174-002","mechanism":174,"kind":"negative","description":"ادعاء تطابق ABI عبر مترجمات ومنصات غير مثبتة","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"175-001","mechanism":175,"kind":"positive","description":"@enum بقيم صريحة وإصدار Julia مثبت","expected":"RESEARCH_ONLY"},
+    {"id":"175-002","mechanism":175,"kind":"negative","description":"افتراض تمثيل ثنائي خارجي أو قبول قيمة تعداد غير موثقة","expected":"ABSTAIN_UNTIL_EVIDENCE"}
+  ]
+}

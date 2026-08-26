@@ -1,0 +1,14 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_170_175_REGISTRY_AR",
+  "version": "0.1.0",
+  "classification": "RESEARCH",
+  "evidence": "protocol/EVIDENCE_170_175_AR.md",
+  "entries": [
+    {"id":170,"name":"compile_time_field_offset","target":"C_offsetof","decision":"RESEARCH","gap":"ABI وتخطيط struct وقيود bit-field ونسخة المترجم"},
+    {"id":171,"name":"explicit_alignment","target":"CXX_alignas","decision":"RESEARCH","gap":"تثبيت ABI ومحاذاة النوع؛ لا يكفي فحص عنوان runtime"},
+    {"id":172,"name":"stable_array_sort","target":"ECMAScript_Array_sort","decision":"RESEARCH","gap":"Comparator نقي ومتعدٍ، وترتيب locale/options حتمي"},
+    {"id":173,"name":"combined_runtime_hash","target":"DotNet_HashCode_Combine","decision":"ABSTAIN_FOR_EXTERNAL_HASH","gap":"seed عشوائي يجعل الناتج غير صالح لبصمة artifact العابرة للعمليات"},
+    {"id":174,"name":"zero_cost_type_wrapper","target":"Haskell_newtype","decision":"RESEARCH","gap":"قواعد GHC والتمثيل وABI ليست ضمانًا عامًا عبر المترجمات"},
+    {"id":175,"name":"named_integer_enum","target":"Julia_enum","decision":"RESEARCH","gap":"تثبيت الإصدار والقيم والتحويل والتمثيل الثنائي"}
+  ]
+}

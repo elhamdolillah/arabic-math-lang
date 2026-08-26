@@ -1,0 +1,51 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.1.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {
+      "id": 81,
+      "name": "bash_set_e_error_propagation",
+      "target": "Bash",
+      "decision": "RESEARCH",
+      "guard": "set -e has context-dependent exceptions for conditionals, lists, pipelines, subshells, and command substitutions; it is a shell policy, not a complete transactional or deterministic-state guarantee",
+      "required_evidence": "fixed shell version, explicit pipeline/ERR-trap contract, side-effect rollback or cleanup contract, fail-closed corpus, stdout, SHA-256 chain"
+    },
+    {
+      "id": 82,
+      "name": "typescript_as_const_literal_readonly",
+      "target": "TypeScript",
+      "decision": "RESEARCH",
+      "guard": "as const is a compile-time assertion that narrows literal expressions and applies readonly typing; it does not provide universal runtime immutability, and referenced external objects remain outside the guarantee",
+      "required_evidence": "pinned TypeScript compiler, exact literal-expression rules, runtime boundary contract, mutation and alias corpus, emitted-code reproducibility evidence"
+    },
+    {
+      "id": 83,
+      "name": "rust_repr_align",
+      "target": "Rust",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard": "repr(align(N)) specifies a minimum type alignment but does not make an address, target ABI, allocator, or absolute layout universally deterministic; the proposed raw-pointer address test conflicts with the UORI raw_pointers DENY rule",
+      "required_evidence": "pinned target triple and compiler, size/alignment/layout manifest, allocator boundary, FFI contract, no-raw-pointer MAL representation, cross-target evidence"
+    },
+    {
+      "id": 84,
+      "name": "c_restrict_aliasing_contract",
+      "target": "C",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard": "restrict is a programmer aliasing promise whose violation can produce undefined behavior; it does not itself provide safe enforcement or a deterministic fallback, and its pointer-based model conflicts with the UORI raw_pointers DENY rule",
+      "required_evidence": "MAL handle/ownership translation, alias checker, defined violation result, compiler/optimization contract, negative corpus, no undefined behavior path"
+    },
+    {
+      "id": 85,
+      "name": "sql_unique_constraint",
+      "target": "SQL",
+      "decision": "RESEARCH",
+      "guard": "UNIQUE can enforce a key invariant at a specified database boundary, but NULL semantics, collation, transaction isolation, conflict behavior, and query ordering must be fixed; it does not prove deterministic storage or result ordering",
+      "required_evidence": "pinned SQL engine/version, schema and collation contract, NULL and conflict semantics, isolation model, canonical query ordering, migration and replay corpus"
+    }
+  ]
+}

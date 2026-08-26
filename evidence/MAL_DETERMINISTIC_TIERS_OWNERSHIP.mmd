@@ -1,0 +1,30 @@
+flowchart LR
+    A[مصدر MAL] --> B[Parser ساكن]
+    B --> C[MAL-DIR canonical]
+    C --> D[DIR Validator]
+    D --> E{Ownership/Arena Validator}
+    E -->|PASS| F[Deterministic Planner]
+    E -->|FAIL| X[Reject / ABSTAIN]
+    F --> G[Tier-0: interpreter أو قوالب WASM ثابتة]
+    G --> H[Artifact hash + policy hash + ABI]
+    H --> I{Admission Gate}
+    I -->|ALLOW_STATIC_ONLY| J[تسجيل وتحليل فقط]
+    I -->|ALLOW_JIT_ARTIFACT| K[Tier-1: specialization محدد مسبقاً]
+    I -->|DENY أو ABSTAIN| X
+    K --> L[Artifact Validator]
+    L --> M[تشغيل runtime المعتمد فقط]
+
+    subgraph Handles[المقابض المفهرسة]
+      N[ArenaID] --> O[SlotID]
+      O --> P[Generation]
+      P --> Q[تحقق النوع والعمر والملكية]
+    end
+    E -.-> Handles
+    L -.-> Handles
+
+    classDef safe fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+    classDef gate fill:#fff8e1,stroke:#ef6c00,color:#e65100;
+    classDef fail fill:#ffebee,stroke:#c62828,color:#b71c1c;
+    class G,H,J safe;
+    class I,K,L gate;
+    class X fail;

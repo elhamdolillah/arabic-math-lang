@@ -1,0 +1,56 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_116_120_REGISTRY_AR.json",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "runtime_features_admitted": 0,
+  "cases": [
+    {
+      "id": 116,
+      "name": "ada_fifo_within_priorities",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن لسياسة FIFO داخل المستوى الواحد أن تحدد قاعدة ترتيب جزئية للمهام الجاهزة",
+      "counterexample": "التأخير الصفري أو المقاطعة أو اختلاف تفعيل المهام قد يمنع التناوب المتوقع ويضيف أثراً خارج العقد",
+      "gap": "حتمية التداخل الكامل واستقلال الجدولة عن نظام التشغيل غير مثبتة"
+    },
+    {
+      "id": 117,
+      "name": "prolog_tabling_fixpoint",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن للتجدول أن يثبت إجابات متكررة ويقرب حساب نقطة تثبيت منتهية لمسائل مناسبة",
+      "counterexample": "المحركات قد تختلف في ترتيب الحلول وحدود الذاكرة، ولا يضمن التجدول الإنهاء لكل دلالة أو استعلام",
+      "gap": "دلالة نقطة التثبيت والوقود والترتيب والتوافق بين المحركات غير محددة"
+    },
+    {
+      "id": 118,
+      "name": "csharp_fixed_managed_memory",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن منع نقل كائن مُدار مؤقتاً داخل نطاق تثبيت محدد",
+      "counterexample": "المثال يستخدم مؤشراً خاماً وعنواناً فعلياً، ولا يجوز تحويل ثبات العنوان إلى ضمان حتمي أو واجهة Tier-0",
+      "gap": "بديل المقابض المفهرسة وعقد FFI وحدود GC غير موجود"
+    },
+    {
+      "id": 119,
+      "name": "rust_repr_u8_enum",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن تعداد عديم الحقول أن يحمل مسندات صحيحة وحجماً صريحاً عند تحديد ABI",
+      "counterexample": "التحويل غير الآمن لقيمة عددية غير صالحة قد ينتج سلوكاً غير معرّف، ولا يكون التحويل العكسي آمناً بلا تحقق",
+      "gap": "فحص المجال وعقد ABI واختبارات التمثيل عبر البيئات غير مثبتة"
+    },
+    {
+      "id": 120,
+      "name": "sql_recursive_cte_union_fixpoint",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن لـ UNION أن يحسب مجموعة إغلاق انتقالية مع إزالة التكرار في مسائل مناسبة",
+      "counterexample": "ترتيب الصفوف غير مضمون، وقد تختلف الموارد والمحرك والتجميع، ولا يكفي ثبات المجموعة لإثبات ثبات الإخراج النصي",
+      "gap": "الترتيب canonical وحدود العمق والوقود وسياسة الدورات وإصدار المحرك غير محددة"
+    }
+  ]
+}

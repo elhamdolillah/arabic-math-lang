@@ -1,0 +1,42 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_162_164_CORPUS_AR",
+  "version": "0.1.0",
+  "corpus_status": "REVIEW_ONLY",
+  "source_execution": "NOT_PERFORMED",
+  "runtime_features_admitted": 0,
+  "cases": [
+    {
+      "id": "162_sha256_known_vector",
+      "mechanism": 162,
+      "input_contract": "تسلسل بايتات canonical مع متجه SHA-256 معروف.",
+      "expected_review": "RESEARCH",
+      "expected_decision": "ABSTAIN/MAL_HASH_PRIMITIVE_MISSING",
+      "why": "المعيار الخارجي لا يثبت وجود primitive أو تمثيل بايتات داخل MAL."
+    },
+    {
+      "id": "163_atomic_increment_is_compound",
+      "mechanism": 163,
+      "input_contract": "مهمتان تنفذان زيادة مشتركة بعملية قراءة-تعديل-كتابة.",
+      "expected_review": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_decision": "ABSTAIN/COMPOUND_ATOMICITY_UNPROVEN",
+      "why": "ذرية القراءة أو الكتابة المفردة لا تثبت ذرية العملية المركبة ولا نتيجة ثابتة."
+    },
+    {
+      "id": "164_canonical_flags_select_ast_branch",
+      "mechanism": 164,
+      "input_contract": "مجموعة أعلام معلنة وثابتة تختار فرع AST قبل فحص الأنواع والتوليد.",
+      "expected_review": "RESEARCH",
+      "expected_decision": "ABSTAIN/COMPILER_FEATURE_NOT_IMPLEMENTED",
+      "why": "لا يوجد بعد عقد MAL للنطاق أو لسياسة حذف الفرع غير المختار."
+    }
+  ],
+  "assertions": [
+    "mechanism_162_does_not_promote_to_mal_runtime_hash",
+    "mechanism_163_does_not_promote_to_atomic_or_deterministic_concurrency",
+    "mechanism_164_does_not_promote_to_runtime_dispatch",
+    "unknown_primitive_remains_abstain",
+    "source_execution_remains_disabled",
+    "runtime_features_admitted_remains_zero",
+    "auto_promotion_remains_denied"
+  ]
+}
