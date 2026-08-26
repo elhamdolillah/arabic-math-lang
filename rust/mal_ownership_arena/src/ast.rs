@@ -19,6 +19,10 @@ pub enum AstOpcode {
     WhileLoop,
     FunctionDecl,
     FunctionCall,
+    LiteralString,
+    QuranCount,
+    QuranCapacity,
+    QuranWeight,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

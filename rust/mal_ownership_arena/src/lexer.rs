@@ -23,6 +23,12 @@ pub enum TokenKind {
     RParen,
     Symbol,
     Number(u64),
+    StringLiteral,
+    KeywordCount,
+    KeywordCapacity,
+    KeywordWeight,
+    KeywordCalculate,
+    KeywordString,
     RestrictedEvaluator,
     Unknown,
     StatementSep,
@@ -39,6 +45,7 @@ pub struct LexicalToken<'a> {
 pub enum LexerError {
     Arena(FixedArenaError),
     NumericOverflow,
+    StringTooLong,
 }
 
 impl From<FixedArenaError> for LexerError {
@@ -95,7 +102,13 @@ impl<'a> DeterministicLexer<'a> {
             .source
             .get(self.cursor..)
             .ok_or(LexerError::NumericOverflow)?;
-        let (slice, kind, consumed) = if current.starts_with("eval(") || current.starts_with("exec(") {
+        let (slice, kind, consumed) = if current.starts_with('"') {
+            let end = current[1..].find('"').ok_or(LexerError::StringTooLong)? + 1;
+            let consumed = end + 1;
+            let slice = &current[..consumed];
+            if slice[1..slice.len() - 1].as_bytes().len() > 64 { return Err(LexerError::StringTooLong); }
+            (slice, TokenKind::StringLiteral, consumed)
+        } else if current.starts_with("eval(") || current.starts_with("exec(") {
             let consumed = current
                 .find(')')
                 .map_or_else(|| current.len(), |index| index + 1);
@@ -153,6 +166,16 @@ impl<'a> DeterministicLexer<'a> {
                     TokenKind::KeywordRepeat
                 } else if slice == "دالة" {
                     TokenKind::KeywordFunction
+                } else if slice == "عدّ" {
+                    TokenKind::KeywordCount
+                } else if slice == "قدر" {
+                    TokenKind::KeywordCapacity
+                } else if slice == "وزن" {
+                    TokenKind::KeywordWeight
+                } else if slice == "حسب" {
+                    TokenKind::KeywordCalculate
+                } else if slice == "سلسلة" {
+                    TokenKind::KeywordString
                 } else if slice.as_bytes().iter().all(u8::is_ascii_digit) {
                     let number = slice
                         .parse::<u64>()

@@ -2,10 +2,11 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
-_TOKEN=re.compile(r"\r\n|\n|==|!=|>|<|[=+*/()\-]|[^\s=+*/()\-<>!]+",re.UNICODE)
+_TOKEN=re.compile(r'\r\n|\n|==|!=|>|<|[=+*/()\-]|"[^"]*"|[^\s=+*/()\-<>!]+',re.UNICODE)
 _FORBIDDEN=("eval","exec","unsafe")
 _MAX_U64=18_446_744_073_709_551_615
-_MAX_LOOP_FUEL=1000
+_MAX_LOOP_FUEL=2000
+_MAX_STRING_BYTES=64
 class ReferenceError(Exception): pass
 @dataclass(frozen=True)
 class Node:
@@ -91,6 +92,10 @@ class ReferenceParser:
    x=self.comparison()
    if self.take()!=")":raise ReferenceError
    return x
+  if t.startswith('"') and t.endswith('"'):
+   text=t[1:-1]
+   if len(text.encode('utf-8'))>_MAX_STRING_BYTES:raise ReferenceError
+   return self.alloc(Node('LITERAL_STRING',name=text,numeric_value=len(text.encode('utf-8'))))
   if t.isascii() and t.isdigit():
    v=int(t)
    if v>_MAX_U64:raise ReferenceError
@@ -99,11 +104,12 @@ class ReferenceParser:
   if self.peek()=="(":
    self.take();arg=self.comparison()
    if self.take()!=")":raise ReferenceError
-   return self.alloc(Node("FUNCTION_CALL",name=t,left=arg))
+   op={'عدّ':'QURAN_COUNT','قدر':'QURAN_CAPACITY','وزن':'QURAN_WEIGHT','حسب':'PASS_THROUGH','سلسلة':'PASS_THROUGH'}.get(t,'FUNCTION_CALL')
+   return self.alloc(Node(op,name=t,left=arg))
   return self.alloc(Node("BIND_SYMBOL",name=t))
  def static(self,i:int)->bool:
   n=self.nodes[i]
-  if n.opcode=="LITERAL_NUM":return True
+  if n.opcode in {"LITERAL_NUM","LITERAL_STRING"}:return True
   if n.opcode=="BIND_SYMBOL":return False
   if n.opcode in {"ADD","SUBTRACT","MULTIPLY","DIVIDE","EQUAL","NOT_EQUAL","GREATER_THAN","LESS_THAN"}:return self.static(n.left) and self.static(n.right)
   return False
@@ -124,7 +130,12 @@ class ReferenceEvaluator:
   return None
  def visit(self,i:int)->int:
   n=self.nodes[i];o=n.opcode
-  if o=="LITERAL_NUM":return n.numeric_value
+  if o in {"LITERAL_NUM","LITERAL_STRING"}:return n.numeric_value
+  if o in {"QURAN_COUNT","QURAN_WEIGHT","PASS_THROUGH"}:return self.visit(n.left)
+  if o=="QURAN_CAPACITY":
+   v=self.visit(n.left)
+   if v>_MAX_STRING_BYTES:raise ReferenceError
+   return v
   if o=="BIND_SYMBOL":return self.lookup(n.name)
   if o=="DECLARE_NODE":v=self.visit(n.right);self.bind(n.name,v);return v
   if o=="SEQUENCE":self.visit(n.left);return self.visit(n.right)

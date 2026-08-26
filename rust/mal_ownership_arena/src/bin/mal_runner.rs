@@ -90,6 +90,10 @@ fn main() -> ExitCode {
         AstOpcode::WhileLoop => "WHILE_LOOP",
         AstOpcode::FunctionDecl => "FUNCTION_DECL",
         AstOpcode::FunctionCall => "FUNCTION_CALL",
+        AstOpcode::LiteralString => "LITERAL_STRING",
+        AstOpcode::QuranCount => "QURAN_COUNT",
+        AstOpcode::QuranCapacity => "QURAN_CAPACITY",
+        AstOpcode::QuranWeight => "QURAN_WEIGHT",
     };
     let literal = match node.right {
         Some(NodeID(id)) => id.to_string(),

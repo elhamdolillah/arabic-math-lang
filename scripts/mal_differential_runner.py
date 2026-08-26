@@ -18,6 +18,7 @@ CORPUS_DIRS = (
     ROOT / "corpus" / "stage3_15_files",
     ROOT / "corpus" / "stage4_16_files",
     ROOT / "corpus" / "stage5_15_files",
+    ROOT / "corpus" / "stage6_15_files",
 )
 OUT = ROOT / "evidence" / "MAL_DIFFERENTIAL_EXECUTION_2026-08-25.json"
 
