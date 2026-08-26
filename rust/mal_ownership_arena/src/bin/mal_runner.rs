@@ -94,6 +94,9 @@ fn main() -> ExitCode {
         AstOpcode::QuranCount => "QURAN_COUNT",
         AstOpcode::QuranCapacity => "QURAN_CAPACITY",
         AstOpcode::QuranWeight => "QURAN_WEIGHT",
+        AstOpcode::QuranAggregate => "QURAN_AGGREGATE",
+        AstOpcode::QuranBound => "QURAN_BOUND",
+        AstOpcode::QuranAmount => "QURAN_AMOUNT",
     };
     let literal = match node.right {
         Some(NodeID(id)) => id.to_string(),

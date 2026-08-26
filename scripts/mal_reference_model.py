@@ -7,6 +7,8 @@ _FORBIDDEN=("eval","exec","unsafe")
 _MAX_U64=18_446_744_073_709_551_615
 _MAX_LOOP_FUEL=2000
 _MAX_STRING_BYTES=64
+_MAX_STAGE7_AGGREGATE_INPUT=1999
+_MAX_STAGE7_BOUND=64
 class ReferenceError(Exception): pass
 @dataclass(frozen=True)
 class Node:
@@ -104,7 +106,7 @@ class ReferenceParser:
   if self.peek()=="(":
    self.take();arg=self.comparison()
    if self.take()!=")":raise ReferenceError
-   op={'عدّ':'QURAN_COUNT','قدر':'QURAN_CAPACITY','وزن':'QURAN_WEIGHT','حسب':'PASS_THROUGH','سلسلة':'PASS_THROUGH'}.get(t,'FUNCTION_CALL')
+   op={'عدّ':'QURAN_COUNT','قدر':'QURAN_CAPACITY','وزن':'QURAN_WEIGHT','حسب':'PASS_THROUGH','سلسلة':'PASS_THROUGH','جمع':'QURAN_AGGREGATE','حصر':'QURAN_BOUND','مبلغ':'QURAN_AMOUNT'}.get(t,'FUNCTION_CALL')
    return self.alloc(Node(op,name=t,left=arg))
   return self.alloc(Node("BIND_SYMBOL",name=t))
  def static(self,i:int)->bool:
@@ -131,7 +133,22 @@ class ReferenceEvaluator:
  def visit(self,i:int)->int:
   n=self.nodes[i];o=n.opcode
   if o in {"LITERAL_NUM","LITERAL_STRING"}:return n.numeric_value
-  if o in {"QURAN_COUNT","QURAN_WEIGHT","PASS_THROUGH"}:return self.visit(n.left)
+  if o in {"QURAN_COUNT","QURAN_WEIGHT","QURAN_AMOUNT","PASS_THROUGH"}:return self.visit(n.left)
+  if o=="QURAN_BOUND":
+   v=self.visit(n.left)
+   if v>_MAX_STAGE7_BOUND:raise ReferenceError
+   return v
+  if o=="QURAN_AGGREGATE":
+   limit=self.visit(n.left)
+   if limit>_MAX_STAGE7_AGGREGATE_INPUT:raise ReferenceError
+   total=0
+   i=0
+   while i<=limit:
+    if self.fuel==0:raise ReferenceError
+    self.fuel-=1
+    total+=i
+    i+=1
+   return total
   if o=="QURAN_CAPACITY":
    v=self.visit(n.left)
    if v>_MAX_STRING_BYTES:raise ReferenceError

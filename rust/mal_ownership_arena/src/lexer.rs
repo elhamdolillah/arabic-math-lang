@@ -29,6 +29,9 @@ pub enum TokenKind {
     KeywordWeight,
     KeywordCalculate,
     KeywordString,
+    KeywordAggregate,
+    KeywordBound,
+    KeywordAmount,
     RestrictedEvaluator,
     Unknown,
     StatementSep,
@@ -176,6 +179,12 @@ impl<'a> DeterministicLexer<'a> {
                     TokenKind::KeywordCalculate
                 } else if slice == "سلسلة" {
                     TokenKind::KeywordString
+                } else if slice == "جمع" {
+                    TokenKind::KeywordAggregate
+                } else if slice == "حصر" {
+                    TokenKind::KeywordBound
+                } else if slice == "مبلغ" {
+                    TokenKind::KeywordAmount
                 } else if slice.as_bytes().iter().all(u8::is_ascii_digit) {
                     let number = slice
                         .parse::<u64>()

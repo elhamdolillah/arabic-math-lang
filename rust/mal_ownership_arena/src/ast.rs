@@ -23,6 +23,9 @@ pub enum AstOpcode {
     QuranCount,
     QuranCapacity,
     QuranWeight,
+    QuranAggregate,
+    QuranBound,
+    QuranAmount,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

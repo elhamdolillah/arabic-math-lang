@@ -19,8 +19,10 @@ CORPUS_DIRS = (
     ROOT / "corpus" / "stage4_16_files",
     ROOT / "corpus" / "stage5_15_files",
     ROOT / "corpus" / "stage6_15_files",
+    ROOT / "corpus" / "stage7_15_files",
+    ROOT / "corpus" / "stage7_correction_64_files",
 )
-OUT = ROOT / "evidence" / "MAL_DIFFERENTIAL_EXECUTION_2026-08-25.json"
+OUT = ROOT / "evidence" / "MAL_DIFFERENTIAL_EXECUTION_2026-08-26-stage7.json"
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -93,7 +95,7 @@ def main() -> int:
     reference_comparison = "MATCHED_CANONICAL" if all_match else "MISMATCH_OR_INCOMPLETE"
     differential_status = "MATCHED_CANONICAL" if all_match else "ABSTAIN"
     report = {
-        "schema": "MAL_DIFFERENTIAL_EXECUTION_v0.2",
+        "schema": "MAL_DIFFERENTIAL_EXECUTION_v0.3_STAGE7",
         "runner": RUNNER.relative_to(ROOT).as_posix(),
         "corpus_dirs": [directory.relative_to(ROOT).as_posix() for directory in CORPUS_DIRS],
         "missing_corpus_dirs": missing,

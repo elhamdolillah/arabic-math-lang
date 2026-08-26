@@ -4,6 +4,8 @@ use crate::{FixedArena, FixedArenaError, NodeID};
 
 pub const MAX_LOOP_FUEL: usize = 2000;
 pub const MAX_STRING_BYTES: usize = 64;
+pub const MAX_STAGE7_AGGREGATE_INPUT: u64 = 1999;
+pub const MAX_STAGE7_BOUND: u64 = 64;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EvaluatorError { ArenaError(FixedArenaError), SymbolError(SymbolError), ArithmeticOverflow, DivisionByZero, InvalidNode, FuelExhausted, FunctionNotFound, RecursiveCall }
@@ -17,7 +19,9 @@ impl DeterministicEvaluator {
   let n=*ast.get(id)?; match n.opcode{
    AstOpcode::LiteralNum=>Ok(n.numeric_value),
    AstOpcode::LiteralString=>Ok(n.numeric_value),
-   AstOpcode::QuranCount|AstOpcode::QuranWeight=>Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active),
+   AstOpcode::QuranCount|AstOpcode::QuranWeight|AstOpcode::QuranAmount=>Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active),
+   AstOpcode::QuranBound=>{let v=Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;if v<=MAX_STAGE7_BOUND{Ok(v)}else{Err(EvaluatorError::InvalidNode)}},
+   AstOpcode::QuranAggregate=>{let limit=Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;if limit>MAX_STAGE7_AGGREGATE_INPUT{return Err(EvaluatorError::InvalidNode)}let mut i=0_u64;let mut total=0_u64;while i<=limit{if *fuel==0{return Err(EvaluatorError::FuelExhausted)}*fuel-=1;total=total.checked_add(i).ok_or(EvaluatorError::ArithmeticOverflow)?;i+=1;}Ok(total)},
    AstOpcode::QuranCapacity=>{let v=Self::visit(ast,n.left.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;if v as usize>MAX_STRING_BYTES{Err(EvaluatorError::InvalidNode)}else{Ok(v)}},
    AstOpcode::BindSymbol=>s.lookup(n.name.ok_or(EvaluatorError::InvalidNode)?).map(|e|e.value).map_err(Into::into),
    AstOpcode::DeclareNode=>{let v=Self::visit(ast,n.right.ok_or(EvaluatorError::InvalidNode)?,s,fuel,active)?;s.bind(n.name.ok_or(EvaluatorError::InvalidNode)?,v,id)?;Ok(v)},

@@ -1,133 +1,118 @@
-# حزمة الإحاطة — 2026-08-25
+# حزمة الإحاطة — 2026-08-26
+
+> **الغرض:** حزمة نصية دنيا للفهم الأولي لمشروع MAL/UORI مع الإشارة إلى وضع APK، دون إرفاق مخرجات تنفيذ خام أو ملفات ثنائية.
 
 ## 1. الهوية (من المانيفست)
 
-المشروع يتكوّن من مسارين مرتبطين لكن منفصلين: **اللغة العربية الرياضية MAL** ومترجمها/اختباراتها، و**وسيط UORI** المبني على خط أساس مجمّد. المانيفست المرجعي هو `uori-mediator-kit/protocol/MANIFEST_AR.json`.
-
 | العنصر | القيمة |
 |---|---|
-| حزمة UORI | `uori-mediator-kit` |
-| اللغة | `ar` |
+| اسم الحزمة | `uori-mediator-kit` |
+| اللغة | `ar` — اللغة الرياضية العربية MAL |
 | الدور | `ai-mediator-reviewer` |
-| baseline | `uori-wave77-freeze-2026-08-24` |
-| baseline commit | `f56b8bd` |
+| المانيفست المرجعي | `/home/ubuntu/uori-mediator-kit/protocol/MANIFEST_AR.json` |
+| baseline المعلن في المانيفست | `uori-wave77-freeze-2026-08-24` / `f56b8bd` |
 | سياسة baseline | `do-not-modify-baseline` |
-| فرع MAL/UORI الحالي | `integration/mal-deterministic-audit-2026-08-25` |
-| runtime UORI | Python `>=3.11` وwheel `uori_arabic_math-0.1.0` |
-| حالات القرار | `DETERMINISTIC`, `ABSTAIN`, `INFORMATIONAL` |
+| runtime | Python `>=3.11`، wheel `uori_arabic_math-0.1.0-py3-none-any.whl` |
+| فئات القرار | `DETERMINISTIC`، `ABSTAIN`، `INFORMATIONAL` |
 | التنفيذ الساكن | `NOT_PERFORMED` |
 | الشبكة | `disabled-by-contract` |
-| قبول UORI المعلن في المانيفست | `PASS` |
+| قبول المانيفست | `PASS`، المثال الحتمي `٧×٦ → ٤٢` |
+| APK/Android | لا توجد شجرة Android أو APK داخل المستودع المفحوص؛ لا يجوز استنتاج حالة APK من غيابها |
 
-لا توجد حزمة APK أو شجرة Android محلية ضمن المستودع المفحوص. يوجد مستودع مرافق مذكور في دليل المشروع باسم `arabic-math-android`، لكنه ليس جزءاً من هذه الشجرة ولم تُضمّن منه ملفات تنفيذية أو ثنائية.
+> **تنبيه نطاقي:** المانيفست خارجي عن شجرة `/home/ubuntu/uori-mal-pr`. لذلك تُعرض قيمته كمرجع هوية، بينما تُعرض حالة Git الآنية من المستودع المحلي نفسه.
 
 ## 2. القواعد الحاكمة (ملخص 5 أسطر + رابط للملف الكامل عند الحاجة)
 
-1. **الإحكام:** لكل رمز ودلالة تفسير محدد، ولا تُقبل ambiguity أو التحويلات الضمنية غير المصرّح بها.
-2. **التيسير والعدل:** تُفضّل نواة صغيرة واضحة، وكل ميزة جديدة تحتاج مبرراً قابلاً للفحص مقابل كلفتها.
-3. **الأمانة والحفظ:** لكل مورد مالك واحد، مع ملكية خطية وفحص حدود، ومنع `null` و`use-after-free` و`double-free` وraw pointers.
-4. **البيان والتفكر:** كل قرار قابل للتوثيق، والأخطاء القابلة للتجنب تُكتشف مبكراً، مع اختبارات وبصمات قابلة لإعادة الإنتاج.
-5. **الشمولية المنضبطة:** تُستعار السمات النافعة من اللغات الأخرى بعد فحصها؛ التنفيذ الخارجي أو الغموض أو المصدر غير الموثوق ينتهي بـ`DENY` أو `ABSTAIN`.
+1. **الإحكام:** لكل رمز ودلالة معنى محدد، ولا تُقبل الغموض أو التحويلات الضمنية غير المصرح بها.
+2. **التيسير والعدل:** تُفضّل النواة الصغيرة، وكل ميزة تحتاج مبرراً قابلاً للفحص مقابل كلفتها.
+3. **الأمانة والحفظ:** ملكية الموارد خطية، وفحص الحدود إلزامي، وتُمنع مؤشرات raw و`use-after-free` و`double-free`.
+4. **البيان والتفكر:** القرارات والأخطاء قابلة للتوثيق والفحص وإعادة الإنتاج، مع الامتناع عند النقص.
+5. **الشمولية المنضبطة:** لا يُسمح بالتنفيذ الديناميكي أو المصدر غير الموثوق؛ النتيجة عند الخطر `DENY` أو `ABSTAIN`.
 
-المرجع الكامل المختار: `docs/CONSTITUTION.md`، الإصدار 8.0. وتوجد نسخ/تقارير دستورية أخرى؛ أُدرجت هنا كمرجع إضافي فقط عند الحاجة، لا كمصادر متوازية.
+المرجع الدستوري المختار: `docs/CONSTITUTION.md`، الإصدار 8.0. ويظل `STAGE_REGISTRY_AR.md` المرجع الموحد لحالات المراحل، لا README أو خارطة الطريق عند التعارض.
 
 ## 3. المراحل: مغلقة / معلّقة
 
-المرجع الموحد الحالي هو `STAGE_REGISTRY_AR.md`، وقد فُصلت فيه الحالة المثبتة عن الادعاءات التاريخية المتعارضة في `ROADMAP.md` و`docs/PHASES_SUMMARY.md`.
-
-| النطاق | الحالة الموحدة | الأولوية/الملخص |
+| النطاق | الحالة المرجعية | الدليل أو القيد |
 |---|---|---|
-| MAL Grammar/Parser v0.1 | `PROVEN_FOR_SCOPE` | corpus من 12 حالة؛ لا يثبت كل اللغة. |
-| MAL-DIR v0.1 | `PROVEN_FOR_SCOPE` | validator و58 عقدة؛ v0.2 ما زال مطلوباً. |
-| Admission Gate وDENY policy | `PROVEN_FOR_SCOPE` | ALLOW/DENY/ABSTAIN دون تنفيذ مصدر خام. |
-| Rust Ownership/Arena | `PROVEN_FOR_SCOPE` | خمسة اختبارات ومقابض generations؛ prototype فقط. |
-| Language lineage registry | `PROVEN_FOR_SCOPE` | سجل عربي زمني واختبار حتمي. |
-| Ubuntu/Alpine cross-environment | `INTEGRATED_PENDING_CI` | اختلاف parser evidence يمنع إغلاق المقارنة. |
-| Required SHA-256 check | `INTEGRATED_PENDING_CI` | لا دمج في `main` حتى ينجح check عبر كل البيئات. |
-| MAL-DIR v0.2 + Arena integration | `RESEARCH` | يحتاج AST pass وABI وcross-toolchain proof. |
-| Result/Option وAsync/Await | `ABSTAIN` | تعارض بين roadmap وphase summary؛ يلزم دليل مستقل. |
-| Macros | `RESEARCH` | بند لاحق يحتاج عقد حتمية. |
-| Dependent Types | `RESEARCH` | بند بحثي خارج Tier-0 الحالي. |
-| Self-hosting الكامل | `RESEARCH` | لا يوجد إثبات مستقل كامل بعد. |
-| APK/Android | `ABSTAIN` | لا توجد شجرة Android أو APK محلية قابلة للفحص. |
+| MAL Grammar/Parser v0.1 | `PROVEN_FOR_SCOPE` | corpus من 12 حالة؛ لا يثبت كل اللغة |
+| MAL-DIR v0.1 | `PROVEN_FOR_SCOPE` | validator وبنية 58 عقدة؛ v0.2 غير مثبت |
+| Admission Gate وDENY policy | `PROVEN_FOR_SCOPE` | حالات ALLOW/DENY/ABSTAIN ضمن النطاق الاختباري |
+| Rust Ownership/Arena | `PROVEN_FOR_SCOPE` | prototype بخمسة اختبارات؛ لا يثبت التكامل الكامل |
+| Ubuntu/Alpine cross-environment | `INTEGRATED_PENDING_CI` | اختلاف parser evidence ما زال مانعاً للإغلاق |
+| SHA-256 required check | `INTEGRATED_PENDING_CI` | يلزم تطابق الأدلة عبر البيئات قبل الدمج |
+| MAL-DIR v0.2 + Arena integration | `RESEARCH` | يحتاج AST pass وABI وcross-toolchain proof |
+| Result/Option وAsync/Await | `ABSTAIN` | تعارض وثائقي يحتاج دليلاً مستقلاً |
+| Macros | `RESEARCH` | بند مستقبلي يحتاج عقد حتمية |
+| Dependent Types | `RESEARCH` | بند بحثي خارج Tier-0 الحالي |
+| Self-hosting الكامل | `RESEARCH` | لا يوجد إثبات مستقل كامل |
+| APK/Android | `ABSTAIN` | لا توجد شجرة Android أو APK محلية قابلة للفحص |
+| Stage 7 corrective branch | `TECHNICAL_GATES_PASSED / PROMOTION_NOT_PERFORMED` | 179 حالة، 0 اختلافات؛ التغييرات غير ملتزمة حالياً وفق Git |
 
-### الأولويات القصوى المعلقة
-
-1. **P0 — reproducible build:** تفسير وإصلاح اختلاف `MAL_GRAMMAR_CORPUS_PARSER.stdout` بين Ubuntu وAlpine، مع إبقاء الملف ضمن allowlist؛ الفشل الحالي يمنع الدمج.
-2. **P0 — سجل مراحل واحد:** اعتماد `STAGE_REGISTRY_AR.md` وتصفية تعارض أرقام 45/50 و47/50 من الوثائق غير المرجعية.
-3. **P1 — Arena رسمية:** نقل prototype إلى MAL-DIR v0.2 مع AST وABI واختبارات Rust cross-environment.
-4. **P1 — حدود المترجم:** تثبيت grammar وIR وownership وcodegen وbootstrap الحتمي قبل إعلان self-hosting كاملاً.
-5. **P2 — الميزات اللاحقة:** Result/Option ثم Macros؛ Dependent Types بحثي، وAsync/Await لا يعتمد قبل إثبات جدولة حتمية.
-6. **P2 — APK منفصل:** لا قرار اعتماد قبل مستودع Android وmanifest وbuild reproducibility مستقل.
-
-المرجع التفصيلي للحالات والأدلة وقاعدة الترقية: `STAGE_REGISTRY_AR.md`.
+**الأولويات المعلقة:** إصلاح اختلاف المقارنة عبر البيئات، توحيد سجل المراحل، إكمال Arena داخل MAL-DIR v0.2، تثبيت حدود المترجم قبل self-hosting، ثم فصل APK في مستودع قابل للفحص وإعادة البناء.
 
 ## 4. آخر دليل قبول (RC/PASS فقط، بلا stdout كامل)
 
-آخر تقرير قبول نصي هو `evidence/MAL_OWNERSHIP_ARENA_RUST_REPORT_AR.md`، وهو أحدث من تقارير Arena السابقة. السطور المختصرة:
+المصدر المختار: `evidence/STAGE7_CORRECTIVE_EXECUTION_REPORT_AR.md`.
 
 ```text
-MAL_OWNERSHIP_ARENA_RUST=PASS
-TESTS=5
-RAW_POINTERS=FORBIDDEN
-UNSAFE_CODE=FORBIDDEN
-GENERATION_CHECK=PASS
-BORROW_RULES=PASS
-SCOPE_ISOLATION=PASS
-CAPACITY_RULE=PASS
-EXECUTION=NOT_PERFORMED
-NETWORK=DISABLED_BY_CONTRACT
-STATUS=0
+CORRECTIVE_CORPUS=64_FILES
+TOTAL_CORPUS_CASES=179
+DIFFERENTIAL_STATUS=MATCHED_CANONICAL
+DIFFERENTIAL_FILES=179
+DIFFERENTIAL_MATCHES=179
+DIFFERENTIAL_MISMATCHES=0
+CARGO_TEST_EXIT=0
+UNSAFE_SCAN=PASS_NO_UNSAFE_ITEMS
+TRIPLE_JSON_MATCH=PASS
+TRIPLE_STDOUT_MATCH=PASS
+CORRECTIVE_EVIDENCE=SHA256_EXIT_0
+ARABIC_VS_PYTHON_EXACT=2.583114087539%
+RATIO_GATE=PASS
+AUTO_PROMOTION=DENY
+STAGE7_PROMOTION=NOT_PERFORMED
+NEXT_STAGES=BLOCKED_PENDING_EXPLICIT_APPROVAL
 ```
 
-حدود الدليل: يثبت Rust Arena ضمن نطاق النموذج الأولي فقط، ولا يثبت بعد تكامل grammar أو MAL-DIR أو ABI أو backend أو WASM أو نظام تشغيل كامل. كما أن فحص `Compare cross-environment SHA-256 manifests` في Pull Request ما زال مانعاً للدمج حتى يُفسّر اختلاف `MAL_GRAMMAR_CORPUS_PARSER.stdout` ويُثبت التطابق بتاً-بت.
+**حدود الدليل:** التقرير يثبت البوابات التصحيحية ضمن نطاق Stage 7 المعلن، ولا يثبت تلقائياً الدمج أو الترقية أو صحة Stage 8 أو خلو النظام الكامل من جميع العيوب.
 
-## 5. حالة Git الحالية
-
-الناتج المختصر المطلوب:
+## 5. حالة Git الحالية (مختصر)
 
 ```text
-git status --short: clean
-HEAD: 58ffedd
-BRANCH: integration/mal-deterministic-audit-2026-08-25
+git status --short --branch: ## stage7-execution-2026-08-26
+working_tree: NOT_CLEAN
+tracked_modified: 7 files
+untracked_files: present, including Stage 7 corpus/evidence
+HEAD: 7e1301a
+branch: stage7-execution-2026-08-26
 ```
 
 آخر خمسة commits:
 
 ```text
-58ffedd feat(mal): add governed language lineage registry
-2245f46 chore(mal): ignore Rust build artifacts
-e731a4c feat(mal): add deterministic Rust ownership arena
-cca59f0 fix(ci): exclude comparison output from manifest inputs
-ba68923 fix(ci): collect cross-environment artifacts explicitly
+7e1301a Record safe ABI build verification
+de9e234 Add safe fixed-segment ABI for Stage 6
+dbcc030 Correct final WebAssembly artifact report
+1c10ed Record WebAssembly target provisioning attempts
+e9dac8a Complete Stage 6 WebAssembly artifact
 ```
 
-## 6. الملفات المصدر الفعلية للرجوع عند الحاجة
+> **فرق مهم:** `STAGE_REGISTRY_AR.md` يحمل فرعاً أقدم (`integration/mal-deterministic-audit-2026-08-25`) وbaseline مختلفاً عن Git الآني؛ لذلك لا يُوصف المستودع الحالي بأنه نظيف أو على ذلك الفرع.
 
-المرجع الأحدث لحالة المراحل: `STAGE_REGISTRY_AR.md`.
+## 6. الملفات المصدر الفعلية للرجوع عند الحاجة (أسماء فقط)
 
-
-| الدور | الملف المختار الوحيد |
+| الدور | الملف المختار الوحيد أو البديل الأقرب |
 |---|---|
-| الهوية | `uori-mediator-kit/protocol/MANIFEST_AR.json` |
+| بطاقة الهوية | `/home/ubuntu/uori-mediator-kit/protocol/MANIFEST_AR.json` |
 | الدستور | `docs/CONSTITUTION.md` |
-| سجل المراحل | `docs/PHASES_SUMMARY.md` |
+| سجل المراحل الموحد | `STAGE_REGISTRY_AR.md` |
 | خارطة الطريق | `ROADMAP.md` |
-| جرد الكود الوظيفي | `README.md` |
-| نظرة UORI العربية | `uori-mediator-kit/README_AR.md` |
-| آخر تقرير قبول | `evidence/MAL_OWNERSHIP_ARENA_RUST_REPORT_AR.md` |
-| عقد MAL/UORI الحالي | `protocol/MAL_LANGUAGE_LINEAGE_INTEGRATION_AR.md` |
-| سجل السمات التاريخية | `protocol/MAL_LANGUAGE_LINEAGE_REGISTRY_AR.json` |
-| عقد حماية الفرع | `protocol/MAL_BRANCH_PROTECTION_AR.md` |
-| عقد MAL Grammar | `protocol/MAL_GRAMMAR_SPEC_v0.1_AR.md` |
-| عقد MAL-DIR | `protocol/MAL_DIR_SPEC_v0.1_AR.md` |
-| عقد سياسة DENY | `protocol/MAL_DENY_POLICY_v0.1_AR.md` |
-| تنفيذ Rust Arena | `rust/mal_ownership_arena/src/lib.rs` |
-| مسار CI | `.github/workflows/mal-deterministic-audit.yml` |
-| Pull Request | `https://github.com/elhamdolillah/arabic-math-lang/pull/2` |
+| جرد الكود الوظيفي — البديل الأقرب | `evidence/MAL_NEXT_PHASE_PROGRESS_REPORT_AR.md` |
+| آخر دليل قبول مختصر | `evidence/STAGE7_CORRECTIVE_EXECUTION_REPORT_AR.md` |
+| حالة Git الحالية | ناتج `git status --short --branch` و`git log -5 --oneline` الموجز أعلاه |
 
-الملفات المستبعدة بسبب التكرار أو قدمها: `CONSTITUTION.md` الجذرية، `README_old.md`، تقارير Arena القديمة، تقارير Grammar/MAL-DIR القديمة، وملفات الأرشيف المرحلية. لم تُرفق أي ملفات `.stdout` أو `.asm` أو `.o` أو `.wasm` أو `.apk` أو غيرها من المخرجات الخام والثنائيات.
+الملفات المتكررة أو الأقدم المستبعدة: `README_old.md`، `CONSTITUTION.md` الجذرية، تقارير Arena وGrammar وMAL-DIR الأقدم، ونسخ التشغيل المتعددة. استُبعدت كلياً ملفات `.asm` و`.stdout` و`.o` و`.wasm` و`.apk` و`.vo` و`.vok` و`.vos` و`.glob` و`.sqlite3` وسائر الثنائيات والمخرجات الخام.
 
-## 7. نطاق الحزمة
+## 7. حدود الاستخدام
 
-هذه الوثيقة هي **حزمة الإحاطة الوحيدة** المقصودة للفهم الأولي. عند الحاجة إلى إثبات بند محدد فقط، يُرجع إلى الملف المصدر المقابل في الجدول، ثم إلى evidence الخام المرتبط بذلك البند؛ ولا تُستخدم هذه الحزمة بديلاً عن التحقق التنفيذي أو عن عقد baseline المجمّد.
+هذه الحزمة للفهم الأولي فقط، ولا تحل محل ملفات الأدلة أو التحقق التنفيذي. عند الحاجة إلى بند محدد، يُرجع إلى الملف المختار لذلك الدور ثم إلى الدليل الخام المرتبط به. وبسبب عدم نظافة شجرة Git الحالية، لا يجوز إعلان الدمج أو الترقية أو سلامة baseline من هذه الحزمة وحدها.
