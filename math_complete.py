@@ -14,6 +14,36 @@ _qs.loader.exec_module(_qsm)
 جميع الحلول وفق الدستور الرياضي
 """
 import sys, subprocess
+import hashlib as _hashlib
+
+# Cache runtime artifacts per process; stat metadata avoids rereading unchanged files.
+# The content is authenticated before it enters the cache (FAIL_CLOSED).
+_RUNTIME_CACHE = {}
+_RUNTIME_EXPECTED_SHA256 = {
+    "sha256_runtime_generated.asm": "214a4e5aa8a7fb118efaff81c6478ad549f57b6b1d67108a9ca195cd49235af5",
+    "utf8_next_codepoint.asm": "85ad4632ccf8fc5470e5186ef02c2c9d745e4d91f38328f52ca0cc313f43b733",
+}
+
+def _load_runtime_cached(path, label):
+    try:
+        stat = _qos.stat(path)
+    except OSError as exc:
+        raise Exception(f"{label} runtime artifact missing: {exc}")
+    key = (path, stat.st_mtime_ns, stat.st_size)
+    cached = _RUNTIME_CACHE.get(path)
+    if cached is not None and cached[0] == key:
+        return cached[1]
+    try:
+        with open(path, "r", encoding="utf-8", newline="") as runtime_file:
+            content = runtime_file.read()
+    except OSError as exc:
+        raise Exception(f"{label} runtime artifact missing: {exc}")
+    digest = _hashlib.sha256(content.encode("utf-8")).hexdigest()
+    expected = _RUNTIME_EXPECTED_SHA256.get(_qos.path.basename(path))
+    if expected is not None and digest != expected:
+        raise Exception(f"{label} runtime artifact fingerprint mismatch: {digest}")
+    _RUNTIME_CACHE[path] = (key, content, digest)
+    return content
 # ═══════════════════════════════════════════════════════════
 # القاموس الموحد — المرحلة 47 (دمج من lexicon/)
 # ═══════════════════════════════════════════════════════════
@@ -2224,18 +2254,10 @@ def compile_program(برنامج):
     except Exception as e:
         raise Exception(f"خطأ في التأكيد الثابت: {e}")
     check_ownership(برنامج)
-    _sha_path = __import__("os").path.join(__import__("os").path.dirname(__file__) or ".", "sha256_runtime_generated.asm")
-    try:
-        with open(_sha_path, "r", encoding="utf-8") as _sha_file:
-            _sha_runtime = _sha_file.read()
-    except OSError as _sha_error:
-        raise Exception(f"SHA-256 runtime artifact missing: {_sha_error}")
-    _utf8_path = __import__("os").path.join(__import__("os").path.dirname(__file__) or ".", "utf8_next_codepoint.asm")
-    try:
-        with open(_utf8_path, "r", encoding="utf-8") as _utf8_file:
-            _utf8_runtime = _utf8_file.read()
-    except OSError as _utf8_error:
-        raise Exception(f"UTF-8 runtime artifact missing: {_utf8_error}")
+    _sha_path = _qos.path.join(_qos.path.dirname(__file__) or ".", "sha256_runtime_generated.asm")
+    _sha_runtime = _load_runtime_cached(_sha_path, "SHA-256")
+    _utf8_path = _qos.path.join(_qos.path.dirname(__file__) or ".", "utf8_next_codepoint.asm")
+    _utf8_runtime = _load_runtime_cached(_utf8_path, "UTF-8")
     asm=["global _start","section .bss",
          "    vars resq 256","    num_buf resb 32","    negflag resb 1","    read_buf resb 256",
          "    match_val resq 1","    match_tmp resq 1",   # المرحلة 43: pattern matching
