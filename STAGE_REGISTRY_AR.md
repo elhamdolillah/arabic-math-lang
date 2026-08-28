@@ -75,3 +75,43 @@ BASELINE_MODIFIED=NO
 AUTO_PROMOTION=DENY
 FAIL_CLOSED=ACTIVE
 ```
+
+## تدقيق اعتماد `uori_lookup_v5` والدمج المحدد النطاق — 2026-08-28
+
+بعد إنشاء ورفع الإصدار المرشح `v5.2.0-lookup-rc1`، أُجري دمج محلي محدد النطاق لفرع `adoption/uori-lookup-v5-constitutional` إلى `main` باستخدام `--no-ff`.
+
+```text
+PRE_MERGE_ANCHOR=release/pre-lookup-v5-merge-2026-08-28
+PRE_MERGE_COMMIT=31d34b33ac4f5b79081b922bf52870af6b06e0f8
+MERGE_COMMIT=9e880f55e7001ddfe25830072a929a4607e96448
+BRANCH=main
+```
+
+اجتازت بوابات ما بعد الدمج فعلياً:
+
+```text
+LOOKUP_V5_ADOPTION=RC0
+TEST_PHASES=RC0
+TEST_ALL_PHASES=RC0
+RUNTIME_CACHE=RC0
+DIFF_CHECK=RC0
+TRIPLE_RUN=PASS
+WORKTREE=REQUIRES_ARTIFACT_STASH
+```
+
+وتطابقت بصمات `uori_lookup.ar` و`uori_lookup_v5.ar`:
+
+```text
+440b52951203bd20ec118a747777f32a3889bafe050bcccb30039aa8a7be2700
+```
+
+هذا الدمج يثبت اعتماد v5 ضمن مصفوفة الاختبار المحددة فقط. لا يثبت اكتمال kernel أو Wasmi، ولا يلغي `ABSTAIN` للملفات المرجعية الناقصة، ولا ينشئ stable release.
+
+```text
+LOOKUP_V5=PROVEN_FOR_CURRENT_INTEGRATION_MATRIX
+KERNEL_ARCHIVE=ABSTAIN
+WASMI_SOURCES=ABSTAIN_MISSING
+STABLE_RELEASE=BLOCKED
+AUTO_PROMOTION=DENY
+FAIL_CLOSED=ACTIVE
+```
