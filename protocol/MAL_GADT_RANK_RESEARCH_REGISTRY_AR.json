@@ -1,0 +1,39 @@
+{
+  "schema": "MAL-UORI-RESEARCH-REGISTRY-0.1",
+  "language": "MAL",
+  "status": "RESEARCH",
+  "default_decision": "ABSTAIN_UNTIL_EVIDENCE",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "extensions": [
+    {
+      "id": "gadt-bounded-research",
+      "name_ar": "الأنواع المجموعية المعتمدة GADT",
+      "decision": "RESEARCH",
+      "rank_limit": null,
+      "scope": "closed indexed algebraic data types with explicit constructors and exhaustive match",
+      "required_proof": ["termination", "type preservation", "exhaustiveness", "canonical IR"],
+      "on_ambiguity": "ABSTAIN",
+      "on_runtime_reflection": "DENY"
+    },
+    {
+      "id": "rank2-static-research",
+      "name_ar": "التعدد النمطي من الرتبة الثانية",
+      "decision": "RESEARCH",
+      "rank_limit": 2,
+      "scope": "explicit forall annotations with bidirectional checking and monomorphic instantiation",
+      "required_proof": ["decidable checking", "scope safety", "canonical binder ordering", "resource bound"],
+      "on_ambiguity": "ABSTAIN",
+      "on_rank_overflow": "ABSTAIN",
+      "on_impredicative_instantiation": "DENY"
+    }
+  ],
+  "forbidden_constructs": [
+    "raw_pointer",
+    "eval",
+    "exec",
+    "untrusted_raw_source",
+    "runtime_symbol_lookup"
+  ]
+}

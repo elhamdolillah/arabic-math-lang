@@ -1,0 +1,2 @@
+rust/mal_ownership_arena/src/lib.rs:1:#![forbid(unsafe_code)]
+rust/mal_ownership_arena/src/lexer.rs:119:        } else if current.starts_with("unsafe") {

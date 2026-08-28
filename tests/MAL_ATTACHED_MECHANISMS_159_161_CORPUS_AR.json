@@ -1,0 +1,41 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_159_161_CORPUS_AR",
+  "version": "0.1.0",
+  "corpus_status": "REVIEW_ONLY",
+  "source_execution": "NOT_PERFORMED",
+  "runtime_features_admitted": 0,
+  "cases": [
+    {
+      "id": "159_initial_state_is_not_no_alloc",
+      "mechanism": 159,
+      "input_contract": "استدعاءان متتاليان لبرنامج ذي حالة working-storage يعاد تهيئتها.",
+      "expected_review": "RESEARCH",
+      "expected_decision": "ABSTAIN/NO_PURITY_PROOF",
+      "why": "إعادة الحالة لا تكفي لإثبات غياب الآثار الجانبية أو التخصيص."
+    },
+    {
+      "id": "160_volatile_is_not_atomic",
+      "mechanism": 160,
+      "input_contract": "قراءة وكتابة volatile مع احتمال مشاركة بين خيطين.",
+      "expected_review": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_decision": "ABSTAIN/MEMORY_MODEL_UNPROVEN",
+      "why": "لا يوجد عقد MAL مثبت للذرية أو ترتيب الذاكرة أو ABI للأجهزة."
+    },
+    {
+      "id": "161_safety_level_is_not_effect_contract",
+      "mechanism": 161,
+      "input_contract": "فهرس مصفوفة خارج المجال داخل دالة ذات مستوى سلامة مرتفع.",
+      "expected_review": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_decision": "ABSTAIN/FAILURE_CODE_UNPROVEN",
+      "why": "وجود الفحص لا يحدد عقدًا موحدًا لنوع الخطأ ولا يثبت أثر التخصيص."
+    }
+  ],
+  "assertions": [
+    "mechanism_159_does_not_promote_to_bla_takhsis",
+    "mechanism_160_does_not_promote_to_atomic_or_thread_ordered_access",
+    "mechanism_161_does_not_promote_to_universal_bounds_error_contract",
+    "source_execution_remains_disabled",
+    "runtime_features_admitted_remains_zero",
+    "auto_promotion_remains_denied"
+  ]
+}

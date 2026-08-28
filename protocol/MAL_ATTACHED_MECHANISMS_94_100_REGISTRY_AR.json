@@ -1,0 +1,67 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.1.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {
+      "id": 94,
+      "name": "scheme_call_cc_control",
+      "target": "Scheme",
+      "decision": "RESEARCH",
+      "guard_ar": "الاستمرارية من الدرجة الأولى تنقل التحكم صراحة، لكنها قد تعاد مرات متعددة وتحتاج إلى عقد الذاكرة والموارد والإنهاء؛ المثال المقترح قد يدخل في حلقة غير منتهية",
+      "required_evidence_ar": "تمثيل MAL للاستمرارية، حد وقود، قاعدة عمر للبيئة، حالات إعادة الاستدعاء، ورفض منظم عند نفاد الموارد"
+    },
+    {
+      "id": 95,
+      "name": "smalltalk_single_dispatch",
+      "target": "Smalltalk",
+      "decision": "RESEARCH",
+      "guard_ar": "يمكن أن يكون البحث عن الطريقة دالة في صنف المستقبل والمرسل، لكن سلسلة الوراثة وصورة الكائن وتعديل الصنف وبيئة التنفيذ تحتاج إلى تثبيت صريح",
+      "required_evidence_ar": "ترتيب وراثة canonical، جدول رموز ثابت، منع تعديل الصنف أثناء التنفيذ، corpus للتعارض والغياب، وبصمة لترجمة البحث"
+    },
+    {
+      "id": 96,
+      "name": "tcl_braced_expr",
+      "target": "Tcl",
+      "decision": "RESEARCH",
+      "guard_ar": "الأقواس المعقوفة تؤخر الاستبدال وتمنع إعادة تحليل بعض القيم، لكنها لا تثبت وحدها سلامة كل تحويل عددي أو سلوك المحرك أو غياب الحالة الخارجية",
+      "required_evidence_ar": "مواصفة تحليل واحدة، أنواع وقيم عددية canonical، corpus للاستبدال والأخطاء، ومنع تنفيذ النص ككود"
+    },
+    {
+      "id": 97,
+      "name": "simula_event_list",
+      "target": "Simula",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "ترتيب الأحداث بالزمن لا يكفي لإثبات الحتمية؛ يلزم كسر تعادل ثابت، وتمثيل زمني غير عائم أو عقد تقريب، وسياسة واضحة للتنشيط والتعليق وإنهاء الوقود",
+      "required_evidence_ar": "ساعة منطقية immutable، مفتاح ترتيب (الزمن، رقم الإدراج)، حساب زمني ثابت، corpus للتعادلات، وحدود للتكرار والموارد"
+    },
+    {
+      "id": 98,
+      "name": "rexx_numeric_digits",
+      "target": "REXX",
+      "decision": "RESEARCH",
+      "guard_ar": "تحديد عدد الخانات العشرية يقيّد الدقة، لكنه لا يحدد وحده خوارزمية التقريب، حدود الموارد، overflow، أو سلوك جميع المحركات؛ كما أن تغيير الدقة حالة ضمنية قابلة للتأثير في النتائج",
+      "required_evidence_ar": "دقة ومقياس canonical، تقريب صريح، overflow والقسمة على صفر، حد وقود وذاكرة، وتسلسل عمليات محفوظ"
+    },
+    {
+      "id": 99,
+      "name": "apl_grade_permutation",
+      "target": "APL",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "إرجاع ترتيب للفرز لا يثبت ترتيباً ثابتاً عند تساوي القيم؛ لا يجوز اعتماد الاستقرار أو كسر التعادل ما لم ينص عليه العقد صراحة",
+      "required_evidence_ar": "ترتيب total order، كسر تعادل بالمؤشر الأصلي، دلالة للأشكال والقيم الخاصة، corpus للتعادلات، وبصمة مستقلة للتنفيذ"
+    },
+    {
+      "id": 100,
+      "name": "forth_create_does",
+      "target": "Forth",
+      "decision": "RESEARCH",
+      "guard_ar": "تعريف الكلمات يربط سلوكاً ببيانات في قاموس التنفيذ، لكنه يعتمد على حالة القاموس وترتيب التعريف وABI والمكدسات؛ لذلك لا يثبت وحده توليداً حتمياً عابراً للبيئات",
+      "required_evidence_ar": "قاموس canonical، ترتيب تعريف ثابت، عقد للمكدس والبيانات، حدود الذاكرة، تنسيق هدف ثابت، وcorpus لإعادة التعريف والتعارض"
+    }
+  ]
+}

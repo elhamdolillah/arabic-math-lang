@@ -1,0 +1,56 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_127_131_REGISTRY_AR.json",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "runtime_features_admitted": 0,
+  "cases": [
+    {
+      "id": 127,
+      "name": "rust_nonzero_u32",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "واجهة NonZeroU32 الآمنة لا تنشئ قيمة صفرية وتتيح تمرير invariant غير صفري إلى الدوال",
+      "counterexample": "unsafe أو اختلاف ABI وniche optimization لا يتحول تلقائياً إلى عقد MAL، كما أن النوع غير موجود في Grammar v0.1",
+      "gap": "لا يوجد بعد نوع غير صفري أو نظام refinement types أو corpus قبول ورفض خاص به"
+    },
+    {
+      "id": 128,
+      "name": "go_trimpath",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يقلل المسارات المطلقة في ميتاداتا Go ويزيل أحد مصادر اختلاف مكان البناء",
+      "counterexample": "لا يعالج وحده build id أو وقت البناء أو compiler version أو build tags أو اختلاف التبعيات، فلا يثبت تطابقاً ثنائياً كاملاً",
+      "gap": "عقد البناء hermetic ومصفوفة toolchain ومقارنة ثنائية مستقلة غير مثبتة"
+    },
+    {
+      "id": 129,
+      "name": "c_fesetround",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يتيح اختيار وضع تقريب IEEE-754 قبل عمليات فاصلة عائمة لاحقة",
+      "counterexample": "التحسينات وFENV_ACCESS والدقة الزائدة والعتاد والاستثناءات قد تغير النتيجة، كما أن الحساب العائم خارج أساس MAL الحالي",
+      "gap": "عقد IEEE-754 كامل وإثبات عتادي ومعالجة NaN وsubnormal وexceptions غير موجود"
+    },
+    {
+      "id": 130,
+      "name": "cpp_atomic_ref_seq_cst",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يشارك الوصول الذري seq_cst إلى الكائن في ترتيب كلي متسق مع ترتيب كل خيط",
+      "counterexample": "الترتيب الكلي لا يحدد جدولة الخيوط ولا يضمن نتيجة حتمية عامة، كما أن الوصول غير الذري أو lifetime غير الصحيح يعيد الخطر",
+      "gap": "نموذج تزامن وجدولة وownership ومحاذاة قابلة للتحقق غير موجود"
+    },
+    {
+      "id": 131,
+      "name": "javascript_object_prevent_extensions",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمنع إضافة خصائص جديدة إلى الكائن وفق قواعد JavaScript",
+      "counterexample": "يمكن حذف الخصائص وتعديل القيم، ولذلك لا يثبت مجموعة مفاتيح ثابتة أو immutability عميقة، وقد يؤثر proxy والسياق التنفيذي",
+      "gap": "سجل canonical وسياسة مفاتيح وترتيب وقواعد proxy والفشل غير محددة في MAL"
+    }
+  ]
+}

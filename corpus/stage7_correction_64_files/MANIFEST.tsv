@@ -1,0 +1,65 @@
+index	source	expected
+01	جمع(0)	valid
+02	جمع(1)	valid
+03	جمع(2)	valid
+04	جمع(3)	valid
+05	جمع(4)	valid
+06	جمع(5)	valid
+07	جمع(6)	valid
+08	جمع(7)	valid
+09	جمع(8)	valid
+10	جمع(9)	valid
+11	جمع(10)	valid
+12	جمع(11)	valid
+13	جمع(12)	valid
+14	جمع(13)	valid
+15	جمع(14)	valid
+16	جمع(15)	valid
+17	حصر(0)	valid
+18	حصر(4)	valid
+19	حصر(8)	valid
+20	حصر(12)	valid
+21	حصر(16)	valid
+22	حصر(20)	valid
+23	حصر(24)	valid
+24	حصر(28)	valid
+25	حصر(32)	valid
+26	حصر(36)	valid
+27	حصر(40)	valid
+28	حصر(44)	valid
+29	حصر(48)	valid
+30	حصر(52)	valid
+31	حصر(56)	valid
+32	حصر(60)	valid
+33	مبلغ(1)	valid
+34	مبلغ(2)	valid
+35	مبلغ(3)	valid
+36	مبلغ(4)	valid
+37	مبلغ(5)	valid
+38	مبلغ(6)	valid
+39	مبلغ(7)	valid
+40	مبلغ(8)	valid
+41	مبلغ(9)	valid
+42	مبلغ(10)	valid
+43	مبلغ(11)	valid
+44	مبلغ(12)	valid
+45	جمع((0) + (1))	valid
+46	جمع((1) + (2))	valid
+47	جمع((2) + (3))	valid
+48	جمع((3) + (4))	valid
+49	جمع((4) + (5))	valid
+50	جمع((5) + (6))	valid
+51	جمع((6) + (7))	valid
+52	جمع((7) + (8))	valid
+53	جمع((0) + (9))	valid
+54	جمع((1) + (10))	valid
+55	جمع((2) + (11))	valid
+56	جمع((3) + (12))	valid
+57	حصر(65)	abstain
+58	حصر(66)	abstain
+59	حصر(67)	abstain
+60	حصر(68)	abstain
+61	جمع(2000)	abstain
+62	eval(1)	abstain
+63	مجهول(1)	abstain
+64	جمع(1	abstain

@@ -61,3 +61,6 @@ math_complete.py.pre_*.backup
 phase50_selfhost
 phase50_selfhost.bin
 examples/phase43_*
+
+# Rust build outputs
+**/target/

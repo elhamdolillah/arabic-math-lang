@@ -1,0 +1,53 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_196_200_REGISTRY_AR",
+  "version": "0.1.0",
+  "classification": "RESEARCH",
+  "evidence": "protocol/EVIDENCE_196_200_AR.md",
+  "entries": [
+    {
+      "id": 196,
+      "name": "recursive_cycle_detection",
+      "target": "PostgreSQL_WITH_RECURSIVE_CYCLE",
+      "decision": "RESEARCH",
+      "guarantee": "كشف الدورات القابلة للوصول وإضافة علم ومسار للتتبع في الاستعلام التكراري",
+      "counterexample": "CYCLE لا يثبت ترتيب الصفوف أو استقلال النتيجة عن خطة التنفيذ",
+      "gap": "تثبيت ORDER BY ومفتاح ترتيب كامل وتحليل دلالات UNION وUNION ALL"
+    },
+    {
+      "id": 197,
+      "name": "fixed_array_container",
+      "target": "CXX_std_array",
+      "decision": "RESEARCH",
+      "guarantee": "حاوية متجاورة ذات عنصر نوعه T وعدد عناصر N ثابت في النوع",
+      "counterexample": "لا يضمن موضع التخزين على المكدس أو ثبات العنوان، وoperator[] غير مفحوص الحدود",
+      "gap": "عقد تخطيط وABI وتحديد سياسة الفحص والتعامل مع الوصول خارج النطاق"
+    },
+    {
+      "id": 198,
+      "name": "fixed_bit_sequence",
+      "target": "CXX_std_bitset",
+      "decision": "RESEARCH",
+      "guarantee": "سلسلة ثابتة من N بت وعمليات منطقية معرفة على محتوى السلسلة",
+      "counterexample": "لا يثبت ABI أو تنسيق تبادل عابرًا للمنصات أو نجاح كل تحويل عددي",
+      "gap": "تثبيت الإصدار والمكتبة ومجال التحويل والترميز الخارجي"
+    },
+    {
+      "id": 199,
+      "name": "thread_rendezvous_barrier",
+      "target": "Rust_std_sync_Barrier",
+      "decision": "RESEARCH",
+      "guarantee": "انتظار عدد محدد من الخيوط عند نقطة rendezvous وإيقاظها بعد اكتمال الوصول",
+      "counterexample": "لا يضمن ترتيب الجدولة أو المخرجات أو هوية القائد أو تطابق التشغيلات",
+      "gap": "عقد ذاكرة مشترك وجدولة قابلة للإعادة ومنع الآثار الجانبية غير المرتبة"
+    },
+    {
+      "id": 200,
+      "name": "property_descriptor_control",
+      "target": "ECMAScript_Object_defineProperty",
+      "decision": "RESEARCH",
+      "guarantee": "ضبط واصفات خاصية بيانات أو accessor، ومنها writable وenumerable وconfigurable",
+      "counterexample": "لا يثبت تجميدًا عميقًا أو منع Proxy أو تغيير الكائنات المشار إليها أو سلوكًا موحدًا دون تثبيت strictness",
+      "gap": "تحديد نوع descriptor ونمط الصرامة ومسارات Proxy والعمق البنيوي للقيمة"
+    }
+  ]
+}

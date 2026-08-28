@@ -1,0 +1,2 @@
+build_artifacts/stage6/mal_runner_x86_64:      ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=47a613375a177d8d1cb5c05fc5209ba89a521edd, stripped
+build_artifacts/stage6/mal_engine_stage6.wasm: WebAssembly (wasm) binary module version 0x1 (MVP)

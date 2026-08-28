@@ -1,0 +1,51 @@
+{
+  "language": "MAL",
+  "title_ar": "مواصفة اللغة العربية الرياضية",
+  "grammar_version": "0.1.0",
+  "status": "DRAFT_PENDING_CORPUS",
+  "encoding": "UTF-8",
+  "unicode_normalization": "NFC",
+  "newline": "LF",
+  "entry_point": "برنامج",
+  "reserved_words": ["بنية", "إذا", "وإلا", "لكل", "أرجع", "ثابت", "صحيح", "خطأ", "منطقي"],
+  "types": ["عدد_صحيح", "عدد_حقيقي", "منطقي", "نص", "بايت", "فراغ"],
+  "operators": [
+    {"symbol": "*", "precedence": 7},
+    {"symbol": "/", "precedence": 7},
+    {"symbol": "%", "precedence": 7},
+    {"symbol": "+", "precedence": 6},
+    {"symbol": "-", "precedence": 6},
+    {"symbol": "<", "precedence": 5},
+    {"symbol": ">", "precedence": 5},
+    {"symbol": "<=", "precedence": 5},
+    {"symbol": ">=", "precedence": 5},
+    {"symbol": "==", "precedence": 4},
+    {"symbol": "!=", "precedence": 4},
+    {"symbol": "&&", "precedence": 3},
+    {"symbol": "||", "precedence": 2},
+    {"symbol": "=", "precedence": 1, "associativity": "right"}
+  ],
+  "unsupported_in_v0_1": ["unary_operators", "generics", "ssa", "native_linking"],
+  "real_arithmetic": "ABSTAIN_UNTIL_IEEE754_CONTRACT",
+  "unknown_construct": "ABSTAIN",
+  "source_execution": "FORBIDDEN",
+  "source_ref_execution": "FORBIDDEN",
+  "canonical_ast": {
+    "field_order": "declaration_order",
+    "map_order": "lexicographic_utf8",
+    "list_order": "source_order",
+    "memory_addresses": "excluded",
+    "timestamps": "excluded",
+    "serialization": "UTF-8 JSON with LF and trailing newline"
+  },
+  "freeze_acceptance": {
+    "spec_json_valid": true,
+    "valid_corpus_pass": true,
+    "invalid_corpus_rejected": true,
+    "boundary_cases_classified": true,
+    "ast_repeatability": "PASS",
+    "source_ref_executed": false,
+    "baseline_modified": false,
+    "sha256_chain": "STATUS=0"
+  }
+}

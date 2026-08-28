@@ -1,0 +1,7 @@
+rust/mal_ownership_arena/src/ast.rs: OK
+rust/mal_ownership_arena/src/lexer.rs: OK
+rust/mal_ownership_arena/src/parser.rs: OK
+rust/mal_ownership_arena/src/evaluator.rs: OK
+rust/mal_ownership_arena/src/bin/mal_runner.rs: OK
+scripts/mal_reference_model.py: OK
+scripts/mal_differential_runner.py: OK
