@@ -26,7 +26,7 @@ def main() -> int:
     if len(manifests) < 2:
         print("CROSS_ENV_COMPARE=ABSTAIN")
         print("REASON=INSUFFICIENT_ENVIRONMENTS")
-        return 2
+        return 1
 
     loaded = []
     for path in manifests:
@@ -34,15 +34,15 @@ def main() -> int:
             value = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError):
             print(f"CROSS_ENV_COMPARE=FAIL\nREASON=INVALID_MANIFEST\nFILE={path.name}")
-            return 3
+            return 1
         if value.get("schema") != SCHEMA or not value.get("comparable_sha256"):
             print(f"CROSS_ENV_COMPARE=FAIL\nREASON=SCHEMA_OR_DIGEST_INVALID\nFILE={path.name}")
-            return 3
+            return 1
         comparable = {"schema": value["schema"], "artifacts": value.get("artifacts")}
         expected = hashlib.sha256(canonical_bytes(comparable)).hexdigest()
         if expected != value["comparable_sha256"]:
             print(f"CROSS_ENV_COMPARE=FAIL\nREASON=SELF_HASH_MISMATCH\nFILE={path.name}")
-            return 4
+            return 1
         loaded.append((path.name, value))
 
     digests = sorted({value["comparable_sha256"] for _, value in loaded})
