@@ -1,4 +1,8 @@
+import sys
 import importlib.util as _qiu, os as _qos
+_lexicon_dir = _qos.path.join(_qos.path.dirname(__file__) or ".", "lexicon")
+if _lexicon_dir not in sys.path:
+    sys.path.insert(0, _lexicon_dir)
 _qs = _qiu.spec_from_file_location("lexicon_quranic_support", _qos.path.join(_qos.path.dirname(__file__) or ".", "lexicon", "lexicon_quranic_support.py"))
 _qsm = _qiu.module_from_spec(_qs)
 _qs.loader.exec_module(_qsm)
@@ -10,6 +14,36 @@ _qs.loader.exec_module(_qsm)
 جميع الحلول وفق الدستور الرياضي
 """
 import sys, subprocess
+import hashlib as _hashlib
+
+# Cache runtime artifacts per process; stat metadata avoids rereading unchanged files.
+# The content is authenticated before it enters the cache (FAIL_CLOSED).
+_RUNTIME_CACHE = {}
+_RUNTIME_EXPECTED_SHA256 = {
+    "sha256_runtime_generated.asm": "214a4e5aa8a7fb118efaff81c6478ad549f57b6b1d67108a9ca195cd49235af5",
+    "utf8_next_codepoint.asm": "85ad4632ccf8fc5470e5186ef02c2c9d745e4d91f38328f52ca0cc313f43b733",
+}
+
+def _load_runtime_cached(path, label):
+    try:
+        stat = _qos.stat(path)
+    except OSError as exc:
+        raise Exception(f"{label} runtime artifact missing: {exc}")
+    key = (path, stat.st_mtime_ns, stat.st_size)
+    cached = _RUNTIME_CACHE.get(path)
+    if cached is not None and cached[0] == key:
+        return cached[1]
+    try:
+        with open(path, "r", encoding="utf-8", newline="") as runtime_file:
+            content = runtime_file.read()
+    except OSError as exc:
+        raise Exception(f"{label} runtime artifact missing: {exc}")
+    digest = _hashlib.sha256(content.encode("utf-8")).hexdigest()
+    expected = _RUNTIME_EXPECTED_SHA256.get(_qos.path.basename(path))
+    if expected is not None and digest != expected:
+        raise Exception(f"{label} runtime artifact fingerprint mismatch: {digest}")
+    _RUNTIME_CACHE[path] = (key, content, digest)
+    return content
 # ═══════════════════════════════════════════════════════════
 # القاموس الموحد — المرحلة 47 (دمج من lexicon/)
 # ═══════════════════════════════════════════════════════════
@@ -51,6 +85,11 @@ def بحث_رمز_في_القاموس(نص):
 }
 رموز_يونانية = {"λ":"λ","μ":"μ"}
 أسماء_بديلة = {
+    # العمليات المنطقية العربية: aliases canonical للرمزين ∧ و∨.
+    "و":"∧",    "أو":"∨",
+    # العمليات البتية: تبقى بأسماء canonical مستقلة حتى يضيفها parser/compiler صراحةً.
+    "نفي_ثنائي":"نفي_ثنائي",    "إز_يسار":"إز_يسار",    "إز_يمين":"إز_يمين",
+    "و_بتي":"و_بتي",    "أو_بتي":"أو_بتي",
     "دالة":"λ",    "λ":"λ",    "اطبع":"⎕",    "⎕":"⎕",
     "طالما":"μ",    "μ":"μ",    "لكل":"∀",    "∀":"∀",
     "في":"∈",    "∈":"∈",    "انقل":"⊸",    "⊸":"⊸",
@@ -66,6 +105,10 @@ for كلمة, رمز in توليد_أسماء_بديلة_آمنة().items():
 عمليات_الجمع = {"+":"+","-":"-","⊕":"⊕"}
 عمليات_الضرب = {"·":"·","÷":"÷"}
 عمليات_المقارنة = {"<":"<",">":">","=":"=","≠":"≠","≤":"≤","≥":"≥"}
+عمليات_الإزاحة_البتية = {"إز_يسار", "إز_يمين"}
+عمليات_و_البتية = {"و_بتي"}
+عمليات_xor_البتية = {"نفي_ثنائي"}
+عمليات_أو_البتية = {"أو_بتي"}
 
 def pos_msg(رموز, i):
     """إرجاع رسالة موقع السطر والعمود لموضع في قائمة الرموز"""
@@ -342,7 +385,7 @@ def حلل_تعبير(رموز,i):
     return تعبير,i
 
 def حلل_شرطي(رموز,i):
-    شرط,i=حلل_مقارنة(رموز,i)
+    شرط,i=حلل_منطقي_أو(رموز,i)
     if i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1]=="؟":
         i+=1; صح,i=حلل_شرطي(رموز,i)
         if i>=len(رموز) or رموز[i][1]!=":": raise Exception(f": مطلوبة عند {pos_msg(رموز, i)}")
@@ -351,17 +394,45 @@ def حلل_شرطي(رموز,i):
     return شرط,i
 
 def حلل_مقارنة(رموز,i):
-    ي,i=حلل_جمع(رموز,i)
+    ي,i=حلل_أو_بتي(رموز,i)
     while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_المقارنة:
-        ع=رموز[i][1]; i+=1; م,i=حلل_جمع(رموز,i); ي=("مقارنة",ع,ي,م)
+        ع=رموز[i][1]; i+=1; م,i=حلل_أو_بتي(رموز,i); ي=("مقارنة",ع,ي,م)
+    return ي,i
+
+def حلل_منطقي_و(رموز,i):
+    ي,i=حلل_مقارنة(رموز,i)
     while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1]=="∧":
-        i+=1
-        م,i=حلل_جمع(رموز,i)
-        while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_المقارنة:
-            ع=رموز[i][1]; i+=1; ر,i=حلل_جمع(رموز,i); م=("مقارنة",ع,م,ر)
-        ي=("مقارنة","∧",ي,م)
-    if i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1]=="∨":
-        i+=1; م,i=حلل_مقارنة(رموز,i); ي=("مقارنة","∨",ي,م)
+        i+=1; م,i=حلل_مقارنة(رموز,i); ي=("مقارنة","∧",ي,م)
+    return ي,i
+
+def حلل_منطقي_أو(رموز,i):
+    ي,i=حلل_منطقي_و(رموز,i)
+    while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1]=="∨":
+        i+=1; م,i=حلل_منطقي_و(رموز,i); ي=("مقارنة","∨",ي,م)
+    return ي,i
+
+def حلل_أو_بتي(رموز,i):
+    ي,i=حلل_xor_بتي(رموز,i)
+    while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_أو_البتية:
+        ع=رموز[i][1]; i+=1; م,i=حلل_xor_بتي(رموز,i); ي=("ثنائية",ع,ي,م)
+    return ي,i
+
+def حلل_xor_بتي(رموز,i):
+    ي,i=حلل_و_بتي(رموز,i)
+    while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_xor_البتية:
+        ع=رموز[i][1]; i+=1; م,i=حلل_و_بتي(رموز,i); ي=("ثنائية",ع,ي,م)
+    return ي,i
+
+def حلل_و_بتي(رموز,i):
+    ي,i=حلل_إزاحة(رموز,i)
+    while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_و_البتية:
+        ع=رموز[i][1]; i+=1; م,i=حلل_إزاحة(رموز,i); ي=("ثنائية",ع,ي,م)
+    return ي,i
+
+def حلل_إزاحة(رموز,i):
+    ي,i=حلل_جمع(رموز,i)
+    while i<len(رموز) and رموز[i][0]=="عملية" and رموز[i][1] in عمليات_الإزاحة_البتية:
+        ع=رموز[i][1]; i+=1; م,i=حلل_جمع(رموز,i); ي=("ثنائية",ع,ي,م)
     return ي,i
 
 def حلل_جمع(رموز,i):
@@ -897,6 +968,11 @@ def compile_expr(expr, env, funcs, env_layout=None):
         for k, b in enumerate(byts):
             code.append(f"    mov byte [rax + {8+k}], {b}")
         return code
+    if ن=="استدعاء" and expr[1]=="هاش":
+        if len(expr[2]) != 1: raise Exception("هاش تأخذ وسيطاً واحداً")
+        code = compile_expr(expr[2][0], env, funcs, env_layout)
+        code += ["    mov rdi, rax", "    call sha256_text_routine"]
+        return code
     if ن=="استدعاء" and expr[1]=="نص_رمز":
         if len(expr[2]) != 1: raise Exception("نص_رمز تأخذ وسيطاً واحداً")
         code = compile_expr(expr[2][0], env, funcs, env_layout)
@@ -1180,6 +1256,22 @@ def compile_expr(expr, env, funcs, env_layout=None):
         elif op=="-": code.append("    sub rbx, rax"); code.append("    mov rax, rbx")
         elif op=="·": code.append("    imul rax, rbx")
         elif op=="÷": code += ["    mov rdx, 0","    mov rcx, rax","    mov rax, rbx","    div rcx"]
+        elif op=="و_بتي": code.append("    and rax, rbx")
+        elif op=="أو_بتي": code.append("    or rax, rbx")
+        elif op=="نفي_ثنائي": code.append("    xor rax, rbx")
+        elif op in ("إز_يسار", "إز_يمين"):
+            _counters.setdefault("shift", 0); _counters["shift"] += 1; _sk = _counters["shift"]
+            _bad = f".shift_invalid_{_sk}"; _done = f".shift_done_{_sk}"
+            code += [
+                "    test rax, rax", f"    js {_bad}",
+                "    cmp rax, 63", f"    ja {_bad}",
+                "    mov rcx, rax", "    mov rax, rbx",
+                "    shl rax, cl" if op=="إز_يسار" else "    shr rax, cl",
+                f"    jmp {_done}", f"{_bad}:",
+                "    lea rax, [shift_abstain_text]", "    call print_str",
+                "    mov rax, 60", "    mov rdi, 7", "    syscall",
+                f"{_done}:"
+            ]
         return code
     if ن=="مقارنة":
         op=expr[1]
@@ -1187,8 +1279,14 @@ def compile_expr(expr, env, funcs, env_layout=None):
         def is_textish(e):
             if e[0]=="نص": return True
             if e[0]=="ثنائية" and e[1]=="⊕": return True
+            # هاش يعيد TextObject؛ عند مقارنته بمعامل lambda يجب استخدام str_eq.
+            if e[0]=="استدعاء" and e[1] in ("هاش", "نص"): return True
             return False
-        str_cmp = (op in ("=","≠")) and (is_textish(ل) or is_textish(ي))
+        def is_hash_result(e):
+            return e[0]=="استدعاء" and e[1]=="هاش"
+        # لا تقارن عناوين TextObject عدديًا. إذا كان أحد الطرفين ناتج هاش،
+        # فالمقارنة النصية هي المسار الوحيد المقبول في هذا العقد.
+        str_cmp = (op in ("=","≠")) and (is_textish(ل) or is_textish(ي) or is_hash_result(ل) or is_hash_result(ي))
         if op in ("∧","∨"):
             # Lazy (short-circuit) evaluation: the right operand is compiled ONLY
             # on the branch where the left operand demands it. This is required
@@ -1672,6 +1770,22 @@ def compile_expr(expr, env, funcs, env_layout=None):
                 f"    jmp .lcpy_{k}",f".lcd_{k}:","    mov [rdi], r11",
                 "    pop r11","    pop r10","    mov rax, r12"]
             return code
+        if اسم in ("رمز_حرف", "عرض_حرف"):
+            if len(args)!=2: raise Exception(f"{اسم} يأخذ وسيطين")
+            _counters["empty"]+=1; k=_counters["empty"]
+            code=compile_expr(args[0],env,funcs,env_layout)
+            code.append("    push rax")
+            code.extend(compile_expr(args[1],env,funcs,env_layout))
+            code += ["    pop rbx", "    mov rcx, rax", "    test rcx, rcx", f"    js .u8_fail_{k}",
+                     "    mov rsi, [rbx]", "    cmp rcx, rsi", f"    jae .u8_fail_{k}",
+                     "    sub rsi, rcx", "    lea rdi, [rbx + rcx + 8]",
+                     "    call utf8_next_codepoint", "    test rax, rax", f"    jnz .u8_fail_{k}"]
+            if اسم=="رمز_حرف":
+                code += ["    mov rax, rdx", f"    jmp .u8_done_{k}"]
+            else:
+                code += ["    mov rax, rcx", f"    jmp .u8_done_{k}"]
+            code += [f".u8_fail_{k}:", "    mov rax, 60", "    mov rdi, 7", "    syscall", f".u8_done_{k}:"]
+            return code
         if اسم=="رمز":
             if len(args)!=2: raise Exception("رمز تأخذ وسيطين")
             _counters["empty"]+=1; k=_counters["empty"]
@@ -2140,6 +2254,10 @@ def compile_program(برنامج):
     except Exception as e:
         raise Exception(f"خطأ في التأكيد الثابت: {e}")
     check_ownership(برنامج)
+    _sha_path = _qos.path.join(_qos.path.dirname(__file__) or ".", "sha256_runtime_generated.asm")
+    _sha_runtime = _load_runtime_cached(_sha_path, "SHA-256")
+    _utf8_path = _qos.path.join(_qos.path.dirname(__file__) or ".", "utf8_next_codepoint.asm")
+    _utf8_runtime = _load_runtime_cached(_utf8_path, "UTF-8")
     asm=["global _start","section .bss",
          "    vars resq 256","    num_buf resb 32","    negflag resb 1","    read_buf resb 256",
          "    match_val resq 1","    match_tmp resq 1",   # المرحلة 43: pattern matching
@@ -2231,13 +2349,18 @@ def compile_program(برنامج):
         "str_eq_ne:",
         "    mov rax, 0","    ret",""]
     asm += ["print_str:",
+        "    test rax, rax","    jz print_str_null",
         "    push rax","    push rdx","    push rsi","    push rdi",
         "    mov rsi, rax","    add rsi, 8","    mov rdx, [rax]",
         "    mov rdi, 1","    mov rax, 1","    syscall",
         "    mov rsi, nl_ptr","    mov rdx, 1",
         "    mov rdi, 1","    mov rax, 1","    syscall",
-        "    pop rdi","    pop rsi","    pop rdx","    pop rax","    ret",""]
-    asm += ["section .data","nl_ptr: db 10","section .text",""]
+        "    pop rdi","    pop rsi","    pop rdx","    pop rax","    ret",
+        "print_str_null:", "    ret", ""]
+    asm += ["section .data","nl_ptr: db 10","shift_abstain_text: dq 28","    db 'ABSTAIN: INVALID_SHIFT_COUNT'","section .text",""]
+    asm += _sha_runtime.splitlines()
+    asm += _utf8_runtime.splitlines()
+    asm += [""]
     asm += ["_start:",
             "    xor rdi, rdi","    mov rsi, 1048576",        # قطعة أولى: 1 ميغابايت
             "    mov rdx, 3","    mov r10, 0x22",              # PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS
