@@ -58,6 +58,10 @@ def main() -> int:
         "SOURCE_DATE_EPOCH": "0",
         "PYTHONHASHSEED": "0",
         "UORI_POLICY_PATH": str(root / "protocol/UORI_EXPANSION_POLICY_AR.md"),
+        # The outer workflow owns the diff gate and excludes the mutable
+        # cross-environment evidence directory. The nested audit must not
+        # reject its own generated manifest before it can be written.
+        "MAL_SKIP_GIT_DIFF": "1",
     })
     run = subprocess.run(
         ["bash", "scripts/run_mal_deterministic_ci.sh"],
