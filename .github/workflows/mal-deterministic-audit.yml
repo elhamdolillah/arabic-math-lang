@@ -45,8 +45,10 @@ jobs:
 
       - name: Clear prior cross-environment evidence
         run: |
-          rm -rf evidence/cross-env
           mkdir -p evidence/cross-env
+          rm -f evidence/cross-env/${{ matrix.label }}.json \
+                evidence/cross-env/${{ matrix.label }}.stdout \
+                evidence/cross-env/${{ matrix.label }}.sha256
 
       - name: Generate cross-environment manifest
         run: |
@@ -114,8 +116,10 @@ jobs:
 
       - name: Clear prior cross-environment evidence
         run: |
-          rm -rf evidence/cross-env
           mkdir -p evidence/cross-env
+          rm -f evidence/cross-env/alpine-3.20-musl.json \
+                evidence/cross-env/alpine-3.20-musl.stdout \
+                evidence/cross-env/alpine-3.20-musl.sha256
 
       - name: Run deterministic audit inside Alpine musl
         run: |
