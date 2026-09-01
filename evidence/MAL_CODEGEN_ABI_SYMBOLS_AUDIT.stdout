@@ -1,0 +1,162 @@
+ABI_CONTRACT_SHA256 7597e89c6b2179a6db420c9927e7c7b8abb12da85807d7f76d1ff0098fa20a83
+SYMBOL_CONTRACT_SHA256 60c6458ac5d40325fd1b69c03302b70b83489104edaee23337c79a3825a7d77d
+--- forbidden tokens in code/artifacts ---
+protocol/MAL_DENY_POLICY_v0.1_AR.md:12:| `eval` | منع التقييم الديناميكي |
+protocol/MAL_DENY_POLICY_v0.1_AR.md:13:| `exec` | منع التنفيذ الديناميكي |
+protocol/MAL_DENY_POLICY_v0.1_AR.md:17:| `executable_path` | منع تحديد ملف تنفيذي |
+protocol/MAL_DENY_POLICY_v0.1_AR.md:18:| `network_url_for_execution` | منع فتح مسار تنفيذ عبر الشبكة |
+protocol/MAL_DIR_SPEC_v0.1_AR.md:30:لا يسمح builder بـ`eval` أو `exec` أو subprocess أو network. لا تُحوّل عقدة `source_ref` إلى تنفيذ؛ تُحفظ كـ`call` نحوي فقط عند نجاح parser، ويظل قرار الثقة والبوابة خارج MAL-DIR. real literal يُمثّل بنص canonical ويحتاج عقد IEEE-754 مستقلًا قبل التنفيذ الحتمي.
+protocol/MAL_GRAMMAR_SPEC_v0.1.json:31:  "source_execution": "FORBIDDEN",
+protocol/MAL_GRAMMAR_SPEC_v0.1.json:32:  "source_ref_execution": "FORBIDDEN",
+protocol/MAL_GRAMMAR_SPEC_v0.1.json:47:    "source_ref_executed": false,
+protocol/UORI_MATH_RULES_ADOPTION_AR.md:55:[1]: https://webassembly.github.io/spec/core/exec/numerics.html "WebAssembly Core Specification — Numerics"
+protocol/UORI_MATH_RULES_ADOPTION_AR.md:75:[1] [WebAssembly Core Specification — Numerics](https://webassembly.github.io/spec/core/exec/numerics.html)
+protocol/UORI_MATH_RULES_CONSTITUTIONAL_REVIEW_AR.md:17:طبقت المراجعة الشروط الآتية المستمدة من الملحق الدستوري: عدم تعديل الأساس، الفصل بين البحث والتنفيذ، منع `eval` و`exec` و`source_ref` غير الموثق، عدم قراءة الساعة داخل المسار الحتمي، رفض NaN وInfinity، ثبات الترتيب والوقود، حماية الشكل والأبعاد، وتسجيل المصدر والبصمة وحالة التنفيذ. كما طُبقت مادة 13: الزمن لا يحوّل النموذج الاحتمالي إلى حقيقة؛ بل يسمح بتقدير حتمي مشروط فقط عند تثبيت الشواهد والمقدر وحد الخطأ.
+protocol/UORI_MATH_RULES_CONSTITUTIONAL_REVIEW_AR.md:96:[7]: https://webassembly.github.io/spec/core/exec/numerics.html "WebAssembly Core Specification — Numerics"
+protocol/MAL_LANGUAGE_LINEAGE_INTEGRATION_AR.md:5:لا تُدمج لغات البرمجة في MAL بوصفها حزمًا كاملة. تُستخدم السلالة التاريخية لتحديد أصل كل فكرة، ثم تُعاد صياغة الفكرة وفق دستور MAL/UORI: حتمية قابلة لإعادة الإنتاج، تحليل ساكن، عدم وجود raw pointers، ملكية قابلة للتحقق، وامتناع آمن عند الغموض أو انتهاك العقد.
+protocol/MAL_LANGUAGE_LINEAGE_INTEGRATION_AR.md:18:| 8 | COBOL | 1959/1960 | قابلية القراءة وأوصاف البيانات | RESEARCH؛ لا تُعتمد natural-language execution |
+protocol/MAL_LANGUAGE_LINEAGE_INTEGRATION_AR.md:23:| 13 | C وUnix | 1969–1973 | كفاءة الأنظمة وواجهات ABI | EXTENSION_SCOPED_PROVEN للـ ABI المعلن؛ raw pointers DENY |
+protocol/MAL_LANGUAGE_LINEAGE_INTEGRATION_AR.md:28:| 18 | Python/JavaScript/Ruby/PHP | 1991–1995 | scripting والديناميكية والانعكاس | DENY للـ eval/reflection غير المقيد؛ subset ثابت فقط |
+protocol/MAL_LANGUAGE_LINEAGE_INTEGRATION_AR.md:49:يُمنع `eval` و`exec` و`source_ref` غير الموثق، وraw pointers، وunchecked casts، والانعكاس الذي يغير البرنامج أثناء التشغيل، وأي وصول مباشر إلى العتاد خارج عقد UORI.
+protocol/MAL_LANGUAGE_LINEAGE_REGISTRY_AR.json:19:    {"id":"dynamic_scripting_1991","language_or_system":"Python/JavaScript/Ruby/PHP","year_start":1991,"feature":"dynamic evaluation and reflection","decision":"DENY","mal_target":"none"},
+protocol/MAL_LANGUAGE_LINEAGE_REGISTRY_AR.json:21:    {"id":"raw_pointer_access","language_or_system":"low-level pointer model","year_start":1949,"feature":"raw pointer dereference","decision":"DENY","mal_target":"none"},
+protocol/MAL_LINEAGE_TRANSPILATION_AR.md:12:4. `eval` و`exec` و`source_ref` غير الموثق والمؤشرات الخام `DENY`.
+protocol/MAL_EXTENSIONS_V0_2_AR.md:9:كل امتداد يجب أن يحدد المجال والأنواع وترتيب العمليات وحدود السعة وحالات الفشل والتمثيل القانوني. لا وقت حقيقي ولا شبكة ولا `source_ref` ولا `eval` ولا `exec` ولا raw pointers في المسار الحتمي.
+protocol/MAL_EXTENSIONS_V0_2_AR.md:113:أما threads وOS scheduling وlock timing فليست جزءاً من Tier-0.
+protocol/MAL_EXTENSIONS_V0_2_REGISTRY_AR.json:6:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_EXTENSIONS_V0_2_REGISTRY_AR.json:20:    {"id":"raw-pointer","name":"raw pointers","decision":"DENY","scope":"no MAL syntax permitted"}
+protocol/MAL_GADT_RANK_RESEARCH_AR.md:11:لا يُقبل أي اقتراح إلا إذا كان له نحو صريح، وفحص أنواع قابل للقرار، وتمثيل IR قانوني، وحدود موارد ثابتة، وحالات فشل مغلقة. غياب أحد هذه العناصر ينتج `ABSTAIN`، أما raw pointers والتنفيذ الديناميكي غير المصرح به فينتجان `DENY`.
+protocol/MAL_GADT_RANK_RESEARCH_AR.md:95:| raw pointer أو reflection أو runtime symbol lookup | `DENY` |
+protocol/MAL_GADT_RANK_RESEARCH_REGISTRY_AR.json:6:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_GADT_RANK_RESEARCH_REGISTRY_AR.json:34:    "eval",
+protocol/MAL_GADT_RANK_RESEARCH_REGISTRY_AR.json:35:    "exec",
+protocol/MAL_ATTACHED_MECHANISMS_REVIEW_31_39_AR.md:7:**النطاق:** مراجعة ساكنة للمقترحات المرفقة فقط. لا تعدّل هذه المراجعة Grammar v0.1، ولا تنفّذ أي مثال مصدر أو شبكة أو `source_ref` أو `eval` أو `exec`.
+protocol/MAL_ATTACHED_MECHANISMS_REVIEW_31_39_AR.md:19:| 35 | coroutine مع yield/resume صريح | `RESEARCH` | يمكن إثباته في نموذج تعاوني إذا كان تسلسل resume جزءاً من الإدخال؛ لا يثبت ذلك جدولة threads أو الزمن الحقيقي. |
+protocol/MAL_ATTACHED_MECHANISMS_REVIEW_31_39_AR.md:33:3. يمنع المسار `source_ref` و`eval` و`exec` والشبكة والمؤشرات الخام.
+protocol/MAL_ATTACHED_MECHANISMS_31_39_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_AUTOMATED_CONTINUATION_QUEUE_AR.json:7:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_DUAL_EXECUTION_CONTRACT_AR.md:21:لا يسمح harness بتنفيذ `eval` أو `exec` أو `source_ref` أو network أو subprocess داخل مصدر MAL نفسه. يسمح فقط باستدعاء منفذ MAL موثق ومحدد مسبقاً عبر argv منفصل، وبـtimeout ثابت، وبيئة locale وhash ثابتة. لا يغير harness المصدر أو baseline ولا ينشئ merge أو يرفع التصنيف.
+protocol/MAL_ATTACHED_MECHANISMS_REVIEW_40_45_AR.md:22:يجب أن تكون الأنواع والحدود وعمليات التحويل canonical، وأن تُحدد أخطاء null وshape وoverflow وinvalid encoding وresource exhaustion. لا يُسمح بالـ `eval` أو `exec` أو shell أو network أو `source_ref` أثناء المراجعة. لا تُستخدم أمثلة ناجحة أو شيوع ميزة في لغة أخرى كدليل على تنفيذ MAL.
+protocol/MAL_ATTACHED_MECHANISMS_40_45_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_46_50_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_78_80_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_81_85_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_94_100_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_101_105_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_116_120_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_121_126_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_127_131_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_FLAT_INDEX_ARENA_CONTRACT_v0.1_AR.md:19:| `source_ref_executed` | 4 | القيمة الصحيحة 0، وتمثل `False` فقط |
+protocol/MAL_FLAT_INDEX_ARENA_CONTRACT_v0.1_AR.md:27:الساحة الخاصة بالمدقق ثابتة ولا تنمو أثناء التحقق. لا يسمح للعقد باستعمال `⨁` أو عمليات نسخ/إلحاق لإنشاء ساحة جديدة أثناء المسار الحتمي. لا يسمح بالمؤشرات الخام أو `eval` أو `exec` أو source execution أو الشبكة.
+protocol/MAL_DIR_SPEC_v0.2_ARENA_CONTRACT_AR.md:40:يُقبل الدليل فقط إذا كان الرأس `MAL-DIR/0.1.0`، وكانت الساحة غير فارغة، وكان الجذر هو آخر عقدة، وكانت كل عقدة ذات `id` متتالٍ، و`kind_code` معروف، و`forbidden_flag=0`، وكل مراجع الأبناء موجبة وأصغر من رقم العقدة الحالية، وكانت علامة `source_ref_executed=0`.
+protocol/MAL_ATTACHED_MECHANISMS_137_142_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_137_142_REGISTRY_AR.json:20:      "name": "constant_evaluation_context_branch",
+protocol/MAL_ATTACHED_MECHANISMS_137_142_REGISTRY_AR.json:21:      "target": "Cpp_is_constant_evaluated",
+protocol/MAL_ATTACHED_MECHANISMS_137_142_REGISTRY_AR.json:31:      "guard_ar": "متوافق مبدئيًا مع fail-closed لأنه يمنع إنتاج executable عند خرق ثابت، لكنه يحتاج بدائية تشخيص حتمية ومفسر شروط ثابتة محدود.",
+protocol/MAL_ATTACHED_MECHANISMS_137_142_REGISTRY_AR.json:47:      "guard_ar": "يمكن أن يكون فرعًا ساكنًا حتميًا إذا حُصر في ثوابت MAL المعروفة، لكنه يحتاج evaluator للثوابت وقواعد type traits ومنع تسرب الفرع غير المختار إلى runtime.",
+protocol/MAL_RESEARCH_CONTRACT_137_142_AR.md:5:هذا العقد امتداد بحثي مستقل فوق `MAL_GRAMMAR_SPEC_v0.1_AR.md`. لا يضيف ميزات تنفيذية إلى النواة، ولا يغيّر baseline المجمد، ولا يجيز المؤشرات الخام أو `eval` أو `exec` أو تنفيذ `source_ref`.
+protocol/MAL_RESEARCH_CONTRACT_137_142_AR.md:22:| 139 | `خطأ_ساكن` | RESEARCH | شرط ثابت محدود بلا IO أو شبكة؛ إذا تحقق الشرط يفشل البناء ولا ينتج executable، مع رسالة خطأ canonical. |
+protocol/MAL_RESEARCH_CONTRACT_137_142_AR.md:34:يصنّف `ABSTAIN_UNTIL_EVIDENCE` لأن `repr(C)` يتطلب عقدًا للعرض والمحاذاة والحشو وendianness وهدف ABI، ولأن إدخال FFI قد يفتح حدودًا تخالف سياسة no raw pointers. البديل الآمن هو عقد سجل مسطح مفهرس داخل MAL لا يدّعي التطابق مع C.
+protocol/MAL_ATTACHED_MECHANISMS_154_158_REGISTRY_AR.json:6:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_NO_ALLOCATION_EFFECT_CONTRACT_v0.1_AR.md:53:| وجود `eval` أو `exec` أو `source_ref` أو shell أو شبكة | `REJECT/UNSAFE_OPERATION` |
+protocol/MAL_NO_ALLOCATION_EFFECT_CONTRACT_v0.1_AR.md:62:2. تحويل فهرس غير موثّق إلى عنوان أو مؤشر خام.
+protocol/MAL_NO_ALLOCATION_EFFECT_CONTRACT_v0.1_AR.md:79:| منع العمليات الخطرة | لا `eval`، ولا `exec`، ولا `source_ref`، ولا شبكة |
+protocol/MAL_ATTACHED_MECHANISMS_159_161_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_159_161_REGISTRY_AR.json:20:      "execution": "NOT_PERFORMED"
+protocol/MAL_ATTACHED_MECHANISMS_159_161_REGISTRY_AR.json:31:      "forbidden_claims": ["thread_synchronization", "atomic_access", "pure_determinism"],
+protocol/MAL_ATTACHED_MECHANISMS_159_161_REGISTRY_AR.json:32:      "execution": "NOT_PERFORMED"
+protocol/MAL_ATTACHED_MECHANISMS_159_161_REGISTRY_AR.json:43:      "forbidden_claims": ["universal_bounds_error_identity", "allocation_free_execution", "no_undefined_behavior_without_scope"],
+protocol/MAL_ATTACHED_MECHANISMS_159_161_REGISTRY_AR.json:44:      "execution": "NOT_PERFORMED"
+protocol/MAL_ATTACHED_MECHANISMS_159_161_REGISTRY_AR.json:49:    "eval": "DENY",
+protocol/MAL_ATTACHED_MECHANISMS_159_161_REGISTRY_AR.json:50:    "exec": "DENY",
+protocol/MAL_ATTACHED_MECHANISMS_159_161_REGISTRY_AR.json:51:    "source_ref_execution": "DENY",
+protocol/MAL_ATTACHED_MECHANISMS_162_164_REGISTRY_AR.json:5:  "source_execution": "NOT_PERFORMED",
+protocol/MAL_ATTACHED_MECHANISMS_162_164_REGISTRY_AR.json:20:      "execution": "NOT_PERFORMED"
+protocol/MAL_ATTACHED_MECHANISMS_162_164_REGISTRY_AR.json:32:      "execution": "NOT_PERFORMED"
+protocol/MAL_ATTACHED_MECHANISMS_162_164_REGISTRY_AR.json:44:      "execution": "NOT_PERFORMED"
+protocol/MAL_ATTACHED_MECHANISMS_162_164_REGISTRY_AR.json:49:    "eval": "DENY",
+protocol/MAL_ATTACHED_MECHANISMS_162_164_REGISTRY_AR.json:50:    "exec": "DENY",
+protocol/MAL_ATTACHED_MECHANISMS_162_164_REGISTRY_AR.json:51:    "source_ref_execution": "DENY",
+protocol/MAL_COMPILE_TIME_CONTRACT_v0.1_AR.md:64:ولا تقبل v0.1 المقارنات العددية، أو التعبيرات الحسابية، أو استدعاء الدوال، أو قراءة الملفات، أو قراءة متغيرات البيئة، أو `source_ref`، أو `eval`، أو `exec` داخل المسندة.
+protocol/MAL_COMPILE_TIME_CONTRACT_v0.1_AR.md:255:يكون القرار `REJECT` بدل `ABSTAIN` عندما يثبت وجود مخالفة بنيوية، مثل محاولة المصدر تنفيذ `source_ref` أو `eval` أو `exec`، أو إدخال runtime dispatch، أو استخدام مؤشر خام، أو كسر ABI المعلن. الفرق أن `ABSTAIN` يعني نقص القدرة على الحسم، بينما `REJECT` يعني ثبوت مخالفة العقد.
+protocol/MAL_COMPILE_TIME_CONTRACT_v0.1_AR.md:286:4. corpus موجب وسالب، وتنفيذ مزدوج مستقل، وعدم وجود مؤشرات خام أو تخصيص أو source execution خارج العقد.
+protocol/MAL_COMPILE_TIME_CONTRACT_v0.1_AR.md:308:هذا العقد يثبت تصميمًا قابلًا للبحث، لا تنفيذًا في `math_complete.py`. ولا يثبت أن serializer أو evaluator أو sidecar verifier الحالي يحقق هذه القواعد. لا يجوز حذف النظير Python، أو إعلان `PROVEN`، أو تغيير baseline، أو إنتاج artifact موثوق باسم هذا العقد قبل إنشاء سجل AST فعلي وتشغيل corpus مستقل وتثبيت الأدلة.
+protocol/UORI_CFG_AST_FILTER_WORKFLOW_v0.1_AR.md:9:**السياسة:** لا تعديل في Grammar v0.1، ولا ميزة runtime، ولا مؤشرات خام، ولا `source_ref` أو `eval` أو `exec`، ولا ترفيع تلقائي.
+protocol/UORI_CFG_AST_FILTER_WORKFLOW_v0.1_AR.md:109:| `REJECT` | مؤشر خام، `source_ref`، `eval`، `exec`، runtime dispatch، mismatch مثبت، أو خرق ABI |
+protocol/UORI_CFG_AST_FILTER_WORKFLOW_v0.1_AR.md:116:يُقارن evaluator MAL المستقبلي مع مرجع مستقل على نفس manifest والمصدر والـ AST. المقارنة تكون على: قرار كل مسندة، AST المصفّى canonical، رموز الخطأ، وعدم وجود Artifact عند الامتناع أو الرفض. نجاح حالة واحدة لا يكفي للترفيع.
+protocol/UORI_CFG_AST_FILTER_WORKFLOW_v0.1_AR.md:134:لا ينتقل هذا المخطط من `RESEARCH` إلى `EXTENSION_SCOPED_PROVEN` إلا بعد وجود parser/evaluator فعليين في MAL، وإثبات التطبيع والبصمات عبر تشغيلات مستقلة، ونجاح corpus موجب وسالب، وتنفيذ مزدوج، ومراجعة ABI.
+protocol/MAL_COMPILE_TIME_REGISTRY_v0.1_AR.json:16:      "counterexample": "لا يوجد parser/evaluator أصيل في MAL بعد، ولا يجوز اعتبار الجسر المؤقت تنفيذًا للنواة",
+protocol/MAL_COMPILE_TIME_REGISTRY_v0.1_AR.json:17:      "gap": "إدخال parser وevaluator وفلترة AST داخل MAL مع تنفيذ مزدوج مستقل قبل الترفيع",
+protocol/EVIDENCE_176_180_AR.md:21:## 179 — `std::atomic_thread_fence`
+protocol/EVIDENCE_176_180_AR.md:25:المصدر: https://en.cppreference.com/w/cpp/atomic/atomic_thread_fence
+protocol/MAL_ATTACHED_MECHANISMS_176_180_REGISTRY_AR.json:10:    {"id":179,"name":"atomic_thread_fence_ordering","target":"CXX_atomic_thread_fence","decision":"ABSTAIN_EXAMPLE","gap":"يلزم atomic synchronization وإثبات happens-before؛ المثال لا يكفي لمنع data race"},
+protocol/EVIDENCE_181_182_AR.md:13:المصادر: https://en.cppreference.com/w/cpp/thread/scoped_lock و https://en.cppreference.com/w/cpp/thread/lock
+protocol/MAL_ATTACHED_MECHANISMS_183_185_REGISTRY_AR.json:27:      "name": "thread_safe_object_initialization",
+protocol/MAL_ATTACHED_MECHANISMS_196_200_REGISTRY_AR.json:36:      "name": "thread_rendezvous_barrier",
+protocol/MAL_CORRECTED_CONSTITUTIONAL_REVIEW_206_210_AR.md:30:تضمن `lock cmpxchg` خصائص ذرية محدودة على حالة ذاكرة وفق نموذج الذاكرة والمعالج، لكنها لا تختار ترتيبًا واحدًا ثابتًا لتنافس الخيوط، ولا تثبت أن الآثار الجانبية للمهيئ مستقلة عن الجدولة، ولا تجعل حلقة spin-wait حتمية عبر التشغيلات.
+protocol/MAL_CORRECTED_CONSTITUTIONAL_REVIEW_206_210_AR.md:124:| وجود مؤشر خام أو فك إشارة أو عنوان ذاكرة | `REJECT` | ممنوع |
+protocol/MAL_PARSER_FOLLOWUP_CONTRACT_v0.1_AR.md:22:تعمل كل وحدة على مؤشر رمز ابتدائي صريح، ولا تستعمل بحثًا عكسيًا أو جدولًا غير مرتب. يقرأ المحلل الرمز عند الفهرس الحالي، ثم يزيد المؤشر بمقدار محدد فقط بعد تحقق النوع والقيمة. لا يُسمح باستدعاء `eval` أو `exec` أو مصدر خارجي أو شبكة أو جدولة متوازية.
+protocol/MAL_ARENA_NODEID_CONTRACT_v0.1_AR.md:9:الساحة `Arena` هي مخزن منطقي محدود السعة، تُعنون عناصره بفهرس صحيح غير سالب يسمى `NodeID`. لا يُسمح بتمثيل عنوان ذاكرة، أو مؤشر خام، أو مقبض يعتمد على موقع التنفيذ الفيزيائي.
+protocol/MAL_ARENA_NODEID_CONTRACT_v0.1_AR.md:21:7. لا يجوز استعمال `eval` أو `exec` أو أي مسار يحول النص المصدر إلى تعليمات تنفيذية مباشرة.
+protocol/MAL_ARENA_NODEID_CONTRACT_v0.1_AR.md:44:| مؤشر خام أو عنوان ذاكرة | `ABSTAIN` |
+protocol/MAL_TOKEN_CANONICAL_CONTRACT_v0.1_AR.md:17:| مؤشر خام أو عنوان | `DENY` |
+tests/c40_q32_verification/C40_Q64_REPAIR_FINAL_REPORT_AR.md:70:The final evidence is 8/8 reproduction cases, 21/21 Q32.32 stress cases on the VPS, and a successful GitHub Actions run for commit `5e437104a40c0cf1bc91c529c758de2b38780367`. The maximum absolute stress error was 4 ULPs. No Coq or Lean proof was performed; the available evidence consists of the arithmetic model, independent oracle, x86_64 Assembly execution, VPS gate, and reproducible CI workflow.
+tests/MAL_EXTENSIONS_V0_2_CORPUS_AR.json:13:    {"id":"raw_pointer","feature":"raw-pointer","input":"مؤشر خام","expected":"DENY / RAW_POINTER_FORBIDDEN"},
+tests/MAL_EXTENSIONS_V0_2_CORPUS_AR.json:15:    {"id":"thread_scheduler","feature":"csp-step","input":"جدولة_نظامية","expected":"RESEARCH"}
+tests/MAL_GADT_RANK_RESEARCH_CORPUS_AR.json:3:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_31_39_CORPUS_AR.json:4:  "execution": "NOT_PERFORMED",
+tests/MAL_DUAL_EXECUTION_CORPUS_AR.json:3:  "execution": "NOT_PERFORMED_UNTRUSTED_SOURCE",
+tests/MAL_ATTACHED_MECHANISMS_40_45_CORPUS_AR.json:4:  "execution": "STATIC_ONLY",
+tests/MAL_ATTACHED_MECHANISMS_46_50_CORPUS_AR.json:4:  "source_execution": "NOT_PERFORMED",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:5:  "source_execution": "NOT_PERFORMED",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:639:      "name": "constant_evaluation_context_branch",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:640:      "target": "Cpp_is_constant_evaluated",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:644:      "gap": "single deterministic evaluation model missing",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:654:      "counterexample": "static_condition_evaluator_missing",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:655:      "gap": "bounded static evaluator and diagnostic contract missing",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:676:      "counterexample": "static_type_traits_and_const_evaluator_missing",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:753:      "counterexample": "لا يوجد parser/evaluator أصيل في MAL بعد، ولا يجوز اعتبار الجسر المؤقت تنفيذًا للنواة",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:754:      "gap": "إدخال parser وevaluator وفلترة AST داخل MAL مع تنفيذ مزدوج مستقل قبل الترفيع",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:881:      "name": "atomic_thread_fence_ordering",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:882:      "target": "CXX_atomic_thread_fence",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:1199:      "id": "thread_scheduler",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:1200:      "name": "thread_scheduler",
+tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json:1244:      "name": "thread_rendezvous_barrier",
+tests/MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json:6:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json:6:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_101_105_CORPUS_AR.json:6:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_116_120_CORPUS_AR.json:6:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_121_126_CORPUS_AR.json:6:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_127_131_CORPUS_AR.json:6:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_137_142_CORPUS_AR.json:5:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_137_142_CORPUS_AR.json:11:    {"id": 138, "name": "constant_evaluation_context_branch", "decision": "ABSTAIN_UNTIL_EVIDENCE", "positive": "NOT_AVAILABLE", "counterexample": "compile_time_runtime_semantics_may_diverge", "gap": "single deterministic evaluation model missing"},
+tests/MAL_ATTACHED_MECHANISMS_137_142_CORPUS_AR.json:12:    {"id": 139, "name": "compile_time_invariant_error", "decision": "RESEARCH", "positive": "NOT_AVAILABLE", "counterexample": "static_condition_evaluator_missing", "gap": "bounded static evaluator and diagnostic contract missing"},
+tests/MAL_ATTACHED_MECHANISMS_137_142_CORPUS_AR.json:14:    {"id": 141, "name": "compile_time_conditional_branch", "decision": "RESEARCH", "positive": "NOT_AVAILABLE", "counterexample": "static_type_traits_and_const_evaluator_missing", "gap": "bounded compile-time branching grammar missing"},
+tests/MAL_ATTACHED_MECHANISMS_154_158_CORPUS_AR.json:6:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_154_158_CORPUS_AR.json:11:    {"id":154,"decision":"ABSTAIN_UNTIL_EVIDENCE","source_executed":false,"runtime_feature":false},
+tests/MAL_ATTACHED_MECHANISMS_154_158_CORPUS_AR.json:12:    {"id":155,"decision":"RESEARCH_DUPLICATE","duplicate_of":141,"source_executed":false,"runtime_feature":false},
+tests/MAL_ATTACHED_MECHANISMS_154_158_CORPUS_AR.json:13:    {"id":156,"decision":"RESEARCH","source_executed":false,"runtime_feature":false},
+tests/MAL_ATTACHED_MECHANISMS_154_158_CORPUS_AR.json:14:    {"id":157,"decision":"RESEARCH","source_executed":false,"runtime_feature":false},
+tests/MAL_ATTACHED_MECHANISMS_154_158_CORPUS_AR.json:15:    {"id":158,"decision":"RESEARCH","source_executed":false,"runtime_feature":false}
+tests/MAL_NO_ALLOCATION_EFFECT_AST_EXPERIMENT_v0.1_AR.json:6:  "source_execution": "NOT_PERFORMED",
+tests/MAL_NO_ALLOCATION_EFFECT_AST_EXPERIMENT_v0.1_AR.json:35:      "execution": "NOT_PERFORMED"
+tests/MAL_NO_ALLOCATION_EFFECT_AST_EXPERIMENT_v0.1_AR.json:56:      "execution": "NOT_PERFORMED"
+tests/MAL_NO_ALLOCATION_EFFECT_AST_EXPERIMENT_v0.1_AR.json:77:      "execution": "NOT_PERFORMED"
+tests/MAL_NO_ALLOCATION_EFFECT_AST_EXPERIMENT_v0.1_AR.json:84:    "source_execution_remains_disabled",
+tests/MAL_ATTACHED_MECHANISMS_159_161_CORPUS_AR.json:5:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_159_161_CORPUS_AR.json:35:    "mechanism_160_does_not_promote_to_atomic_or_thread_ordered_access",
+tests/MAL_ATTACHED_MECHANISMS_159_161_CORPUS_AR.json:37:    "source_execution_remains_disabled",
+tests/MAL_ATTACHED_MECHANISMS_162_164_CORPUS_AR.json:5:  "source_execution": "NOT_PERFORMED",
+tests/MAL_ATTACHED_MECHANISMS_162_164_CORPUS_AR.json:38:    "source_execution_remains_disabled",
+tests/MAL_ATTACHED_MECHANISMS_176_180_CORPUS_AR.json:15:    {"id":"180-002","mechanism":180,"kind":"negative","description":"ادعاء النقاء والاستقلال عن الحالة الخارجية مع deferred execution أو إعادة تعداد","expected":"ABSTAIN_UNTIL_EVIDENCE"}
+tests/MAL_PARSER_STRING_CORPUS_v0.1_AR.json:4:  "execution": "NOT_PERFORMED",
+tests/MAL_PARSER_REAL_CORPUS_v0.1_AR.json:4:  "execution": "NOT_PERFORMED",
+tests/MAL_PARSER_GOVERNED_CORPUS_v0.2_AR.json:4:  "execution": "SOURCE_REF_EXECUTED=NO",
+--- relevant contract states ---
+protocol/MAL_CODEGEN_ABI_CONTRACT_v0.1_AR.md:7:تُرفض أية تعليمة غير معروفة أو قيمة خارج المجال أو رمز مكرر. وتكون النتيجة `ABSTAIN / UNKNOWN_OPCODE` أو `ABSTAIN / ABI_MISMATCH` أو `ABSTAIN / SYMBOL_COLLISION` حسب السبب.
+protocol/MAL_CODEGEN_ABI_CONTRACT_v0.1_AR.md:16:| ABI غير مطابق | `ABSTAIN` |
+protocol/MAL_CODEGEN_SYMBOLS_CONTRACT_v0.1_AR.md:17:يعاد `ABSTAIN / INVALID_NODE_ID` عند فهرس غير صحيح، و`ABSTAIN / SYMBOL_COLLISION` عند تصادم اسمين، و`ABSTAIN / NON_CANONICAL_ORDER` عند اختلاف الترتيب، و`ABSTAIN / CAPACITY_EXCEEDED` عند نفاد السعة. لا يجوز متابعة التوليد بعد أي حالة امتناع.
+protocol/MAL_CODEGEN_SYMBOLS_CONTRACT_v0.1_AR.md:27:RAW_POINTERS=DENY
+protocol/MAL_CODEGEN_SYMBOLS_CONTRACT_v0.1_AR.md:28:NON_DETERMINISTIC_ORDER=DENY
+protocol/MAL_CODEGEN_SYMBOLS_CONTRACT_v0.1_AR.md:29:SOURCE_EXECUTION=NOT_PERFORMED
+protocol/MAL_CODEGEN_SYMBOLS_CONTRACT_v0.1_AR.md:31:AUTO_PROMOTION=DENY

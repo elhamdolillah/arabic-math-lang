@@ -1,0 +1,12 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.1.0",
+  "source_execution": "NOT_PERFORMED",
+  "cases": [
+    {"id":46,"decision":"RESEARCH","positive":"allocations_return_monotonic_indices","counterexample":"vec_clear_may_drop_elements_and_old_indices_need_generation"},
+    {"id":47,"decision":"RESEARCH","positive":"value_inside_declared_range_is_accepted","counterexample":"overflow_and_backend_exception_point_require_fixed_contract"},
+    {"id":48,"decision":"RESEARCH","positive":"checked_overflow_is_structured_or_unchecked_is_fixed_modulo","counterexample":"width_signedness_and_non_integral_operations_are_not_implicit"},
+    {"id":49,"decision":"ABSTAIN_UNTIL_EVIDENCE","positive":"protected_action_excludes_intermediate_observation","counterexample":"scheduler_and_queue_arrival_order_are_not_proven_deterministic"},
+    {"id":50,"decision":"RESEARCH","positive":"independent_pure_iterations_have_order_invariant_result","counterexample":"shared_state_side_effects_and_unproven_reductions_break_the_claim"}
+  ]
+}

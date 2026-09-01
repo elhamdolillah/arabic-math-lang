@@ -8,7 +8,7 @@
 - فهرسة مركبة: د(س)[ك]
 - التوافق العكسي: test_all_phases + test_phases + test_engine_uas
 """
-import subprocess, sys, json
+import os, subprocess, sys, json
 
 PASS = 0; FAIL = 0
 
@@ -119,11 +119,21 @@ for suite in ['test_all_phases.py', 'test_phases.py', 'test_engine_uas.py']:
         print('\n'.join(last[-15:]))
         sys.exit(1)
 
-# self-hosting
+# self-hosting: use the isolated corrected harness explicitly.
 print("\n🧪 Self-hosting...")
-p = subprocess.run(['python3', 'math_aot_selfhost.py'], capture_output=True, text=True, cwd='/home/ubuntu/work/math_aot_stage44_test', timeout=120)
-print(f"  math_aot_selfhost: {'✅ ' if p.returncode == 0 else '❌ '}" + p.stdout.strip()[-80:] + p.stderr.strip()[-80:])
+selfhost_path = '/home/ubuntu/work/t_read_size_unicode_fix/math_aot_selfhost.py'
+selfhost_cwd = '/home/ubuntu/work/math_aot_stage44_test'
+if not os.path.isfile(selfhost_path):
+    print(f"  math_aot_selfhost: ❌ missing corrected harness: {selfhost_path}")
+    sys.exit(1)
+if not os.path.isfile(os.path.join(selfhost_cwd, 'utf8_next_codepoint.asm')):
+    print(f"  math_aot_selfhost: ❌ missing UTF-8 runtime in {selfhost_cwd}")
+    sys.exit(1)
+p = subprocess.run(['python3', selfhost_path], capture_output=True, text=True, cwd=selfhost_cwd, timeout=120)
+summary = (p.stdout + p.stderr).strip()
+print(f"  math_aot_selfhost: {'✅ ' if p.returncode == 0 else '❌ '}RC={p.returncode}")
+print(summary[-1200:])
 if p.returncode != 0:
-    print(p.stderr[-800:])
+    sys.exit(1)
 
-print("\n🎉 الفهرسة المركبة تعمل بنجاح!")
+print("\n🎉 الفهرسة المركبة وself-hosting يعملان بنجاح!")

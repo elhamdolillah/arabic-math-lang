@@ -1,0 +1,56 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_81_85_REGISTRY_AR.json",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "runtime_features_admitted": 0,
+  "cases": [
+    {
+      "id": 81,
+      "name": "bash_set_e_error_propagation",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن اعتماد سياسة فشل سريع داخل عقد تنفيذ محدود",
+      "counterexample": "الاستثناءات السياقية وآثار الأوامر السابقة لا تضمن التراجع التلقائي",
+      "gap": "استثناءات set -e وسلامة القوائم والأنابيب والاستدعاءات الفرعية غير محددة"
+    },
+    {
+      "id": 82,
+      "name": "typescript_as_const_literal_readonly",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن تضييق القيم الحرفية وإسناد صفة القراءة في مرحلة الترجمة",
+      "counterexample": "التضييق الساكن لا يثبت عدم القابلية للتغيير وقت التشغيل ولا يحمي المراجع الخارجية",
+      "gap": "الفرق بين ضمان النوع الساكن وعدم التغيير العميق وقت التشغيل غير معرّف"
+    },
+    {
+      "id": 83,
+      "name": "rust_repr_align",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن تحديد حد أدنى لمحاذاة النوع ضمن هدف وABI مثبتين",
+      "counterexample": "اختبار العنوان بالمؤشرات الخام لا يثبت حتمية المخصص أو التخطيط المطلق وممنوع دستورياً",
+      "gap": "عقد تخطيط الهدف والمخصص والمحاذاة العابرة للبيئات غير موجود"
+    },
+    {
+      "id": 84,
+      "name": "c_restrict_aliasing_contract",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن استخدام قيد عدم الت alias في نموذج بحثي إذا أثبتته الواجهة",
+      "counterexample": "خرق الوعد قد يؤدي إلى سلوك غير معرّف، والنموذج القائم على المؤشرات يخالف سياسة المنع",
+      "gap": "التحقق الآمن من عدم الت alias والبديل الحتمي غير موجودين"
+    },
+    {
+      "id": 85,
+      "name": "sql_unique_constraint",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن فرض ثابت فرادة عند حد قاعدة بيانات ذي مخطط محدد",
+      "counterexample": "دلالات NULL والترتيب والتعارض والعزل قد تختلف بين المحركات ولا تثبت ترتيب النتائج",
+      "gap": "إصدار المحرك والترميز والعزل وسلوك التعارض وترتيب الاستعلام غير محددة"
+    }
+  ]
+}

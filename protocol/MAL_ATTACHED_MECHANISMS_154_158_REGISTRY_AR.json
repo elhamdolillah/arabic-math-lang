@@ -1,0 +1,53 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.1.0",
+  "range": "154-158",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {
+      "id": 154,
+      "name": "scoped_deferred_release_pool",
+      "target": "ObjectiveC_autoreleasepool",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "يعتمد على runtime خارجي وسلوك تحرير مؤجل لا يطابق عقد arena الحتمي الحالي، ولا يجوز ادعاء أن الخروج من النطاق يثبت تحرير كائنات غير ممثلة في MAL.",
+      "required_evidence_ar": "عقد عمر عربي مستقل، تمثيل ملكية وفهارس بلا مؤشرات، إثبات تحرير حتمي، ومنع أي اعتماد على Objective-C runtime أو جامع خارجي"
+    },
+    {
+      "id": 155,
+      "name": "compile_time_conditional_branch_duplicate",
+      "target": "Cpp_if_constexpr",
+      "decision": "RESEARCH_DUPLICATE",
+      "duplicate_of": 141,
+      "guard_ar": "المبدأ هو نفسه مبدأ الفرع الساكن المقيد بالثوابت المسجل في الآلية 141؛ لا تضاف Grammar جديدة قبل توحيد العقد.",
+      "required_evidence_ar": "عقد واحد للفرع الساكن، تقييم ثوابت حتمي، تحقق من الفرعين، وعدم تسرب الفرع غير المختار إلى runtime"
+    },
+    {
+      "id": 156,
+      "name": "insertion_ordered_map",
+      "target": "JavaScript_Map",
+      "decision": "RESEARCH",
+      "guard_ar": "ترتيب الإدراج قابل للتحديد، لكن Map تتطلب بنية قاموس وعمليات حذف وإعادة إدراج لم تُثبت في MAL ولا ينبغي تنفيذها عبر تخصيص ديناميكي غير مقيد.",
+      "required_evidence_ar": "arena قاموسية مفهرسة، تعريف canonical للمفتاح والمساواة، قواعد الحذف وإعادة الإدراج، واختبارات ترتيب مستقلة"
+    },
+    {
+      "id": 157,
+      "name": "no_gc_allocation_effect",
+      "target": "D_nogc",
+      "decision": "RESEARCH",
+      "guard_ar": "يتوافق الهدف مع منع التخصيص، لكنه سمة تحليل ساكن لا runtime جاهز، ويحتاج MAL إلى أثر تخصيص قابل للفحص عبر سلسلة الاستدعاء.",
+      "required_evidence_ar": "وسم عربي موحد، تحليل أثر حتمي، رفض استدعاء بدائية تخصص، وإثبات عدم وجود تخصيص في جميع المسارات"
+    },
+    {
+      "id": 158,
+      "name": "closed_set_parameter_validation",
+      "target": "PowerShell_ValidateSet",
+      "decision": "RESEARCH",
+      "guard_ar": "التحقق قبل جسم الدالة ينسجم مع fail-closed، لكن يحتاج نوع مجموعة ثابتة ورسالة رفض canonical ولا يجوز أن يعتمد على reflection أو runtime غير مثبت.",
+      "required_evidence_ar": "صياغة عربية لمجموعة ثابتة، رفض قبل التنفيذ، تعريف مساواة حتمي، واختبارات للقيم المقبولة والمرفوضة"
+    }
+  ]
+}

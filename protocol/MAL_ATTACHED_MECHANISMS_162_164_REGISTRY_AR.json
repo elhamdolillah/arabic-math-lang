@@ -1,0 +1,55 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_162_164_REGISTRY_AR",
+  "version": "0.1.0",
+  "review_status": "CONSTITUTIONAL_REVIEW_ONLY",
+  "source_execution": "NOT_PERFORMED",
+  "runtime_features_admitted": 0,
+  "grammar_modified": false,
+  "kernel_baseline_modified": false,
+  "entries": [
+    {
+      "id": 162,
+      "canonical_name_ar": "تجزئة_معيارية_حتمية",
+      "source_mechanism": "Python hashlib SHA-256/SHA-3/BLAKE2",
+      "classification": "RESEARCH",
+      "decision": "CONTRACT_CANDIDATE_NOT_RUNTIME",
+      "relation_to_no_allocation": "ORTHOGONAL_PURE_COMPUTATION_CANDIDATE",
+      "reason_ar": "الخوارزمية المعيارية قابلة للتحديد الرياضي، لكن MAL لا تملك حاليًا عقد بايتات أو primitive تجزئة مثبتًا ومتعدد البيئات.",
+      "required_contracts": ["canonical_byte_sequence", "encoding_rule", "algorithm_identifier", "fixed_output_width", "reference_vectors", "endianness_rule"],
+      "forbidden_claims": ["available_in_mal_runtime", "cross_platform_proof_without_vectors"],
+      "execution": "NOT_PERFORMED"
+    },
+    {
+      "id": 163,
+      "canonical_name_ar": "وصول_ذري_مقيّد",
+      "source_mechanism": "Ada pragma Atomic",
+      "classification": "ABSTAIN_UNTIL_EVIDENCE",
+      "decision": "NO_MAL_RUNTIME_ADMISSION",
+      "relation_to_no_allocation": "UNRELATED_CONCURRENCY_CONTRACT",
+      "reason_ar": "العملية المركبة قراءة-تعديل-كتابة ليست ذرية بمجرد وسم المتغير، ولا يكفي atomic access لإثبات ترتيب الذاكرة أو نتيجة عداد متزامن.",
+      "required_contracts": ["atomicity_scope", "read_modify_write_rule", "memory_order_model", "progress_rule", "concurrency_corpus", "target_abi"],
+      "forbidden_claims": ["race_free_by_default", "counter_result_deterministic", "volatile_equivalence"],
+      "execution": "NOT_PERFORMED"
+    },
+    {
+      "id": 164,
+      "canonical_name_ar": "اختيار_شرطي_قبل_التوليد",
+      "source_mechanism": "Rust #[cfg]",
+      "classification": "RESEARCH",
+      "decision": "COMPILER_PHASE_CANDIDATE_NOT_RUNTIME",
+      "relation_to_no_allocation": "ORTHOGONAL_COMPILER_GATE",
+      "reason_ar": "الاختيار الشرطي يمكن تمثيله كتحويل AST حتمي، لكن أعلام البناء والهدف يجب أن تكون مدخلات canonical معلنة لا حالة بيئية ضمنية.",
+      "required_contracts": ["canonical_flag_set", "target_identity", "ast_elimination_phase", "unselected_branch_policy", "reproducible_build_vectors"],
+      "forbidden_claims": ["runtime_dispatch", "environment_independent_without_declared_inputs", "foreign_cfg_syntax_adoption"],
+      "execution": "NOT_PERFORMED"
+    }
+  ],
+  "global_guards": {
+    "raw_pointers": "DENY",
+    "eval": "DENY",
+    "exec": "DENY",
+    "source_ref_execution": "DENY",
+    "unknown_primitive": "ABSTAIN",
+    "auto_promotion": "DENY"
+  }
+}

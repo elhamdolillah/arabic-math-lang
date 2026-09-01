@@ -1,0 +1,79 @@
+[1m[32m   Compiling[0m mal_ownership_arena v0.1.0 (/home/ubuntu/uori-mal-pr/rust/mal_ownership_arena)
+[1m[32m    Finished[0m test [unoptimized + debuginfo] target(s) in 1.32s
+[1m[32m     Running[0m unittests src/lib.rs (rust/mal_ownership_arena/target/debug/deps/mal_ownership_arena-47cad0aadc5d841e)
+
+running 7 tests
+test diagnostics::tests::error_mapping_is_closed_and_deterministic ... ok
+test diagnostics::tests::diagnostic_buffer_is_bounded_and_ordered ... ok
+test tests::capacity_and_type_contracts_are_rejected ... ok
+test tests::deterministic_first_free_slot_and_reuse_generation ... ok
+test tests::borrow_rules_are_fail_closed ... ok
+test tests::scope_and_type_and_arena_mismatch_are_rejected ... ok
+test tests::stale_handle_is_rejected_after_release ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m     Running[0m unittests src/bin/mal_runner.rs (rust/mal_ownership_arena/target/debug/deps/mal_runner-c8263a30d9b20cb2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m     Running[0m tests/stage0_fixed_arena.rs (rust/mal_ownership_arena/target/debug/deps/stage0_fixed_arena-670e88f70ef6410d)
+
+running 3 tests
+test stage0_invalid_index_is_rejected_without_panic ... ok
+test stage0_values_are_retrievable_by_node_id ... ok
+test stage0_10k_nodes_and_capacity_boundary ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m     Running[0m tests/stage1_lexer.rs (rust/mal_ownership_arena/target/debug/deps/stage1_lexer-cf8342a087ef69cf)
+
+running 5 tests
+test stage1_lexer_allocates_deterministic_tokens ... ok
+test stage1_lexer_fails_closed_on_capacity ... ok
+test stage1_lexer_rejects_numeric_overflow ... ok
+test stage1_lexer_is_utf8_boundary_safe ... ok
+test stage1_lexer_marks_restricted_evaluator ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m     Running[0m tests/stage1_parser.rs (rust/mal_ownership_arena/target/debug/deps/stage1_parser-4d33fa71093795e1)
+
+running 4 tests
+test stage1_parser_rejects_extra_tokens ... ok
+test stage1_parser_builds_bounded_ast ... ok
+test stage1_parser_rejects_incomplete_expression ... ok
+test stage1_parser_rejects_restricted_evaluator ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m     Running[0m tests/stage2_parser.rs (rust/mal_ownership_arena/target/debug/deps/stage2_parser-be2b61ea8bdcdc94)
+
+running 5 tests
+test stage2_rejects_expression_overflow ... ok
+test stage2_parentheses_override_precedence ... ok
+test stage2_rejects_division_by_zero ... ok
+test stage2_rejects_unclosed_parenthesis ... ok
+test stage2_respects_multiplication_precedence ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m     Running[0m tests/stage3_evaluator.rs (rust/mal_ownership_arena/target/debug/deps/stage3_evaluator-8db16b7fc8c2baf6)
+
+running 3 tests
+test stage3_evaluator_evaluates_arithmetic_tree ... ok
+test stage3_evaluator_rejects_undefined_symbol ... ok
+test stage3_symbol_table_is_bounded_and_updates_deterministically ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m   Doc-tests[0m mal_ownership_arena
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[32m   Compiling[0m mal_ownership_arena v0.1.0 (/home/ubuntu/uori-mal-pr/rust/mal_ownership_arena)
+[1m[32m    Finished[0m release [optimized] target(s) in 9.44s

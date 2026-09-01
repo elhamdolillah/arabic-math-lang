@@ -1,0 +1,14 @@
+{
+  "schema": "MAL-PARSER-PRIMARY-CORPUS-0.1",
+  "language": "ar",
+  "cases": [
+    {"id": "عدد_42", "token": {"kind": "عدد", "value_id": 42, "line": 1, "column": 1}, "expected": {"decision": "PASS", "node_kind": 1, "value_id": 42, "next_token_index": 1}},
+    {"id": "صحيح", "token": {"kind": "صحيح", "value_id": 0, "line": 1, "column": 1}, "expected": {"decision": "PASS", "node_kind": 2, "value_id": 1, "next_token_index": 1}},
+    {"id": "خطأ", "token": {"kind": "خطأ", "value_id": 0, "line": 1, "column": 1}, "expected": {"decision": "PASS", "node_kind": 2, "value_id": 0, "next_token_index": 1}},
+    {"id": "معرف_7", "token": {"kind": "معرف", "value_id": 7, "line": 1, "column": 1}, "expected": {"decision": "PASS", "node_kind": 3, "value_id": 7, "next_token_index": 1}},
+    {"id": "نوع_مجهول", "token": {"kind": "مجهول", "value_id": 0, "line": 1, "column": 1}, "expected": {"decision": "ABSTAIN", "reason": "UNKNOWN_TOKEN_KIND"}},
+    {"id": "فهرس_سالب", "token": {"kind": "عدد", "value_id": 42, "line": 1, "column": 1, "index": -1}, "expected": {"decision": "ABSTAIN", "reason": "TOKEN_INDEX_OOB"}},
+    {"id": "قيمة_اسم_غير_صالحة", "token": {"kind": "معرف", "value_id": -1, "line": 1, "column": 1}, "expected": {"decision": "ABSTAIN", "reason": "INVALID_VALUE_ID"}},
+    {"id": "نهاية_مبكرة", "token": null, "expected": {"decision": "ABSTAIN", "reason": "UNEXPECTED_EOF"}}
+  ]
+}

@@ -1,0 +1,82 @@
+extensions/mal_dir_validator.py: OK
+tests/run_mal_dir_validator.py: OK
+evidence/MAL_DIR_VALIDATOR_RUN1.stdout: OK
+evidence/MAL_DIR_VALIDATOR_RUN2.stdout: OK
+evidence/MAL_GRAMMAR_GATE_COMPARATOR_RUN1.stdout: OK
+evidence/MAL_GRAMMAR_GATE_COMPARATOR_RUN2.stdout: OK
+evidence/MAL_GRAMMAR_GATE_COMPARATOR_RUN3.stdout: OK
+evidence/MAL_GRAMMAR_GATE_COMPARATOR_RUN1.json: OK
+evidence/MAL_GRAMMAR_GATE_COMPARATOR_RUN2.json: OK
+evidence/MAL_GRAMMAR_GATE_COMPARATOR_RUN3.json: OK
+evidence/MAL_POLICY_GATE_COMPARATOR_RUN1.stdout: OK
+evidence/MAL_POLICY_GATE_COMPARATOR_RUN2.stdout: OK
+evidence/MAL_POLICY_GATE_COMPARATOR_RUN3.stdout: OK
+evidence/MAL_POLICY_GATE_COMPARATOR_RUN1.json: OK
+evidence/MAL_POLICY_GATE_COMPARATOR_RUN2.json: OK
+evidence/MAL_POLICY_GATE_COMPARATOR_RUN3.json: OK
+MAL_DETERMINISTIC_CI=PASS
+GRAMMAR_CORPUS=PASS
+GATE_COMPARATOR=PASS
+POLICY_HASH_AND_DENY=PASS
+DENY_POLICY_FIELDS=8
+MAL_DIR_VALIDATOR=PASS
+MAL_DIR_TOTAL_NODES=58
+EXECUTION=NOT_PERFORMED
+SOURCE_EXECUTED=NO
+NETWORK=DISABLED_BY_CONTRACT
+[1mdiff --git a/.github/workflows/mal-deterministic-audit.yml b/.github/workflows/mal-deterministic-audit.yml[m
+[1mindex 5611a18..ba6f283 100644[m
+[1m--- a/.github/workflows/mal-deterministic-audit.yml[m
+[1m+++ b/.github/workflows/mal-deterministic-audit.yml[m
+[36m@@ -54,5 +54,8 @@[m [mjobs:[m
+             evidence/MAL_DIR_NODE_ANALYSIS.stdout[m
+             evidence/MAL_POLICY_GATE_COMPARATOR_RUN1.stdout[m
+             evidence/MAL_POLICY_GATE_COMPARATOR_REPRO.sha256[m
+[32m+[m[32m            protocol/MAL_DENY_POLICY_v0.1_AR.md[m
+[32m+[m[32m            evidence/MAL_DENY_POLICY_CI.stdout[m
+[32m+[m[32m            evidence/MAL_DENY_POLICY_CI.sha256[m
+             evidence/MAL_GRAMMAR_GATE_COMPARATOR.stdout[m
+             evidence/MAL_GRAMMAR_GATE_COMPARATOR_ARTIFACTS.sha256[m
+[1mdiff --git a/scripts/run_mal_deterministic_ci.sh b/scripts/run_mal_deterministic_ci.sh[m
+[1mindex ae85795..03bbbab 100755[m
+[1m--- a/scripts/run_mal_deterministic_ci.sh[m
+[1m+++ b/scripts/run_mal_deterministic_ci.sh[m
+[36m@@ -15,18 +15,24 @@[m [mpython3 tests/run_mal_gate_comparator.py > /tmp/mal_gate_ci_1.stdout[m
+ python3 tests/run_mal_gate_comparator.py > /tmp/mal_gate_ci_2.stdout[m
+ python3 tests/run_mal_policy_gate_comparator.py > /tmp/mal_policy_ci_1.stdout[m
+ python3 tests/run_mal_policy_gate_comparator.py > /tmp/mal_policy_ci_2.stdout[m
+[32m+[m[32mpython3 tests/run_mal_deny_policy_ci.py > /tmp/mal_deny_ci_1.stdout[m
+[32m+[m[32mpython3 tests/run_mal_deny_policy_ci.py > /tmp/mal_deny_ci_2.stdout[m
+ python3 tests/run_mal_dir_corpus.py > /tmp/mal_dir_ci_1.stdout[m
+ python3 tests/run_mal_dir_corpus.py > /tmp/mal_dir_ci_2.stdout[m
+ python3 tests/run_mal_dir_validator.py > /tmp/mal_dir_validator_ci_1.stdout[m
+ python3 tests/run_mal_dir_validator.py > /tmp/mal_dir_validator_ci_2.stdout[m
+ python3 tests/analyze_mal_dir_nodes.py > /tmp/mal_dir_nodes_ci.stdout[m
+[32m+[m[32mcp /tmp/mal_deny_ci_1.stdout evidence/MAL_DENY_POLICY_CI.stdout[m
+ [m
+ cmp /tmp/mal_grammar_ci_1.stdout /tmp/mal_grammar_ci_2.stdout[m
+ cmp /tmp/mal_gate_ci_1.stdout /tmp/mal_gate_ci_2.stdout[m
+ cmp /tmp/mal_policy_ci_1.stdout /tmp/mal_policy_ci_2.stdout[m
+[32m+[m[32mcmp /tmp/mal_deny_ci_1.stdout /tmp/mal_deny_ci_2.stdout[m
+ cmp /tmp/mal_dir_ci_1.stdout /tmp/mal_dir_ci_2.stdout[m
+ cmp /tmp/mal_dir_validator_ci_1.stdout /tmp/mal_dir_validator_ci_2.stdout[m
+ grep -q '^MAL_POLICY_GATE_COMPARATOR=PASS$' /tmp/mal_policy_ci_1.stdout[m
+[32m+[m[32mgrep -q '^MAL_DENY_POLICY_CI=PASS$' /tmp/mal_deny_ci_1.stdout[m
+[32m+[m[32mgrep -q '^DENY_FIELDS_TESTED=8$' /tmp/mal_deny_ci_1.stdout[m
+ grep -q '^MAL_DIR_VALIDATOR=PASS$' /tmp/mal_dir_validator_ci_1.stdout[m
+ grep -q '^TOTAL_NODES=58$' /tmp/mal_dir_validator_ci_1.stdout[m
+ grep -q '^TOTAL_MATCH=PASS$' /tmp/mal_dir_nodes_ci.stdout[m
+[36m@@ -41,10 +47,11 @@[m [mprintf 'MAL_DETERMINISTIC_CI=PASS\n'[m
+ printf 'GRAMMAR_CORPUS=PASS\n'[m
+ printf 'GATE_COMPARATOR=PASS\n'[m
+ printf 'POLICY_HASH_AND_DENY=PASS\n'[m
+[32m+[m[32mprintf 'DENY_POLICY_FIELDS=8\n'[m
+ printf 'MAL_DIR_VALIDATOR=PASS\n'[m
+ printf 'MAL_DIR_TOTAL_NODES=58\n'[m
+ printf 'EXECUTION=NOT_PERFORMED\n'[m
+ printf 'SOURCE_EXECUTED=NO\n'[m
+ printf 'NETWORK=DISABLED_BY_CONTRACT\n'[m
+ rm -rf extensions/__pycache__ tests/__pycache__[m
+[31m-git diff --exit-code -- . ':!evidence/MAL_CI_RUN.stdout' ':!evidence/MAL_CI_RUN.sha256'[m
+[32m+[m[32mgit diff --exit-code -- . ':!evidence/MAL_CI_RUN.stdout' ':!evidence/MAL_CI_RUN.sha256' ':!evidence/MAL_DENY_POLICY_CI.stdout' ':!evidence/MAL_DENY_POLICY_CI.sha256'[m
+STATUS=0

@@ -1,0 +1,13 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_186_190_REGISTRY_AR",
+  "version": "0.1.0",
+  "classification": "RESEARCH",
+  "evidence": "protocol/EVIDENCE_186_190_AR.md",
+  "entries": [
+    {"id":186,"name":"ocaml_functor_specialization","target":"OCaml","decision":"RESEARCH","guarantee":"تطبيق وحدة بمعامل وحدة والتحقق من توافق التوقيعات","counterexample":"لا يثبت توليد كود كامل وقت الترجمة أو انعدام كلفة التشغيل أو قابلية التكرار عبر البيئات","gap":"تثبيت الإصدار والمنصة وكلفة التشغيل ودلالات المقارنة والآثار"},
+    {"id":187,"name":"scala_opaque_type","target":"Scala 3","decision":"RESEARCH","guarantee":"فصل نوعي وقت الفحص مع تمثيل منخفض المستوى في سياقات محددة","counterexample":"لا يثبت ABI موحدًا أو غياب boxing في كل سياق أو نقاء العمليات","gap":"تثبيت الإصدار والمنصة والسياق وخيارات المترجم"},
+    {"id":188,"name":"fsharp_require_qualified_access","target":"F#","decision":"RESEARCH","guarantee":"فرض الوصول المؤهل لعناصر الوحدة أو السجل أو الاتحاد","counterexample":"لا يثبت وحده اختلاف الأنواع أو سلامة المطابقة أو حتمية التنفيذ العام","gap":"تثبيت قواعد حل الأسماء ودلالات النوع والمطابقة"},
+    {"id":189,"name":"elixir_defguard","target":"Elixir","decision":"RESEARCH","guarantee":"تركيب guard من عمليات مسموحة ومقيدة بالآثار","counterexample":"لا يثبت نقاء الفرع أو حتمية الجدولة أو استقلال النتيجة عن ترتيب clauses","gap":"تثبيت مجموعة guards وإحالاتها وترتيب clauses"},
+    {"id":190,"name":"clojure_transient_persistent","target":"Clojure","decision":"RESEARCH","guarantee":"جلسة تعديل محلية تنتهي ببنية persistent مع منع الاستعمال بعد persistent!","counterexample":"لا يثبت النقاء المطلق أو التكافؤ عند اختلاف ترتيب التعديلات أو الآثار الخارجية","gap":"تثبيت عزل الخيط وترتيب العمليات ودورة الحياة"}
+  ]
+}

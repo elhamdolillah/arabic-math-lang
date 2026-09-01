@@ -1,0 +1,381 @@
+--- BRANCH ---
+integration/mal-deterministic-audit-2026-08-25
+--- RUNTIME CANDIDATES ---
+./archive/execution/ai1.asm
+./archive/execution/ai2.asm
+./archive/execution/ai3.asm
+./archive/execution/ai4.asm
+./archive/execution/ai5.asm
+./archive/execution/ai6.asm
+./archive/execution/boot_out.asm
+./archive/execution/bootstrap
+./archive/execution/bootstrap.asm
+./archive/execution/bootstrap_final
+./archive/execution/bootstrap_final.asm
+./archive/execution/c0.asm
+./archive/execution/c0_22f.asm
+./archive/execution/c0_test.asm
+./archive/execution/c1.asm
+./archive/execution/c1_22c.asm
+./archive/execution/c1_22d.asm
+./archive/execution/c1_22e.asm
+./archive/execution/c1_b.asm
+./archive/execution/c1b_self.asm
+./archive/execution/c1b_test.asm
+./archive/execution/c2.asm
+./archive/execution/c3.asm
+./archive/execution/c4.asm
+./archive/execution/c_cond.asm
+./archive/execution/c_full.asm
+./archive/execution/c_loop.asm
+./archive/execution/calc.asm
+./archive/execution/calc1.asm
+./archive/execution/calc2.asm
+./archive/execution/calc3.asm
+./archive/execution/calc4.asm
+./archive/execution/calc5.asm
+./archive/execution/calc6.asm
+./archive/execution/cond_cat.asm
+./archive/execution/cond_self.asm
+./archive/execution/cond_test.asm
+./archive/execution/e2e.asm
+./archive/execution/e2e10.asm
+./archive/execution/e2e12.asm
+./archive/execution/e2e13.asm
+./archive/execution/e2e14.asm
+./archive/execution/e2e15.asm
+./archive/execution/e2e16.asm
+./archive/execution/e2e17.asm
+./archive/execution/e2e7.asm
+./archive/execution/e2e8.asm
+./archive/execution/e2e9.asm
+./archive/execution/file_c.asm
+./archive/execution/file_n.asm
+./archive/execution/file_r.asm
+./archive/execution/file_w.asm
+./archive/execution/full_self.asm
+./archive/execution/full_test.asm
+./archive/execution/gen.asm
+./archive/execution/gen1.asm
+./archive/execution/gen10.asm
+./archive/execution/gen11.asm
+./archive/execution/gen12.asm
+./archive/execution/gen13.asm
+./archive/execution/gen2.asm
+./archive/execution/gen3.asm
+./archive/execution/gen4.asm
+./archive/execution/gen5.asm
+./archive/execution/gen6.asm
+./archive/execution/gen7.asm
+./archive/execution/gen8.asm
+./archive/execution/gen9.asm
+./archive/execution/generated_abc.asm
+./archive/execution/int1.asm
+./archive/execution/int2.asm
+./archive/execution/int3.asm
+./archive/execution/int4.asm
+./archive/execution/int5.asm
+./archive/execution/int6.asm
+./archive/execution/learn1.asm
+./archive/execution/learn2.asm
+./archive/execution/learn3.asm
+./archive/execution/learn4.asm
+./archive/execution/learn5.asm
+./archive/execution/learn6.asm
+./archive/execution/lin1.asm
+./archive/execution/lin2.asm
+./archive/execution/lin3.asm
+./archive/execution/lin4.asm
+./archive/execution/lin5.asm
+./archive/execution/lin6.asm
+./archive/execution/list1.asm
+./archive/execution/list2.asm
+./archive/execution/list3.asm
+./archive/execution/list4.asm
+./archive/execution/list5.asm
+./archive/execution/list6.asm
+./archive/execution/loop_cat.asm
+./archive/execution/loop_self.asm
+./archive/execution/loop_test.asm
+./archive/execution/mat1.asm
+./archive/execution/mat2.asm
+./archive/execution/mat3.asm
+./archive/execution/mat4.asm
+./archive/execution/mat5.asm
+./archive/execution/mat6.asm
+./archive/execution/math_program.asm
+./archive/execution/mini.asm
+./archive/execution/net1.asm
+./archive/execution/net4.asm
+./archive/execution/nlp1.asm
+./archive/execution/nlp2.asm
+./archive/execution/nlp3.asm
+./archive/execution/nlp4.asm
+./archive/execution/nlp5.asm
+./archive/execution/nlp6.asm
+./archive/execution/nn1.asm
+./archive/execution/nn2.asm
+./archive/execution/nn3.asm
+./archive/execution/nn4.asm
+./archive/execution/nn5.asm
+./archive/execution/nn6.asm
+./archive/execution/ptr1.asm
+./archive/execution/ptr2.asm
+./archive/execution/ptr3.asm
+./archive/execution/ptr4.asm
+./archive/execution/ptr5.asm
+./archive/execution/self_test.asm
+./archive/execution/self_test2.asm
+./archive/execution/sql1.asm
+./archive/execution/sql2.asm
+./archive/execution/sql3.asm
+./archive/execution/sql4.asm
+./archive/execution/sql5.asm
+./archive/execution/sql6.asm
+./archive/execution/struct1.asm
+./archive/execution/struct2.asm
+./archive/execution/struct3.asm
+./archive/execution/struct4.asm
+./archive/execution/struct5.asm
+./archive/execution/t_closure.asm
+./archive/execution/t_concat.asm
+./archive/execution/t_fact.asm
+./archive/execution/t_len.asm
+./archive/execution/t_nested.asm
+./archive/execution/t_str.asm
+./archive/execution/t_sum.asm
+./archive/execution/table1.asm
+./archive/execution/table2.asm
+./archive/execution/table3.asm
+./archive/execution/table4.asm
+./archive/execution/table5.asm
+./archive/execution/table6.asm
+./archive/execution/test_c3.asm
+./archive/execution/test_c4.asm
+./book/02-compiler-basics.md
+./calc.asm
+./evidence/MAL_RUNTIME_DISCOVERY.stdout
+./examples/channels.asm
+./examples/matrix_ops.asm
+./examples/mutex_demo.asm
+./examples/parallel_sum.asm
+./examples/recursion.asm
+./examples/string_ops.asm
+./examples/test_simple.asm
+./examples/threads_basic.asm
+./examples/threads_real.asm
+./p42_id_int.asm
+./p42_id_str.asm
+./p42_swap.asm
+./phase50_selfhost.asm
+./sanity.asm
+./src/threads_runtime.asm
+./t_block.asm
+./t_char.asm
+./t_char2.asm
+./t_read_echo.asm
+./t_read_size.asm
+./t_reassign_after_move.asm
+./t_roundtrip.asm
+./t_str2num.asm
+./test_simple.asm
+./tests/c40_q32_verification/mixed_mul_q64.asm
+./tests/c40_q32_verification/test_q163_micro.asm
+./th1.asm
+./th2.asm
+./th3.asm
+./th4.asm
+./th5.asm
+./th6.asm
+--- CONTRACTS ---
+EVIDENCE_165_169_AR.md
+EVIDENCE_170_175_AR.md
+EVIDENCE_176_180_AR.md
+EVIDENCE_181_182_AR.md
+EVIDENCE_183_185_AR.md
+EVIDENCE_186_190_AR.md
+EVIDENCE_196_200_AR.md
+EVIDENCE_206_210_AR.md
+EXTERNAL_FINDINGS_MECHANISMS_40_45.md
+MAL_ARABIC_COVERAGE_AUTOMATION_CONTRACT_AR.md
+MAL_ARENA_NODEID_CONTRACT_v0.1_AR.md
+MAL_AST_CANONICAL_CONTRACT_v0.1_AR.md
+MAL_AST_IR_NORMALIZATION_CONTRACT_v0.1_AR.md
+MAL_AST_OWNERSHIP_COMPILE_CONTRACT_v0.1_AR.md
+MAL_ATTACHED_MECHANISMS_REVIEW_31_39_AR.md
+MAL_ATTACHED_MECHANISMS_REVIEW_40_45_AR.md
+MAL_ATTACHED_MECHANISMS_REVIEW_46_50_AR.md
+MAL_BRANCH_PROTECTION_AR.md
+MAL_CODEGEN_ABI_CONTRACT_v0.1_AR.md
+MAL_CODEGEN_SYMBOLS_CONTRACT_v0.1_AR.md
+MAL_COMPILE_TIME_CONTRACT_v0.1_AR.md
+MAL_CORRECTED_CONSTITUTIONAL_REVIEW_206_210_AR.md
+MAL_DENY_POLICY_v0.1_AR.md
+MAL_DIR_SPEC_v0.1_AR.md
+MAL_DIR_SPEC_v0.2_ARENA_CONTRACT_AR.md
+MAL_DIR_VALIDATOR_BASELINE_2026_08_25_AR.md
+MAL_DUAL_EXECUTION_CONTRACT_AR.md
+MAL_EXTENSIONS_V0_2_AR.md
+MAL_FLAT_INDEX_ARENA_CONTRACT_v0.1_AR.md
+MAL_GADT_RANK_RESEARCH_AR.md
+MAL_GRAMMAR_SPEC_v0.1_AR.md
+MAL_LANGUAGE_LINEAGE_INTEGRATION_AR.md
+MAL_LINEAGE_TRANSPILATION_AR.md
+MAL_MEMORY_LIMITS_AUDIT_CONTRACT_v0.1_AR.md
+MAL_NO_ALLOCATION_EFFECT_CONTRACT_v0.1_AR.md
+MAL_OWNERSHIP_OPTIMIZATION_DESIGN_AR.md
+MAL_PARSER_BOUNDS_AND_ERRORS_CONTRACT_v0.1_AR.md
+MAL_PARSER_FOLLOWUP_CONTRACT_v0.1_AR.md
+MAL_PARSER_PRIMARY_CONTRACT_v0.1_AR.md
+MAL_RESEARCH_CONTRACT_137_142_AR.md
+MAL_TOKEN_CANONICAL_CONTRACT_v0.1_AR.md
+REPRODUCIBLE_BUILD_CONTRACT_AR.md
+RESEARCH_DETERMINISM_CONTRACT_AR.md
+UORI_CFG_AST_FILTER_WORKFLOW_v0.1_AR.md
+UORI_EXPANSION_POLICY_AR.md
+UORI_FOUR_RULES_ADOPTION_CONTRACT_AR.md
+UORI_MATH_RULES_ADOPTION_AR.md
+UORI_MATH_RULES_CONSTITUTIONAL_REVIEW_AR.md
+--- MAL UNITS ---
+mal_ast_to_ir.ar
+mal_dir_validator.ar
+mal_ir_symbol_table.ar
+mal_nodeid.ar
+mal_parser_call.ar
+mal_parser_parentheses.ar
+mal_parser_primary.ar
+mal_parser_real.ar
+mal_parser_string.ar
+--- TESTS ---
+MAL_AST_TO_IR_CORPUS_v0.1_AR.json
+MAL_ATTACHED_MECHANISMS_101_105_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_116_120_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_121_126_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_127_131_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_137_142_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_154_158_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_159_161_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_162_164_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_165_169_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_170_175_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_176_180_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_181_182_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_183_185_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_196_200_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_206_210_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_31_39_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_40_45_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_46_50_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_78_80_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_81_85_CORPUS_AR.json
+MAL_ATTACHED_MECHANISMS_94_100_CORPUS_AR.json
+MAL_COMPILE_TIME_CORPUS_v0.1_AR.json
+MAL_DUAL_EXECUTION_CORPUS_AR.json
+MAL_EXTENSIONS_V0_2_CORPUS_AR.json
+MAL_GADT_RANK_RESEARCH_CORPUS_AR.json
+MAL_IR_SYMBOL_TABLE_CORPUS_v0.1_AR.json
+MAL_NO_ALLOCATION_EFFECT_AST_EXPERIMENT_v0.1_AR.json
+MAL_PARSER_GOVERNED_CORPUS_v0.2_AR.json
+MAL_PARSER_PRIMARY_CORPUS_v0.1_AR.json
+MAL_PARSER_REAL_CORPUS_v0.1_AR.json
+MAL_PARSER_STRING_CORPUS_v0.1_AR.json
+MAL_UNIFIED_GOVERNED_CORPUS_AR.json
+analyze_mal_dir_nodes.py
+compare_mal_parser_primary.py
+phase46_result_option_tests.py
+run_mal_deny_policy_ci.py
+run_mal_dir_corpus.py
+run_mal_dir_validator.py
+run_mal_gate_comparator.py
+run_mal_grammar_corpus.py
+run_mal_ownership_arena.py
+run_mal_policy_gate_comparator.py
+test_attached_mechanisms_31_39.py
+test_attached_mechanisms_40_45.py
+test_attached_mechanisms_46_50.py
+test_compile_time_sidecar.py
+test_gadt_rank_research.py
+test_language_lineage_registry.py
+test_mal_arabic_coverage_audit.py
+test_mal_dual_execution.py
+test_mal_extensions_v0_2.py
+test_mal_lineage_projection.py
+test_mal_unified_corpus.py
+test_mal_unified_corpus_monitor.py
+test_uori_language_ratio_deterministic.py
+--- STATUS ---
+ [31mM[m tests/MAL_UNIFIED_GOVERNED_CORPUS_AR.json
+[31m??[m audit/
+[31m??[m audit_measure_ratio.py
+[31m??[m evidence/MAL_777_PHASES_INVENTORY.stdout
+[31m??[m evidence/MAL_ARENA_NODEID_CONTRACT_VERIFY.stdout
+[31m??[m evidence/MAL_AST_CANONICAL_VERIFY.stdout
+[31m??[m evidence/MAL_AST_IR_NORMALIZATION_VERIFY.stdout
+[31m??[m evidence/MAL_AST_OWNERSHIP_COMPILE_VERIFY.stdout
+[31m??[m evidence/MAL_AST_TO_IR_REPRO_A.stdout
+[31m??[m evidence/MAL_AST_TO_IR_REPRO_B.stdout
+[31m??[m evidence/MAL_AST_TO_IR_REPRO_FINAL.stdout
+[31m??[m evidence/MAL_AST_TO_IR_VERIFY.stdout
+[31m??[m evidence/MAL_CODEGEN_ABI_SYMBOLS_AUDIT.stdout
+[31m??[m evidence/MAL_CODEGEN_ABI_VERIFY.stdout
+[31m??[m evidence/MAL_EVAL_EXEC_AUDIT.stdout
+[31m??[m evidence/MAL_IR_SYMBOL_TABLE_VERIFY.stdout
+[31m??[m evidence/MAL_MEMORY_LIMITS_VERIFY.stdout
+[31m??[m evidence/MAL_NEXT77_AST_IR_BASE.stdout
+[31m??[m evidence/MAL_NEXT77_EVIDENCE_INDEX.stdout
+[31m??[m evidence/MAL_NEXT77_IR_DESIGN_INPUT.stdout
+[31m??[m evidence/MAL_NEXT77_MEMORY_REVIEW.stdout
+[31m??[m evidence/MAL_NEXT77_REPRO_RUN1.json
+[31m??[m evidence/MAL_NEXT77_REPRO_RUN2.json
+[31m??[m evidence/MAL_NODEID_VERIFY.stdout
+[31m??[m evidence/MAL_PARSER_BOUNDS_VERIFY.stdout
+[31m??[m evidence/MAL_PARSER_CALL_GRAMMAR_VERIFY.stdout
+[31m??[m evidence/MAL_PARSER_DIFF_GATE_29_35.stdout
+[31m??[m evidence/MAL_PARSER_FOLLOWUP_CONTRACT_VERIFY.stdout
+[31m??[m evidence/MAL_PARSER_GOVERNED_CORPUS_v0.2_VERIFY.stdout
+[31m??[m evidence/MAL_PARSER_PRIMARY_DIFFERENTIAL.json
+[31m??[m evidence/MAL_PARSER_PRIMARY_DIFFERENTIAL_FINAL.json
+[31m??[m evidence/MAL_PARSER_PRIMARY_DIFFERENTIAL_RUN1.json
+[31m??[m evidence/MAL_PARSER_PRIMARY_DIFFERENTIAL_RUN2.json
+[31m??[m evidence/MAL_PARSER_PRIMARY_IMPLEMENTATION_STATUS_AR.md
+[31m??[m evidence/MAL_PARSER_PRIMARY_REPEAT_A.json
+[31m??[m evidence/MAL_PARSER_PRIMARY_REPEAT_B.json
+[31m??[m evidence/MAL_PARSER_PRIMARY_VERIFICATION.stdout
+[31m??[m evidence/MAL_PARSER_REAL_GRAMMAR_VERIFY.stdout
+[31m??[m evidence/MAL_PARSER_STRING_GRAMMAR_VERIFY.stdout
+[31m??[m evidence/MAL_PARSER_UNITS_9_13_VERIFY.stdout
+[31m??[m evidence/MAL_RAW_POINTER_AUDIT.stdout
+[31m??[m evidence/MAL_RUNTIME_DISCOVERY.stdout
+[31m??[m evidence/MAL_SLOC_RATIO_RUN1.json
+[31m??[m evidence/MAL_SLOC_RATIO_RUN2.json
+[31m??[m evidence/MAL_TOKEN_CANONICAL_VERIFY.stdout
+[31m??[m extensions/mal_ast_to_ir.ar
+[31m??[m extensions/mal_ir_symbol_table.ar
+[31m??[m extensions/mal_nodeid.ar
+[31m??[m extensions/mal_parser_call.ar
+[31m??[m extensions/mal_parser_parentheses.ar
+[31m??[m extensions/mal_parser_primary.ar
+[31m??[m extensions/mal_parser_real.ar
+[31m??[m extensions/mal_parser_string.ar
+[31m??[m protocol/EVIDENCE_206_210_AR.md
+[31m??[m protocol/MAL_ARENA_NODEID_CONTRACT_v0.1_AR.md
+[31m??[m protocol/MAL_AST_CANONICAL_CONTRACT_v0.1_AR.md
+[31m??[m protocol/MAL_AST_IR_NORMALIZATION_CONTRACT_v0.1_AR.md
+[31m??[m protocol/MAL_AST_OWNERSHIP_COMPILE_CONTRACT_v0.1_AR.md
+[31m??[m protocol/MAL_ATTACHED_MECHANISMS_206_210_REGISTRY_AR.json
+[31m??[m protocol/MAL_CODEGEN_ABI_CONTRACT_v0.1_AR.md
+[31m??[m protocol/MAL_CODEGEN_SYMBOLS_CONTRACT_v0.1_AR.md
+[31m??[m protocol/MAL_CORRECTED_CONSTITUTIONAL_REVIEW_206_210_AR.md
+[31m??[m protocol/MAL_MEMORY_LIMITS_AUDIT_CONTRACT_v0.1_AR.md
+[31m??[m protocol/MAL_PARSER_BOUNDS_AND_ERRORS_CONTRACT_v0.1_AR.md
+[31m??[m protocol/MAL_PARSER_FOLLOWUP_CONTRACT_v0.1_AR.md
+[31m??[m protocol/MAL_PARSER_PRIMARY_CONTRACT_v0.1_AR.md
+[31m??[m protocol/MAL_TOKEN_CANONICAL_CONTRACT_v0.1_AR.md
+[31m??[m tests/MAL_AST_TO_IR_CORPUS_v0.1_AR.json
+[31m??[m tests/MAL_ATTACHED_MECHANISMS_206_210_CORPUS_AR.json
+[31m??[m tests/MAL_IR_SYMBOL_TABLE_CORPUS_v0.1_AR.json
+[31m??[m tests/MAL_PARSER_GOVERNED_CORPUS_v0.2_AR.json
+[31m??[m tests/MAL_PARSER_PRIMARY_CORPUS_v0.1_AR.json
+[31m??[m tests/MAL_PARSER_REAL_CORPUS_v0.1_AR.json
+[31m??[m tests/MAL_PARSER_STRING_CORPUS_v0.1_AR.json
+[31m??[m tests/compare_mal_parser_primary.py
