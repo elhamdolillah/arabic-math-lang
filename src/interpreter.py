@@ -1,7 +1,22 @@
 import os
 import re
+import sys
+import ast
 import sympy as sp
 from sympy import symbols, Function, Eq, dsolve, Derivative, integrate, Matrix, solve, sqrt, log, exp, sin, cos, tan, pi, I, oo, Rational
+
+# دوال مساعدة (مدمجة لتجنب استيراد خارجي)
+def numerical_integral(f, a, b, n=100):
+    h = (b - a) / n
+    x = [a + i*h for i in range(n+1)]
+    fx = [f(xi) for xi in x]
+    s = fx[0] + fx[-1]
+    for i in range(1, n):
+        s += (4 if i % 2 == 1 else 2) * fx[i]
+    return s * h / 3
+
+def numerical_derivative(f, x, h=1e-5):
+    return (f(x + h) - f(x - h)) / (2*h)
 
 class MALInterpreter:
     def __init__(self, file_path=None):
@@ -113,12 +128,15 @@ class MALInterpreter:
         if not match:
             return "خطأ: صيغة المصفوفة غير صحيحة"
         matrix_str = match.group(1)
-        rows = re.findall(r'\[(.*?)\]', matrix_str)
-        mat = []
-        for row in rows:
-            vals = [sp.sympify(x.strip()) for x in row.split(',')]
-            mat.append(vals)
-        return Matrix(mat)
+        try:
+            # استخدام ast.literal_eval مع تحقق إضافي
+            parsed = ast.literal_eval(matrix_str)
+            if not isinstance(parsed, list):
+                return "خطأ: المصفوفة يجب أن تكون قائمة من القوائم"
+            # تحويل إلى مصفوفة SymPy
+            return Matrix(parsed)
+        except (ValueError, SyntaxError, TypeError) as e:
+            return f"خطأ في تحليل المصفوفة: {e}"
 
     def _execute_expression(self, text):
         try:
@@ -126,102 +144,117 @@ class MALInterpreter:
         except Exception as e:
             return f"خطأ في التعبير: {e}"
 
-    # ===== الميزات الجديدة =====
+    # ===== الميزات الجديدة (مع إصلاحات) =====
     def _execute_solve(self, text):
         match = re.search(r'حل_معادلة\s*\(\s*(.*?)\s*,\s*(.*?)\s*\)', text)
         if not match:
             return "خطأ: صيغة حل_معادلة غير صحيحة"
         expr_str, var_str = match.groups()
-        expr = sp.sympify(expr_str)
-        var = sp.Symbol(var_str)
-        solutions = sp.solve(expr, var)
-        return solutions
+        try:
+            expr = sp.sympify(expr_str)
+            var = sp.Symbol(var_str)
+            solutions = sp.solve(expr, var)
+            return solutions
+        except Exception as e:
+            return f"خطأ في حل المعادلة: {e}"
 
     def _execute_integral_numeric(self, text):
         match = re.search(r'تكامل_عددي\s*\(\s*(.*?)\s*,\s*(.*?)\s*,\s*(.*?)\s*,\s*(.*?)\s*\)', text)
         if not match:
             return "خطأ: صيغة تكامل_عددي غير صحيحة (دالة, متغير, من, إلى)"
         expr_str, var_str, lower, upper = match.groups()
-        expr = sp.sympify(expr_str)
-        var = sp.Symbol(var_str)
-        f = sp.lambdify(var, expr, 'math')
-        a = float(sp.sympify(lower))
-        b = float(sp.sympify(upper))
-        import sys; sys.path.append(os.path.dirname(__file__)); from utils import numerical_integral
-        return numerical_integral(f, a, b)
+        try:
+            expr = sp.sympify(expr_str)
+            var = sp.Symbol(var_str)
+            f = sp.lambdify(var, expr, 'math')
+            a = float(sp.sympify(lower))
+            b = float(sp.sympify(upper))
+            return numerical_integral(f, a, b)
+        except Exception as e:
+            return f"خطأ في التكامل العددي: {e}"
 
     def _execute_derivative_numeric(self, text):
         match = re.search(r'اشتقاق_عددي\s*\(\s*(.*?)\s*,\s*(.*?)\s*,\s*(.*?)\s*\)', text)
         if not match:
             return "خطأ: صيغة اشتقاق_عددي غير صحيحة (دالة, متغير, نقطة)"
         expr_str, var_str, point = match.groups()
-        expr = sp.sympify(expr_str)
-        var = sp.Symbol(var_str)
-        f = sp.lambdify(var, expr, 'math')
-        x0 = float(sp.sympify(point))
-        from utils import numerical_derivative
-        return numerical_derivative(f, x0)
+        try:
+            expr = sp.sympify(expr_str)
+            var = sp.Symbol(var_str)
+            f = sp.lambdify(var, expr, 'math')
+            x0 = float(sp.sympify(point))
+            return numerical_derivative(f, x0)
+        except Exception as e:
+            return f"خطأ في الاشتقاق العددي: {e}"
 
     def _execute_matrix_inverse(self, text):
         match = re.search(r'معكوس_مصفوفة\s*\(\s*(.*?)\s*\)', text)
         if not match:
             return "خطأ: صيغة معكوس_مصفوفة غير صحيحة"
         matrix_str = match.group(1)
-        mat = sp.sympify(matrix_str)
-        if not isinstance(mat, sp.Matrix):
-            try:
-                mat = sp.Matrix(mat)
-            except:
-                return "خطأ: المدخلات ليست مصفوفة صالحة"
-        if mat.rows != mat.cols:
-            return "خطأ: المصفوفة ليست مربعة"
         try:
+            mat = sp.sympify(matrix_str)
+            if not isinstance(mat, sp.Matrix):
+                mat = sp.Matrix(mat)
+            if mat.rows != mat.cols:
+                return "خطأ: المصفوفة ليست مربعة"
             return mat.inv()
-        except:
-            return "خطأ: المصفوفة غير قابلة للعكس"
+        except Exception as e:
+            return f"خطأ في معكوس المصفوفة: {e}"
 
     def _execute_determinant(self, text):
         match = re.search(r'محدد\s*\(\s*(.*?)\s*\)', text)
         if not match:
             return "خطأ: صيغة محدد غير صحيحة"
         matrix_str = match.group(1)
-        mat = sp.sympify(matrix_str)
-        if not isinstance(mat, sp.Matrix):
-            try:
+        try:
+            mat = sp.sympify(matrix_str)
+            if not isinstance(mat, sp.Matrix):
                 mat = sp.Matrix(mat)
-            except:
-                return "خطأ: المدخلات ليست مصفوفة صالحة"
-        if mat.rows != mat.cols:
-            return "خطأ: المصفوفة ليست مربعة"
-        return mat.det()
+            if mat.rows != mat.cols:
+                return "خطأ: المصفوفة ليست مربعة"
+            return mat.det()
+        except Exception as e:
+            return f"خطأ في حساب المحدد: {e}"
 
     def _execute_linsolve(self, text):
-        import re, ast
-        # استخراج المحتوى بين قوسي حل_نظام
-        match = re.search(r'حل_نظام\s*\((.*)\)', text, re.DOTALL)
+        match = re.search(r'حل_نظام\s*\(\s*(.*?)\s*,\s*(.*?)\s*\)', text)
         if not match:
             return "خطأ: صيغة حل_نظام غير صحيحة"
-        inner = match.group(1).strip()
+        A_str, b_str = match.groups()
         try:
-            # استخدام ast.literal_eval لتحويل النص إلى كائن بايثون
-            data = ast.literal_eval(inner)
-            if not isinstance(data, tuple) or len(data) != 2:
-                return "خطأ: يجب أن يكون المدخل tuple من عنصرين (مصفوفة, متجه)"
-            A_mat = data[0]
-            b_vec = data[1]
-            A = sp.Matrix(A_mat)
-            b = sp.Matrix(b_vec)
+            A = sp.sympify(A_str)
+            b = sp.sympify(b_str)
+            if not isinstance(A, sp.Matrix):
+                A = sp.Matrix(A)
+            if not isinstance(b, sp.Matrix):
+                b = sp.Matrix(b)
             return A.solve(b)
         except Exception as e:
-            return f"خطأ في تحليل المدخلات: {e}"
+            return f"خطأ في حل النظام: {e}"
+
+    def _execute_gamma(self, text):
+        match = re.search(r'غاما\s*\(\s*(.*?)\s*\)', text)
+        if not match:
+            return "خطأ: صيغة غاما غير صحيحة"
+        z_str = match.group(1)
+        try:
+            z = sp.sympify(z_str)
+            return sp.gamma(z)
+        except Exception as e:
+            return f"خطأ في دالة غاما: {e}"
+
     def _execute_beta(self, text):
         match = re.search(r'بيتا\s*\(\s*(.*?)\s*,\s*(.*?)\s*\)', text)
         if not match:
             return "خطأ: صيغة بيتا غير صحيحة"
         a_str, b_str = match.group(1), match.group(2)
-        a = sp.sympify(a_str)
-        b = sp.sympify(b_str)
-        return sp.beta(a, b)
+        try:
+            a = sp.sympify(a_str)
+            b = sp.sympify(b_str)
+            return sp.beta(a, b)
+        except Exception as e:
+            return f"خطأ في دالة بيتا: {e}"
 
 if __name__ == "__main__":
     import sys
