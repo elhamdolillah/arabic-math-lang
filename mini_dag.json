@@ -1,0 +1,137 @@
+[
+  {
+    "id": "logic_symbols",
+    "type": "concept",
+    "name_ar": "المنطق والرموز",
+    "level": 0,
+    "depends_on": []
+  },
+  {
+    "id": "set_theory",
+    "type": "concept",
+    "name_ar": "نظرية المجموعات",
+    "level": 1,
+    "depends_on": ["logic_symbols"]
+  },
+  {
+    "id": "natural_numbers",
+    "type": "concept",
+    "name_ar": "الأعداد الطبيعية",
+    "level": 2,
+    "depends_on": ["set_theory"]
+  },
+  {
+    "id": "integers",
+    "type": "concept",
+    "name_ar": "الأعداد الصحيحة",
+    "level": 2,
+    "depends_on": ["natural_numbers"]
+  },
+  {
+    "id": "rationals",
+    "type": "concept",
+    "name_ar": "الأعداد النسبية",
+    "level": 2,
+    "depends_on": ["integers"]
+  },
+  {
+    "id": "reals",
+    "type": "concept",
+    "name_ar": "الأعداد الحقيقية",
+    "level": 2,
+    "depends_on": ["rationals"]
+  },
+  {
+    "id": "addition",
+    "type": "operation",
+    "name_ar": "الجمع",
+    "level": 3,
+    "depends_on": ["natural_numbers"]
+  },
+  {
+    "id": "multiplication",
+    "type": "operation",
+    "name_ar": "الضرب",
+    "level": 3,
+    "depends_on": ["addition"]
+  },
+  {
+    "id": "powers",
+    "type": "operation",
+    "name_ar": "القوى والأسس",
+    "level": 4,
+    "depends_on": ["multiplication"]
+  },
+  {
+    "id": "square_def",
+    "type": "definition",
+    "name_ar": "التربيع",
+    "statement_ar": "x² = x × x",
+    "level": 4,
+    "depends_on": ["powers", "multiplication"]
+  },
+  {
+    "id": "sqrt_def",
+    "type": "definition",
+    "name_ar": "الجذر التربيعي",
+    "statement_ar": "√x = y إذا وفقط إذا كان y² = x",
+    "level": 4,
+    "depends_on": ["square_def", "reals"]
+  },
+  {
+    "id": "equations_basic",
+    "type": "concept",
+    "name_ar": "المعادلات الأساسية",
+    "level": 5,
+    "depends_on": ["addition", "multiplication", "reals"]
+  },
+  {
+    "id": "linear_eq",
+    "type": "concept",
+    "name_ar": "المعادلات الخطية",
+    "level": 5,
+    "depends_on": ["equations_basic"]
+  },
+  {
+    "id": "quadratic_eq",
+    "type": "concept",
+    "name_ar": "المعادلات التربيعية",
+    "level": 5,
+    "depends_on": ["equations_basic", "square_def", "sqrt_def"]
+  },
+  {
+    "id": "functions_def",
+    "type": "definition",
+    "name_ar": "الدوال",
+    "level": 6,
+    "depends_on": ["set_theory", "reals"]
+  },
+  {
+    "id": "limits_def",
+    "type": "definition",
+    "name_ar": "النهايات",
+    "level": 7,
+    "depends_on": ["functions_def", "reals"]
+  },
+  {
+    "id": "continuity_def",
+    "type": "definition",
+    "name_ar": "الاستمرارية",
+    "level": 8,
+    "depends_on": ["limits_def"]
+  },
+  {
+    "id": "derivative_def",
+    "type": "definition",
+    "name_ar": "المشتقة",
+    "level": 9,
+    "depends_on": ["limits_def", "continuity_def"]
+  },
+  {
+    "id": "integral_def",
+    "type": "definition",
+    "name_ar": "التكامل",
+    "level": 10,
+    "depends_on": ["derivative_def"]
+  }
+]
