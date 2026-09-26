@@ -1,0 +1,52 @@
+// ============================================================
+// قاموس الجذور الموسع ومولد الاشتقاق الديناميكي
+// ============================================================
+// مصفوفة الجذور الشائعة (كل جذر 3 أحرف)
+// 1. ع-ل-م (0x0639, 0x0644, 0x0645)
+// 2. ق-ر-أ (0x0642, 0x0631, 0x0623)
+// 3. ش-ر-ب (0x0634, 0x0631, 0x0628)
+// 4. ف-ه-م (0x0641, 0x0647, 0x0645)
+// 5. ع-م-ل (0x0639, 0x0645, 0x0644)
+let COMMON_ROOTS: [i32; 15] = [0x0639, 0x0644, 0x0645, 0x0642, 0x0631, 0x0623, 0x0634, 0x0631, 0x0628, 0x0641, 0x0647, 0x0645, 0x0639, 0x0645, 0x0644];
+let CHAR_MEEM: i32 = 0x0645; // م
+let CHAR_ALEF: i32 = 0x0627; // ا
+// دالة توليد "اسم المكان" (مَفعَل) من أي جذر ثلاثي
+fn generate_place_name(root_idx: i32, out: &mut [i32]) -> i32 {
+    let base: i32 = root_idx * 3;
+    out[0] = CHAR_MEEM;
+    out[1] = COMMON_ROOTS[base];
+    out[2] = COMMON_ROOTS[base + 1];
+    out[3] = CHAR_ALEF;
+    out[4] = COMMON_ROOTS[base + 2];
+    return 5;
+}
+fn print_hex_array(arr: &[i32], len: i32) {
+    let mut i: i32 = 0;
+    while i < len {
+        printf("0x%04X ", arr[i]);
+        i = i + 1;
+    }
+    printf("\n");
+}
+fn main() -> i32 {
+    printf("=== Expanded Root Dictionary & Dynamic Generation ===\n\n");
+    let mut generated_word: [i32; 6] = [0; 6];
+    let num_roots: i32 = 5;
+    let mut i: i32 = 0;
+    while i < num_roots {
+        printf("Root %d: ", i + 1);
+        let base: i32 = i * 3;
+        let root_arr: [i32; 3] = [COMMON_ROOTS[base], COMMON_ROOTS[base + 1], COMMON_ROOTS[base + 2]];
+        print_hex_array(root_arr, 3);
+        let len: i32 = generate_place_name(i, generated_word);
+        printf("  -> Place Name (Maf'al): ");
+        print_hex_array(generated_word, len);
+        i = i + 1;
+    }
+    printf("\n==========================================\n");
+    printf("Conclusion:\n");
+    printf("- 5 Roots (15 units) generated 5 new words dynamically.\n");
+    printf("- Scaling to 16,000 roots with 20 patterns = 320,000 words!\n");
+    printf("==========================================\n");
+    return 0;
+}
