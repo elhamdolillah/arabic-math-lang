@@ -285,6 +285,14 @@ fn translate_statement(nir: &str) -> Option<String> {
         return Some("#pragma GCC optimize(\"fp-contract=off\")".to_string());
     }
     if nir.starts_with("#cache_friendly") {
+        // يوجه GCC لتحسين استخدام الذاكرة المؤقتة وفك الحلقات
+        return Some("#pragma GCC optimize(\"O3\", \"unroll-loops\", \"tree-vectorize\")".to_string());
+    }
+    if nir.starts_with("#strict_math") {
+        // يضمن دقة IEEE 754 المطلقة ويمنع دمج عمليات FMA الذي قد يغير البت الأخير
+        return Some("#pragma GCC optimize(\"fp-contract=off\")".to_string());
+    }
+    if nir.starts_with("#cache_friendly") {
         // توجيه للمترجم لتحسين استخدام الذاكرة المؤقتة (Loop Tiling hints)
         return Some("#pragma GCC optimize(\"O3\", \"unroll-loops\", \"tree-vectorize\")".to_string());
     }
