@@ -12,3 +12,9 @@ MAL is a custom systems programming language designed specifically for determini
 - **Compiler Directives**: `#unroll` and `#simd` to guide C compiler vectorization.
 - **Standard Math**: Native support for `<math.h>` functions (e.g., `expf`, `sinf`, `sqrtf`).
 - **Global Constants**: Embedding massive weight matrices directly into the global scope.
+---
+## 🧮 v2.0: Advanced Arabic Morphology & NLP Engine
+تم ترقية `malc` ليدعم معالجة اللغات الطبيعية بشكل حتمي ورياضي:
+- **الضغط الرياضي (Lossless Compression):** توليد الكلمات ديناميكياً من الجذور (Roots) وأنماط الاشتقاق (Patterns) بدلاً من تخزين القواميس الضخمة.
+- **دعم النصوص المباشرة (Syntax Sugar):** يمكن الآن كتابة `let x: [i32; 4] = "اكتب";` وسيقوم المترجم تلقائياً بتحويلها إلى مصفوفة `UTF-16` (`[0x0627, 0x0643, 0x062A, 0x0628]`) خلف الكواليس.
+- **التكامل مع qtxt:** القدرة على مطابقة الأوامر العربية جذرياً وتوليد كتل أوامر `bash` قابلة للتنفيذ فوراً وبشكل حتمي 100%.

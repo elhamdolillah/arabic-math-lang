@@ -256,7 +256,17 @@ fn translate_statement(nir: &str) -> Option<String> {
                     let base_type = if base_raw == "f32" { "float" } else if base_raw == "i32" { "int32_t" } else { &c_type(base_raw) };
                     let size = inner_typ[semi+1..].trim();
                     
-                    if expr.starts_with('[') && expr.ends_with(']') {
+                    // دعم بناء الجملة السكري: let x: [i32; N] = "نص";
+if expr.starts_with('"') && expr.ends_with('"') {
+    let inner_str = &expr[1..expr.len()-1];
+    let mut hex_vals: Vec<String> = Vec::new();
+    for c in inner_str.chars() {
+        hex_vals.push(format!("0x{:04X}", c as u32));
+    }
+    let c_expr = format!("{{ {} }}", hex_vals.join(", "));
+    return Some(format!("{} {}[{}] = {};", base_type, name, size, c_expr));
+}
+if expr.starts_with('[') && expr.ends_with(']') {
                         let inner_expr = expr[1..expr.len()-1].trim();
                         if let Some(es) = inner_expr.find(';') {
                             let val = inner_expr[..es].trim();
