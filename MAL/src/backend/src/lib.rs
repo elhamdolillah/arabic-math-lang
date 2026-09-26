@@ -21,24 +21,33 @@ use std::time::{Duration, SystemTime};
 // ═══════════════════════════════════════════════════════════
 // TYPE MAPPING
 // ═══════════════════════════════════════════════════════════
-pub fn c_type(mal_type: &str) -> &'static str {
-    match mal_type {
-        "i64" | "int" => "int64_t",
-        "i32" => "int32_t",
-        "i16" => "int16_t",
-        "i8" => "int8_t",
-        "u64" => "uint64_t",
-        "u32" => "uint32_t",
-        "u16" => "uint16_t",
-        "u8" => "uint8_t",
-        "f64" | "float" => "double",
-        "f32" => "float",
-        "bool" => "bool",
-        "string" | "str" => "const char*",
-        "void" | "unit" => "void",
-        "Tensor" => "Tensor",
-        "Model" => "Model*",
-        _ => "int64_t",
+pub fn c_type(mal_type: &str) -> String {
+    let m = mal_type.trim();
+    if m.starts_with('&') {
+        let inner = &m[1..];
+        if inner.starts_with('[') && inner.ends_with(']') {
+            let slice_inner = &inner[1..inner.len()-1];
+            return format!("{}*", c_type(slice_inner));
+        }
+        return format!("{}*", c_type(inner));
+    }
+    if m.starts_with('[') && m.ends_with(']') {
+        let inner = &m[1..m.len()-1];
+        if let Some(semi) = inner.rfind(';') {
+            let base_type = c_type(inner[..semi].trim());
+            let size = inner[semi+1..].trim();
+            return format!("{}[{}]", base_type, size);
+        }
+    }
+    match m {
+        "i64" | "int" => "int64_t".to_string(),
+        "i32" => "int32_t".to_string(),
+        "f64" | "float" => "double".to_string(),
+        "f32" => "float".to_string(),
+        "bool" => "bool".to_string(),
+        "string" | "str" => "const char*".to_string(),
+        "void" | "unit" => "void".to_string(),
+        _ => "int64_t".to_string(),
     }
 }
 // ═══════════════════════════════════════════════════════════
@@ -183,11 +192,17 @@ fn parse_function(lines: &[&str]) -> Result<(CFunction, usize), String> {
     let mut depth = 1;
     while i < lines.len() && depth > 0 {
         let line = lines[i].trim();
+        // إصلاح عد الأقواس لدعم } else { بشكل صحيح
         if line == "}" {
             depth -= 1;
-            if depth == 0 { i += 1; break; }
+        } else if line.starts_with("} else") {
+            // التغيير الصافي هو 0 (قوس يغلق وقور يفتح)
         } else if line.ends_with('{') {
             depth += 1;
+        }
+        if depth == 0 {
+            i += 1;
+            break;
         }
         if let Some(c_stmt) = translate_statement(line) {
             func.add_stmt(c_stmt);
@@ -199,21 +214,65 @@ fn parse_function(lines: &[&str]) -> Result<(CFunction, usize), String> {
 fn translate_statement(nir: &str) -> Option<String> {
     let nir = nir.trim();
     if nir.is_empty() { return None; }
+    if nir.starts_with("if ") {
+        if let Some(brace_idx) = nir.find('{') {
+            let cond = nir[3..brace_idx].trim();
+            let rest = &nir[brace_idx..];
+            return Some(format!("if ({}) {}", cond, rest));
+        }
+    }
+    if nir.starts_with("while ") {
+        if let Some(brace_idx) = nir.find('{') {
+            let cond = nir[6..brace_idx].trim();
+            let rest = &nir[brace_idx..];
+            return Some(format!("while ({}) {}", cond, rest));
+        }
+    }
+    if nir == "}" || nir == "} else {" || nir.starts_with("} else") {
+        return Some(nir.to_string());
+    }
     if nir.starts_with("let ") {
         let rest = &nir[4..].trim_end_matches(';');
         if let (Some(colon), Some(eq)) = (rest.find(':'), rest.find('=')) {
-            let name = rest[..colon].trim();
+            let mut name = rest[..colon].trim().to_string();
+            if name.starts_with("mut ") { name = name[4..].trim().to_string(); }
             let typ = rest[colon+1..eq].trim();
-            let expr = rest[eq+1..].trim();
-            return Some(format!("{} {} = {};", c_type(typ), name, translate_expr(expr)));
+            let expr = rest[eq+1..].trim().replace(" as usize", "");
+            if typ.starts_with('[') && typ.ends_with(']') {
+                let inner_typ = &typ[1..typ.len()-1];
+                if let Some(semi) = inner_typ.rfind(';') {
+                    let base_type_raw = inner_typ[..semi].trim();
+                    let base_type_str = if base_type_raw == "f32" {
+                        "float"
+                    } else if base_type_raw == "i32" {
+                        "int32_t"
+                    } else {
+                        &c_type(base_type_raw)
+                    };
+                    let size = inner_typ[semi+1..].trim();
+                    if expr.starts_with('[') && expr.ends_with(']') {
+                        let inner_expr = &expr[1..expr.len()-1];
+                        if let Some(expr_semi) = inner_expr.find(';') {
+                            let val = inner_expr[..expr_semi].trim();
+                            return Some(format!("{} {}[{}] = {{ [0 ... {} - 1] = {} }};", base_type_str, name, size, size, val));
+                        }
+                    }
+                }
+            }
+            return Some(format!("{} {} = {};", c_type(typ), name, expr));
         }
     }
     if nir.starts_with("return ") {
-        let expr = nir[7..].trim().trim_end_matches(';');
-        return Some(format!("return {};", translate_expr(expr)));
+        let expr = nir[7..].trim().trim_end_matches(';').replace(" as usize", "");
+        return Some(format!("return {};", expr));
     }
     if nir.starts_with("print") { return Some(nir.to_string()); }
-    if !nir.ends_with(';') { Some(format!("{};", nir)) } else { Some(nir.to_string()) }
+    let clean = nir.replace(" as usize", "");
+    if !clean.ends_with(';') && !clean.ends_with('{') && !clean.ends_with('}') {
+        Some(format!("{};", clean))
+    } else {
+        Some(clean)
+    }
 }
 fn translate_expr(expr: &str) -> String {
     expr.to_string()
@@ -235,7 +294,9 @@ pub fn compile_c_to_binary(c_source: &str, options: &CompileOptions) -> Compilat
             errors: vec![format!("Write failed: {}", e)], warnings: vec![],
         };
     }
+    let tensor_include_dir = "/root/ilm-al-kitab/MAL/src/backend";
     let mut cmd = Command::new("gcc");
+    cmd.arg("-I").arg(tensor_include_dir);
     cmd.arg(&c_file).arg("-o").arg(&binary_path).arg("-Wall").arg("-Wextra");
     if options.optimize { cmd.arg("-O2"); }
     let output = match cmd.output() {
