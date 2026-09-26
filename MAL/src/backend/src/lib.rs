@@ -313,7 +313,7 @@ pub fn compile_c_to_binary(c_source: &str, options: &CompileOptions) -> Compilat
     let tensor_include_dir = "/root/ilm-al-kitab/MAL/src/backend";
     let mut cmd = Command::new("gcc");
     cmd.arg("-I").arg(tensor_include_dir);
-    cmd.arg(&c_file).arg("-o").arg(&binary_path).arg("-Wall").arg("-Wextra");
+    cmd.arg(&c_file).arg("-o").arg(&binary_path).arg("-Wall").arg("-Wextra").arg("-O3").arg("-march=native").arg("-ffast-math");
     if options.optimize { cmd.arg("-O2"); }
     let output = match cmd.output() {
         Ok(o) => o,
