@@ -42,7 +42,8 @@ pub fn c_type(mal_type: &str) -> String {
     match m {
         "i64" | "int" => "int64_t".to_string(),
         "i32" => "int32_t".to_string(),
-        "f64" | "float" => "double".to_string(),
+        "f64" => "double".to_string(),
+        "float" | "f32" => "float".to_string(),
         "f32" => "float".to_string(),
         "bool" => "bool".to_string(),
         "string" | "str" => "const char*".to_string(),
@@ -281,6 +282,12 @@ fn translate_statement(nir: &str) -> Option<String> {
     if nir.starts_with("return ") {
         let expr = nir[7..].trim().trim_end_matches(';').replace(" as usize", "");
         return Some(format!("return {};", expr));
+    }
+    if nir.starts_with("#unroll") {
+        return Some("#pragma GCC unroll 8".to_string());
+    }
+    if nir.starts_with("#simd") {
+        return Some("#pragma GCC ivdep".to_string());
     }
     if nir.starts_with("print") { return Some(nir.to_string()); }
     let clean = nir.replace(" as usize", "");
