@@ -24,31 +24,29 @@ use std::time::{Duration, SystemTime};
 pub fn c_type(mal_type: &str) -> String {
     let m = mal_type.trim();
     if m.starts_with('&') {
-        let inner = &m[1..];
+        let inner = &m[1..].trim();
         if inner.starts_with('[') && inner.ends_with(']') {
-            let slice_inner = &inner[1..inner.len()-1];
-            return format!("{}*", c_type(slice_inner));
+            return format!("{}*", c_type(&inner[1..inner.len()-1]));
         }
         return format!("{}*", c_type(inner));
     }
     if m.starts_with('[') && m.ends_with(']') {
-        let inner = &m[1..m.len()-1];
+        let inner = &m[1..m.len()-1].trim();
         if let Some(semi) = inner.rfind(';') {
-            let base_type = c_type(inner[..semi].trim());
+            let base = c_type(inner[..semi].trim());
             let size = inner[semi+1..].trim();
-            return format!("{}[{}]", base_type, size);
+            return format!("{}[{}]", base, size);
         }
     }
     match m {
         "i64" | "int" => "int64_t".to_string(),
         "i32" => "int32_t".to_string(),
         "f64" => "double".to_string(),
-        "float" | "f32" => "float".to_string(),
-        "f32" => "float".to_string(),
+        "f32" | "float" => "float".to_string(),
         "bool" => "bool".to_string(),
         "string" | "str" => "const char*".to_string(),
         "void" | "unit" => "void".to_string(),
-        _ => "int64_t".to_string(),
+        _ => "int32_t".to_string(),
     }
 }
 // ═══════════════════════════════════════════════════════════
@@ -250,29 +248,21 @@ fn translate_statement(nir: &str) -> Option<String> {
             if name.starts_with("mut ") { name = name[4..].trim().to_string(); }
             let typ = rest[colon+1..eq].trim();
             let expr = rest[eq+1..].trim().replace(" as usize", "");
+            
             if typ.starts_with('[') && typ.ends_with(']') {
-                let inner_typ = &typ[1..typ.len()-1];
+                let inner_typ = typ[1..typ.len()-1].trim();
                 if let Some(semi) = inner_typ.rfind(';') {
-                    let base_type_raw = inner_typ[..semi].trim();
-                    let base_type_str = if base_type_raw == "f32" {
-                        "float"
-                    } else if base_type_raw == "i32" {
-                        "int32_t"
-                    } else {
-                        &c_type(base_type_raw)
-                    };
+                    let base_raw = inner_typ[..semi].trim();
+                    let base_type = if base_raw == "f32" { "float" } else if base_raw == "i32" { "int32_t" } else { &c_type(base_raw) };
                     let size = inner_typ[semi+1..].trim();
+                    
                     if expr.starts_with('[') && expr.ends_with(']') {
-                        let inner_expr = &expr[1..expr.len()-1];
-                        if let Some(expr_semi) = inner_expr.find(';') {
-                            // نمط [val; size]
-                            let val = inner_expr[..expr_semi].trim();
-                            return Some(format!("{} {}[{}] = {{ [0 ... {} - 1] = {} }};", base_type_str, name, size, size, val));
+                        let inner_expr = expr[1..expr.len()-1].trim();
+                        if let Some(es) = inner_expr.find(';') {
+                            let val = inner_expr[..es].trim();
+                            return Some(format!("{} {}[{}] = {{ [0 ... {} - 1] = {} }};", base_type, name, size, size, val));
                         } else {
-                            // نمط [val1, val2, ...] (قائمة الأوزان الطويلة)
-                            // تحويل [a, b, c] إلى {a, b, c} لتتوافق مع C
-                            let c_array_init = format!("{{{}}}", inner_expr);
-                            return Some(format!("{} {}[{}] = {};", base_type_str, name, size, c_array_init));
+                            return Some(format!("{} {}[{}] = {{{}}};", base_type, name, size, inner_expr));
                         }
                     }
                 }
@@ -289,6 +279,14 @@ fn translate_statement(nir: &str) -> Option<String> {
     }
     if nir.starts_with("#simd") {
         return Some("#pragma GCC ivdep".to_string());
+    }
+    if nir.starts_with("#strict_math") {
+        // يضمن دقة IEEE 754 المطلقة ويمنع دمج عمليات FMA الذي قد يغير البت الأخير
+        return Some("#pragma GCC optimize(\"fp-contract=off\")".to_string());
+    }
+    if nir.starts_with("#cache_friendly") {
+        // توجيه للمترجم لتحسين استخدام الذاكرة المؤقتة (Loop Tiling hints)
+        return Some("#pragma GCC optimize(\"O3\", \"unroll-loops\", \"tree-vectorize\")".to_string());
     }
     if nir.starts_with("print") { return Some(nir.to_string()); }
     let clean = nir.replace(" as usize", "");
