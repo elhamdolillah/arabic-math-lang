@@ -249,6 +249,21 @@ fn parse_function(lines: &[&str]) -> Result<(CFunction, usize), String> {
 }
 fn translate_statement(nir: &str) -> Option<String> {
 
+    // Grammatical Type Checker Interceptor
+    if nir.starts_with("#grammar_check") {
+        let inner = nir.trim_start_matches("#grammar_check(").trim_end_matches(")");
+        let parts: Vec<&str> = inner.split(',').map(|s| s.trim().trim_matches('"')).collect();
+        if parts.len() == 5 {
+            let get_case = |s: &str| match s { "Majrur" => GrammaticalCase::Majrur, "Mansub" => GrammaticalCase::Mansub, _ => GrammaticalCase::Marfu };
+            let t1 = GrammarToken { word: parts[1].to_string(), case_type: get_case(parts[2]) };
+            let t2 = GrammarToken { word: parts[3].to_string(), case_type: get_case(parts[4]) };
+            if let Err(e) = check_grammar(parts[0], &t1, &t2) {
+                panic!("\n❌ خطأ نحوي (Compile-Time): {}", e);
+            }
+            return Some("// Grammar Check Passed".to_string());
+        }
+    }
+
     // اعتراض خاص لفحص الأنواع النحوية في وقت الترجمة
     
     // اعتراض متقدم لفحص الأنواع النحوية في وقت الترجمة (Compile-Time)

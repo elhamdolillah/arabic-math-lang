@@ -1,34 +1,31 @@
 // ============================================================
 // Qtxt Generator with Compile-Time Grammatical Validation
-// يدمج فحص الأنواع النحوية مع توليد أوامر qtxt الآمنة
+// (مصحح لتجنب else if لضمان توافق المحلل)
 // ============================================================
-// دالة محاكاة لتوليد qtxt إذا كان التركيب صحيحاً
 fn generate_safe_qtxt(rule: i32, is_valid: i32) {
     if is_valid == 1 {
         printf("========== COMMANDS TO EXECUTE ==========\n");
         if rule == 1 {
             printf("     1  cd /root/ilm-al-kitab/MAL\n");
             printf("     2  echo 'Writing to file...' > test.txt\n");
-        } else if rule == 2 {
-            printf("     1  cd /root/ilm-al-kitab/MAL\n");
-            printf("     2  cargo build --release\n");
+        } else {
+            if rule == 2 {
+                printf("     1  cd /root/ilm-al-kitab/MAL\n");
+                printf("     2  cargo build --release\n");
+            }
         }
         printf("=========================================\n\n");
     } else {
-        printf("❌ BLOCKED: Grammatical validation failed. No qtxt generated.\n\n");
+        printf("❌ BLOCKED: Grammatical validation failed.\n\n");
     }
 }
 fn main() -> i32 {
     printf("=== Qtxt Generator with Grammar Validation ===\n\n");
-    // ✅ سيناريو 1: أمر صحيح نحوياً ("اكتب في الملفِ")
-    // حرف جر + اسم مجرور
     printf("Scenario 1: 'اكتب في الملفِ' (Valid)\n");
     #grammar_check("jar_majrur", "في", "Majrur", "الملفِ", "Majrur")
     generate_safe_qtxt(1, 1);
-    // ❌ سيناريو 2: أمر خاطئ نحوياً ("اكتب في الملفُ")
-    // المترجم سيرفض التجميع هنا فوراً بسبب انتهاك قاعدة الجر
     printf("Scenario 2: 'اكتب في الملفُ' (Invalid - Will Block Compilation)\n");
     #grammar_check("jar_majrur", "في", "Majrur", "الملفُ", "Marfu")
-    generate_safe_qtxt(1, 0); // هذا السطر لن يصل إليه التنفيذ أبداً
+    generate_safe_qtxt(1, 0);
     return 0;
 }
