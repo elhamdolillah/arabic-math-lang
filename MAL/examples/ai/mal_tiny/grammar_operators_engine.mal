@@ -1,0 +1,77 @@
+// ============================================================
+// Arabic Grammar Operators & Inflection Engine in MAL
+// يعامل حروف المعاني كمؤثرات (Operators) تفرض قواعد الإعراب
+// ============================================================
+// 1. تعريف أنواع الكلمات (Nodes in AST)
+let TYPE_ISM: i32 = 1;    // Operand (اسم/فعل: يحمل المعنى)
+let TYPE_HARF: i32 = 3;   // Operator (حرف معنى: يربط ويوجه)
+// 2. تعريف حالات الإعراب (Grammatical Cases)
+let CASE_RAF: i32 = 1;    // مرفوع
+let CASE_NASB: i32 = 2;   // منصوب
+let CASE_JARR: i32 = 3;   // مجرور (مطلوب بعد حروف الجر)
+// 3. دوال التعرف على المؤثرات النحوية (Operator Recognition)
+// تتحقق من الحرف وتعيد الحالة الإعرابية المطلوبة للمعطى التالي
+fn check_preposition_fi(word: &[i32], len: i32) -> i32 {
+    // "في" = 0x0641, 0x064A
+    if len == 2 {
+        if word[0] == 0x0641 && word[1] == 0x064A {
+            return CASE_JARR; // المؤثر "في" يفرض الجر
+        }
+    }
+    return 0; // ليس المؤثر المستهدف
+}
+fn check_preposition_min(word: &[i32], len: i32) -> i32 {
+    // "من" = 0x0645, 0x0646
+    if len == 2 {
+        if word[0] == 0x0645 && word[1] == 0x0646 {
+            return CASE_JARR; // المؤثر "من" يفرض الجر
+        }
+    }
+    return 0;
+}
+fn main() -> i32 {
+    printf("=== Arabic Grammar Operators (Syntax Glue) Engine ===\n\n");
+    // تعريف المعطيات (Operands) والمؤثرات (Operators) كسلسلة UTF-16
+    // المؤثر: "في"
+    let op_fi: [i32; 2] = [0x0641, 0x064A];
+    let op_type: i32 = TYPE_HARF;
+    // المعطى: "المدرسة" (0x0627=ا, 0x0644=ل, 0x0645=م, 0x062F=د, 0x0631=ر, 0x0633=س, 0x0629=ة)
+    let operand_school: [i32; 7] = [0x0627, 0x0644, 0x0645, 0x062F, 0x0631, 0x0633, 0x0629];
+    let operand_type: i32 = TYPE_ISM;
+    // --- اختبار 1: مطابقة نحوية صحيحة (في المدرسةِ) ---
+    printf("Test 1: 'في المدرسةِ' (Correct Inflection)\n");
+    let required_case: i32 = check_preposition_fi(op_fi, 2);
+    let actual_case_correct: i32 = CASE_JARR; // مجرور بالكسرة
+    printf("  Operator 'في' requires case: %d (CASE_JARR)\n", required_case);
+    printf("  Operand 'المدرسة' has case: %d\n", actual_case_correct);
+    if required_case == actual_case_correct {
+        printf("  Result: ✅ VALID SYNTAX (مطابقة نحوية صحيحة)\n\n");
+    } else {
+        printf("  Result: ❌ INVALID SYNTAX\n\n");
+    }
+    // --- اختبار 2: خطأ نحوي متعمد (في المدرسةُ) ---
+    printf("Test 2: 'في المدرسةُ' (Incorrect Inflection)\n");
+    let actual_case_wrong: i32 = CASE_RAF; // مرفوع بالضمة (خطأ بعد حرف جر)
+    printf("  Operator 'في' requires case: %d (CASE_JARR)\n", required_case);
+    printf("  Operand 'المدرسة' has case: %d\n", actual_case_wrong);
+    if required_case == actual_case_wrong {
+        printf("  Result: ✅ VALID SYNTAX\n\n");
+    } else {
+        printf("  Result: ❌ INVALID SYNTAX (خطأ: الاسم بعد حرف الجر يجب أن يكون مجروراً)\n\n");
+    }
+    // --- اختبار 3: مؤثر نحوي آخر ("من") ---
+    printf("Test 3: 'من البيتِ'\n");
+    let op_min: [i32; 2] = [0x0645, 0x0646];
+    let req_min: i32 = check_preposition_min(op_min, 2);
+    printf("  Operator 'من' requires case: %d (CASE_JARR)\n", req_min);
+    if req_min == CASE_JARR {
+        printf("  Result: ✅ Operator recognized and grammatical rule applied.\n\n");
+    }
+    printf("==========================================\n");
+    printf("Conclusion:\n");
+    printf("- Function words act as Logical Operators (Syntax Glue).\n");
+    printf("- They deterministically dictate the case (إعراب) of Operands.\n");
+    printf("- This maps Arabic Nahw directly to AST Validation logic.\n");
+    printf("==========================================\n");
+    return 0;
+}
