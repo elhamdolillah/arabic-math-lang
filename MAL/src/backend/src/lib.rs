@@ -98,6 +98,7 @@ impl CFunction {
 #[derive(Debug, Default)]
 pub struct CTranslationUnit {
     pub includes: Vec<String>,
+    pub globals: Vec<String>,
     pub functions: Vec<CFunction>,
 }
 impl CTranslationUnit {
@@ -122,6 +123,10 @@ impl CTranslationUnit {
         writeln!(out, " */\n").unwrap();
         for inc in &self.includes {
             writeln!(out, "{}", inc).unwrap();
+        }
+        writeln!(out).unwrap();
+        for g in &self.globals {
+            writeln!(out, "{}", g).unwrap();
         }
         writeln!(out).unwrap();
         for func in &self.functions {
@@ -163,6 +168,11 @@ pub fn transpile_to_c(program: &str) -> Result<CTranslationUnit, String> {
             let (func, consumed) = parse_function(&lines[i..])?;
             tu.add_function(func);
             i += consumed;
+        } else if line.starts_with("let ") {
+            if let Some(c_stmt) = translate_statement(line) {
+                tu.globals.push(c_stmt);
+            }
+            i += 1;
         } else {
             i += 1;
         }
@@ -253,8 +263,14 @@ fn translate_statement(nir: &str) -> Option<String> {
                     if expr.starts_with('[') && expr.ends_with(']') {
                         let inner_expr = &expr[1..expr.len()-1];
                         if let Some(expr_semi) = inner_expr.find(';') {
+                            // نمط [val; size]
                             let val = inner_expr[..expr_semi].trim();
                             return Some(format!("{} {}[{}] = {{ [0 ... {} - 1] = {} }};", base_type_str, name, size, size, val));
+                        } else {
+                            // نمط [val1, val2, ...] (قائمة الأوزان الطويلة)
+                            // تحويل [a, b, c] إلى {a, b, c} لتتوافق مع C
+                            let c_array_init = format!("{{{}}}", inner_expr);
+                            return Some(format!("{} {}[{}] = {};", base_type_str, name, size, c_array_init));
                         }
                     }
                 }
