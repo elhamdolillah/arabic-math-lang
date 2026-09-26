@@ -13,6 +13,32 @@
 //!   - No LLVM JIT, no dynamic compilation
 #![forbid(unsafe_code)]
 use std::fmt::Write;
+
+// ============================================================
+// Grammatical Type Checker System (Compile-Time Validation)
+// ============================================================
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum GrammaticalCase {
+    Marfu,   // مرفوع
+    Mansub,  // منصوب
+    Majrur,  // مجرور
+}
+#[derive(Debug, Clone)]
+pub struct GrammarToken {
+    pub word: String,
+    pub case_type: GrammaticalCase,
+}
+// دالة فحص قاعدة "الجر والمجرور" في وقت الترجمة
+pub fn check_jar_wa_majrur(prep: &GrammarToken, noun: &GrammarToken) -> Result<(), String> {
+    if noun.case_type != GrammaticalCase::Majrur {
+        Err(format!(
+            "❌ خطأ نحوي (Compile-Time Grammar Error):\n   الاسم '{}' بعد حرف الجر '{}' يجب أن يكون مجروراً (Majrur)، لكنه جاء {:?}.",
+            noun.word, prep.word, noun.case_type
+        ))
+    } else {
+        Ok(())
+    }
+}
 use std::fs;
 use std::process::Command;
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -222,6 +248,62 @@ fn parse_function(lines: &[&str]) -> Result<(CFunction, usize), String> {
     Ok((func, i))
 }
 fn translate_statement(nir: &str) -> Option<String> {
+
+    // اعتراض خاص لفحص الأنواع النحوية في وقت الترجمة
+    
+    // اعتراض متقدم لفحص الأنواع النحوية في وقت الترجمة (Compile-Time)
+    if nir.starts_with("#grammar_check") {
+        let inner = nir.trim_start_matches("#grammar_check(").trim_end_matches(")");
+        let parts: Vec<&str> = inner.split(',').map(|s| s.trim().trim_matches('"')).collect();
+        if parts.len() >= 5 {
+            let rule = parts[0];
+            let word1 = parts[1].to_string();
+            let case1_str = parts[2];
+            let word2 = parts[3].to_string();
+            let case2_str = parts[4];
+            let get_case = |s: &str| -> GrammaticalCase {
+                match s {
+                    "Majrur" => GrammaticalCase::Majrur,
+                    "Mansub" => GrammaticalCase::Mansub,
+                    _ => GrammaticalCase::Marfu,
+                }
+            };
+            let token1 = GrammarToken { word: word1, case_type: get_case(case1_str) };
+            let token2 = GrammarToken { word: word2, case_type: get_case(case2_str) };
+            let mut is_valid = true;
+            let mut error_msg = String::new();
+            if rule == "jar_majrur" {
+                if token2.case_type != GrammaticalCase::Majrur {
+                    is_valid = false;
+                    error_msg = format!("الاسم '{}' بعد حرف الجر '{}' يجب أن يكون مجروراً، لكنه جاء {:?}.", token2.word, token1.word, token2.case_type);
+                }
+            } else if rule == "inna" {
+                if token1.case_type != GrammaticalCase::Mansub {
+                    is_valid = false;
+                    error_msg = format!("اسم إنّ '{}' يجب أن يكون منصوباً، لكنه جاء {:?}.", token1.word, token1.case_type);
+                } else if token2.case_type != GrammaticalCase::Marfu {
+                    is_valid = false;
+                    error_msg = format!("خبر إنّ '{}' يجب أن يكون مرفوعاً، لكنه جاء {:?}.", token2.word, token2.case_type);
+                }
+            } else if rule == "kana" {
+                if token1.case_type != GrammaticalCase::Marfu {
+                    is_valid = false;
+                    error_msg = format!("اسم كان '{}' يجب أن يكون مرفوعاً، لكنه جاء {:?}.", token1.word, token1.case_type);
+                } else if token2.case_type != GrammaticalCase::Mansub {
+                    is_valid = false;
+                    error_msg = format!("خبر كان '{}' يجب أن يكون منصوباً، لكنه جاء {:?}.", token2.word, token2.case_type);
+                }
+            }
+            if !is_valid {
+                panic!("\n❌ خطأ نحوي (Compile-Time Grammar Error):\n   {}", error_msg);
+            }
+            return Some("// Grammar Check Passed".to_string());
+        }
+    }
+
+    }
+
+
     let nir = nir.trim();
     if nir.is_empty() { return None; }
     if nir.starts_with("if ") {
