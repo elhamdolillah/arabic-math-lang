@@ -105,7 +105,8 @@ pub struct CTranslationUnit {
 impl CTranslationUnit {
     pub fn new() -> Self {
         let mut tu = Self::default();
-        tu.includes.push("#include <stdint.h>".into());
+        tu.includes.push("#include <stdint.h>
+#include <math.h>".into());
         tu.includes.push("#include <stdbool.h>".into());
         tu.includes.push("#include <stdio.h>".into());
         tu.includes.push("#include <stdlib.h>".into());
@@ -320,7 +321,7 @@ pub fn compile_c_to_binary(c_source: &str, options: &CompileOptions) -> Compilat
     let tensor_include_dir = "/root/ilm-al-kitab/MAL/src/backend";
     let mut cmd = Command::new("gcc");
     cmd.arg("-I").arg(tensor_include_dir);
-    cmd.arg(&c_file).arg("-o").arg(&binary_path).arg("-Wall").arg("-Wextra").arg("-O3").arg("-march=native").arg("-ffast-math");
+    cmd.arg(&c_file).arg("-o").arg(&binary_path).arg("-Wall").arg("-Wextra").arg("-O3").arg("-march=native").arg("-ffast-math").arg("-lm");
     if options.optimize { cmd.arg("-O2"); }
     let output = match cmd.output() {
         Ok(o) => o,
