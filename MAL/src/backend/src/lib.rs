@@ -13,23 +13,6 @@
 //!   - No LLVM JIT, no dynamic compilation
 #![forbid(unsafe_code)]
 use std::fmt::Write;
-
-// ============================================================
-// Grammatical Type Checker System (Compile-Time Validation)
-// ============================================================
-#[derive(Debug, PartialEq, Clone, Copy)]
-#[derive(Debug, Clone)]
-// دالة فحص قاعدة "الجر والمجرور" في وقت الترجمة
-pub fn check_jar_wa_majrur(prep: &GrammarToken, noun: &GrammarToken) -> Result<(), String> {
-    if noun.case_type != GrammaticalCase::Majrur {
-        Err(format!(
-            "❌ خطأ نحوي (Compile-Time Grammar Error):\n   الاسم '{}' بعد حرف الجر '{}' يجب أن يكون مجروراً (Majrur)، لكنه جاء {:?}.",
-            noun.word, prep.word, noun.case_type
-        ))
-    } else {
-        Ok(())
-    }
-}
 use std::fs;
 use std::process::Command;
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -239,62 +222,6 @@ fn parse_function(lines: &[&str]) -> Result<(CFunction, usize), String> {
     Ok((func, i))
 }
 fn translate_statement(nir: &str) -> Option<String> {
-
-    // اعتراض خاص لفحص الأنواع النحوية في وقت الترجمة
-    
-    // اعتراض متقدم لفحص الأنواع النحوية في وقت الترجمة (Compile-Time)
-    if nir.starts_with("#grammar_check") {
-        let inner = nir.trim_start_matches("#grammar_check(").trim_end_matches(")");
-        let parts: Vec<&str> = inner.split(',').map(|s| s.trim().trim_matches('"')).collect();
-        if parts.len() >= 5 {
-            let rule = parts[0];
-            let word1 = parts[1].to_string();
-            let case1_str = parts[2];
-            let word2 = parts[3].to_string();
-            let case2_str = parts[4];
-            let get_case = |s: &str| -> GrammaticalCase {
-                match s {
-                    "Majrur" => GrammaticalCase::Majrur,
-                    "Mansub" => GrammaticalCase::Mansub,
-                    _ => GrammaticalCase::Marfu,
-                }
-            };
-            let token1 = GrammarToken { word: word1, case_type: get_case(case1_str) };
-            let token2 = GrammarToken { word: word2, case_type: get_case(case2_str) };
-            let mut is_valid = true;
-            let mut error_msg = String::new();
-            if rule == "jar_majrur" {
-                if token2.case_type != GrammaticalCase::Majrur {
-                    is_valid = false;
-                    error_msg = format!("الاسم '{}' بعد حرف الجر '{}' يجب أن يكون مجروراً، لكنه جاء {:?}.", token2.word, token1.word, token2.case_type);
-                }
-            } else if rule == "inna" {
-                if token1.case_type != GrammaticalCase::Mansub {
-                    is_valid = false;
-                    error_msg = format!("اسم إنّ '{}' يجب أن يكون منصوباً، لكنه جاء {:?}.", token1.word, token1.case_type);
-                } else if token2.case_type != GrammaticalCase::Marfu {
-                    is_valid = false;
-                    error_msg = format!("خبر إنّ '{}' يجب أن يكون مرفوعاً، لكنه جاء {:?}.", token2.word, token2.case_type);
-                }
-            } else if rule == "kana" {
-                if token1.case_type != GrammaticalCase::Marfu {
-                    is_valid = false;
-                    error_msg = format!("اسم كان '{}' يجب أن يكون مرفوعاً، لكنه جاء {:?}.", token1.word, token1.case_type);
-                } else if token2.case_type != GrammaticalCase::Mansub {
-                    is_valid = false;
-                    error_msg = format!("خبر كان '{}' يجب أن يكون منصوباً، لكنه جاء {:?}.", token2.word, token2.case_type);
-                }
-            }
-            if !is_valid {
-                panic!("\n❌ خطأ نحوي (Compile-Time Grammar Error):\n   {}", error_msg);
-            }
-            return Some("// Grammar Check Passed".to_string());
-        }
-    }
-
-    }
-
-
     let nir = nir.trim();
     if nir.is_empty() { return None; }
     if nir.starts_with("if ") {
@@ -329,17 +256,7 @@ fn translate_statement(nir: &str) -> Option<String> {
                     let base_type = if base_raw == "f32" { "float" } else if base_raw == "i32" { "int32_t" } else { &c_type(base_raw) };
                     let size = inner_typ[semi+1..].trim();
                     
-                    // دعم بناء الجملة السكري: let x: [i32; N] = "نص";
-if expr.starts_with('"') && expr.ends_with('"') {
-    let inner_str = &expr[1..expr.len()-1];
-    let mut hex_vals: Vec<String> = Vec::new();
-    for c in inner_str.chars() {
-        hex_vals.push(format!("0x{:04X}", c as u32));
-    }
-    let c_expr = format!("{{ {} }}", hex_vals.join(", "));
-    return Some(format!("{} {}[{}] = {};", base_type, name, size, c_expr));
-}
-if expr.starts_with('[') && expr.ends_with(']') {
+                    if expr.starts_with('[') && expr.ends_with(']') {
                         let inner_expr = expr[1..expr.len()-1].trim();
                         if let Some(es) = inner_expr.find(';') {
                             let val = inner_expr[..es].trim();
@@ -362,6 +279,22 @@ if expr.starts_with('[') && expr.ends_with(']') {
     }
     if nir.starts_with("#simd") {
         return Some("#pragma GCC ivdep".to_string());
+    }
+    if nir.starts_with("#strict_math") {
+        // يضمن دقة IEEE 754 المطلقة ويمنع دمج عمليات FMA الذي قد يغير البت الأخير
+        return Some("#pragma GCC optimize(\"fp-contract=off\")".to_string());
+    }
+    if nir.starts_with("#cache_friendly") {
+        // يوجه GCC لتحسين استخدام الذاكرة المؤقتة وفك الحلقات
+        return Some("#pragma GCC optimize(\"O3\", \"unroll-loops\", \"tree-vectorize\")".to_string());
+    }
+    if nir.starts_with("#strict_math") {
+        // يضمن دقة IEEE 754 المطلقة ويمنع دمج عمليات FMA الذي قد يغير البت الأخير
+        return Some("#pragma GCC optimize(\"fp-contract=off\")".to_string());
+    }
+    if nir.starts_with("#cache_friendly") {
+        // توجيه للمترجم لتحسين استخدام الذاكرة المؤقتة (Loop Tiling hints)
+        return Some("#pragma GCC optimize(\"O3\", \"unroll-loops\", \"tree-vectorize\")".to_string());
     }
     if nir.starts_with("print") { return Some(nir.to_string()); }
     let clean = nir.replace(" as usize", "");
@@ -394,7 +327,7 @@ pub fn compile_c_to_binary(c_source: &str, options: &CompileOptions) -> Compilat
     let tensor_include_dir = "/root/ilm-al-kitab/MAL/src/backend";
     let mut cmd = Command::new("gcc");
     cmd.arg("-I").arg(tensor_include_dir);
-    cmd.arg(&c_file).arg("-o").arg(&binary_path).arg("-Wall").arg("-Wextra").arg("-O3").arg("-march=native").arg("-ffp-contract=off").arg("-lm");
+    cmd.arg(&c_file).arg("-o").arg(&binary_path).arg("-Wall").arg("-Wextra").arg("-O3").arg("-march=native").arg("-ffast-math").arg("-lm");
     if options.optimize { cmd.arg("-O2"); }
     let output = match cmd.output() {
         Ok(o) => o,

@@ -1,0 +1,42 @@
+// ============================================================
+// اختبار الفهم الحتمي: يتحقق من مخرجات MHLJ قبل التنفيذ
+// ============================================================
+let CASE_MANSUB: i32 = 2;
+let CASE_MARFU: i32 = 1;
+let CASE_MAJRUR: i32 = 3;
+// مصفوفات عامة (Global) لتجنب أي قيود في تهيئة المصفوفات المحلية داخل الدوال
+let ACTION_SUCCESS: [i32; 15] = [1578, 1606, 1584, 1610, 1604, 32, 1575, 1604, 1605, 1588, 1585, 1608, 1593, 0, 0];
+let ACTION_CHANGE: [i32; 12] = [1578, 1606, 1584, 1610, 1604, 32, 1575, 1604, 1605, 1580, 1604, 0];
+fn check_inna(name_case: i32, khabar_case: i32) -> i32 {
+    if name_case != CASE_MANSUB { return 0; }
+    if khabar_case != CASE_MARFU { return 0; }
+    return 1;
+}
+fn check_jar(noun_case: i32) -> i32 {
+    if noun_case != CASE_MAJRUR { return 0; }
+    return 1;
+}
+fn execute_action(is_valid: i32, action_name: &[i32]) {
+    let mut i: i32 = 0;
+    if is_valid == 1 {
+        printf("✅ [MAL VERIFIED]: الفهم صحيح نحوياً. جاري التنفيذ: ");
+        while action_name[i] != 0 {
+            printf("%c", action_name[i]);
+            i = i + 1;
+        }
+        printf("\n");
+    } else {
+        printf("❌ [MAL BLOCKED]: تم رفض التنفيذ بسبب خطأ نحوي في فهم النموذج.\n");
+    }
+}
+fn main() -> i32 {
+    printf("=== بدء التحقق النحوي لمخرجات MHLJ ===\n\n");
+    printf("1. فحص: 'إنّ المشروعَ ناجحٌ'\n");
+    let res1: i32 = check_inna(CASE_MANSUB, CASE_MARFU);
+    execute_action(res1, ACTION_SUCCESS);
+    printf("\n");
+    printf("2. فحص: 'اذهب إلى المدرسةُ'\n");
+    let res2: i32 = check_jar(CASE_MARFU); 
+    execute_action(res2, ACTION_CHANGE);
+    return 0;
+}
