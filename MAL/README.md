@@ -33,3 +33,9 @@ The `MAL` project has evolved from a high-performance transpiler into a **Determ
 - **Zero-Hallucination Guarantee:** A built-in **Fail-Safe Protocol** safely rejects truly ambiguous sentences instead of forcing incorrect guesses.
 - **Proven Performance:** Achieves **97% deterministic success rate** on complex linguistic benchmarks, with 3% safe rejections for true ambiguity.
 📄 For a deep dive into the mathematical foundations (Category Theory, CSP, FSM) and empirical benchmarks, please read the [WHITEPAPER_v3.0.md](./WHITEPAPER_v3.0.md).
+---
+## 🚀 Release v16.0: Pure Deterministic Linguistic Core
+تم رفع نسبة منطق القرار في لغة MAL إلى **95%** باستخدام تقنية **Fixed-Point Arithmetic** لتجنب أخطاء الكسور العشرية، وتنفيذ خوارزميات المسافات الصوتية ومبرهنات التحقق (Theorem 9.1, 9.2) بشكل مباشر بلغة MAL المترجمة إلى C أصلي.
+### 📖 التوثيق الشامل:
+لمراجعة الأسس الرياضية، سجل الإصدارات (v1.0 إلى v16.0)، ومبرهنات التحقق، يرجى الرجوع إلى:
+👈 **[DOCUMENTATION_v16.0.md](./DOCUMENTATION_v16.0.md)**
