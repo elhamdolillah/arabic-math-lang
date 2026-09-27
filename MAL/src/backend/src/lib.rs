@@ -18,16 +18,7 @@ use std::fmt::Write;
 // Grammatical Type Checker System (Compile-Time Validation)
 // ============================================================
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub enum GrammaticalCase {
-    Marfu,   // مرفوع
-    Mansub,  // منصوب
-    Majrur,  // مجرور
-}
 #[derive(Debug, Clone)]
-pub struct GrammarToken {
-    pub word: String,
-    pub case_type: GrammaticalCase,
-}
 // دالة فحص قاعدة "الجر والمجرور" في وقت الترجمة
 pub fn check_jar_wa_majrur(prep: &GrammarToken, noun: &GrammarToken) -> Result<(), String> {
     if noun.case_type != GrammaticalCase::Majrur {

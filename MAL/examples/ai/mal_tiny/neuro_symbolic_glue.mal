@@ -1,19 +1,19 @@
 // ============================================================
-// Neuro-Symbolic Orchestrator in MAL (طريقة الغراء)
-// يدمج مخرجات النموذج الإحصائي مع الفحص النحوي الحتمي في وقت التشغيل
+// Neuro-Symbolic Runtime Orchestrator in MAL (طريقة الغراء)
+// يفرض الحتمية النحوية في وقت التشغيل بأمان تام
 // ============================================================
-// ثوابت الحالات الإعرابية
+// نستخدم ثوابت بسيطة بدلاً من المصفوفات لتجنب أي quirks في توليد C
+let RULE_JAR_MAJRUR: i32 = 1;
 let CASE_MAJRUR: i32 = 3;
 let CASE_MARFU: i32 = 1;
-// دالة "الغراء" النحوي: تتحقق من القاعدة الحتمية
-fn check_grammar_runtime(noun_case: i32) -> i32 {
-    // القاعدة: بعد حرف الجر، يجب أن يكون الاسم مجروراً
-    if noun_case != CASE_MAJRUR {
-        return 0; // انتهاك نحوي
+fn check_grammar_runtime(rule: i32, noun_case: i32) -> i32 {
+    if rule == RULE_JAR_MAJRUR {
+        if noun_case != CASE_MAJRUR {
+            return 0; // خطأ نحوي
+        }
     }
-    return 1; // تركيب سليم
+    return 1; // صحيح
 }
-// دالة توليد qtxt الآمنة
 fn generate_safe_qtxt(is_valid: i32) {
     if is_valid == 1 {
         printf("========== COMMANDS TO EXECUTE ==========\n");
@@ -21,20 +21,16 @@ fn generate_safe_qtxt(is_valid: i32) {
         printf("     2  echo 'Neuro-Symbolic Success!' > test.txt\n");
         printf("=========================================\n\n");
     } else {
-        printf("❌ [MAL GLUE BLOCKED]: تم منع التنفيذ بسبب انتهاك القواعد النحوية.\n\n");
+        printf("❌ BLOCKED: Grammatical validation failed at runtime.\n\n");
     }
 }
 fn main() -> i32 {
-    printf("=== المرحلة 3: MAL كلغة غراء موحدة (Runtime Enforcement) ===\n\n");
-    // ✅ السيناريو 1: MHLJ يمرر ميزة نحوية صحيحة (مجرور)
-    printf("Scenario 1: MHLJ predicts correct grammar ('في الملفِ' -> Majrur)\n");
-    let mhlj_output_case_1: i32 = CASE_MAJRUR;
-    let validation_1: i32 = check_grammar_runtime(mhlj_output_case_1);
-    generate_safe_qtxt(validation_1);
-    // ❌ السيناريو 2: MHLJ يمرر ميزة نحوية خاطئة (مرفوع) بسبب هلوسة
-    printf("Scenario 2: MHLJ predicts incorrect grammar ('في الملفُ' -> Marfu)\n");
-    let mhlj_output_case_2: i32 = CASE_MARFU;
-    let validation_2: i32 = check_grammar_runtime(mhlj_output_case_2);
-    generate_safe_qtxt(validation_2);
+    printf("=== Level 3: MAL as Runtime Neuro-Symbolic Glue ===\n\n");
+    printf("Scenario 1: MHLJ predicts correct grammar ('في الملفِ')\n");
+    let res1: i32 = check_grammar_runtime(RULE_JAR_MAJRUR, CASE_MAJRUR);
+    generate_safe_qtxt(res1);
+    printf("Scenario 2: MHLJ predicts incorrect grammar ('في الملفُ')\n");
+    let res2: i32 = check_grammar_runtime(RULE_JAR_MAJRUR, CASE_MARFU);
+    generate_safe_qtxt(res2);
     return 0;
 }
