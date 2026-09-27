@@ -1,0 +1,28 @@
+{
+  "checkpoint_name": "POINT_ZERO_BASELINE",
+  "timestamp": "2026-09-27T12:00:00Z",
+  "model_version": "v18.0",
+  "status": "SUCCESS",
+  "baseline_metrics": {
+    "alignment_score": 683,
+    "similarity_score": 683,
+    "divergence_time_years": 250000
+  },
+  "baseline_verdicts": {
+    "mcmc_step": "REJECTED",
+    "theorem_9_2": "NOT VERIFIED (Weak Link)"
+  },
+  "initial_hyperparameters": {
+    "threshold_alignment": 750,
+    "threshold_similarity": 700,
+    "threshold_theorem_9_2": 750,
+    "weights": {
+      "root_consonants": 300,
+      "vowel_pattern": 200,
+      "phoneme_alignment": 250,
+      "semantic_field": 150,
+      "temporal_proximity": 100
+    }
+  },
+  "notes": "هذا هو المرجع الأساسي قبل بدء أي دورة تدريبية. جميع نماذج المستقبل يجب أن تقارن بهذا المعيار."
+}
