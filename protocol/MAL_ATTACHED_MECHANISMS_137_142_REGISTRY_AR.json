@@ -1,0 +1,59 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.1.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {
+      "id": 137,
+      "name": "compile_time_symbol_name_constant",
+      "target": "CSharp_nameof",
+      "decision": "RESEARCH",
+      "guard_ar": "تحويل اسم رمز معروف إلى نص ثابت حتمي يمكن أن يخدم التشخيص، لكن MAL لا يملك بعد محلل رموز canonical وعقدًا يحدد الأسماء المؤهلة والرموز المحلية والتدويل.",
+      "required_evidence_ar": "جدول رموز ثابت، قاعدة تسمية عربية canonical، رفض الرمز غير الموجود، وتطابق النص المولد عبر تشغيلات مستقلة دون انعكاس أو مصدر وقت التشغيل"
+    },
+    {
+      "id": 138,
+      "name": "constant_evaluation_context_branch",
+      "target": "Cpp_is_constant_evaluated",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "يفصل بين مساري الترجمة والتنفيذ، وقد يخلق دلالتين مختلفتين للوظيفة نفسها؛ كما يتطلب تعريفًا حتميًا لسياق التقييم وحدود backend.",
+      "required_evidence_ar": "نموذج تقييم ثابت موحد، منع اختلاف الدلالة بين compile-time وruntime، وق corpus مستقل يثبت أن الاختيار لا يعتمد على بيئة غير مثبتة"
+    },
+    {
+      "id": 139,
+      "name": "compile_time_invariant_error",
+      "target": "Ada_Compile_Time_Error",
+      "decision": "RESEARCH",
+      "guard_ar": "متوافق مبدئيًا مع fail-closed لأنه يمنع إنتاج executable عند خرق ثابت، لكنه يحتاج بدائية تشخيص حتمية ومفسر شروط ثابتة محدود.",
+      "required_evidence_ar": "صيغة عربية للخطأ الساكن، شروط قابلة للتقييم دون IO، رسالة canonical، وعدم إنتاج artifact عند الفشل مع اختبارين مستقلين"
+    },
+    {
+      "id": 140,
+      "name": "stable_foreign_abi_layout",
+      "target": "Rust_repr_C",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "التخطيط العابر لـABI يتطلب عرض الحقول والمحاذاة والحشو والendianness وهدفًا محددًا، وقد يفتح حدود مؤشرات خام أو FFI ممنوعة حاليًا.",
+      "required_evidence_ar": "عقد layout مستقل عن المؤشرات، target triple مثبت، أحجام وفواصل canonical، اختبارات متعددة، وحد FFI مصرح به؛ وإلا يبقى ممتنعًا"
+    },
+    {
+      "id": 141,
+      "name": "compile_time_conditional_branch",
+      "target": "D_static_if",
+      "decision": "RESEARCH",
+      "guard_ar": "يمكن أن يكون فرعًا ساكنًا حتميًا إذا حُصر في ثوابت MAL المعروفة، لكنه يحتاج evaluator للثوابت وقواعد type traits ومنع تسرب الفرع غير المختار إلى runtime.",
+      "required_evidence_ar": "grammar عربية محدودة، شروط ثابتة فقط، تحقق نحوي للفرعين، وعدم اعتماد الاختيار على scheduler أو IO أو target غير مثبت"
+    },
+    {
+      "id": 142,
+      "name": "checked_fixed_width_arithmetic",
+      "target": "COBOL_ON_SIZE_ERROR",
+      "decision": "RESEARCH",
+      "guard_ar": "دلالة overflow قابلة للحتمية عند تثبيت العرض والإشارة والتقريب، لكن MAL لا يملك بعد عقدًا عامًا للفيض والقسمة على صفر ونتيجة الرفض canonical.",
+      "required_evidence_ar": "أنواع صحيحة بعروض ثابتة، قواعد signedness، حدود overflow، نتيجة فشل structured، واختبارات للنجاح والفيض والقسمة على صفر"
+    }
+  ]
+}

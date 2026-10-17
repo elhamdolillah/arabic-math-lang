@@ -1,0 +1,24 @@
+{
+  "الإصدار": "0.1.0",
+  "النوع": "MAL_AST_IR_ABI_SIDECAR",
+  "الحالة": "RESEARCH",
+  "التنفيذ_المصدري": "NOT_PERFORMED",
+  "بصمة_AST": "PLACEHOLDER_UNTIL_SOURCE_EXECUTION",
+  "بصمة_IR": "PLACEHOLDER_UNTIL_SOURCE_EXECUTION",
+  "بصمة_ABI": "PLACEHOLDER_UNTIL_SOURCE_EXECUTION",
+  "عدد_العناصر": 5,
+  "ترتيب_الربط": [
+    {"AST_NodeID": 1, "IR_Ordinal": 1, "ABI_Symbol": "mal_bridge_1_1"},
+    {"AST_NodeID": 2, "IR_Ordinal": 2, "ABI_Symbol": "mal_bridge_2_2"},
+    {"AST_NodeID": 3, "IR_Ordinal": 3, "ABI_Symbol": "mal_bridge_3_3"},
+    {"AST_NodeID": 4, "IR_Ordinal": 4, "ABI_Symbol": "mal_bridge_4_4"},
+    {"AST_NodeID": 5, "IR_Ordinal": 5, "ABI_Symbol": "mal_bridge_5_5"}
+  ],
+  "السياسات": {
+    "المؤشرات_الخام": "DENY",
+    "التخصيص_الديناميكي": "DENY",
+    "eval_exec": "DENY",
+    "الجدولة_غير_الحتمية": "DENY",
+    "الترفيع_الآلي": "DENY"
+  }
+}

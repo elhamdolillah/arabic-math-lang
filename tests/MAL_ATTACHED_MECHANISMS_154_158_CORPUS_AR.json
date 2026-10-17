@@ -1,0 +1,24 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.1.0",
+  "range": "154-158",
+  "deterministic": true,
+  "source_execution": "NOT_PERFORMED",
+  "runtime_features_admitted": 0,
+  "auto_promotion": "DENY",
+  "raw_pointers": "DENY",
+  "cases": [
+    {"id":154,"decision":"ABSTAIN_UNTIL_EVIDENCE","source_executed":false,"runtime_feature":false},
+    {"id":155,"decision":"RESEARCH_DUPLICATE","duplicate_of":141,"source_executed":false,"runtime_feature":false},
+    {"id":156,"decision":"RESEARCH","source_executed":false,"runtime_feature":false},
+    {"id":157,"decision":"RESEARCH","source_executed":false,"runtime_feature":false},
+    {"id":158,"decision":"RESEARCH","source_executed":false,"runtime_feature":false}
+  ],
+  "negative_guards": [
+    "لا تنفيذ لمصدر أجنبي",
+    "لا تخصيص ديناميكي جديد",
+    "لا مؤشرات خام",
+    "لا تعديل في Grammar أو baseline النواة",
+    "لا ترفيع تلقائي"
+  ]
+}

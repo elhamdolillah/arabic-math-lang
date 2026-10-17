@@ -1,0 +1,27 @@
+{
+  "schema": "MAL-PARSER-STRING-CORPUS-0.1",
+  "unit": "MAL-PARSER-STRING",
+  "execution": "NOT_PERFORMED",
+  "cases": [
+    {
+      "id": "نص_صالح",
+      "token": ["نص", 7],
+      "expected": ["PASS", 4, 7, 1, "NONE"]
+    },
+    {
+      "id": "فهرس_سالب",
+      "token": ["نص", -1],
+      "expected": ["ABSTAIN", 0, 0, "INVALID_VALUE_ID"]
+    },
+    {
+      "id": "رمز_مجهول",
+      "token": ["مجهول", 0],
+      "expected": ["ABSTAIN", 0, 0, "UNKNOWN_TOKEN_KIND"]
+    },
+    {
+      "id": "سعة_غير_متاحة",
+      "token": ["نص", 2147483647],
+      "expected": ["ABSTAIN", 0, 0, "INVALID_VALUE_ID"]
+    }
+  ]
+}

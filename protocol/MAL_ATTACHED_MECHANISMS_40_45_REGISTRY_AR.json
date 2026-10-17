@@ -1,0 +1,53 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.2.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {
+      "id": 40,
+      "name": "nullable_nonnull_type_distinction",
+      "target": "Kotlin",
+      "decision": "RESEARCH",
+      "guard": "static null analysis is not a universal runtime guarantee; reject unproven external interop and unsafe assertions"
+    },
+    {
+      "id": 41,
+      "name": "explicit_bitstring_pattern_matching",
+      "target": "Erlang",
+      "decision": "RESEARCH",
+      "guard": "fixed input and fixed width/endianness/signedness are required; malformed input must return a structured rejection"
+    },
+    {
+      "id": 42,
+      "name": "automatic_reference_counting",
+      "target": "Objective-C",
+      "decision": "RESEARCH",
+      "guard": "weak and unsafe references, autorelease/runtime behavior, ABI, and resource finalization boundaries require evidence"
+    },
+    {
+      "id": 43,
+      "name": "compile_time_string_format_types",
+      "target": "TypeScript",
+      "decision": "RESEARCH",
+      "guard": "type-level pattern constraints do not validate arbitrary dynamic strings; runtime canonical validation remains required"
+    },
+    {
+      "id": 44,
+      "name": "effect_ordering_witness",
+      "target": "Haskell",
+      "decision": "POLICY_RESEARCH",
+      "guard": "sequence composition may be specified, but external IO, scheduler, filesystem, and network outcomes remain unproven"
+    },
+    {
+      "id": 45,
+      "name": "deep_compile_time_constant",
+      "target": "Dart",
+      "decision": "RESEARCH",
+      "guard": "constant value and identity require a specified backend/runtime; immutability does not prove universal canonical ABI behavior"
+    }
+  ]
+}

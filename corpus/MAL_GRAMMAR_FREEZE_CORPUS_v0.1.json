@@ -1,0 +1,113 @@
+{
+  "corpus": "MAL_GRAMMAR_FREEZE",
+  "version": "0.1.0",
+  "status": "DRAFT_PENDING_EXECUTION",
+  "encoding": "UTF-8",
+  "cases": [
+    {
+      "id": "valid_empty_program",
+      "class": "valid",
+      "source": "",
+      "expected_status": "ALLOW",
+      "expected_root": "برنامج",
+      "expected_error": null
+    },
+    {
+      "id": "valid_integer_declaration",
+      "class": "valid",
+      "source": "عدد_صحيح أ = ٧;",
+      "expected_status": "ALLOW",
+      "expected_root": "برنامج",
+      "expected_error": null
+    },
+    {
+      "id": "valid_arithmetic_expression",
+      "class": "valid",
+      "source": "عدد_صحيح أ = ٧ + ٦ * ٢;",
+      "expected_status": "ALLOW",
+      "expected_root": "برنامج",
+      "expected_error": null
+    },
+    {
+      "id": "valid_function_if_loop",
+      "class": "valid",
+      "source": "عدد_صحيح رئيسية() { عدد_صحيح أ = ٠; لكل (عدد_صحيح ب = ٠; ب < ٣; ب = ب + ١) { أ = أ + ب; } إذا (أ > ٠) { أرجع أ; } وإلا { أرجع ٠; } }",
+      "expected_status": "ALLOW",
+      "expected_root": "برنامج",
+      "expected_error": null
+    },
+    {
+      "id": "valid_struct",
+      "class": "valid",
+      "source": "بنية نقطة { عدد_صحيح س; عدد_صحيح ص; };",
+      "expected_status": "ALLOW",
+      "expected_root": "برنامج",
+      "expected_error": null
+    },
+    {
+      "id": "invalid_unknown_token",
+      "class": "invalid",
+      "source": "عدد_صحيح أ = ٧ @ ٢;",
+      "expected_status": "ABSTAIN",
+      "expected_root": null,
+      "expected_error": "UNKNOWN_TOKEN"
+    },
+    {
+      "id": "invalid_missing_semicolon",
+      "class": "invalid",
+      "source": "عدد_صحيح أ = ٧",
+      "expected_status": "ABSTAIN",
+      "expected_root": null,
+      "expected_error": "SYNTAX_ERROR"
+    },
+    {
+      "id": "invalid_mismatched_block",
+      "class": "invalid",
+      "source": "إذا (صحيح) { عدد_صحيح أ = ١;",
+      "expected_status": "ABSTAIN",
+      "expected_root": null,
+      "expected_error": "SYNTAX_ERROR"
+    },
+    {
+      "id": "boundary_real_arithmetic",
+      "class": "boundary",
+      "source": "عدد_حقيقي س = ١.٥;",
+      "expected_status": "ABSTAIN",
+      "expected_root": "برنامج",
+      "expected_error": "REAL_ARITHMETIC_CONTRACT_MISSING"
+    },
+    {
+      "id": "boundary_unary_operator",
+      "class": "boundary",
+      "source": "عدد_صحيح أ = -٧;",
+      "expected_status": "ABSTAIN",
+      "expected_root": null,
+      "expected_error": "UNSUPPORTED_UNARY_OPERATOR"
+    },
+    {
+      "id": "boundary_reserved_as_identifier",
+      "class": "boundary",
+      "source": "عدد_صحيح إذا = ١;",
+      "expected_status": "ABSTAIN",
+      "expected_root": null,
+      "expected_error": "RESERVED_WORD_AS_IDENTIFIER"
+    },
+    {
+      "id": "security_source_ref",
+      "class": "security",
+      "source": "source_ref(\"untrusted\");",
+      "expected_status": "ABSTAIN",
+      "expected_root": null,
+      "expected_error": "UNTRUSTED_SOURCE"
+    }
+  ],
+  "acceptance": {
+    "valid_cases_must_parse": true,
+    "invalid_cases_must_not_allow": true,
+    "boundary_cases_must_be_explicit": true,
+    "source_ref_must_not_execute": true,
+    "repeat_runs": 3,
+    "comparison": "canonical byte-for-byte",
+    "final_freeze_requires": "all acceptance checks plus SHA256 chain STATUS=0"
+  }
+}

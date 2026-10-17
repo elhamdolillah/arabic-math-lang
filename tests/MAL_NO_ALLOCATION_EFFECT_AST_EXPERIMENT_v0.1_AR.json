@@ -1,0 +1,87 @@
+{
+  "schema": "MAL_NO_ALLOCATION_EFFECT_AST_EXPERIMENT_v0.1_AR",
+  "version": "0.1.0",
+  "contract": "protocol/MAL_NO_ALLOCATION_EFFECT_CONTRACT_v0.1_AR.md",
+  "status": "RESEARCH",
+  "source_execution": "NOT_PERFORMED",
+  "runtime_features_admitted": 0,
+  "grammar_modified": false,
+  "kernel_baseline_modified": false,
+  "raw_pointers": "DENY",
+  "network": "DISABLED_BY_CONTRACT",
+  "cases": [
+    {
+      "id": "no_alloc_direct_arithmetic",
+      "description_ar": "دالة حتمية تحتوي ثوابت وحسابًا صحيحًا وعودة دون تخصيص أو استدعاء خارجي.",
+      "source_shape": {
+        "kind": "function",
+        "attribute": "بلا_تخصيص",
+        "name": "احسب_ثابتًا",
+        "parameters": [],
+        "body": [
+          {"kind": "literal", "type": "u32", "value": 2},
+          {"kind": "literal", "type": "u32", "value": 3},
+          {"kind": "binary_op", "operator": "+", "left": 2, "right": 3, "type": "u32"},
+          {"kind": "return", "value": 4}
+        ]
+      },
+      "effect_trace": [
+        {"node": 0, "effect": "ALLOC_NONE", "reason": "literal"},
+        {"node": 1, "effect": "ALLOC_NONE", "reason": "literal"},
+        {"node": 2, "effect": "ALLOC_NONE", "reason": "classified_integer_operation"},
+        {"node": 3, "effect": "ALLOC_NONE", "reason": "return_existing_value"}
+      ],
+      "expected_decision": "PASS/ALLOC_NONE",
+      "execution": "NOT_PERFORMED"
+    },
+    {
+      "id": "callee_dynamic_allocation",
+      "description_ar": "دالة موسومة بلا تخصيص تستدعي دالة ذات أثر تخصيص ديناميكي معروف.",
+      "source_shape": {
+        "kind": "function",
+        "attribute": "بلا_تخصيص",
+        "name": "غلاف_غير_مسموح",
+        "parameters": [],
+        "body": [
+          {"kind": "call", "callee": "أنشئ_ساحة_ديناميكية", "callee_effect": "ALLOC_DYNAMIC"},
+          {"kind": "return", "value": 0}
+        ]
+      },
+      "effect_trace": [
+        {"node": 0, "effect": "ALLOC_DYNAMIC", "reason": "callee_declared_dynamic_effect"},
+        {"node": 1, "effect": "ALLOC_DYNAMIC", "reason": "function_join_over_reachable_path"}
+      ],
+      "expected_decision": "REJECT/ALLOCATION_EFFECT",
+      "artifact_policy": "NO_ARTIFACT",
+      "execution": "NOT_PERFORMED"
+    },
+    {
+      "id": "callee_unknown_effect",
+      "description_ar": "دالة موسومة بلا تخصيص تستدعي دالة لا يحمل سجلها أثرًا معروفًا.",
+      "source_shape": {
+        "kind": "function",
+        "attribute": "بلا_تخصيص",
+        "name": "غلاف_مجهول",
+        "parameters": [],
+        "body": [
+          {"kind": "call", "callee": "دالة_غير_مصنفة", "callee_effect": "UNKNOWN"},
+          {"kind": "return", "value": 0}
+        ]
+      },
+      "effect_trace": [
+        {"node": 0, "effect": "UNKNOWN", "reason": "callee_effect_missing"},
+        {"node": 1, "effect": "UNKNOWN", "reason": "unknown_is_not_neutral"}
+      ],
+      "expected_decision": "ABSTAIN/UNKNOWN_EFFECT",
+      "artifact_policy": "NO_ARTIFACT",
+      "execution": "NOT_PERFORMED"
+    }
+  ],
+  "assertions": [
+    "unknown_effect_never_promotes_to_alloc_none",
+    "dynamic_allocation_rejects_bla_takhsis",
+    "rejected_or_abstained_sources_produce_no_artifact",
+    "source_execution_remains_disabled",
+    "no_runtime_feature_is_admitted"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_206_210_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_206_210_REGISTRY_AR.json",
+  "cases": [
+    {
+      "id": "206-001",
+      "mechanism": 206,
+      "kind": "positive",
+      "description": "استخدام lazy val لتأجيل التهيئة مع إصدار Scala مثبت ومهيئ خال من recursion ضمن نموذج تنفيذ محدد",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "206-002",
+      "mechanism": 206,
+      "kind": "negative",
+      "description": "استنتاج نقاء المهيئ أو غياب الجمود من lazy val مع تهيئة عودية أو آثار جانبية متزامنة",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "207-001",
+      "mechanism": 207,
+      "kind": "positive",
+      "description": "تأجيل هدف Prolog بواسطة when/2 حتى تحقق nonvar أو ground في dialect وتنفيذ مثبتين",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "207-002",
+      "mechanism": 207,
+      "kind": "negative",
+      "description": "ادعاء أن when/2 يحفظ عدد الحلول أو النجاح أو ترتيب الإيقاظ مستقلًا عن ترتيب الأهداف والآثار الجانبية",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "208-001",
+      "mechanism": 208,
+      "kind": "positive",
+      "description": "استخدام receive لانتقاء أول رسالة مطابقة من صندوق بريد معلوم مع حارس محدد",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "208-002",
+      "mechanism": 208,
+      "kind": "negative",
+      "description": "ادعاء أن receive يضمن ترتيب وصول الرسائل أو تطابق التشغيلات رغم اختلاف الجدولة أو مصادر الرسائل",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "209-001",
+      "mechanism": 209,
+      "kind": "positive",
+      "description": "تنفيذ INSPECT مع USAGE وترميز وdialect مثبتة لعد أو استبدال محارف غير متداخلة",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "209-002",
+      "mechanism": 209,
+      "kind": "negative",
+      "description": "تعميم حتمية INSPECT على DISPLAY وNATIONAL وDBCS دون تثبيت الترميز والتنفيذ",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "210-001",
+      "mechanism": 210,
+      "kind": "positive",
+      "description": "قراءة DATA حرفية بالتتابع ثم إعادة المؤشر إلى label معلوم بواسطة RESTORE في dialect مثبت",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "210-002",
+      "mechanism": 210,
+      "kind": "negative",
+      "description": "ادعاء دلالة موحدة أو حتمية عابرة لكل dialects في موضع DATA والوسوم ومعالجة تجاوز القراءة",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    }
+  ]
+}

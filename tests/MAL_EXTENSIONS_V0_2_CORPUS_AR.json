@@ -1,0 +1,17 @@
+{
+  "corpus": "MAL_EXTENSIONS_V0_2",
+  "cases": [
+    {"id":"array_shape_equal","feature":"array-shape","input":"مصفوفة<عدد_صحيح,2>","expected":"EXTENSION_SCOPED_PROVEN"},
+    {"id":"array_shape_mismatch","feature":"array-shape","input":"shape_a != shape_b","expected":"ABSTAIN / SHAPE_MISMATCH"},
+    {"id":"symbolic_bounded_rewrite","feature":"symbolic-total","input":"جمع_رمزي(س,0)","expected":"EXTENSION_SCOPED_PROVEN"},
+    {"id":"symbolic_no_fuel","feature":"symbolic-total","input":"fuel=0","expected":"ABSTAIN / FUEL_EXHAUSTED"},
+    {"id":"endian_explicit","feature":"endian-fixed","input":"بايتات(عدد,كبير)","expected":"EXTENSION_SCOPED_PROVEN"},
+    {"id":"persistent_vector_unproven","feature":"pvec-immutable","input":"متجه_دائم<عدد_صحيح>","expected":"RESEARCH"},
+    {"id":"rank_unimplemented","feature":"rank-static","input":"رتبة=متغير","expected":"RESEARCH"},
+    {"id":"gadt_unimplemented","feature":"gadt-bounded","input":"نوع_مُمَثَّل(س)","expected":"RESEARCH"},
+    {"id":"float_without_contract","feature":"ieee754-guarded","input":"١٫٥ + ٢٫٥","expected":"ABSTAIN / REAL_ARITHMETIC_CONTRACT_MISSING"},
+    {"id":"raw_pointer","feature":"raw-pointer","input":"مؤشر خام","expected":"DENY / RAW_POINTER_FORBIDDEN"},
+    {"id":"dynamic_symbol_lookup","feature":"dispatch-closed","input":"تحميل_رمز(نص)","expected":"ABSTAIN / DYNAMIC_SYMBOL_UNPROVEN"},
+    {"id":"thread_scheduler","feature":"csp-step","input":"جدولة_نظامية","expected":"RESEARCH"}
+  ]
+}

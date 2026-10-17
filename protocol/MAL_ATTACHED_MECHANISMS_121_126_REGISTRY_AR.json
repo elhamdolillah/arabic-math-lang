@@ -1,0 +1,59 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.1.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {
+      "id": 121,
+      "name": "kotlin_value_class",
+      "target": "Kotlin",
+      "decision": "RESEARCH",
+      "guard_ar": "فئة القيمة تميز النوع وقد تقلل التغليف في مسارات محددة، لكن التمثيل والboxing يعتمدان على السياق والـ backend ولا يثبتان حجماً مستقلاً عن آلة JVM",
+      "required_evidence_ar": "تمثيل MAL صريح، قواعد boxing وnullability، عقد ABI وإصدار backend، وقياسات reproducibility عبر البيئات"
+    },
+    {
+      "id": 122,
+      "name": "csharp_span",
+      "target": "C#",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "Span<T> هو ref struct محدود بالتقاطه وتخزينه، لكنه ليس دائماً ذاكرة مكدس؛ فقد يشير إلى مصفوفة أو ذاكرة غير مُدارة، كما أن lifetime والـ GC والـ ABI خارج العقد الحتمي",
+      "required_evidence_ar": "مقابض مفهرسة، عقد lifetime وownership، منع المؤشرات الخام، وحدود stackalloc والذاكرة غير المُدارة"
+    },
+    {
+      "id": 123,
+      "name": "mongodb_hint",
+      "target": "MongoDB",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "hint يقيّد اختيار فهرس، لكنه لا يثبت خطة تنفيذ كاملة أو ترتيب النتائج أو استقلالها عن الإصدار والإحصاءات وحالة البيانات؛ يلزم sort صريح وبيئة مثبتة",
+      "required_evidence_ar": "إصدار محرك ومخطط مثبتان، استعلام canonical، sort صريح، snapshot للبيانات، ونتيجة قابلة لإعادة الإنتاج"
+    },
+    {
+      "id": 124,
+      "name": "ruby_deduplicated_frozen_string",
+      "target": "Ruby",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "التجميد لا يثبت وحده هوية كائن عالمية قابلة للنقل، وسلوك deduplication وجدول السلاسل تابع للتنفيذ والإصدار؛ لا يجوز تحويل equal? إلى ضمان MAL",
+      "required_evidence_ar": "ترميز bytes canonical، عقد lifetime والهوية، إصدار مفسر مثبت، واختبارات عدم الاعتماد على عنوان أو هوية ذاكرة"
+    },
+    {
+      "id": 125,
+      "name": "prolog_once",
+      "target": "Prolog",
+      "decision": "RESEARCH",
+      "guard_ar": "once يلتزم بأول حل يقدمه الهدف، لكن معنى الأول يتبع ترتيب البنود والتوحيد والمحرك، وقد تتأثر الآثار الجانبية؛ يلزم ترتيب canonical أو نموذج بلا آثار",
+      "required_evidence_ar": "ترتيب بحث مثبت، دلالة فشل صريحة، حد وقود، سياسة آثار جانبية، واختبارات حلول متعددة وحلول معدومة"
+    },
+    {
+      "id": 126,
+      "name": "javascript_object_seal",
+      "target": "JavaScript",
+      "decision": "RESEARCH",
+      "guard_ar": "seal يثبت مجموعة الخصائص وبعض أوصافها لكنه لا يجعل القيم غير قابلة للتغيير ولا يمنع التغيير العميق، كما أن الترتيب والـ proxy وسياق strict mode تحتاج إلى عقد",
+      "required_evidence_ar": "تمثيل سجل MAL canonical، منع proxy أو تعريف سياسة له، ترتيب مفاتيح صريح، ورفض التعديل غير المسموح دون استثناءات بيئية"
+    }
+  ]
+}

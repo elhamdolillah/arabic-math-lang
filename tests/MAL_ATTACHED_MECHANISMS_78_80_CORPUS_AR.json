@@ -1,0 +1,28 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.3.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "cases": [
+    {
+      "id": 78,
+      "decision": "RESEARCH",
+      "positive": "freeze_top_level_object_blocks_direct_property_assignment_under_strict_mode",
+      "counterexample": "nested_object_remains_mutable_and_non_strict_assignment_may_fail_silently",
+      "gap": "deep_immutability_runtime_contract"
+    },
+    {
+      "id": 79,
+      "decision": "RESEARCH",
+      "positive": "readonly_value_type_rejects_direct_field_mutation_under_fixed_compiler_contract",
+      "counterexample": "referenced_object_or_collection_can_remain_mutable_and_defensive_copy_semantics_matter",
+      "gap": "deep_value_immutability_and_abi_contract"
+    },
+    {
+      "id": 80,
+      "decision": "RESEARCH",
+      "positive": "must_use_policy_can_reject_ignored_result_when_lint_is_denied",
+      "counterexample": "explicit_underscore_discard_and_warning_mode_do_not_prove_result_handling",
+      "gap": "mandatory_result_consumption_and_error_semantics"
+    }
+  ]
+}

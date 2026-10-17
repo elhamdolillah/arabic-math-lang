@@ -1,0 +1,8 @@
+{
+  "branch": "integration/mal-deterministic-audit-2026-08-25",
+  "source_execution": "NOT_PERFORMED",
+  "runtime_status": "MAL_AR_RUNTIME_UNAVAILABLE",
+  "abi_symbols_audit_sha256": "1a77ad363c0a7fb0a5a8f915c57f7708c0a1012ba0be98bfd57895b17263c9f3",
+  "corpus_sha256": "bdc12c8740d4348c4d04af09b08825c48c7ba6e90e6735a2c2156e69f370188c",
+  "ratio_report_sha256": "5ec78eb59a9b717ba4fc50b45fa1dbb9e878ac18f1cabb3cdb4e9f033feb0da7"
+}

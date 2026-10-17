@@ -1,0 +1,15 @@
+[1m[32m   Compiling[0m mal_ownership_arena v0.1.0 (/home/ubuntu/uori-mal-pr/rust/mal_ownership_arena)
+[1m[32m    Finished[0m release [optimized] target(s) in 19.78s
+[1m[32m     Running[0m tests/stage1_lexer.rs (target/release/deps/stage1_lexer-57a092ec0e66de62)
+
+running 5 tests
+test stage1_lexer_allocates_deterministic_tokens ... ok
+test stage1_lexer_is_utf8_boundary_safe ... ok
+test stage1_lexer_marks_restricted_evaluator ... ok
+test stage1_lexer_rejects_numeric_overflow ... ok
+test stage1_lexer_fails_closed_on_capacity ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+STATUS=0

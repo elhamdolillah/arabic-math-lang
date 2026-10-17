@@ -1,0 +1,22 @@
+#!/bin/bash
+cd /root/ilm-al-kitab
+OUT=/tmp/m2f_context.txt
+{
+echo "##### T) codegen: load + store_result + CodeGenContext كاملة"
+L=$(grep -n "fn load(" MAL/src/native/src/lib.rs | head -1 | cut -d: -f1)
+sed -n "${L},$((L+30))p" MAL/src/native/src/lib.rs
+L=$(grep -n "fn store_result" MAL/src/native/src/lib.rs | head -1 | cut -d: -f1)
+sed -n "${L},$((L+20))p" MAL/src/native/src/lib.rs
+L=$(grep -n "struct CodeGenContext" MAL/src/native/src/lib.rs | head -1 | cut -d: -f1)
+sed -n "${L},$((L+25))p" MAL/src/native/src/lib.rs
+echo ""
+echo "##### U) codegen: emit_builtin_call لتوقيع print_int (لنعرف كيف تُطبع)"
+L=$(grep -n "fn emit_builtin_call" MAL/src/native/src/lib.rs | head -1 | cut -d: -f1)
+sed -n "${L},$((L+30))p" MAL/src/native/src/lib.rs
+echo ""
+echo "##### V) Token struct (ابحث في كل ملفات parser)"
+grep -rn "struct Token" MAL/src/parser/src/ | head -5
+grep -rn "pub start|pub end|start: usize|end: usize" MAL/src/parser/src/ | head -10
+} > $OUT
+echo "SAVED: $OUT ($(wc -l < $OUT) سطراً)"
+cat $OUT

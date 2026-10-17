@@ -1,0 +1,56 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_101_105_REGISTRY_AR.json",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "runtime_features_admitted": 0,
+  "cases": [
+    {
+      "id": 101,
+      "name": "common_lisp_type_declarations",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن استعمال تصريح نوع محدود لتحسين التحقق أو الترجمة إذا ثُبت عقده",
+      "counterexample": "إعدادات السلامة المختلفة قد تحول المخالفة بين تنبيه وخطأ وفحص وقت التشغيل",
+      "gap": "قواعد النوع والخطأ وإعدادات السلامة الحتمية غير محددة"
+    },
+    {
+      "id": 102,
+      "name": "elixir_protocol_consolidation",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن تثبيت إرسال البروتوكول في جدول canonical بعد اكتمال مجموعة الوحدات",
+      "counterexample": "التحميل الديناميكي أو اختلاف ترتيب البناء قد يغير مجموعة التنفيذ أو جدول الإرسال",
+      "gap": "مجموعة الوحدات وترتيب البناء ومنع التغيير اللاحق غير محددة"
+    },
+    {
+      "id": 103,
+      "name": "d_immutable_deep_immutability",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن تقييد التعديل العميق في نموذج نوعي صريح",
+      "counterexample": "حدود FFI وGC والمخصص والمشاركة بين الخيوط قد تكسر ادعاء الحماية المطلقة؛ والمثال يحتوي مؤشراً خاماً",
+      "gap": "نموذج المشاركة وFFI وGC وإثبات عدم التعديل العميق غير موجود"
+    },
+    {
+      "id": 104,
+      "name": "algol_own_static_local",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن تمثيل الحالة المحلية المستمرة بمعرّف مفهرس وتهيئة canonical",
+      "counterexample": "إعادة الدخول أو التزامن أو اختلاف ترتيب الاستدعاءات قد يغير الحالة المرئية",
+      "gap": "عقد عمر الحالة والتزامن وإعادة الدخول وحدود الموارد غير محدد"
+    },
+    {
+      "id": 105,
+      "name": "julia_generated_functions",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمكن توليد جسم متخصص من وصف أنواع canonical إذا كان المولد نقياً ومقيداً",
+      "counterexample": "ملاحظة البيئة أو التخزين المؤقت أو اختلاف المترجم قد ينتج شيفرة مختلفة للتوقيع نفسه",
+      "gap": "نقاء المولد ووصف الأنواع والتخزين المؤقت وبصمة الشيفرة الناتجة غير مثبتة"
+    }
+  ]
+}

@@ -1,0 +1,1717 @@
+[1m[32m   Compiling[0m mal_ownership_arena v0.1.0 (/home/ubuntu/uori-mal-pr/rust/mal_ownership_arena)
+[0m[1m[38;5;9merror[E0463][0m[0m[1m: can't find crate for `std`[0m
+[0m  [0m[0m[1m[38;5;12m|[0m
+[0m  [0m[0m[1m[38;5;12m= [0m[0m[1mnote[0m[0m: the `wasm32-unknown-unknown` target may not be installed[0m
+[0m  [0m[0m[1m[38;5;12m= [0m[0m[1mhelp[0m[0m: consider downloading the target with `rustup target add wasm32-unknown-unknown`[0m
+
+[0m[1m[38;5;9merror[E0463][0m[0m[1m: can't find crate for `std`[0m
+[0m [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:3:5[0m
+[0m  [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m3[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0muse std::fmt;[0m
+[0m  [0m[0m[1m[38;5;12m| [0m[0m    [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mcan't find crate[0m
+[0m  [0m[0m[1m[38;5;12m|[0m
+[0m  [0m[0m[1m[38;5;12m= [0m[0m[1mnote[0m[0m: the `wasm32-unknown-unknown` target may not be installed[0m
+[0m  [0m[0m[1m[38;5;12m= [0m[0m[1mhelp[0m[0m: consider downloading the target with `rustup target add wasm32-unknown-unknown`[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:120:3[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m120[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug)][0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:109:3[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m109[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug)][0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:103:3[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m103[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:95:3[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m95[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find macro `write` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:91:9[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m91[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        write!(f, "{:?}", self)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:70:3[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m70[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:16:3[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m16[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:13:3[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m13[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)][0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/diagnostics.rs:26:3[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m26[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m [0m[0m[1m[38;5;12m--> [0m[0msrc/diagnostics.rs:7:3[0m
+[0m  [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m7[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m  [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:8:3[0m
+[0m  [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m8[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m  [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:10:3[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m10[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:3:3[0m
+[0m  [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m3[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m  [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find macro `matches` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:34:107[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m34[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m   self.expect(t,TokenKind::LParen)?; let param=self.take(t)?.ok_or(ParseError::UnexpectedEof)?; if !matches!(param.kind,TokenKind::Sy[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                                        [0m[0m[1m[38;5;9m^^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find macro `matches` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:33:115[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m   self.expect(t,TokenKind::KeywordFunction)?; let name=self.take(t)?.ok_or(ParseError::UnexpectedEof)?; if !matches!(name.kind,TokenK[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                                                [0m[0m[1m[38;5;9m^^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:5:3[0m
+[0m  [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m5[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m  [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find macro `matches` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:147:32[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m147[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m                   || matches!(character, '=' | '>' | '<' | '+' | '-' | '*' | '/' | '(' | ')'))[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                         [0m[0m[1m[38;5;9m^^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:44:3[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m44[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:37:3[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m37[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:3:3[0m
+[0m  [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m3[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m  [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/ast.rs:28:3[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[0m[0m[1m: cannot find attribute `derive` in this scope[0m
+[0m [0m[0m[1m[38;5;12m--> [0m[0msrc/ast.rs:3:3[0m
+[0m  [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m3[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m#[derive(Debug, Clone, Copy, PartialEq, Eq)][0m
+[0m  [0m[0m[1m[38;5;12m| [0m[0m  [0m[0m[1m[38;5;9m^^^^^^[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/ast.rs:32:15[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m32[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub name: Option<&'a str>,[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m              [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/ast.rs:33:15[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub left: Option<NodeID>,[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m              [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/ast.rs:34:16[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m34[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub right: Option<NodeID>,[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m               [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `From` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:51:6[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m51[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mimpl From<FixedArenaError> for LexerError {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m     [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:70:10[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m70[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    ) -> Result<Option<NodeID>, LexerError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m         [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:70:17[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m70[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    ) -> Result<Option<NodeID>, LexerError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:98:23[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m98[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            return Ok(None);[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                      [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:138:22[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m138[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                _ => None,[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                     [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:140:20[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m140[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            if let Some(kind) = single {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                   [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `From` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:10:6[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m10[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mimpl From<FixedArenaError> for ParseError { fn from(e: FixedArenaError) -> Self { Self::ArenaError(e) } }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m     [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `From` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:11:6[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m11[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mimpl From<LexerError> for ParseError { fn from(e: LexerError) -> Self { Self::LexerError(e) } }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m     [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:13:80[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m13[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mpub struct DeterministicParser<'a> { lexer: DeterministicLexer<'a>, lookahead: Option<LexicalToken<'a>> }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                               [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:15:82[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m15[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn new(lexer: DeterministicLexer<'a>) -> Self { Self { lexer, lookahead: None } }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                 [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:16:152[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m16[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mken<'a>, L>, a: &mut FixedArena<AstNode<'a>, A>) -> Result<NodeID, ParseError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:19:149[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m19[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mken<'a>, L>, a: &mut FixedArena<AstNode<'a>, A>) -> Result<NodeID, ParseError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:21:230[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m21[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m.allocate(AstNode{id,opcode:AstOpcode::Sequence,name:None,left:Some(root),right:Some(next),numeric_value:v})?; root=id; }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:23:138[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m23[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0micalToken<'a>,L>,a:&mut FixedArena<AstNode<'a>,A>)->Result<NodeID,ParseError>{[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:24:46[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m24[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m   match self.peek(t)?.map(|x|x.kind) { Some(TokenKind::KeywordIf)=>self.parse_if(t,a), Some(TokenKind::KeywordWhile)=>self.parse_whil[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                           [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:24:94[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m24[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m   match self.peek(t)?.map(|x|x.kind) { Some(TokenKind::KeywordIf)=>self.parse_if(t,a), Some(TokenKind::KeywordWhile)=>self.parse_whil[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                           [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:24:148[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m24[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mome(TokenKind::KeywordWhile)=>self.parse_while(t,a), Some(TokenKind::KeywordFunction)=>self.parse_function(t,a), _=>self.parse_declara[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:26:129[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m26[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0micalToken<'a>,L>,a:&mut FixedArena<AstNode<'a>,A>)->Result<NodeID,ParseError>{[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:27:261[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m27[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0md::KeywordEnd)?; self.alloc(a,AstOpcode::IfStatement,None,Some(c),Some(b),0)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:29:132[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m29[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0micalToken<'a>,L>,a:&mut FixedArena<AstNode<'a>,A>)->Result<NodeID,ParseError>{[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:30:264[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m30[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mind::KeywordEnd)?; self.alloc(a,AstOpcode::WhileLoop,None,Some(c),Some(b),0)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:32:135[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m32[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0micalToken<'a>,L>,a:&mut FixedArena<AstNode<'a>,A>)->Result<NodeID,ParseError>{[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:35:68[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m35[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m   let p=self.alloc(a,AstOpcode::BindSymbol,Some(param.slice),None,None,0)?; let body=self.parse_statement(t,a)?; self.skip(t)?; self.[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                 [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:35:73[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m35[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m   let p=self.alloc(a,AstOpcode::BindSymbol,Some(param.slice),None,None,0)?; let body=self.parse_statement(t,a)?; self.skip(t)?; self.[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                      [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:37:138[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m37[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0micalToken<'a>,L>,a:&mut FixedArena<AstNode<'a>,A>)->Result<NodeID,ParseError>{[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:38:410[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m38[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m}; self.alloc(a,AstOpcode::DeclareNode,Some(d.slice),None,Some(e),v)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:40:137[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m40[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0micalToken<'a>,L>,a:&mut FixedArena<AstNode<'a>,A>)->Result<NodeID,ParseError>{let mut x=self.parse_additive(t,a)?; loop{let op=match s[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:40:247[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m40[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m,a)?; loop{let op=match self.peek(t)?.map(|x|x.kind){Some(TokenKind::EqualEqual)=>AstOpcode::Equal,Some(TokenKind::NotEqual)=>AstOpcod[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:40:293[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m40[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m.kind){Some(TokenKind::EqualEqual)=>AstOpcode::Equal,Some(TokenKind::NotEqual)=>AstOpcode::NotEqual,Some(TokenKind::GreaterThan)=>AstO[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:40:340[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m40[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mEqual,Some(TokenKind::NotEqual)=>AstOpcode::NotEqual,Some(TokenKind::GreaterThan)=>AstOpcode::GreaterThan,Some(TokenKind::LessThan)=>A[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:40:393[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m40[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mSome(TokenKind::GreaterThan)=>AstOpcode::GreaterThan,Some(TokenKind::LessThan)=>AstOpcode::LessThan,_=>break};self.take(t)?;let y=self[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:40:514[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m40[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m)?;let y=self.parse_additive(t,a)?;x=self.alloc(a,op,None,Some(x),Some(y),0)?;}Ok(x)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:41:135[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m41[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0micalToken<'a>,L>,a:&mut FixedArena<AstNode<'a>,A>)->Result<NodeID,ParseError>{let mut x=self.parse_multiplicative(t,a)?;loop{let op=ma[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:41:250[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m41[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mt,a)?;loop{let op=match self.peek(t)?.map(|x|x.kind){Some(TokenKind::Plus)=>AstOpcode::Add,Some(TokenKind::Minus)=>AstOpcode::Subtract[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:41:288[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m41[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mmap(|x|x.kind){Some(TokenKind::Plus)=>AstOpcode::Add,Some(TokenKind::Minus)=>AstOpcode::Subtract,_=>break};self.take(t)?;let y=self.pa[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:42:141[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m42[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0micalToken<'a>,L>,a:&mut FixedArena<AstNode<'a>,A>)->Result<NodeID,ParseError>{let mut x=self.parse_factor(t,a)?;loop{let op=match self[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:42:248[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m42[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mt,a)?;loop{let op=match self.peek(t)?.map(|x|x.kind){Some(TokenKind::Star)=>AstOpcode::Multiply,Some(TokenKind::Slash)=>AstOpcode::Div[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:42:291[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m42[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mx|x.kind){Some(TokenKind::Star)=>AstOpcode::Multiply,Some(TokenKind::Slash)=>AstOpcode::Divide,_=>break};self.take(t)?;let y=self.pars[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:133[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0micalToken<'a>,L>,a:&mut FixedArena<AstNode<'a>,A>)->Result<NodeID,ParseError>{let x=self.take(t)?.ok_or(ParseError::UnexpectedEof)?;ma[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:283[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mnKind::Number(v)=>self.alloc(a,AstOpcode::LiteralNum,None,None,None,v),TokenKind::StringLiteral=>{let text=&x.slice[1..x.slice.len()-1[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:288[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m::Number(v)=>self.alloc(a,AstOpcode::LiteralNum,None,None,None,v),TokenKind::StringLiteral=>{let text=&x.slice[1..x.slice.len()-1];sel[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:293[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mber(v)=>self.alloc(a,AstOpcode::LiteralNum,None,None,None,v),TokenKind::StringLiteral=>{let text=&x.slice[1..x.slice.len()-1];self.all[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:415[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m-1];self.alloc(a,AstOpcode::LiteralString,Some(text),None,None,text.as_bytes().len() as u64)},TokenKind::LParen=>{let y=self.parse_com[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:420[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0melf.alloc(a,AstOpcode::LiteralString,Some(text),None,None,text.as_bytes().len() as u64)},TokenKind::LParen=>{let y=self.parse_comparis[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:1253[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0munctionCall};self.alloc(a,op,Some(x.slice),Some(arg),None,0)}else{self.alloc(a,AstOpcode::BindSymbol,Some(x.slice),None,None,0)}},_=>E[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:1315[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mlse{self.alloc(a,AstOpcode::BindSymbol,Some(x.slice),None,None,0)}},_=>Err(ParseError::SyntaxError)}}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:1320[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0melf.alloc(a,AstOpcode::BindSymbol,Some(x.slice),None,None,0)}},_=>Err(ParseError::SyntaxError)}}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:44:102[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m44[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn binary<const A:usize>(&self,a:&mut FixedArena<AstNode<'a>,A>,op:AstOpcode,l:NodeID,r:NodeID)->Result<NodeID,ParseError>{let v=if S[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                                     [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:44:445[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m44[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mn Err(ParseError::DivisionByZero)}else{Some(x/y)},_=>None}.ok_or(ParseError::ArithmeticOverflow)?}else{0};self.alloc(a,op,None,Some(l)[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:44:514[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m44[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0meError::ArithmeticOverflow)?}else{0};self.alloc(a,op,None,Some(l),Some(r),v)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:45:83[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m45[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn alloc<const A:usize>(&self,a:&mut FixedArena<AstNode<'a>,A>,op:AstOpcode,n:Option<&'a str>,l:Option<NodeID>,r:Option<NodeID>,v:u64[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                  [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:45:101[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m45[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn alloc<const A:usize>(&self,a:&mut FixedArena<AstNode<'a>,A>,op:AstOpcode,n:Option<&'a str>,l:Option<NodeID>,r:Option<NodeID>,v:u64[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                                    [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:45:118[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m45[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m>,op:AstOpcode,n:Option<&'a str>,l:Option<NodeID>,r:Option<NodeID>,v:u64)->Result<NodeID,ParseError>{let id=a.next_node_id()?;a.alloca[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:45:141[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m45[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m<&'a str>,l:Option<NodeID>,r:Option<NodeID>,v:u64)->Result<NodeID,ParseError>{let id=a.next_node_id()?;a.allocate(AstNode{id,opcode:op[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:46:74[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m46[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn is_static<const A:usize>(a:&FixedArena<AstNode<'a>,A>,id:NodeID)->Result<bool,ParseError>{let n=a.get(id)?;match n.opcode{AstOpcod[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                         [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:47:78[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m47[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn skip<const L:usize>(&mut self,t:&mut FixedArena<LexicalToken<'a>,L>)->Result<(),ParseError>{while self.peek(t)?.is_some_and(|x|x.k[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                             [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:48:92[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m48[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn expect<const L:usize>(&mut self,t:&mut FixedArena<LexicalToken<'a>,L>,k:TokenKind)->Result<(),ParseError>{match self.take(t)?{Some[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                           [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:48:134[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m48[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mokenKind)->Result<(),ParseError>{match self.take(t)?{Some(x) if x.kind==k=>Ok(()),Some(_)=>Err(ParseError::SyntaxError),None=>Err(Pars[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:48:163[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m48[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mor>{match self.take(t)?{Some(x) if x.kind==k=>Ok(()),Some(_)=>Err(ParseError::SyntaxError),None=>Err(ParseError::UnexpectedEof)}}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:49:78[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m49[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn peek<const L:usize>(&mut self,t:&mut FixedArena<LexicalToken<'a>,L>)->Result<Option<LexicalToken<'a>>,ParseError>{if self.lookahea[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                             [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:49:85[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m49[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn peek<const L:usize>(&mut self,t:&mut FixedArena<LexicalToken<'a>,L>)->Result<Option<LexicalToken<'a>>,ParseError>{if self.lookahea[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                    [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:50:78[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m50[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn take<const L:usize>(&mut self,t:&mut FixedArena<LexicalToken<'a>,L>)->Result<Option<LexicalToken<'a>>,ParseError>{if self.lookahea[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                             [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:50:85[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m50[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn take<const L:usize>(&mut self,t:&mut FixedArena<LexicalToken<'a>,L>)->Result<Option<LexicalToken<'a>>,ParseError>{if self.lookahea[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                    [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:51:78[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m51[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn next<const L:usize>(&mut self,t:&mut FixedArena<LexicalToken<'a>,L>)->Result<Option<LexicalToken<'a>>,ParseError>{let id=self.lexe[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                             [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:51:85[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m51[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn next<const L:usize>(&mut self,t:&mut FixedArena<LexicalToken<'a>,L>)->Result<Option<LexicalToken<'a>>,ParseError>{let id=self.lexe[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                    [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:19:15[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m19[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    entries: [Option<SymbolEntry<'a>>; N],[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m              [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:27:26[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m27[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Self { entries: [None; N], len: 0, scope_marks: [0; 32], scope_depth: 0 }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                         [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:30:38[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m30[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn enter_scope(&mut self) -> Result<(), SymbolError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                     [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:37:37[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m37[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn exit_scope(&mut self) -> Result<(), SymbolError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                    [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:41:67[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m41[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        for entry in &mut self.entries[mark..self.len] { *entry = None; }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                  [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:46:75[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m46[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn bind(&mut self, name: &'a str, value: u64, node_id: NodeID) -> Result<(), SymbolError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                          [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:62:41[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m62[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn lookup(&self, name: &str) -> Result<SymbolEntry<'a>, SymbolError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                        [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `Default` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:75:26[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m75[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mimpl<'a, const N: usize> Default for ArenaSymbolTable<'a, N> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                         [0m[0m[1m[38;5;9m^^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `From` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:10:6[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m10[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mimpl From<FixedArenaError> for EvaluatorError { fn from(e: FixedArenaError)->Self{Self::ArenaError(e)} }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m     [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `From` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:11:6[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m11[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mimpl From<SymbolError> for EvaluatorError { fn from(e: SymbolError)->Self{Self::SymbolError(e)} }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m     [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:15:131[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m15[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m>,root:NodeID,symbols:&mut ArenaSymbolTable<'a,S>)->Result<u64,EvaluatorError>{let mut fuel=MAX_LOOP_FUEL;Self::visit(ast,root,symbols[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:15:224[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m15[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mMAX_LOOP_FUEL;Self::visit(ast,root,symbols,&mut fuel,None)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:16:137[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m16[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m:&mut ArenaSymbolTable<'a,S>,fuel:&mut usize,active:Option<&'a str>)->Result<u64,EvaluatorError>{[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:16:155[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m16[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mable<'a,S>,fuel:&mut usize,active:Option<&'a str>)->Result<u64,EvaluatorError>{[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:28:516[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mxceeded));let exit=s.exit_scope();match(result,exit){(Ok(v),Ok(_))=>Ok(v),(Err(e),_)=>Err(EvaluatorError::from(e)),(_,Err(e))=>Err(Eva[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:28:522[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0md));let exit=s.exit_scope();match(result,exit){(Ok(v),Ok(_))=>Ok(v),(Err(e),_)=>Err(EvaluatorError::from(e)),(_,Err(e))=>Err(Evaluator[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:28:537[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mxit_scope();match(result,exit){(Ok(v),Ok(_))=>Ok(v),(Err(e),_)=>Err(EvaluatorError::from(e)),(_,Err(e))=>Err(EvaluatorError::from(e))}},[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:28:580[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m)=>Ok(v),(Err(e),_)=>Err(EvaluatorError::from(e)),(_,Err(e))=>Err(EvaluatorError::from(e))}},[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:33:90[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m fn find_function<'a,const A:usize>(ast:&FixedArena<AstNode<'a>,A>,id:NodeID,name:&str)->Result<Option<(&'a str,NodeID)>,EvaluatorError>{[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                         [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:33:97[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m fn find_function<'a,const A:usize>(ast:&FixedArena<AstNode<'a>,A>,id:NodeID,name:&str)->Result<Option<(&'a str,NodeID)>,EvaluatorError>{[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                                [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0531][0m[0m[1m: cannot find tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:33:431[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mild in [n.left,n.right].into_iter().flatten(){if let Some(found)=Self::find_function(ast,child,name)?{return Ok(Some(found))}}Ok(None)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:33:507[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mfunction(ast,child,name)?{return Ok(Some(found))}}Ok(None)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `FnOnce` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:34:42[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m34[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m fn cmp<'a,const A:usize,const S:usize,F:FnOnce(u64,u64)->bool>(ast:&FixedArena<AstNode<'a>,A>,n:AstNode<'a>,s:&mut ArenaSymbolTable<'a,S[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                         [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:34:155[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m34[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mde<'a>,s:&mut ArenaSymbolTable<'a,S>,f:&mut usize,a:Option<&'a str>,op:F)->Result<u64,EvaluatorError>{let l=Self::visit(ast,n.left.ok_[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:34:178[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m34[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0molTable<'a,S>,f:&mut usize,a:Option<&'a str>,op:F)->Result<u64,EvaluatorError>{let l=Self::visit(ast,n.left.ok_or(EvaluatorError::Inva[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `FnOnce` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:35:42[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m35[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m fn bin<'a,const A:usize,const S:usize,F:FnOnce(u64,u64)->Option<u64>>(ast:&FixedArena<AstNode<'a>,A>,n:AstNode<'a>,s:&mut ArenaSymbolTab[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                         [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:35:59[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m35[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m fn bin<'a,const A:usize,const S:usize,F:FnOnce(u64,u64)->Option<u64>>(ast:&FixedArena<AstNode<'a>,A>,n:AstNode<'a>,s:&mut ArenaSymbolTab[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                          [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:35:162[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m35[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mde<'a>,s:&mut ArenaSymbolTable<'a,S>,f:&mut usize,a:Option<&'a str>,op:F)->Result<u64,EvaluatorError>{let l=Self::visit(ast,n.left.ok_[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:35:185[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m35[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0molTable<'a,S>,f:&mut usize,a:Option<&'a str>,op:F)->Result<u64,EvaluatorError>{let l=Self::visit(ast,n.left.ok_or(EvaluatorError::Inva[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/diagnostics.rs:34:15[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m34[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    records: [Option<DiagnosticRecord>; N],[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m              [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/diagnostics.rs:41:26[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m41[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Self { records: [None; N], len: 0, next_sequence: 0 }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                         [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/diagnostics.rs:55:40[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m55[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn get(&self, index: usize) -> Option<DiagnosticRecord> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/diagnostics.rs:56:32[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m56[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if index >= self.len { None } else { self.records[index] }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                               [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/diagnostics.rs:60:56[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m60[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        while index < self.len { self.records[index] = None; index += 1; }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `Default` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/diagnostics.rs:65:22[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m65[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mimpl<const N: usize> Default for DiagnosticBuffer<N> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                     [0m[0m[1m[38;5;9m^^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:25:15[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m25[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    storage: [Option<T>; N],[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m              [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `Copy` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:29:9[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m29[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mimpl<T: Copy, const N: usize> FixedArena<T, N> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:32:23[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m32[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            storage: [None; N],[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                      [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:37:45[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m37[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn allocate(&mut self, value: T) -> Result<NodeID, FixedArenaError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                            [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:47:35[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m47[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn next_node_id(&self) -> Result<NodeID, FixedArenaError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                  [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:55:38[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m55[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn get(&self, id: NodeID) -> Result<&T, FixedArenaError> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                     [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `Default` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:64:31[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m64[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mimpl<T: Copy, const N: usize> Default for FixedArena<T, N> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                              [0m[0m[1m[38;5;9m^^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0405][0m[0m[1m: cannot find trait `Copy` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:64:9[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m64[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0mimpl<T: Copy, const N: usize> Default for FixedArena<T, N> {[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:111:12[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m111[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    value: Option<T>,[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m           [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Vec` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:124:12[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m124[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    slots: Vec<Option<Slot<T>>>,[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m           [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Option` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:124:16[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m124[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    slots: Vec<Option<Slot<T>>>,[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m               [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:128:69[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m128[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn new(arena_id: u32, owner_scope: u32, capacity: usize) -> Result<Self, ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                    [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:135:42[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m135[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            slots: (0..capacity).map(|_| None).collect(),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                         [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:139:60[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m139[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn allocate(&mut self, value: T, type_tag: u32) -> Result<Handle, ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                           [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:163:55[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m163[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn get_slot(&self, handle: Handle, scope: u32) -> Result<&Slot<T>, ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                      [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:174:63[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m174[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    fn get_slot_mut(&mut self, handle: Handle, scope: u32) -> Result<&mut Slot<T>, ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                              [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:185:55[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m185[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn read(&self, handle: Handle, scope: u32) -> Result<&T, ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                      [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:189:68[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m189[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn borrow_shared(&mut self, handle: Handle, scope: u32) -> Result<Handle, ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                   [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:196:71[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m196[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn borrow_exclusive(&mut self, handle: Handle, scope: u32) -> Result<Handle, ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                      [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:203:72[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m203[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn end_shared_borrow(&mut self, handle: Handle, scope: u32) -> Result<(), ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                       [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:210:75[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m210[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn end_exclusive_borrow(&mut self, handle: Handle, scope: u32) -> Result<(), ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                          [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:217:81[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m217[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn move_to(&mut self, handle: Handle, scope: u32, target_scope: u32) -> Result<Handle, ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                                [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0412][0m[0m[1m: cannot find type `Result` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:225:62[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m225[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m    pub fn release(&mut self, handle: Handle, scope: u32) -> Result<(), ArenaError> {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                             [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find value `None` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:228:22[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m228[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        slot.value = None;[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                     [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0433][0m[0m[1m: failed to resolve: use of undeclared type `Into`[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:22:104[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m22[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m   AstOpcode::BindSymbol=>s.lookup(n.name.ok_or(EvaluatorError::InvalidNode)?).map(|e|e.value).map_err(Into::into),[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9muse of undeclared type `Into`[0m
+
+[0m[1m[38;5;9merror[E0433][0m[0m[1m: failed to resolve: use of undeclared type `Option`[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:166:23[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m166[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            .and_then(Option::as_ref).ok_or(ArenaError::SlotNotFound)?;[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                      [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9muse of undeclared type `Option`[0m
+
+[0m[1m[38;5;9merror[E0433][0m[0m[1m: failed to resolve: use of undeclared type `Option`[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:177:23[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m177[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            .and_then(Option::as_mut).ok_or(ArenaError::SlotNotFound)?;[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                      [0m[0m[1m[38;5;9m^^^^^^[0m[0m [0m[0m[1m[38;5;9muse of undeclared type `Option`[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:88:20[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m88[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            return Ok(Some(id));[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                   [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:88:23[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m88[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            return Ok(Some(id));[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                      [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:98:20[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m98[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            return Ok(None);[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                   [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:109:73[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m109[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            if slice[1..slice.len() - 1].as_bytes().len() > 64 { return Err(LexerError::StringTooLong); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:129:24[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m129[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                '=' => Some(TokenKind::Equals),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:130:24[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m130[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                '>' => Some(TokenKind::GreaterThan),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:131:24[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m131[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                '<' => Some(TokenKind::LessThan),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:132:24[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m132[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                '+' => Some(TokenKind::Plus),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:133:24[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m133[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                '-' => Some(TokenKind::Minus),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:134:24[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m134[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                '*' => Some(TokenKind::Star),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:135:24[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m135[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                '/' => Some(TokenKind::Slash),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:136:24[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m136[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                '(' => Some(TokenKind::LParen),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:137:24[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m137[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                ')' => Some(TokenKind::RParen),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                       [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:206:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m206[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(Some(id))[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lexer.rs:206:12[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m206[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(Some(id))[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m           [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:17:83[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m17[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        let root = self.parse_program(t, a)?; if self.peek(t)?.is_some() { return Err(ParseError::SyntaxError); } Ok(root)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                  [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:17:115[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m17[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        let root = self.parse_program(t, a)?; if self.peek(t)?.is_some() { return Err(ParseError::SyntaxError); } Ok(root)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                                                  [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:21:67[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m21[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m   loop { self.skip(t)?; if self.peek(t)?.is_none() { return Ok(root); } let next=self.parse_statement(t,a)?; let id=a.next_node_id()?[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:21:240[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m21[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mAstNode{id,opcode:AstOpcode::Sequence,name:None,left:Some(root),right:Some(next),numeric_value:v})?; root=id; }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:21:257[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m21[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m:AstOpcode::Sequence,name:None,left:Some(root),right:Some(next),numeric_value:v})?; root=id; }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:27:266[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m27[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mywordEnd)?; self.alloc(a,AstOpcode::IfStatement,None,Some(c),Some(b),0)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:27:274[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m27[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m)?; self.alloc(a,AstOpcode::IfStatement,None,Some(c),Some(b),0)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:30:269[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m30[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mKeywordEnd)?; self.alloc(a,AstOpcode::WhileLoop,None,Some(c),Some(b),0)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:30:277[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m30[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mnd)?; self.alloc(a,AstOpcode::WhileLoop,None,Some(c),Some(b),0)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:33:183[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mind,TokenKind::Symbol|TokenKind::KeywordNode){return Err(ParseError::SyntaxError)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:34:176[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m34[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mind,TokenKind::Symbol|TokenKind::KeywordNode){return Err(ParseError::SyntaxError)} self.expect(t,TokenKind::RParen)?; self.expect(t,To[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:35:50[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m35[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m   let p=self.alloc(a,AstOpcode::BindSymbol,Some(param.slice),None,None,0)?; let body=self.parse_statement(t,a)?; self.skip(t)?; self.[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                               [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:35:211[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m35[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m::KeywordEnd)?; self.alloc(a,AstOpcode::FunctionDecl,Some(name.slice),Some(p),Some(body),0)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:35:228[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m35[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0melf.alloc(a,AstOpcode::FunctionDecl,Some(name.slice),Some(p),Some(body),0)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:35:236[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m35[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mc(a,AstOpcode::FunctionDecl,Some(name.slice),Some(p),Some(body),0)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:38:113[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m38[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m)?; if d.kind==TokenKind::RestrictedEvaluator{return Err(ParseError::ConstitutionalViolation)} if d.kind!=TokenKind::KeywordNode{retur[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:38:196[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m38[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mViolation)} if d.kind!=TokenKind::KeywordNode{return Err(ParseError::SyntaxError)} self.expect(t,TokenKind::Equals)?; let e=self.parse[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:38:396[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m38[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mc_value}else{0}; self.alloc(a,AstOpcode::DeclareNode,Some(d.slice),None,Some(e),v)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:38:415[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m38[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mlf.alloc(a,AstOpcode::DeclareNode,Some(d.slice),None,Some(e),v)[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:40:519[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m40[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mt y=self.parse_additive(t,a)?;x=self.alloc(a,op,None,Some(x),Some(y),0)?;}Ok(x)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:40:527[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m40[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m.parse_additive(t,a)?;x=self.alloc(a,op,None,Some(x),Some(y),0)?;}Ok(x)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:40:540[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m40[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mive(t,a)?;x=self.alloc(a,op,None,Some(x),Some(y),0)?;}Ok(x)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:41:420[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m41[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m.parse_multiplicative(t,a)?;x=self.binary(a,op,x,y)?;}Ok(x)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:42:413[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m42[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mt y=self.parse_factor(t,a)?;x=self.binary(a,op,x,y)?;}Ok(x)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:404[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mslice.len()-1];self.alloc(a,AstOpcode::LiteralString,Some(text),None,None,text.as_bytes().len() as u64)},TokenKind::LParen=>{let y=sel[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:544[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mse_comparison(t,a)?;self.expect(t,TokenKind::RParen)?;Ok(y)},TokenKind::RestrictedEvaluator=>Err(ParseError::ConstitutionalViolation),[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:583[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mind::RParen)?;Ok(y)},TokenKind::RestrictedEvaluator=>Err(ParseError::ConstitutionalViolation),TokenKind::Symbol|TokenKind::KeywordNode[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:1229[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0manWeight,_=>AstOpcode::FunctionCall};self.alloc(a,op,Some(x.slice),Some(arg),None,0)}else{self.alloc(a,AstOpcode::BindSymbol,Some(x.sl[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:1243[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mtOpcode::FunctionCall};self.alloc(a,op,Some(x.slice),Some(arg),None,0)}else{self.alloc(a,AstOpcode::BindSymbol,Some(x.slice),None,None[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:1301[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0marg),None,0)}else{self.alloc(a,AstOpcode::BindSymbol,Some(x.slice),None,None,0)}},_=>Err(ParseError::SyntaxError)}}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:43:1333[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mstOpcode::BindSymbol,Some(x.slice),None,None,0)}},_=>Err(ParseError::SyntaxError)}}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:44:394[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m44[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m=>x.checked_mul(y),AstOpcode::Divide=>if y==0{return Err(ParseError::DivisionByZero)}else{Some(x/y)},_=>None}.ok_or(ParseError::Arithm[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:44:431[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m44[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m>if y==0{return Err(ParseError::DivisionByZero)}else{Some(x/y)},_=>None}.ok_or(ParseError::ArithmeticOverflow)?}else{0};self.alloc(a,o[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:44:519[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m44[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mr::ArithmeticOverflow)?}else{0};self.alloc(a,op,None,Some(l),Some(r),v)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:44:527[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m44[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mmeticOverflow)?}else{0};self.alloc(a,op,None,Some(l),Some(r),v)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:45:265[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m45[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mid,opcode:op,name:n,left:l,right:r,numeric_value:v})?;Ok(id)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:46:178[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m46[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mpcode{AstOpcode::LiteralNum|AstOpcode::LiteralString=>Ok(true),AstOpcode::BindSymbol=>Ok(false),AstOpcode::Add|AstOpcode::Subtract|Ast[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:46:210[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m46[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mpcode::LiteralString=>Ok(true),AstOpcode::BindSymbol=>Ok(false),AstOpcode::Add|AstOpcode::Subtract|AstOpcode::Multiply|AstOpcode::Divi[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:46:374[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m46[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m:NotEqual|AstOpcode::GreaterThan|AstOpcode::LessThan=>Ok(Self::is_static(a,n.left.ok_or(ParseError::SyntaxError)?)?&&Self::is_static(a[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:46:501[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m46[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mtatic(a,n.right.ok_or(ParseError::SyntaxError)?)?),_=>Ok(false)}}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:47:183[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m47[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mnd(|x|x.kind==TokenKind::StatementSep){self.take(t)?;}Ok(())}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:48:156[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m48[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mh self.take(t)?{Some(x) if x.kind==k=>Ok(()),Some(_)=>Err(ParseError::SyntaxError),None=>Err(ParseError::UnexpectedEof)}}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mhelp: a local variable with a similar name exists: `k`[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:48:172[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m48[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m self.take(t)?{Some(x) if x.kind==k=>Ok(()),Some(_)=>Err(ParseError::SyntaxError),None=>Err(ParseError::UnexpectedEof)}}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:48:207[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m48[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m=>Ok(()),Some(_)=>Err(ParseError::SyntaxError),None=>Err(ParseError::UnexpectedEof)}}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:49:180[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m49[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0melf.lookahead.is_none(){self.lookahead=self.next(t)?;}Ok(self.lookahead)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parser.rs:50:150[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m50[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mcalToken<'a>>,ParseError>{if self.lookahead.is_some(){Ok(self.lookahead.take())}else{self.next(t)}}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:31:64[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m31[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if self.scope_depth >= self.scope_marks.len() { return Err(SymbolError::ScopeOverflow); }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                               [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:34:9[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m34[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(())[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:38:43[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m38[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if self.scope_depth == 0 { return Err(SymbolError::ScopeUnderflow); }[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                          [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:43:9[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m43[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(())[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:50:26[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m50[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                *entry = Some(SymbolEntry { name, value, node_id });[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                         [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:51:24[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m51[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m                return Ok(());[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                       [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:55:20[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m55[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            return Err(SymbolError::CapacityExceeded);[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                   [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:57:34[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m57[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        self.entries[self.len] = Some(SymbolEntry { name, value, node_id });[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                 [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/symbols.rs:59:9[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m59[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(())[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:18:27[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m18[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m   AstOpcode::LiteralNum=>Ok(n.numeric_value),[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                          [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:19:30[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m19[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m   AstOpcode::LiteralString=>Ok(n.numeric_value),[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                             [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:21:143[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m21[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mode)?,s,fuel,active)?;if v as usize>MAX_STRING_BYTES{Err(EvaluatorError::InvalidNode)}else{Ok(v)}},[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:21:181[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m21[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mAX_STRING_BYTES{Err(EvaluatorError::InvalidNode)}else{Ok(v)}},[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:23:168[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m23[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mind(n.name.ok_or(EvaluatorError::InvalidNode)?,v,id)?;Ok(v)},[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:25:197[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m25[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m_or(EvaluatorError::InvalidNode)?,s,fuel,active)}else{Ok(0)}},[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:26:143[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m26[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0morError::InvalidNode)?,s,fuel,active)?;if c==0{return Ok(last)}if *fuel==0{return Err(EvaluatorError::FuelExhausted)}*fuel-=1;last=Sel[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:26:171[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m26[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m,active)?;if c==0{return Ok(last)}if *fuel==0{return Err(EvaluatorError::FuelExhausted)}*fuel-=1;last=Self::visit(ast,n.right.ok_or(Ev[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:27:29[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m27[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m   AstOpcode::FunctionDecl=>Ok(0),[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                            [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:28:93[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m   AstOpcode::FunctionCall=>{let name=n.name.ok_or(EvaluatorError::InvalidNode)?;if active==Some(name){return Err(EvaluatorError::Recursi[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                                                            [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:28:111[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mtorError::InvalidNode)?;if active==Some(name){return Err(EvaluatorError::RecursiveCall)}let (param,body)=Self::find_function(ast,NodeI[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:28:417[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0maram,arg,id).and_then(|_|Self::visit(ast,body,s,fuel,Some(name)).map_err(|_|SymbolError::CapacityExceeded));let exit=s.exit_scope();ma[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:28:530[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mexit=s.exit_scope();match(result,exit){(Ok(v),Ok(_))=>Ok(v),(Err(e),_)=>Err(EvaluatorError::from(e)),(_,Err(e))=>Err(EvaluatorError::f[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:28:548[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m;match(result,exit){(Ok(v),Ok(_))=>Ok(v),(Err(e),_)=>Err(EvaluatorError::from(e)),(_,Err(e))=>Err(EvaluatorError::from(e))}},[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:28:589[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0m(Err(e),_)=>Err(EvaluatorError::from(e)),(_,Err(e))=>Err(EvaluatorError::from(e))}},[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:30:412[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m30[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mvaluatorError::InvalidNode)?,s,fuel,active)?;if b==0{Err(EvaluatorError::DivisionByZero)}else{Ok(a/b)}},AstOpcode::PassThrough=>Self::[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:30:453[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m30[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mve)?;if b==0{Err(EvaluatorError::DivisionByZero)}else{Ok(a/b)}},AstOpcode::PassThrough=>Self::visit(ast,n.right.ok_or(EvaluatorError::[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:33:204[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mt(id)?;if n.opcode==AstOpcode::FunctionDecl&&n.name==Some(name){return Ok(Some((ast.get(n.left.ok_or(EvaluatorError::InvalidNode)?)?.n[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:33:222[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0me==AstOpcode::FunctionDecl&&n.name==Some(name){return Ok(Some((ast.get(n.left.ok_or(EvaluatorError::InvalidNode)?)?.name.ok_or(Evaluat[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:33:225[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mstOpcode::FunctionDecl&&n.name==Some(name){return Ok(Some((ast.get(n.left.ok_or(EvaluatorError::InvalidNode)?)?.name.ok_or(EvaluatorEr[0m[0m[1m[38;5;12m...[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:33:487[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mme(found)=Self::find_function(ast,child,name)?{return Ok(Some(found))}}Ok(None)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:33:490[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mound)=Self::find_function(ast,child,name)?{return Ok(Some(found))}}Ok(None)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                        [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:33:504[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m33[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mind_function(ast,child,name)?{return Ok(Some(found))}}Ok(None)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/evaluator.rs:34:352[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m34[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m[1m[38;5;12m...[0m[0mt,n.right.ok_or(EvaluatorError::InvalidNode)?,s,f,a)?;Ok(op(l,r) as u64)}[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/diagnostics.rs:47:34[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m47[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        self.records[self.len] = Some(item);[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                 [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:39:20[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m39[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            return Err(FixedArenaError::CapacityExceeded);[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                   [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:42:34[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m42[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        self.storage[self.len] = Some(value);[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                                 [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:44:9[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m44[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(NodeID(id))[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:50:20[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m50[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            return Err(FixedArenaError::CapacityExceeded);[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                   [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:52:9[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m52[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(NodeID(id))[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:58:20[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m58[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            return Err(FixedArenaError::InvalidIndex);[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                   [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:130:20[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m130[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            return Err(ArenaError::InvalidArenaOrScope);[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                   [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:132:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m132[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(Self {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:141:20[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m141[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            return Err(ArenaError::RawPointerTypeForbidden);[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                   [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:151:17[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m151[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        *slot = Some(Slot {[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Some` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:152:20[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m152[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            value: Some(value),[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                   [0m[0m[1m[38;5;9m^^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:160:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m160[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(Handle { arena_id: self.arena_id, slot_id, generation, type_tag })[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:164:54[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m164[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if handle.arena_id != self.arena_id { return Err(ArenaError::ArenaMismatch); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                     [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:167:58[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m167[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.generation != handle.generation { return Err(ArenaError::StaleHandleGeneration); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:168:54[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m168[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.type_tag != handle.type_tag { return Err(ArenaError::HandleTypeMismatch); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                     [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:169:47[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m169[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.owner_scope != scope { return Err(ArenaError::ArenaLifetimeEscape); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                              [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:170:75[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m170[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.state == State::Released || slot.value.is_none() { return Err(ArenaError::UseAfterMoveOrRelease); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                          [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:171:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m171[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(slot)[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:175:54[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m175[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if handle.arena_id != self.arena_id { return Err(ArenaError::ArenaMismatch); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                     [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:178:58[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m178[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.generation != handle.generation { return Err(ArenaError::StaleHandleGeneration); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                         [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:179:54[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m179[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.type_tag != handle.type_tag { return Err(ArenaError::HandleTypeMismatch); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                     [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:180:47[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m180[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.owner_scope != scope { return Err(ArenaError::ArenaLifetimeEscape); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                              [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:181:75[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m181[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.state == State::Released || slot.value.is_none() { return Err(ArenaError::UseAfterMoveOrRelease); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                          [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:182:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m182[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(slot)[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:191:43[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m191[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.exclusive_borrow { return Err(ArenaError::SharedBorrowDuringExclusiveBorrow); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                          [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:193:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m193[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(handle)[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:198:71[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m198[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.shared_borrows != 0 || slot.exclusive_borrow { return Err(ArenaError::MultipleActiveBorrows); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                      [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:200:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m200[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(handle)[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:205:46[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m205[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.shared_borrows == 0 { return Err(ArenaError::SharedBorrowNotActive); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                             [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:207:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m207[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(())[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:212:44[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m212[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if !slot.exclusive_borrow { return Err(ArenaError::ExclusiveBorrowNotActive); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                           [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:214:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m214[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(())[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:219:71[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m219[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.shared_borrows != 0 || slot.exclusive_borrow { return Err(ArenaError::MoveWhileBorrowed); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                      [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:222:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m222[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(Handle { arena_id: handle.arena_id, slot_id: handle.slot_id, generation: slot.generation, type_tag: handle.type_tag })[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Err` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:227:71[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m227[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if slot.shared_borrows != 0 || slot.exclusive_borrow { return Err(ArenaError::ReleaseWhileBorrowed); }[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m                                                                      [0m[0m[1m[38;5;9m^^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1m[38;5;9merror[E0425][0m[0m[1m: cannot find function, tuple struct or tuple variant `Ok` in this scope[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0msrc/lib.rs:231:9[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m231[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        Ok(())[0m
+[0m    [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[38;5;9m^^[0m[0m [0m[0m[1m[38;5;9mnot found in this scope[0m
+
+[0m[1mSome errors have detailed explanations: E0405, E0412, E0425, E0433, E0463, E0531.[0m
+[0m[1mFor more information about an error, try `rustc --explain E0405`.[0m
+[1m[31merror[0m[1m:[0m could not compile `mal_ownership_arena` (lib) due to 285 previous errors
+STATUS=101

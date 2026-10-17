@@ -1,0 +1,17 @@
+{
+  "schema": "MAL_DUAL_EXECUTION_CORPUS_v0.1",
+  "execution": "NOT_PERFORMED_UNTRUSTED_SOURCE",
+  "cases": [
+    {
+      "id": "mal_dir_validator_001",
+      "name_ar": "المدقق البنيوي لـ MAL-DIR",
+      "ar_source": "extensions/mal_dir_validator.ar",
+      "py_source": "extensions/mal_dir_validator.py",
+      "py_argv": ["tests/run_mal_dir_corpus.py"],
+      "ar_argv": [],
+      "required_capabilities": ["MAL_RUNTIME", "MAL_RECORDS_OR_FIXED_COLLECTIONS"],
+      "decision_if_missing_ar": "GAP",
+      "promotion": "RESEARCH"
+    }
+  ]
+}

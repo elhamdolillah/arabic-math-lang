@@ -1,0 +1,17 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_176_180_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_176_180_REGISTRY_AR.json",
+  "cases": [
+    {"id":"176-001","mechanism":176,"kind":"positive","description":"variant ببدائل محددة وزائر قابل للاستدعاء لكل تركيبة مع معالجة حالة valueless","expected":"RESEARCH_ONLY"},
+    {"id":"176-002","mechanism":176,"kind":"negative","description":"ادعاء النقاء أو انعدام الاستثناءات أو تجاهل bad_variant_access","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"177-001","mechanism":177,"kind":"positive","description":"final class تمنع الوراثة ضمن إصدار Java مثبت","expected":"RESEARCH_ONLY"},
+    {"id":"177-002","mechanism":177,"kind":"negative","description":"استنتاج أن final يفرض دائمًا إزالة dispatch أو أن مثال static يثبت instance dispatch","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"178-001","mechanism":178,"kind":"positive","description":"sealed hierarchy مع switch expression شامل ضمن مواصفة Java وإصدار مثبتين","expected":"RESEARCH_ONLY"},
+    {"id":"178-002","mechanism":178,"kind":"negative","description":"تجاهل null أو اعتماد preview syntax بوصفه ضمانًا عامًا أو نفي كل استثناء runtime","expected":"ABSTAIN_UNTIL_EVIDENCE"},
+    {"id":"179-001","mechanism":179,"kind":"positive","description":"release/acquire fence مع atomic operation وقراءة القيمة وإثبات happens-before كامل","expected":"RESEARCH_ONLY"},
+    {"id":"179-002","mechanism":179,"kind":"negative","description":"fence منفرد أو المثال المرفق دون إثبات كافٍ لـ data race","expected":"ABSTAIN_EXAMPLE"},
+    {"id":"180-001","mechanism":180,"kind":"positive","description":"iterator بلا آثار جانبية مع مدخلات مثبتة وتعداد واحد","expected":"RESEARCH_ONLY"},
+    {"id":"180-002","mechanism":180,"kind":"negative","description":"ادعاء النقاء والاستقلال عن الحالة الخارجية مع deferred execution أو إعادة تعداد","expected":"ABSTAIN_UNTIL_EVIDENCE"}
+  ]
+}

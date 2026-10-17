@@ -1,0 +1,33 @@
+{
+  "schema": "MAL-PARSER-REAL-CORPUS-0.1",
+  "unit": "MAL-PARSER-REAL",
+  "execution": "NOT_PERFORMED",
+  "representation": "Arena value_id with finite_flag and canonical_flag",
+  "cases": [
+    {
+      "id": "حقيقي_صالح",
+      "token": ["حقيقي", 12, 1, 1],
+      "expected": ["PASS", 5, 12, 1, "NONE"]
+    },
+    {
+      "id": "نان",
+      "token": ["حقيقي", 13, 0, 1],
+      "expected": ["ABSTAIN", 0, 0, "NON_FINITE"]
+    },
+    {
+      "id": "لا_نهائي",
+      "token": ["حقيقي", 14, 1, 0],
+      "expected": ["ABSTAIN", 0, 0, "NON_CANONICAL_REAL"]
+    },
+    {
+      "id": "فهرس_سالب",
+      "token": ["حقيقي", -1, 1, 1],
+      "expected": ["ABSTAIN", 0, 0, "INVALID_VALUE_ID"]
+    },
+    {
+      "id": "رمز_مجهول",
+      "token": ["مجهول", 15, 1, 1],
+      "expected": ["ABSTAIN", 0, 0, "UNKNOWN_TOKEN_KIND"]
+    }
+  ]
+}

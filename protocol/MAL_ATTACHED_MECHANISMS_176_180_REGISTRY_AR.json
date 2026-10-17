@@ -1,0 +1,13 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_176_180_REGISTRY_AR",
+  "version": "0.1.0",
+  "classification": "RESEARCH",
+  "evidence": "protocol/EVIDENCE_176_180_AR.md",
+  "entries": [
+    {"id":176,"name":"type_safe_variant_visit","target":"CXX_std_variant","decision":"RESEARCH","gap":"valueless_by_exception والاستثناءات، وشمول الزائر الدلالي لا يثبت بالنحو وحده"},
+    {"id":177,"name":"final_class_dispatch_boundary","target":"Java_final","decision":"RESEARCH","gap":"منع الوراثة لا يفرض إزالة virtual dispatch؛ المثال static ولا يثبت instance dispatch"},
+    {"id":178,"name":"sealed_exhaustive_switch","target":"Java_sealed_switch","decision":"RESEARCH","gap":"إصدار اللغة وpreview/final، null والاستثناءات داخل الفروع"},
+    {"id":179,"name":"atomic_thread_fence_ordering","target":"CXX_atomic_thread_fence","decision":"ABSTAIN_EXAMPLE","gap":"يلزم atomic synchronization وإثبات happens-before؛ المثال لا يكفي لمنع data race"},
+    {"id":180,"name":"lazy_iterator_state_machine","target":"CSharp_yield_return","decision":"RESEARCH","gap":"التنفيذ المؤجل والآثار الجانبية وإعادة التعداد والاستثناءات"}
+  ]
+}

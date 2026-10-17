@@ -1,0 +1,16 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.1.0",
+  "execution": "NOT_PERFORMED",
+  "cases": [
+    {"id":31,"decision":"RESEARCH","must_contain":["حدود","canonical"]},
+    {"id":32,"decision":"ABSTAIN_UNTIL_EVIDENCE","must_contain":["iteration","جدول مرتب"]},
+    {"id":33,"decision":"RESEARCH","must_contain":["جدولة","interleavings"]},
+    {"id":34,"decision":"RESEARCH","must_contain":["precision","serialization"]},
+    {"id":35,"decision":"RESEARCH","must_contain":["resume","صريح"]},
+    {"id":36,"decision":"RESEARCH","must_contain":["tail","الذاكرة"]},
+    {"id":37,"decision":"RESEARCH","must_contain":["ABI","endian","padding"]},
+    {"id":38,"decision":"RESEARCH","must_contain":["module","constructor"]},
+    {"id":39,"decision":"ABSTAIN_UNTIL_EVIDENCE","must_contain":["commits","الجدولة"]}
+  ]
+}

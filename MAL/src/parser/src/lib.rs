@@ -579,25 +579,30 @@ impl<'a> Parser<'a> {
     fn parse_let_stmt(&mut self, arena: &mut Arena) -> Result<NodeID, ParserError> {
         // نفترض وجود كلمة مفتاحية let، أو نبدأ بالمعرف مباشرة حسب بنية MAL
         // هنا سنبدأ بتحليل المعرف
-        let ident_tok = self.peek().ok_or(ParserError::UnexpectedEof)?;
-        if ident_tok.kind != TokenKind::Ident {
-            return Err(ParserError::Expected {
-                expected: "identifier",
-                found: format!("{:?}", ident_tok.kind),
-                line: ident_tok.line,
-                col: ident_tok.col,
-            });
-        }
-        self.bump(); // استهلاك المعرف
+        let (ident_kind, ident_start, ident_line, ident_col) = {
+    let t = self.peek().ok_or(ParserError::UnexpectedEof)?;
+    (t.kind, t.start, t.line, t.col)
+};
+if ident_kind != TokenKind::Ident {
+    return Err(ParserError::Expected {
+        expected: "identifier",
+        found: format!("{:?}", ident_kind),
+        line: ident_line,
+        col: ident_col,
+    });
+}
+self.bump(); // استهلاك المعرف
         // إنشاء عقدة المعرف في الـ Arena
-        let ident_node = arena.allocate(ASTNode::Ident(ident_tok.start as u32))?;
+        let ident_node = arena.allocate(ASTNode::Ident(ident_start as u32))?;
         // التحقق من وجود نوع بيانات اختياري (Type Annotation)
-        let _type_annotation = if self.peek().map_or(false, |t| t.kind == TokenKind::Colon) {
-            self.bump(); // استهلاك ':'
-            Some(self.parse_type(arena)?) // <-- هنا يتم استدعاء دالة parse_type الجديدة!
-        } else {
-            None
-        };
+        if self.peek().map_or(false, |t| t.kind == TokenKind::Colon) {
+    self.bump(); // consume colon
+    // type annotation: consume type name (future feature)
+    let ty = self.peek().ok_or(ParserError::UnexpectedEof)?;
+    if ty.kind == TokenKind::Ident {
+        self.bump();
+    }
+}
         // استهلاك عامل التعيين (≔ أو =)
         self.expect(TokenKind::Assign)?; 
         // تحليل التعبير القيمة

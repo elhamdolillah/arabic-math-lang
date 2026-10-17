@@ -1,0 +1,9 @@
+REPRO_CHECK=PASS
+RULES=interval,shape,ordered_sum,convergence_guard
+CASES=11
+EXPECTED_MATCH=YES
+FAILURE_CASES_VERIFIED=YES
+SOURCE_REF_EXECUTED=NO
+EXECUTION_SCOPE=TRUSTED_EXTENSION_ONLY
+CLASS=EXTENSION_SCOPED_PROVEN
+[{"id":"interval_add","result":{"status":"ALLOW","value":{"lower":"5/2","upper":"11/2"}}},{"id":"interval_sub","result":{"status":"ALLOW","value":{"lower":"-4","upper":"1"}}},{"id":"interval_mul","result":{"status":"ALLOW","value":{"lower":"-10","upper":"15"}}},{"id":"interval_div","result":{"status":"ALLOW","value":{"lower":"1/2","upper":"2"}}},{"id":"interval_div_zero","result":{"reason":"DIVISOR_CONTAINS_ZERO","status":"ABSTAIN"}},{"id":"shape_equal","result":{"status":"ALLOW","value":[3]}},{"id":"shape_mismatch","result":{"reason":"SHAPE_MISMATCH","status":"ABSTAIN"}},{"id":"sum_ordered","result":{"status":"ALLOW","value":{"lower":"6","upper":"6"}}},{"id":"converged","result":{"status":"ALLOW"}},{"id":"not_converged","result":{"status":"ABSTAIN"}},{"id":"fuel_invalid","result":{"reason":"FUEL_INVALID","status":"ABSTAIN"}}]

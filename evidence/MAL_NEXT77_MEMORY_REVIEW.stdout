@@ -1,0 +1,16 @@
+MEMORY_CONTRACT_SHA256 1d071755c600c5913e33cac14bb2e63a43da1ed0629fe6a22bbc4ea860098e86
+--- memory guard clauses ---
+1:# عقد تدقيق الذاكرة والحدود — الإصدار 0.1
+3:تُدار الذاكرة المنطقية عبر Arena ثابتة، ولا تظهر عناوين ذاكرة أو مؤشرات خام في AST أو IR أو artifact. كل وصول يمر عبر `node_id` أو `value_id` مع فحص المجال قبل القراءة والكتابة.
+5:تُرفض السعة الصفرية، والفهرس السالب، والفهرس الذي يساوي السعة أو يتجاوزها، وإعادة الكتابة بعد إغلاق Arena. وتُرفض محاولات الالتفاف الحسابي عند جمع الإزاحات أو أحجام السجلات.
+7:لا يسمح المسار الحتمي بتخصيص لاحق أو تحرير يعتمد على التوقيت. عند نفاد Arena أو تجاوز الوقود أو ظهور فيض عددي تكون النتيجة `ABSTAIN` ولا يُنتج artifact صالحًا.
+11:| `node_id=0` | `ABSTAIN / INVALID_NODE_ID` |
+12:| `node_id >= capacity` | `ABSTAIN / NODE_ID_OUT_OF_RANGE` |
+13:| Arena ممتلئة | `ABSTAIN / ARENA_EXHAUSTED` |
+14:| فيض في الحساب | `ABSTAIN / ARITHMETIC_OVERFLOW` |
+15:| تخصيص لاحق | `ABSTAIN / LATE_ALLOCATION` |
+--- source guard scan ---
+MEMORY_REVIEW=PASS_WITH_ABSTAIN_GUARDS
+RAW_POINTERS=DENY
+DYNAMIC_ALLOCATION=ABSTAIN
+SOURCE_EXECUTION=NOT_PERFORMED

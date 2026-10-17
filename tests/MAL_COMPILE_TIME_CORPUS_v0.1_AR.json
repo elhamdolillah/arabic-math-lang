@@ -1,0 +1,67 @@
+{
+  "schema": "MAL_COMPILE_TIME_CORPUS_AR",
+  "version": "0.1.0",
+  "contract": "MAL-COMPILE-TIME-0.1",
+  "cases": [
+    {
+      "id": "cfg-001-pass",
+      "kind": "positive",
+      "description": "manifest canonical، AST خام ومصفّى وArtifact متطابقة البصمات",
+      "expected": "PASS"
+    },
+    {
+      "id": "cfg-002-false-branch",
+      "kind": "positive",
+      "description": "مسندة صحيحة لفرع واحد وفرع آخر كاذب يحذف قبل التوليد",
+      "expected": "FILTER_FALSE_BRANCH"
+    },
+    {
+      "id": "cfg-003-unknown-key",
+      "kind": "negative",
+      "description": "مفتاح غير موجود في allowed_keys",
+      "expected": "ABSTAIN/UNKNOWN_CONFIGURATION"
+    },
+    {
+      "id": "cfg-004-type-mismatch",
+      "kind": "negative",
+      "description": "word_size أو حقل آخر من نوع غير معلن",
+      "expected": "ABSTAIN/TYPE_MISMATCH"
+    },
+    {
+      "id": "cfg-005-conflict",
+      "kind": "negative",
+      "description": "تكرار مفتاح بقيمتين متعارضتين",
+      "expected": "ABSTAIN/DUPLICATE_CONFLICT"
+    },
+    {
+      "id": "cfg-006-source-hash",
+      "kind": "negative",
+      "description": "تغيير بايت واحد في المصدر بعد تسجيل Hs",
+      "expected": "REJECT/SOURCE_HASH_MISMATCH"
+    },
+    {
+      "id": "cfg-007-ast-hash",
+      "kind": "negative",
+      "description": "تغيير AST الخام أو المصفّى بعد تسجيل Hr أو Hf",
+      "expected": "REJECT/AST_HASH_MISMATCH"
+    },
+    {
+      "id": "cfg-008-artifact-hash",
+      "kind": "negative",
+      "description": "تغيير بايت واحد في Artifact مع بقاء sidecar القديم",
+      "expected": "REJECT/HASH_MISMATCH"
+    },
+    {
+      "id": "cfg-009-non-static",
+      "kind": "negative",
+      "description": "مسندة تقرأ الساعة أو الشبكة أو متغير البيئة",
+      "expected": "ABSTAIN/NON_STATIC_PREDICATE"
+    },
+    {
+      "id": "cfg-010-no-allocation",
+      "kind": "negative",
+      "description": "فرع مختار يحوي تخصيصًا ديناميكيًا",
+      "expected": "REJECT/NO_ALLOCATION_EFFECT"
+    }
+  ]
+}

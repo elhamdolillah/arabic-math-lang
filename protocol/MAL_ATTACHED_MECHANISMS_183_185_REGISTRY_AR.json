@@ -1,0 +1,35 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_183_185_REGISTRY_AR",
+  "version": "0.1.0",
+  "classification": "RESEARCH",
+  "evidence": "protocol/EVIDENCE_183_185_AR.md",
+  "entries": [
+    {
+      "id": 183,
+      "name": "fixed_attribute_slots",
+      "target": "Python___slots__",
+      "decision": "RESEARCH",
+      "guarantee": "تقييد أسماء السمات ومنع __dict__ في النطاق الذي ينطبق فيه التعريف",
+      "counterexample": "لا يثبت تخطيط ذاكرة ABI ثابتًا أو نقاءً أو حتمية عبر تطبيقات Python",
+      "gap": "الوراثة، الصنف الأساس، إصدار التنفيذ، ووجود weakref أو dict"
+    },
+    {
+      "id": 184,
+      "name": "stored_generated_column",
+      "target": "PostgreSQL_GENERATED_ALWAYS_AS_STORED",
+      "decision": "RESEARCH",
+      "guarantee": "اشتقاق مخزن عند الكتابة غير قابل للكتابة المباشرة ضمن شروط المحرك والتعبير",
+      "counterexample": "لا يجوز تعميمه على SQL أو تجاهل الدقة والتقريب والإصدار والامتدادات",
+      "gap": "تثبيت محرك وإصدار وأنواع عددية وتعبير immutable"
+    },
+    {
+      "id": 185,
+      "name": "thread_safe_object_initialization",
+      "target": "Kotlin_object_declaration",
+      "decision": "RESEARCH",
+      "guarantee": "تهيئة object آمنة للخيوط وعند أول وصول وفق نموذج Kotlin والمنصة",
+      "counterexample": "لا يثبت نقاء المهيئ أو ثبات الحالة أو حتمية الجدولة والآثار الجانبية",
+      "gap": "تثبيت المنصة، سلوك الاستثناء، وقيود immutability والآثار الخارجية"
+    }
+  ]
+}

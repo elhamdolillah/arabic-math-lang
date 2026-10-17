@@ -1,0 +1,22 @@
+{
+  "schema": "MAL_EXTENSION_REGISTRY_AR",
+  "version": "0.2.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "default_decision": "ABSTAIN_UNTIL_EVIDENCE",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "extensions": [
+    {"id":"gadt-bounded","name":"GADT","decision":"RESEARCH","scope":"bounded represented types"},
+    {"id":"array-shape","name":"fixed-shape arrays","decision":"EXTENSION_SCOPED_PROVEN","scope":"rank and shape checked arrays; no implicit broadcasting"},
+    {"id":"rank-static","name":"rank polymorphism","decision":"RESEARCH","scope":"compile-time rank constraints"},
+    {"id":"symbolic-total","name":"total symbolic algebra","decision":"EXTENSION_SCOPED_PROVEN","scope":"canonical AST rewrites with bounded fuel"},
+    {"id":"endian-fixed","name":"fixed-width endianness","decision":"EXTENSION_SCOPED_PROVEN","scope":"explicit big/little endian byte encoding"},
+    {"id":"pvec-immutable","name":"persistent vectors","decision":"RESEARCH","scope":"immutable NodeID structural sharing"},
+    {"id":"csp-step","name":"deterministic CSP simulation","decision":"RESEARCH","scope":"bounded logical-step channels"},
+    {"id":"gc-trace","name":"garbage collection","decision":"RESEARCH","scope":"non-Tier-0 tracer only"},
+    {"id":"dispatch-closed","name":"closed dynamic dispatch","decision":"RESEARCH","scope":"canonical closed method table"},
+    {"id":"ieee754-guarded","name":"IEEE-754 guarded arithmetic","decision":"ABSTAIN","scope":"analysis only until rounding and exception contract exists"},
+    {"id":"raw-pointer","name":"raw pointers","decision":"DENY","scope":"no MAL syntax permitted"}
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_159_161_REGISTRY_AR",
+  "version": "0.1.0",
+  "review_status": "CONSTITUTIONAL_REVIEW_ONLY",
+  "source_execution": "NOT_PERFORMED",
+  "runtime_features_admitted": 0,
+  "grammar_modified": false,
+  "kernel_baseline_modified": false,
+  "entries": [
+    {
+      "id": 159,
+      "canonical_name_ar": "إعادة_تهيئة_حالة_البرنامج_الفرعي",
+      "source_mechanism": "COBOL PROGRAM-ID IS INITIAL",
+      "classification": "RESEARCH",
+      "decision": "POLICY_CANDIDATE_NOT_RUNTIME",
+      "relation_to_no_allocation": "ADJACENT_NOT_EQUIVALENT",
+      "reason_ar": "إعادة الحالة الابتدائية قد تقلل أثر التاريخ السابق، لكنها لا تثبت نقاء الدالة ولا غياب الآثار الجانبية أو التخصيص.",
+      "required_contracts": ["explicit_state_region", "reset_semantics", "side_effect_boundary", "call_reentrancy_rule"],
+      "forbidden_claims": ["pure_function_by_default", "allocation_free_by_default"],
+      "execution": "NOT_PERFORMED"
+    },
+    {
+      "id": 160,
+      "canonical_name_ar": "وصول_ذاكرة_متطاير_مقيّد",
+      "source_mechanism": "C volatile",
+      "classification": "ABSTAIN_UNTIL_EVIDENCE",
+      "decision": "NO_MAL_RUNTIME_ADMISSION",
+      "relation_to_no_allocation": "UNRELATED_AND_INSUFFICIENT",
+      "reason_ar": "volatile لا يثبت الذرية أو ترتيب الذاكرة بين الخيوط أو سلامة الأجهزة؛ لذلك لا يجوز تحويله إلى ضمان حتمي عام داخل MAL.",
+      "required_contracts": ["memory_model", "device_abi", "ordering_scope", "atomicity_rule", "concurrency_corpus"],
+      "forbidden_claims": ["thread_synchronization", "atomic_access", "pure_determinism"],
+      "execution": "NOT_PERFORMED"
+    },
+    {
+      "id": 161,
+      "canonical_name_ar": "مستوى_سلامة_فحص_الأنواع_والحدود",
+      "source_mechanism": "Common Lisp optimize safety 3",
+      "classification": "ABSTAIN_UNTIL_EVIDENCE",
+      "decision": "NO_MAL_RUNTIME_ADMISSION",
+      "relation_to_no_allocation": "ORTHOGONAL_SAFETY_GATE",
+      "reason_ar": "رفع مستوى السلامة يوجه فحوص التنفيذ، لكنه لا يحدد بصورة عابرة للمترجمات نوع الإشارة أو كل تفاصيلها ولا يثبت أثر التخصيص.",
+      "required_contracts": ["bounds_model", "type_model", "failure_code_contract", "optimization_boundary", "implementation_matrix"],
+      "forbidden_claims": ["universal_bounds_error_identity", "allocation_free_execution", "no_undefined_behavior_without_scope"],
+      "execution": "NOT_PERFORMED"
+    }
+  ],
+  "global_guards": {
+    "raw_pointers": "DENY",
+    "eval": "DENY",
+    "exec": "DENY",
+    "source_ref_execution": "DENY",
+    "network": "DISABLED_BY_CONTRACT",
+    "auto_promotion": "DENY"
+  }
+}

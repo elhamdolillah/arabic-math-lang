@@ -1,0 +1,51 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.1.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {
+      "id": 116,
+      "name": "ada_fifo_within_priorities",
+      "target": "Ada",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "سياسة FIFO داخل الأولوية قد تضبط جزءاً من الجدولة، لكنها لا تثبت التداخل الكامل أو التناوب المزعوم مع المقاطعات والتأخيرات ونظام التشغيل",
+      "required_evidence_ar": "نموذج جدولة MAL مستقل عن نظام التشغيل، ساعة منطقية صريحة، سياسة المقاطعات، حدود الانتظار، وcorpus لتداخل المهام"
+    },
+    {
+      "id": 117,
+      "name": "prolog_tabling_fixpoint",
+      "target": "Prolog",
+      "decision": "RESEARCH",
+      "guard_ar": "التجدول قد يحسب نقطة تثبيت أو مجموعة إجابات، لكن الضمان يتغير حسب المحرك والدلالة وترتيب تعداد الإجابات، ولا يثبت الإنهاء لكل برنامج أو استعلام",
+      "required_evidence_ar": "دلالة نقطة تثبيت canonical، حد وقود، سياسة ترتيب أو مجموعة، كشف الدورات، واختبارات توافق عبر المحركات"
+    },
+    {
+      "id": 118,
+      "name": "csharp_fixed_managed_memory",
+      "target": "C#",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "التثبيت يمنع نقل الكائن داخل نطاق محدد، لكنه يعتمد على مؤشرات غير آمنة وعنوان ذاكرة فعلي، وهما خارج نموذج UORI الحتمي وممنوعان في Tier-0",
+      "required_evidence_ar": "تمثيل بمقابض مفهرسة بدلاً من العنوان، عقد FFI، حدود GC، وإثبات عدم اعتماد النتيجة على عنوان الذاكرة"
+    },
+    {
+      "id": 119,
+      "name": "rust_repr_u8_enum",
+      "target": "Rust",
+      "decision": "RESEARCH",
+      "guard_ar": "يمكن تثبيت تمثيل تعداد عديم الحقول بحجم ومسند صريحين، لكن التحويل العكسي غير الآمن لقيمة غير صالحة ليس مضموناً، ولا يكفي ذلك وحده لعقد MAL شامل",
+      "required_evidence_ar": "نحو تعداد canonical، تحقق من المجال قبل التحويل، رفض القيم غير الصالحة، عقد ABI محدد، واختبارات حجم وتمثيل عبر البيئات"
+    },
+    {
+      "id": 120,
+      "name": "sql_recursive_cte_union_fixpoint",
+      "target": "SQL",
+      "decision": "RESEARCH",
+      "guard_ar": "يمكن لـ UNION إزالة التكرار وحساب إغلاق كمجموعة، لكن ترتيب الصفوف غير مضمون، ودلالات التوقف والمحرك والتجميع والموارد تحتاج إلى عقد صريح",
+      "required_evidence_ar": "تمثيل مجموعة canonical، ترتيب إخراج اختياري مثبت، حد عمق ووقود، سياسة دورات، ومحرك وإصدار SQL مثبتان"
+    }
+  ]
+}

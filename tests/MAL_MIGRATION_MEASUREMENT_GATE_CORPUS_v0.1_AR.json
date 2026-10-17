@@ -1,0 +1,43 @@
+{
+  "schema": "MAL-MIGRATION-MEASUREMENT-GATE-CORPUS-0.1",
+  "encoding": "UTF-8",
+  "ordering": "canonical_by_id",
+  "cases": [
+    {
+      "id": "قياس_رسمي_001",
+      "mal_sloc": 719,
+      "python_sloc": 56673,
+      "total_sloc": 57274,
+      "ratio": "1.25278784%",
+      "expected": "PASS",
+      "classification": "EXTENSION_SCOPED_PROVEN"
+    },
+    {
+      "id": "مجموع_خاطئ_002",
+      "mal_sloc": 719,
+      "python_sloc": 56673,
+      "total_sloc": 57275,
+      "ratio": "1.25278784%",
+      "expected": "ABSTAIN",
+      "classification": "ABSTAIN"
+    },
+    {
+      "id": "نسبة_مفقودة_003",
+      "mal_sloc": 719,
+      "python_sloc": 56673,
+      "total_sloc": 57274,
+      "ratio": "",
+      "expected": "ABSTAIN",
+      "classification": "ABSTAIN"
+    },
+    {
+      "id": "عدد_سالب_004",
+      "mal_sloc": -1,
+      "python_sloc": 56673,
+      "total_sloc": 57272,
+      "ratio": "1.25%",
+      "expected": "ABSTAIN",
+      "classification": "ABSTAIN"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Python virtual environments (أكبر مشكلة!)
 **/venv/
 **/.venv/
@@ -22,3 +23,71 @@ MAL/examples/ai/mal_tiny/v2_checkpoints/
 *.log
 MAL/examples/ai/mal_tiny/mal_evolution/checkpoints/model_gen_*.pt
 MAL/examples/ai/mal_tiny/mal_evolution/logs/
+=======
+# Compiled objects
+*.o
+
+# Test binaries
+t39_*
+t40_*
+t41_*
+t42_*
+t_fact*
+t_foreach*
+t_move*
+t_num2str*
+t_*
+calc
+th1
+th2
+th3
+th4
+th5
+th6
+
+# Example binaries
+examples/phase40_ffi
+examples/phase41_channels
+examples/phase42_generics
+
+# Backup files
+*.backup.*
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Tools
+update_phases.py
+test_phases.py
+test_phases_final.py
+test_all_phases.py
+
+# Generated
+parallel_result.txt
+# LaTeX build artifacts — keep .tex only
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+docs/ACM-Reference-Format.bst
+docs/BASMALAH_FIX_NOTES.md
+docs/LATEX_BUILD_STATE.md
+docs/PDF_VERIFY_NOTES.md
+docs/paper/
+math_complete.py.pre_lexicon.backup
+math_complete.py.pre_quranic.backup
+
+# Artifacts (executables, objects, backups)
+*.o
+*.out
+math_complete.py.pre_*.backup
+phase50_selfhost
+phase50_selfhost.bin
+examples/phase43_*
+
+# Rust build outputs
+**/target/
+>>>>>>> origin/main

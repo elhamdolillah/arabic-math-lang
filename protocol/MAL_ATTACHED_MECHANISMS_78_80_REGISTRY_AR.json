@@ -1,0 +1,32 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.3.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {
+      "id": 78,
+      "name": "runtime_object_freeze",
+      "target": "JavaScript",
+      "decision": "RESEARCH",
+      "guard": "Object.freeze is shallow; strict and non-strict mutation behavior differ; nested objects and external references require an explicit deep-immutability contract"
+    },
+    {
+      "id": 79,
+      "name": "readonly_value_struct",
+      "target": "CSharp",
+      "decision": "RESEARCH",
+      "guard": "readonly struct constrains the value type but referenced fields can remain mutable; compiler version, defensive copies, and runtime/ABI rules require a fixed contract"
+    },
+    {
+      "id": 80,
+      "name": "must_use_return_handling",
+      "target": "Rust",
+      "decision": "RESEARCH",
+      "guard": "must_use warning becomes a hard error only under an explicit lint policy; intentional discard and binding-to-underscore remain possible; error/result semantics require a MAL contract"
+    }
+  ]
+}

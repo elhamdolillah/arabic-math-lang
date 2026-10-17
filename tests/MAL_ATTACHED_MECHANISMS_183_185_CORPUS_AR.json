@@ -1,0 +1,49 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_183_185_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_183_185_REGISTRY_AR.json",
+  "cases": [
+    {
+      "id": "183-001",
+      "mechanism": 183,
+      "kind": "positive",
+      "description": "فئة Python ذات __slots__ تمنع السمة غير المعلنة ضمن شروط الوراثة والتنفيذ المحددة",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "183-002",
+      "mechanism": 183,
+      "kind": "negative",
+      "description": "ادعاء تخطيط ذاكرة ثابت أو سرعة ثابتة أو نقاء عبر تطبيقات Python",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "184-001",
+      "mechanism": 184,
+      "kind": "positive",
+      "description": "عمود PostgreSQL مخزن بتعبير immutable ضمن الصف ولا يقبل قيمة صريحة",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "184-002",
+      "mechanism": 184,
+      "kind": "negative",
+      "description": "تعميم القيمة المشتقة على كل SQL أو تجاهل نوع العدد والتقريب والإصدار",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "185-001",
+      "mechanism": 185,
+      "kind": "positive",
+      "description": "تهيئة Kotlin object مرة واحدة وبأمان خيوط ضمن منصة محددة",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "185-002",
+      "mechanism": 185,
+      "kind": "negative",
+      "description": "ادعاء نقاء المهيئ أو حتمية الجدولة أو عدم وجود آثار جانبية",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    }
+  ]
+}

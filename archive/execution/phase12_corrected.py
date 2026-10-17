@@ -1,0 +1,79 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+المرحلة 12 المُصححة: مُجمّع بلغة العربية يدعم ⎕ "نص"
+"""
+import sys, subprocess
+sys.path.insert(0, '.')
+from math_complete import *
+
+برنامج_مولد_v7 = """مصدر ≔ ⊙
+طول_م ≔ حجم(مصدر)
+موضع ≔ 5
+نص_م ≔ ""
+م ≔ 1
+μ م = 1 : ﴿ حرف_عدد ≔ رمز(مصدر، موضع) ⋄ م ≔ حرف_عدد ≠ 34 ⋄ حرف_نص ≔ م ؟ نص_رمز(حرف_عدد) : "" ⋄ نص_م ≔ م ؟ نص_م ⊕ حرف_نص : نص_م ⋄ موضع ≔ م ؟ موضع + 1 : موضع ﴾
+طول_نص ≔ حجم(نص_م)
+علامة ≔ نص_رمز(34)
+⎕ "section .data"
+⎕ "msg db " ⊕ علامة ⊕ نص_م ⊕ علامة
+⎕ "section .text"
+⎕ "mov rax, 1"
+⎕ "mov rdi, 1"
+⎕ "lea rsi, [msg]"
+⎕ "mov rdx, " ⊕ نص(طول_نص)
+⎕ "syscall"
+⎕ "mov rax, 60"
+⎕ "xor rdi, rdi"
+⎕ "syscall"
+"""
+
+print("=" * 50)
+print("المرحلة 12 المُصححة: مُجمّع يدعم ⎕ \"نص\"")
+print("=" * 50)
+print("\n🔧 تجميع المولّد v7 المُصحح...")
+ر = حلل_رموز(برنامج_مولد_v7)
+ب = حلل_برنامج(ر)
+asm = compile_program(ب)
+with open('gen8.asm', 'w') as f:
+    f.write(asm)
+subprocess.run(['nasm', '-f', 'elf64', 'gen8.asm', '-o', 'gen8.o'], check=True)
+subprocess.run(['ld', 'gen8.o', '-o', 'gen8'], check=True)
+print("✅ تم تجميع المولّد v7 المُصحح")
+
+print("\n🧪 اختبارات End-to-End:")
+tests = [
+    ('⎕ "abc"', "abc"),
+    ('⎕ "hello"', "hello"),
+    ('⎕ "test123"', "test123"),
+]
+
+failed = 0
+for inp, expected in tests:
+    result = subprocess.run(['./gen8'], capture_output=True, text=True, input=inp + "\n")
+    generated = result.stdout.strip()
+    with open('e2e12.asm', 'w') as f:
+        f.write("global _start\n" + generated + "\n")
+    try:
+        subprocess.run(['nasm', '-f', 'elf64', 'e2e12.asm', '-o', 'e2e12.o'], check=True, capture_output=True)
+        subprocess.run(['ld', 'e2e12.o', '-o', 'e2e12'], check=True, capture_output=True)
+        result = subprocess.run(['./e2e12'], capture_output=True, text=True)
+        out = result.stdout.strip()
+        if out == expected:
+            print(f"  ✅ {inp} → {out}")
+        else:
+            print(f"  ❌ {inp} → متوقع '{expected}', فعلي '{out}'")
+            print(f"     Assembly المولّد:\n{generated}")
+            failed += 1
+    except Exception as e:
+        print(f"  ❌ {inp} → خطأ: {e}")
+        print(f"     Assembly المولّد:\n{generated}")
+        failed += 1
+
+print("\n" + "=" * 50)
+if failed == 0:
+    print(f"🎉 المرحلة 12 نجحت! ({len(tests)}/{len(tests)})")
+    print("المُجمّع العربي يدعم طباعة النصوص!")
+else:
+    print(f"❌ فشل {failed} اختبار")
+    sys.exit(1)

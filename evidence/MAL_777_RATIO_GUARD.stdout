@@ -1,0 +1,7 @@
+MEASUREMENT_TOOL=official_audit_measure_ratio.py
+MEASUREMENT_STATUS=ABSTAIN_TOOL_EXECUTION_BLOCKED
+REASON=official_ratio_tool_did_not_complete_in_current_environment
+LAST_OFFICIAL_MAL_VS_PYTHON=1.25278784%
+NEW_MAL_FILES=mal_ast_to_ir.ar mal_ast_ir_symbol_binding.ar mal_ir_symbol_table.ar mal_ir_codegen_gate.ar
+SOURCE_EXECUTION=NOT_PERFORMED
+AUTO_PROMOTION=DENY

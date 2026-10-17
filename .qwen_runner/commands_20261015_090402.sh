@@ -1,0 +1,69 @@
+cat > /usr/local/bin/qtxt << 'EOF'
+#!/bin/bash
+set -e
+CHAT_UI_URL="${CHAT_UI_URL:-http://localhost:3000}"
+OUTPUT_DIR="${OUTPUT_DIR:-$HOME/qtxt_output}"
+LOG_FILE="${LOG_FILE:-$HOME/qtxt.log}"
+mkdir -p "$OUTPUT_DIR"
+read_last_response() {
+python3 << PYEOF
+from playwright.sync_api import sync_playwright
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto("$CHAT_UI_URL")
+    page.wait_for_selector(".message-assistant:last-child", timeout=10000)
+    print(page.query_selector(".message-assistant:last-child").inner_text())
+    browser.close()
+PYEOF
+}
+extract_code() {
+    local r="$1"
+    MAL=$(echo "$r" | sed -n '/```mal/,/```/p' | sed '1d;$d')
+    BASH=$(echo "$r" | sed -n '/```bash/,/```/p' | sed '1d;$d')
+    C=$(echo "$r" | sed -n '/```c/,/```/p' | sed '1d;$d')
+    PY=$(echo "$r" | sed -n '/```python/,/```/p' | sed '1d;$d')
+    if [ -n "$MAL" ]; then echo "MAL"; echo "$MAL"
+    elif [ -n "$BASH" ]; then echo "BASH"; echo "$BASH"
+    elif [ -n "$C" ]; then echo "C"; echo "$C"
+    elif [ -n "$PY" ]; then echo "PYTHON"; echo "$PY"
+    else echo "NONE"; fi
+}
+execute_code() {
+    local type="$1" code="$2" ts=$(date +%Y%m%d_%H%M%S)
+    case "$type" in
+        "MAL")
+            f="$OUTPUT_DIR/code_${ts}.mal"
+            echo "$code" > "$f"
+            echo "📝 MAL: $f"
+            cf="$OUTPUT_DIR/code_${ts}.c"
+            /root/ilm-al-kitab/MAL/src/cli/target/release/malc compile "$f" --emit-c > "$cf" 2>&1
+            if [ $? -eq 0 ]; then
+                b="$OUTPUT_DIR/code_${ts}"
+                gcc -O3 -march=native "$cf" -o "$b" -lm
+                if [ $? -eq 0 ]; then
+                    echo "🚀 تنفيذ..."
+                    "$b"
+                fi
+            fi
+            ;;
+        "BASH")
+            f="$OUTPUT_DIR/s_${ts}.sh"
+            echo "$code" > "$f"
+            chmod +x "$f"
+            bash "$f"
+            ;;
+        "C")
+            f="$OUTPUT_DIR/code_${ts}.c"
+            echo "$code" > "$f"
+            b="$OUTPUT_DIR/code_${ts}"
+            gcc -O3 -march=native "$f" -o "$b" -lm
+            if [ $? -eq 0 ]; then
+                echo "🚀 تنفيذ..."
+                "$b"
+            fi
+            ;;
+        "PYTHON")
+            f="$OUTPUT_DIR/s_${ts}.py"
+            echo "$code" > "$f"
+            python3 "$

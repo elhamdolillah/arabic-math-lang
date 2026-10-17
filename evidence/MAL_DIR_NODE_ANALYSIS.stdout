@@ -1,0 +1,11 @@
+MAL_DIR_NODE_ANALYSIS=START
+CASE_ID=valid_empty_program NODES=1 ROOT=1 IDS=PASS ROOT_CHECK=PASS KINDS={"program": 1}
+CASE_ID=valid_integer_declaration NODES=4 ROOT=4 IDS=PASS ROOT_CHECK=PASS KINDS={"decl": 1, "literal_int": 1, "program": 1, "type": 1}
+CASE_ID=valid_arithmetic_expression NODES=8 ROOT=8 IDS=PASS ROOT_CHECK=PASS KINDS={"binary": 2, "decl": 1, "literal_int": 3, "program": 1, "type": 1}
+CASE_ID=valid_function_if_loop NODES=35 ROOT=35 IDS=PASS ROOT_CHECK=PASS KINDS={"binary": 6, "block": 4, "decl": 2, "function": 1, "if": 1, "literal_int": 6, "loop": 1, "name": 8, "program": 1, "return": 2, "type": 3}
+CASE_ID=valid_struct NODES=6 ROOT=6 IDS=PASS ROOT_CHECK=PASS KINDS={"decl": 2, "program": 1, "struct": 1, "type": 2}
+CASE_ID=boundary_real_arithmetic NODES=4 ROOT=4 IDS=PASS ROOT_CHECK=PASS KINDS={"decl": 1, "literal_real": 1, "program": 1, "type": 1}
+TOTAL_NODES=58
+EXPECTED_TOTAL=58
+TOTAL_MATCH=PASS
+ALL_SEQUENCE_AND_ROOT_CHECKS=PASS

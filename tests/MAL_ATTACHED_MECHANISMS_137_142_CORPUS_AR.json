@@ -1,0 +1,17 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.1.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "cases": [
+    {"id": 137, "name": "compile_time_symbol_name_constant", "decision": "RESEARCH", "positive": "NOT_AVAILABLE", "counterexample": "symbol_table_and_canonical_name_rules_missing", "gap": "static symbol resolution and Arabic naming ABI"},
+    {"id": 138, "name": "constant_evaluation_context_branch", "decision": "ABSTAIN_UNTIL_EVIDENCE", "positive": "NOT_AVAILABLE", "counterexample": "compile_time_runtime_semantics_may_diverge", "gap": "single deterministic evaluation model missing"},
+    {"id": 139, "name": "compile_time_invariant_error", "decision": "RESEARCH", "positive": "NOT_AVAILABLE", "counterexample": "static_condition_evaluator_missing", "gap": "bounded static evaluator and diagnostic contract missing"},
+    {"id": 140, "name": "stable_foreign_abi_layout", "decision": "ABSTAIN_UNTIL_EVIDENCE", "positive": "NOT_AVAILABLE", "counterexample": "target_padding_endianness_and_ffi_boundary_unproven", "gap": "pointer-free ABI layout contract missing"},
+    {"id": 141, "name": "compile_time_conditional_branch", "decision": "RESEARCH", "positive": "NOT_AVAILABLE", "counterexample": "static_type_traits_and_const_evaluator_missing", "gap": "bounded compile-time branching grammar missing"},
+    {"id": 142, "name": "checked_fixed_width_arithmetic", "decision": "RESEARCH", "positive": "NOT_AVAILABLE", "counterexample": "width_signedness_overflow_and_division_contract_missing", "gap": "canonical checked arithmetic result missing"}
+  ]
+}

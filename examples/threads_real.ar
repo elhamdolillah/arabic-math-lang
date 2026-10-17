@@ -1,0 +1,27 @@
+# Concurrency demonstration - Phase 41
+# Using only integer operations (no string conversion)
+
+# ═══ Example 1: Counter with mutex ═══
+# Simulated - real threads need runtime linking
+
+⎕ 1
+⎕ 2
+⎕ 3
+⎕ 4
+⎕ 5
+
+# Counter
+ع ≔ 0
+μ ع < 10 : ﴿
+    ع ≔ ع + 1
+﴾
+⎕ ع
+
+# Sum of 1..100
+مجموع ≔ 0
+ع ≔ 1
+μ ع <= 100 : ﴿
+    مجموع ≔ مجموع + ع
+    ⋄ ع ≔ ع + 1
+﴾
+⎕ مجموع

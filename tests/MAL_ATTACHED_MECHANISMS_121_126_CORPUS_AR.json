@@ -1,0 +1,65 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_121_126_REGISTRY_AR.json",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "runtime_features_admitted": 0,
+  "cases": [
+    {
+      "id": 121,
+      "name": "kotlin_value_class",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "قد تفصل فئة القيمة بين أنواع ذات أساس عددي واحد وتقلل التغليف في سياقات غير ملبّسة",
+      "counterexample": "قد يحدث boxing عند nullable أو polymorphism، ولا يكفي ذلك لإثبات حجم وتمثيل مستقلين عن JVM وbackend",
+      "gap": "قواعد التمثيل والـ ABI وإصدار المترجم وإعادة الإنتاج عبر البيئات غير محددة"
+    },
+    {
+      "id": 122,
+      "name": "csharp_span",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يمنع ref struct بعض صور التخزين في الكومة والالتقاط، ويفرض فحص الحدود في الفهرسة",
+      "counterexample": "قد يشير Span إلى مصفوفة كائنية أو ذاكرة غير مُدارة، وليس كل Span مكدسياً، كما لا يثبت ذلك lifetime حتمياً لـ MAL",
+      "gap": "عقد الملكية والمقابض وحدود stackalloc والذاكرة غير المُدارة غير موجود"
+    },
+    {
+      "id": 123,
+      "name": "mongodb_hint",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يطلب من المحرك استخدام فهرس محدد، وقد يقلل اختلاف اختيار الخطة",
+      "counterexample": "لا يثبت hint ترتيب النتائج أو الخطة الكاملة أو النتائج المستقلة عن الإصدار والإحصاءات وحالة البيانات، إلا مع عقد إضافي",
+      "gap": "الإصدار والمخطط وsnapshot وsort canonical ونتيجة قابلة لإعادة الإنتاج غير مثبتة"
+    },
+    {
+      "id": 124,
+      "name": "ruby_deduplicated_frozen_string",
+      "expected_decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "قد يعيد -@ سلسلة مجمدة ويتيح إعادة استخدام داخل عملية تنفيذ معينة",
+      "counterexample": "هوية الكائن وجدول deduplication تابعان للمفسر والإصدار، ولا يجوز جعل equal? برهاناً على هوية حتمية عابرة للبيئات",
+      "gap": "عقد الهوية وlifetime والترميز وإصدار المفسر غير مثبت"
+    },
+    {
+      "id": 125,
+      "name": "prolog_once",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يقيد الاستمرار بأول حل يقدمه الهدف ويلغي نقاط الاختيار اللاحقة لهذا الاستدعاء",
+      "counterexample": "قد يختلف أول حل باختلاف ترتيب البنود والتوحيد والمحرك، وقد تجعل الآثار الجانبية الالتزام غير آمـن دلالياً",
+      "gap": "ترتيب البحث والآثار الجانبية وحدود الوقود وحالات الفشل غير محددة"
+    },
+    {
+      "id": 126,
+      "name": "javascript_object_seal",
+      "expected_decision": "RESEARCH",
+      "expected_runtime_status": "NOT_ADMITTED",
+      "positive": "يثبت مجموعة الخصائص وعدم قابليتها للإضافة أو الحذف، مع السماح بتعديل القيم الموجودة",
+      "counterexample": "لا يمنع التعديل العميق ولا يثبت وحده ترتيباً دلالياً أو سلوكاً موحداً عند proxy واختلاف strict mode",
+      "gap": "سجل MAL canonical وسياسة proxy وترتيب المفاتيح وحدود التعديل غير محددة"
+    }
+  ]
+}

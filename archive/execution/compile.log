@@ -1,0 +1,33 @@
+/home/ubuntu/work/program.cpp: In member function ‘std::vector<Token> Lexer::tokenize()’:
+/home/ubuntu/work/program.cpp:276:40: warning: comparison with string literal results in unspecified behavior [-Waddress]
+  276 |         } else if (op == "|" && peek() == "|") {
+      |                                 ~~~~~~~^~~~~~
+/home/ubuntu/work/program.cpp:276:40: error: ISO C++ forbids comparison between pointer and integer [-fpermissive]
+/home/ubuntu/work/program.cpp: In function ‘void طباعة_الشجرة(const العقدة_النحوية*, int)’:
+/home/ubuntu/work/program.cpp:562:18: error: ‘ابن،’ was not declared in this scope; did you mean ‘ابن’?
+  562 |     طباعة_الشجرة(ابن، المسافة_البادئة + 1);
+      |                  ^~~~
+      |                  ابن
+/home/ubuntu/work/program.cpp:561:18: warning: unused variable ‘ابن’ [-Wunused-variable]
+  561 | for (const auto& ابن : العقدة->الأبناء) {
+      |                  ^~~
+/home/ubuntu/work/program.cpp: In member function ‘العقدة_النحوية* المحلل_النحوي::تحليل_جملة_استعلام()’:
+/home/ubuntu/work/program.cpp:1315:38: error: no match for ‘operator&&’ (operand types are ‘bool’ and ‘const Token’)
+ 1315 |     } while (يطابق(TokenType::COMMA) && تقدم());
+      |              ~~~~~~~~~~~~~~~~~~~~~~~ ^~ ~~~~~~
+      |                   |                         |
+      |                   bool                      const Token
+/home/ubuntu/work/program.cpp:1315:38: note: candidate: ‘operator&&(bool, bool)’ (built-in)
+ 1315 |     } while (يطابق(TokenType::COMMA) && تقدم());
+      |              ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+/home/ubuntu/work/program.cpp:1315:38: note:   no known conversion for argument 2 from ‘const Token’ to ‘bool’
+/home/ubuntu/work/program.cpp: In member function ‘العقدة_النحوية* المحلل_النحوي::تحليل_تعريف_دالة()’:
+/home/ubuntu/work/program.cpp:1512:42: error: no match for ‘operator&&’ (operand types are ‘bool’ and ‘const Token’)
+ 1512 |         } while (يطابق(TokenType::COMMA) && تقدم());
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~ ^~ ~~~~~~
+      |                       |                         |
+      |                       bool                      const Token
+/home/ubuntu/work/program.cpp:1512:42: note: candidate: ‘operator&&(bool, bool)’ (built-in)
+ 1512 |         } while (يطابق(TokenType::COMMA) && تقدم());
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+/home/ubuntu/work/program.cpp:1512:42: note:   no known conversion for argument 2 from ‘const Token’ to ‘bool’

@@ -1,0 +1,120 @@
+{
+  "updated_at": "2026-10-17T19:10:29.060772+00:00",
+  "files": [
+    {
+      "file": "advanced_morphology_engine.mal",
+      "bytes": 4731,
+      "sha256": "7411df858917875215659c734f35435b426d63c19e69d6748680465bb00903e7"
+    },
+    {
+      "file": "advanced_nn_ops.mal",
+      "bytes": 7770,
+      "sha256": "c2fafeb1d52ea566a3ac9aebda3554e4dd356d8b6c883a3cb47da73b08cc4368"
+    },
+    {
+      "file": "arabic_generator.mal",
+      "bytes": 1089,
+      "sha256": "a3f8f10265fdb114b6a74e5386b8e835248ffd7b2487da6c1c8b0ea227b2e652"
+    },
+    {
+      "file": "arabic_understanding_test.mal",
+      "bytes": 5646,
+      "sha256": "5bd2276eb1c5df06c8dd8bab97317a42ecc8eccb37145073c57931ec781cdc58"
+    },
+    {
+      "file": "benchmark_scalar.mal",
+      "bytes": 581,
+      "sha256": "89797e1b42a02c0b703beb42b5401988c09d244b5d934768d723cf8fdd01f6d2"
+    },
+    {
+      "file": "context_sensitive_parser.mal",
+      "bytes": 4706,
+      "sha256": "82160636b11939a6ff2aa63617c562df99b9c195037ec886d827e9b2eabfb9d9"
+    },
+    {
+      "file": "deep_fusion_benchmark.mal",
+      "bytes": 5730551,
+      "sha256": "25c243bdda3fb8f99908555a4931f9bf44adcfa42bc4986475dd3adf9bd9a56a"
+    },
+    {
+      "file": "deep_fusion_pure.mal",
+      "bytes": 5729906,
+      "sha256": "0e5c06a18382af75f93d99f9af53fd0089fa786d64bcef2c82327c45f79955f3"
+    },
+    {
+      "file": "deterministic_bench.mal",
+      "bytes": 953,
+      "sha256": "1f45f4cd6b165d7e1f735e57459eaaa88062343f77ccac261cb4f20c04387956"
+    },
+    {
+      "file": "expanded_root_dictionary.mal",
+      "bytes": 2155,
+      "sha256": "6665e06d3573b8e5ea0c755e6d2494e2c6de110cbd892f6ca8b9c7116bd6c9a6"
+    },
+    {
+      "file": "final_syntax_sugar_test.mal",
+      "bytes": 1399,
+      "sha256": "4987cd8beaf31a8fb3e68ac86bde6794091487daa6f0cf6adf1a12e7f49c44e0"
+    },
+    {
+      "file": "grammar_operators_engine.mal",
+      "bytes": 4145,
+      "sha256": "81564b9855d8eea478c7f03d446c5111bc4da6bca6bd87a8bacadc1a4cb425b0"
+    },
+    {
+      "file": "grammatical_type_checker.mal",
+      "bytes": 4769,
+      "sha256": "df326ccc3564a3dd416b129fc64f7e488984e69ac5d9ac4f5685de28330da13d"
+    },
+    {
+      "file": "hello_perfect.mal",
+      "bytes": 1574,
+      "sha256": "4e6e5e51cfcb25b5600a2a3b2a298a766d7823bcf6d73960f6cf77c386fdba07"
+    },
+    {
+      "file": "inference.mal",
+      "bytes": 2301,
+      "sha256": "ea0be6fcb13635e9aa3ac451be90205ef5c015aa09ca5685b785f2d4a5979919"
+    },
+    {
+      "file": "math_morphology_engine.mal",
+      "bytes": 3579,
+      "sha256": "6b4e71a7089e337ac2366bc9be98877656d7f416d03cb011138055834a310c9d"
+    },
+    {
+      "file": "mhlj_fusion_full.mal",
+      "bytes": 406672,
+      "sha256": "2b7c37ea6a2f38311a4cfd2908b60925368d590a4c2a907acba9525d17b7705a"
+    },
+    {
+      "file": "mini_transformer.mal",
+      "bytes": 28952,
+      "sha256": "9ad9b0000541a1982dbf2ce27a5244935181b5f1c6e7a5f71a51e59087fb9e1e"
+    },
+    {
+      "file": "multi_head_transformer.mal",
+      "bytes": 29276,
+      "sha256": "7ec81fc60c9f1f2d5dd91224d1502eda23b69954e78bd8f95b07b79bd7fed077"
+    },
+    {
+      "file": "neuro_symbolic_glue.mal",
+      "bytes": 1589,
+      "sha256": "662dea3c8964840c0ef7883f690c3d281304a0c7f2d684e1e94a00664a3604c3"
+    },
+    {
+      "file": "qtxt_arabic_command_generator.mal",
+      "bytes": 2615,
+      "sha256": "f2b69bfd8c8bf10fb578b521a478d92ea25e80a861491b509a8d943a19dba132"
+    },
+    {
+      "file": "qtxt_grammar_aware_generator.mal",
+      "bytes": 1359,
+      "sha256": "aa5877a26e83f84044a8ac9d05aadf62c97f27296abbe24ea05c7d263409965c"
+    },
+    {
+      "file": "verify_arabic_understanding.mal",
+      "bytes": 1838,
+      "sha256": "7e61aaa6a94230e4f8c1612b5f20701086b0e44103f0c03f127f5d4bf842db8e"
+    }
+  ]
+}

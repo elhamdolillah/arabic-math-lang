@@ -1,0 +1,24 @@
+{
+  "schema": "MAL-LANGUAGE-LINEAGE-REGISTRY",
+  "version": "0.1",
+  "baseline": "f56b8bd",
+  "decision_policy": "static-decision-only",
+  "default_on_ambiguity": "ABSTAIN",
+  "entries": [
+    {"id":"lovelace_1843","language_or_system":"Babbage/Lovelace","year_start":1843,"feature":"algorithmic_steps","decision":"PROVEN","mal_target":"algorithmic source representation"},
+    {"id":"plankalkul_1945","language_or_system":"Plankalkül","year_start":1945,"feature":"general_algorithmic notation","decision":"RESEARCH","mal_target":null},
+    {"id":"autocode_a0_1952","language_or_system":"Autocode/A-0","year_start":1952,"feature":"source-to-machine translation","decision":"EXTENSION_SCOPED_PROVEN","mal_target":"compiler pipeline"},
+    {"id":"fortran_1957","language_or_system":"FORTRAN","year_start":1957,"feature":"explicit numeric computation","decision":"EXTENSION_SCOPED_PROVEN","mal_target":"fixed-point numeric types"},
+    {"id":"algol_1958","language_or_system":"ALGOL","year_start":1958,"feature":"lexical scope and formal grammar","decision":"PROVEN","mal_target":"MAL Grammar and MAL-DIR"},
+    {"id":"lisp_1958","language_or_system":"LISP","year_start":1958,"feature":"tree expressions and recursion","decision":"EXTENSION_SCOPED_PROVEN","mal_target":"bounded recursive expression subset"},
+    {"id":"c_unix_1969","language_or_system":"C/Unix","year_start":1969,"feature":"systems ABI","decision":"EXTENSION_SCOPED_PROVEN","mal_target":"declared ABI only"},
+    {"id":"pascal_1970","language_or_system":"Pascal","year_start":1970,"feature":"structured types and blocks","decision":"EXTENSION_SCOPED_PROVEN","mal_target":"typed MAL blocks"},
+    {"id":"sql_1970","language_or_system":"SQL","year_start":1970,"feature":"data query language","decision":"RESEARCH","mal_target":null},
+    {"id":"ml_haskell_1978","language_or_system":"ML/Haskell","year_start":1978,"feature":"algebraic types and pattern matching","decision":"EXTENSION_SCOPED_PROVEN","mal_target":"static typed pattern subset"},
+    {"id":"ada_spark_1980","language_or_system":"Ada/SPARK","year_start":1980,"feature":"strong typing and bounds checks","decision":"EXTENSION_SCOPED_PROVEN","mal_target":"range and ownership validation"},
+    {"id":"dynamic_scripting_1991","language_or_system":"Python/JavaScript/Ruby/PHP","year_start":1991,"feature":"dynamic evaluation and reflection","decision":"DENY","mal_target":"none"},
+    {"id":"rust_2010","language_or_system":"Rust","year_start":2010,"feature":"ownership and borrow validation","decision":"EXTENSION_SCOPED_PROVEN","mal_target":"indexed Arena and generation handles"},
+    {"id":"raw_pointer_access","language_or_system":"low-level pointer model","year_start":1949,"feature":"raw pointer dereference","decision":"DENY","mal_target":"none"},
+    {"id":"ambiguous_semantics","language_or_system":"any","year_start":0,"feature":"underspecified or environment-dependent behavior","decision":"ABSTAIN","mal_target":"none"}
+  ]
+}

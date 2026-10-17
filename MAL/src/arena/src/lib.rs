@@ -37,6 +37,9 @@ pub enum ArenaError {
     /// A type mismatch occurred during an operation.
     TypeMismatch,
 }
+/// AST node variants for the MAL arena.
+#[derive(Debug, Clone)]
+#[allow(missing_docs)]
 pub enum ASTNode {
     Empty,
     Int(i64),
@@ -112,10 +115,36 @@ pub enum ASTNode {
     },
 }
 
-/// AST node with inline payload (no heap allocation per node).
-#[derive(Debug, Clone)]
-/// Tensor operations for AI/ML.
+/// Binary operators (type-safe, no magic numbers).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[allow(missing_docs)]
+pub enum BinaryOp {
+    Add, Sub, Mul, Div, Mod, Pow, Concat,
+    Lt, Gt, Le, Ge, Eq, Neq,
+    And, Or,
+    Assign,
+}
+
+/// Unary operator (type-safe, no magic numbers).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[allow(missing_docs)]
+pub enum UnaryOp {
+    Neg, Not,
+}
+
+/// Tensor operation kinds (AI/ML).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[allow(missing_docs)]
+pub enum TensorOpKind {
+    MatMul, Add, Mul, Relu,
+}
+
+/// Automatic differentiation operation kinds.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[allow(missing_docs)]
+pub enum AutodiffOpKind {
+    Grad, Value,
+}
 
 /// Pattern for match expressions (Phase 43).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -129,6 +158,7 @@ pub enum Pattern {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[allow(missing_docs)]
 pub enum TypeTag {
     Empty,
     Int,

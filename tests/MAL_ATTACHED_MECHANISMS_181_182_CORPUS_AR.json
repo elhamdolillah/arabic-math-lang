@@ -1,0 +1,35 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_181_182_CORPUS_AR",
+  "version": "0.1.0",
+  "registry": "protocol/MAL_ATTACHED_MECHANISMS_181_182_REGISTRY_AR.json",
+  "cases": [
+    {
+      "id": "181-001",
+      "mechanism": 181,
+      "kind": "positive",
+      "description": "make_index_sequence وindex_sequence_for يولدان فهارس 0 إلى N-1 لحزمة ثابتة الحجم",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "181-002",
+      "mechanism": 181,
+      "kind": "negative",
+      "description": "استنتاج النقاء أو ترتيب التقييم من index_sequence وحده دون تحليل التعبير الموسع",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    },
+    {
+      "id": "182-001",
+      "mechanism": 182,
+      "kind": "positive",
+      "description": "scoped_lock مع كائنات Lockable متعددة وإدارة RAII صحيحة",
+      "expected": "RESEARCH_ONLY"
+    },
+    {
+      "id": "182-002",
+      "mechanism": 182,
+      "kind": "negative",
+      "description": "ادعاء ترتيب اكتساب ثابت أو جدولة حتمية أو ناتج متكرر من scoped_lock",
+      "expected": "ABSTAIN_UNTIL_EVIDENCE"
+    }
+  ]
+}

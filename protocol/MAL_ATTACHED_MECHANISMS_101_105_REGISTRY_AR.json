@@ -1,0 +1,51 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_REGISTRY_AR",
+  "version": "0.1.0",
+  "baseline": "MAL_GRAMMAR_SPEC_v0.1_AR.md",
+  "source_execution": "NOT_PERFORMED",
+  "network": "DISABLED_BY_CONTRACT",
+  "raw_pointers": "DENY",
+  "runtime_features_admitted": 0,
+  "entries": [
+    {
+      "id": 101,
+      "name": "common_lisp_type_declarations",
+      "target": "Common Lisp",
+      "decision": "RESEARCH",
+      "guard_ar": "تصريحات النوع قد تساعد المترجم على التحسين أو إصدار تنبيه، لكنها لا تضمن وحدها الفحص الساكن أو سلوك الخطأ نفسه عبر إعدادات السلامة والمترجمات",
+      "required_evidence_ar": "أنواع MAL قابلة للإثبات، قاعدة خطأ حتمية، إعدادات سلامة مثبتة، corpus للاستدعاءات المخالفة، وإثبات تطابق الترجمة"
+    },
+    {
+      "id": 102,
+      "name": "elixir_protocol_consolidation",
+      "target": "Elixir",
+      "decision": "RESEARCH",
+      "guard_ar": "توحيد البروتوكول قد يثبت جدول إرسال بعد الترجمة، لكنه يعتمد على مجموعة الوحدات وترتيب البناء وإصدار BEAM ومنع التحميل أو التغيير اللاحق",
+      "required_evidence_ar": "جدول إرسال canonical، ترتيب وحدات ثابت، منع التحميل الديناميكي، معالجة تعارض التنفيذ، وبصمة مستقلة لمرحلة التوحيد"
+    },
+    {
+      "id": 103,
+      "name": "d_immutable_deep_immutability",
+      "target": "D",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "المؤهل immutable يفرض قيوداً قوية على التعديل، لكن ادعاء الحماية العميقة والذاكرة للقراءة والمشاركة الآمنة لا يثبت وحده دلالات FFI أو المخصص أو جامع القمامة؛ والمثال يستعمل مؤشراً خاماً ممنوعاً",
+      "required_evidence_ar": "عقد عدم تعديل عميق، نموذج مشاركة وخيوط، حدود FFI والمخصص وGC، corpus لمحاولات التحوير، وإزالة المؤشرات الخام من الدليل"
+    },
+    {
+      "id": 104,
+      "name": "algol_own_static_local",
+      "target": "ALGOL",
+      "decision": "RESEARCH",
+      "guard_ar": "الحالة المحلية المستمرة يمكن تحديدها تسلسلياً، لكن ثبات العنوان ليس ضماناً صالحاً في MAL، كما أن التداخل والتزامن وإعادة الدخول وترتيب الاستدعاءات تحتاج إلى عقد صريح",
+      "required_evidence_ar": "حالة مفهرسة بلا عناوين، تهيئة canonical، سياسة إعادة الدخول والتزامن، حدود عمر الحالة، وcorpus لتسلسل الاستدعاءات والتعارض"
+    },
+    {
+      "id": 105,
+      "name": "julia_generated_functions",
+      "target": "Julia",
+      "decision": "ABSTAIN_UNTIL_EVIDENCE",
+      "guard_ar": "الدالة المولدة قد تنتج جسماً متخصصاً حسب الأنواع، لكن نقاء المولد وإمكانية ملاحظته للبيئة والتخزين المؤقت وإصدار المترجم ليست مضمونة؛ لذلك لا يكفي ثبات توقيع النوع لإثبات حتمية الشيفرة",
+      "required_evidence_ar": "مُولِّد نقي ومقيد، وصف canonical للأنواع، منع أثر البيئة، سياسة تخزين مؤقت، وبصمة للشيفرة الناتجة عبر بيئات البناء"
+    }
+  ]
+}

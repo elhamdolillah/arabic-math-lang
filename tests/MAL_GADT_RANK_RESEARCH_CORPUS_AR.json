@@ -1,0 +1,66 @@
+{
+  "schema": "MAL-UORI-RESEARCH-CORPUS-0.1",
+  "source_execution": "NOT_PERFORMED",
+  "cases": [
+    {
+      "id": "gadt-001",
+      "feature": "gadt-bounded-research",
+      "input_class": "closed_constructor_exhaustive_match",
+      "expected": "RESEARCH"
+    },
+    {
+      "id": "gadt-002",
+      "feature": "gadt-bounded-research",
+      "input_class": "missing_match_branch",
+      "expected": "ABSTAIN"
+    },
+    {
+      "id": "gadt-003",
+      "feature": "gadt-bounded-research",
+      "input_class": "existential_escape",
+      "expected": "ABSTAIN"
+    },
+    {
+      "id": "gadt-004",
+      "feature": "gadt-bounded-research",
+      "input_class": "runtime_reflection_constructor",
+      "expected": "DENY"
+    },
+    {
+      "id": "rank-001",
+      "feature": "rank2-static-research",
+      "input_class": "explicit_rank2_forall",
+      "expected": "RESEARCH"
+    },
+    {
+      "id": "rank-002",
+      "feature": "rank2-static-research",
+      "input_class": "missing_forall_annotation",
+      "expected": "ABSTAIN"
+    },
+    {
+      "id": "rank-003",
+      "feature": "rank2-static-research",
+      "input_class": "rank3_type",
+      "expected": "ABSTAIN"
+    },
+    {
+      "id": "rank-004",
+      "feature": "rank2-static-research",
+      "input_class": "impredicative_instantiation",
+      "expected": "DENY"
+    },
+    {
+      "id": "shared-001",
+      "feature": "gadt-bounded-research",
+      "input_class": "unbounded_type_level_reduction",
+      "expected": "ABSTAIN"
+    },
+    {
+      "id": "shared-002",
+      "feature": "rank2-static-research",
+      "input_class": "raw_pointer_in_type_representation",
+      "expected": "DENY"
+    }
+  ]
+}

@@ -275,15 +275,7 @@ fn symbol_kind(c: char) -> Option<TokenKind> {
         '≔' => TokenKind::Assign,
         '≡' => TokenKind::Define,
         '+' => TokenKind::Plus,
-        '
-' => {
-                        if self.peek_char() == Some(\'>\') {
-                            self.bump_char();
-                            TokenKind::RightArrow
-                        } else {
-                            TokenKind::Minus
-                        }
-                    }
+                '-' => TokenKind::Minus,
         '·' | '*' | '×' => TokenKind::Mul,
         '⊕' => TokenKind::Concat,
         '(' => TokenKind::LParen,

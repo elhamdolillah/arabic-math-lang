@@ -1,0 +1,53 @@
+{
+  "schema": "MAL_ATTACHED_MECHANISMS_206_210_REGISTRY_AR",
+  "version": "0.1.0",
+  "classification": "RESEARCH",
+  "evidence": "protocol/EVIDENCE_206_210_AR.md",
+  "entries": [
+    {
+      "id": 206,
+      "name": "lazy_initialization",
+      "target": "Scala_lazy_val",
+      "decision": "RESEARCH",
+      "guarantee": "تهيئة مؤجلة مع آلية تزامن ونشر للقيمة بعد اكتمال التهيئة وفق إصدار Scala المحدد",
+      "counterexample": "لا يثبت نقاء المهيئ أو استقلال النتيجة عن الآثار الجانبية، وقد تكون التهيئة العودية غير معرفة أو تؤدي إلى جمود",
+      "gap": "تثبيت إصدار اللغة والمترجم، ومنع recursion، وإثبات نموذج الذاكرة والآثار الجانبية"
+    },
+    {
+      "id": 207,
+      "name": "guarded_coroutining",
+      "target": "Prolog_when_2",
+      "decision": "RESEARCH",
+      "guarantee": "تأجيل الهدف حتى يصبح شرط مدعوم قابلًا للحسم باستخدام attributed variables",
+      "counterexample": "لا يثبت استقلال النجاح أو عدد الحلول أو قابلية الإيقاظ عن ترتيب الأهداف والآثار الجانبية",
+      "gap": "تثبيت dialect والتنفيذ، ومواصفة الشرط، ومنع الآثار الجانبية غير المنضبطة"
+    },
+    {
+      "id": 208,
+      "name": "selective_mailbox_receive",
+      "target": "Erlang_receive",
+      "decision": "RESEARCH",
+      "guarantee": "فحص الرسائل في صندوق البريد بالتتابع حتى أول رسالة تطابق النمط والحارس ثم استهلاكها",
+      "counterexample": "لا يثبت ترتيب وصول الرسائل أو ثبات حالة الصندوق أو حتمية الجدولة بين التشغيلات",
+      "gap": "تثبيت نموذج الوصول والرسائل الداخلة وجدولة العملية ومصدر كل أثر جانبي"
+    },
+    {
+      "id": 209,
+      "name": "deterministic_string_inspection",
+      "target": "COBOL_INSPECT",
+      "decision": "RESEARCH",
+      "guarantee": "عد أو استبدال أو تحويل محارف ضمن مجال بيانات وفق القواعد المحددة للعبارة",
+      "counterexample": "تتأثر النتيجة بـ USAGE وDISPLAY/NATIONAL وDBCS والترميز وdialect، فلا تثبت حتمية عابرة للمنصات بذاتها",
+      "gap": "تثبيت dialect ونسخة المترجم وABI والترميز ومجال البيانات"
+    },
+    {
+      "id": 210,
+      "name": "embedded_data_read_cursor",
+      "target": "BASIC_DATA_READ_RESTORE",
+      "decision": "RESEARCH",
+      "guarantee": "قراءة قيم حرفية من تسلسل DATA مع إعادة موضع المؤشر بواسطة RESTORE ضمن dialect محدد",
+      "counterexample": "لا توجد دلالة موحدة عابرة لكل dialects؛ تختلف مواضع DATA والوسوم وأخطاء تجاوز البيانات",
+      "gap": "تثبيت dialect والإصدار والترميز وقواعد الوسوم ومؤشر القراءة"
+    }
+  ]
+}

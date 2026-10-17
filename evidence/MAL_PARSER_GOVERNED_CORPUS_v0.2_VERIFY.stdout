@@ -1,0 +1,108 @@
+{
+    "schema": "MAL-PARSER-GOVERNED-CORPUS-0.2",
+    "language": "MAL",
+    "execution": "SOURCE_REF_EXECUTED=NO",
+    "policy": "FAIL_CLOSED",
+    "units": [
+        {
+            "unit": "\u062d\u0644\u0644_\u0623\u0648\u0644\u064a",
+            "cases": [
+                {
+                    "id": "primary_001",
+                    "input": "\u0639\u062f\u062f \u0635\u062d\u064a\u062d",
+                    "expect": "PASS"
+                },
+                {
+                    "id": "primary_002",
+                    "input": "\u0631\u0645\u0632 \u0645\u0639\u0631\u0641",
+                    "expect": "PASS"
+                },
+                {
+                    "id": "primary_003",
+                    "input": "\u0645\u062f\u062e\u0644 \u0641\u0627\u0631\u063a",
+                    "expect": "ABSTAIN"
+                }
+            ]
+        },
+        {
+            "unit": "\u0627\u0644\u0623\u0642\u0648\u0627\u0633",
+            "cases": [
+                {
+                    "id": "paren_001",
+                    "input": "(\u062a\u0639\u0628\u064a\u0631 \u0623\u0648\u0644\u064a)",
+                    "expect": "PASS"
+                },
+                {
+                    "id": "paren_002",
+                    "input": "(\u062a\u0639\u0628\u064a\u0631 \u0623\u0648\u0644\u064a",
+                    "expect": "ABSTAIN"
+                },
+                {
+                    "id": "paren_003",
+                    "input": "()",
+                    "expect": "ABSTAIN"
+                }
+            ]
+        },
+        {
+            "unit": "\u0627\u0644\u0633\u0644\u0627\u0633\u0644",
+            "cases": [
+                {
+                    "id": "string_001",
+                    "input": "\"\u0646\u0635\"",
+                    "expect": "PASS"
+                },
+                {
+                    "id": "string_002",
+                    "input": "\"\u0631\u0645\u0632 \u0645\u062c\u0647\u0648\u0644\"",
+                    "expect": "ABSTAIN"
+                },
+                {
+                    "id": "string_003",
+                    "input": "\"",
+                    "expect": "ABSTAIN"
+                }
+            ]
+        },
+        {
+            "unit": "\u0627\u0644\u0623\u0639\u062f\u0627\u062f \u0627\u0644\u062d\u0642\u064a\u0642\u064a\u0629",
+            "cases": [
+                {
+                    "id": "real_001",
+                    "input": "3.14",
+                    "expect": "PASS"
+                },
+                {
+                    "id": "real_002",
+                    "input": "NaN",
+                    "expect": "ABSTAIN"
+                },
+                {
+                    "id": "real_003",
+                    "input": "Infinity",
+                    "expect": "ABSTAIN"
+                }
+            ]
+        },
+        {
+            "unit": "\u0627\u0633\u062a\u062f\u0639\u0627\u0621 \u0627\u0644\u062f\u0648\u0627\u0644",
+            "cases": [
+                {
+                    "id": "call_001",
+                    "input": "\u062f\u0627\u0644\u0629()",
+                    "expect": "PASS"
+                },
+                {
+                    "id": "call_002",
+                    "input": "\u062f\u0627\u0644\u0629(\u0639\u062f\u062f)",
+                    "expect": "PASS"
+                },
+                {
+                    "id": "call_003",
+                    "input": "\u062f\u0627\u0644\u0629(,)",
+                    "expect": "ABSTAIN"
+                }
+            ]
+        }
+    ]
+}
