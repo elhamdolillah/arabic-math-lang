@@ -171,14 +171,54 @@ impl<'a> ASTLowerer<'a> {
                     }
                 }
             }
+            ASTNode::Str(idx) => {
+                let start = *idx as usize;
+                let bytes = self.source.as_bytes();
+                let mut end = start + 1;
+                while end < bytes.len() && bytes[end] != 34 {
+                    end += 1;
+                }
+                let text = self.source.get(start + 1..end).unwrap_or("").to_string();
+                let sid = self.func.string_table.len() as u32;
+                self.func.string_table.push(text);
+                let v = self.func.fresh_value(NIRValue::StrConst(sid));
+                Some(v)
+            }
             ASTNode::Call { func: func_nid, args } => {
                 let func_nid_copy = *func_nid;
                 let args_copy = *args;
                 if func_nid_copy.0 == u32::MAX {
-                    let callee = self.func.fresh_value(NIRValue::IntConst(122));
+                    let mut arg_vals = Vec::new();
+                    let mut cur = args_copy;
+                    loop {
+                        if cur.0 == u32::MAX { break; }
+                        if let Ok(arg_node) = self.arena.get(cur) {
+                            match arg_node {
+                                ASTNode::List { head, tail } => {
+                                    let head_copy = *head;
+                                    let tail_copy = *tail;
+                                    if let Some(v) = self.lower_node(head_copy) {
+                                        arg_vals.push(v);
+                                    }
+                                    cur = tail_copy;
+                                }
+                                ASTNode::Empty => break,
+                                _ => {
+                                    if let Some(v) = self.lower_node(cur) {
+                                        arg_vals.push(v);
+                                    }
+                                    break;
+                                }
+                            }
+                        } else { break; }
+                    }
+                    let is_str = self.arena.get(args_copy).ok()
+                        .map_or(false, |n| matches!(n, ASTNode::Str(_)));
+                    let tag: i64 = if is_str { 106 } else { 105 };
+                    let callee = self.func.fresh_value(NIRValue::IntConst(tag));
                     let res = self.func.fresh_value(NIRValue::Undef);
                     self.func.add_instruction(self.current_block,
-                        NIRInstruction::Call { callee, args: vec![], result: res });
+                        NIRInstruction::Call { callee, args: arg_vals, result: res });
                     return Some(res);
                 }
                 let mut arg_vals = Vec::new();
@@ -407,3 +447,20 @@ pub fn lower_forall_body(var_name: &str, set_size: usize) -> String {
 pub fn lower_exists_check(predicate_result: &str) -> String {
     format!("    ; exists check: result = {}\n", predicate_result)
 }
+
+/// مواصفة دالة للتجميع متعدد الدوال (M2 bridge).
+pub struct FnSpec {
+    pub name: String,
+    pub params: Vec<String>,
+    pub body: NodeID,
+}
+
+/// خفض برنامج متعدد الدوال إلى قائمة NIRFunction.
+pub fn lower_program_with_source(arena: &Arena, source: &str, specs: &[FnSpec]) -> Vec<NIRFunction> {
+    specs.iter().map(|s| {
+        let mut f = lower_ast_to_nir_with_source(arena, s.body, source);
+        f.name = s.name.clone();
+        f
+    }).collect()
+}
+

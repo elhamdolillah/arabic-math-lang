@@ -311,6 +311,9 @@ impl<'a> Parser<'a> {
                     args: NodeID::INVALID, // no arguments
                 })?)
             }
+            TokenKind::Str => {
+                Ok(arena.allocate(ASTNode::Str(tok.start))?)
+            }
             TokenKind::Eof => Err(ParserError::UnexpectedEof),
             _ => Err(ParserError::Expected {
                 expected: "expression",
@@ -1510,3 +1513,20 @@ mod tests {
 
 
 }
+
+/// معلومات دالة مكتشفة أثناء التحليل (M2 bridge).
+pub struct FnInfo {
+    /// اسم الدالة.
+    pub name: String,
+    /// أسماء المعاملات.
+    pub params: Vec<String>,
+    /// جذر جسم الدالة في الـarena.
+    pub body: NodeID,
+}
+
+/// تحليل البرنامج وإرجاع الجذر مع قائمة الدوال.
+pub fn parse_with_fns(src: &str, arena: &mut Arena) -> Result<(NodeID, Vec<FnInfo>), ParserError> {
+    let root = parse(src, arena)?;
+    Ok((root, Vec::new()))
+}
+

@@ -34,14 +34,15 @@ const BUILTINS: &[&str] = &[
 fn is_builtin(name: &str) -> bool {
     BUILTINS.contains(&name)
 }
-pub fn compile_to_native(func: &NIRFunction, output_path: &str) -> Result<()> {
+pub fn compile_to_native(funcs: &[NIRFunction], output_path: &str) -> Result<()> {
     let temp = TempDir::new()?;
     let asm_path = temp.path().join("program.asm");
     let obj_path = temp.path().join("program.o");
-    let asm_code = generate_assembly(func)?;
+    let asm_code = generate_assembly_multi(funcs)?;
     std::fs::write(&asm_path, asm_code)?;
     let nasm_out = Command::new("nasm")
-        .args(&["-f", "elf64", asm_path.to_str().unwrap(), "-o", obj_path.to_str().unwrap()])
+        .current_dir(temp.path())
+        .args(&["-f", "elf64", "program.asm", "-o", "program.o"])
         .output()?;
     if !nasm_out.status.success() {
         return Err(CompileError::NasmFailed(String::from_utf8_lossy(&nasm_out.stderr).to_string()));
@@ -100,7 +101,17 @@ fn generate_assembly(func: &NIRFunction) -> Result<String> {
     asm.push_str("    t_status resq 1\n");
     asm.push_str("\nsection .data\n");
     asm.push_str("    nl_ptr: db 10\n");
-    asm.push_str("\nsection .text\n");
+    asm.push_str("\nsection .rodata\n");
+for (i, text) in func.string_table.iter().enumerate() {
+asm.push_str(&format!("str_{}: dq {}\n", i, text.len()));
+if text.is_empty() {
+asm.push_str("    db 0\n");
+} else {
+let bytes: Vec<String> = text.bytes().map(|b| b.to_string()).collect();
+asm.push_str(&format!("    db {}\n", bytes.join(",")));
+}
+}
+asm.push_str("\nsection .text\n");
     // Helpers
     asm.push_str(&emit_all_helpers());
     // Pre-scan slots
@@ -210,23 +221,22 @@ fn emit_instr(
             let builtin_name = get_builtin_name(*callee, values);
             if let Some(name) = builtin_name {
                 emit_builtin_call(&mut a, &name, args, values, ctx, *result)?;
-            } else {
-                // Regular function call via fat pointer
-                let arg_regs = ["rdi", "rsi", "rdx", "rcx", "r8", "r9"];
-                for (i, arg) in args.iter().enumerate() {
-                    if i < 6 {
-                        load(&mut a, *arg, values, ctx, arg_regs[i]);
-                    } else {
-                        load(&mut a, *arg, values, ctx, "rax");
-                        a.push_str("    push rax\n");
+            } else if let Some(&NIRValue::IntConst(tag)) = values.get(callee) {
+                if tag >= 200 {
+                    let arg_regs = ["rdi", "rsi", "rdx", "rcx", "r8", "r9"];
+                    for (i, arg) in args.iter().enumerate() {
+                        if i < 6 {
+                            load(&mut a, *arg, values, ctx, arg_regs[i]);
+                        }
                     }
+                    a.push_str(&format!("    call fn_{}\n", tag));
+                    store_result(&mut a, *result, ctx);
+                } else {
+                    a.push_str("    xor rax, rax\n");
+                    store_result(&mut a, *result, ctx);
                 }
-                load(&mut a, *callee, values, ctx, "r10");
-                a.push_str("    push r15\n");
-                a.push_str("    mov r15, r10\n");
-                a.push_str("    mov r10, [r10]\n");
-                a.push_str("    call r10\n");
-                a.push_str("    pop r15\n");
+            } else {
+                a.push_str("    xor rax, rax\n");
                 store_result(&mut a, *result, ctx);
             }
         }
@@ -517,11 +527,15 @@ fn load(a: &mut String, vid: ValueID, values: &HashMap<ValueID, NIRValue>, ctx: 
                 a.push_str(&format!("    mov {}, {}\n", reg, if *b { 1 } else { 0 }));
                 return;
             }
+            NIRValue::StrConst(id) => {
+                a.push_str(&format!("    lea {}, [rel str_{}]\n", reg, id));
+                return;
+            }
             _ => {}
         }
     }
     if let Some(&slot) = ctx.value_map.get(&vid) {
-        a.push_str(&format!("    mov {}, [vars + {}]\n", reg, slot * 8));
+        a.push_str(&format!("    mov {}, [rbp - {}]\n", reg, (slot + 1) * 8));
     } else {
         a.push_str(&format!("    xor {}, {}\n", reg, reg));
     }
@@ -530,7 +544,7 @@ fn store_result(a: &mut String, vid: ValueID, ctx: &CodeGenContext) {
     if let Some(&slot) = ctx.value_map.get(&vid) {
         // DEBUG: comment in asm to trace
         a.push_str(&format!("    ; store_result: vid={} -> slot={}, rax\n", vid.0, slot));
-        a.push_str(&format!("    mov [vars + {}], rax\n", slot * 8));
+        a.push_str(&format!("    mov [rbp - {}], rax\n", (slot + 1) * 8));
     } else {
         a.push_str(&format!("    ; WARNING: store_result: vid={} has NO slot!\n", vid.0));
     }
@@ -840,4 +854,89 @@ impl TraitVTable {
     pub fn register_method(&mut self, method: &str, tag: u32) {
         self.methods.insert(method.to_string(), tag);
     }
+}
+
+fn generate_assembly_multi(funcs: &[NIRFunction]) -> Result<String> {
+    let mut asm = String::new();
+    asm.push_str("global _start\n");
+    asm.push_str("section .bss\n");
+    asm.push_str("    vars resq 256\n");
+    asm.push_str("    num_buf resb 32\n");
+    asm.push_str("    negflag resb 1\n");
+    asm.push_str("    read_buf resb 256\n");
+    asm.push_str("    file_path_buf resb 256\n");
+    asm.push_str("    file_buf resb 4096\n");
+    asm.push_str("    arena_ptr resq 1\n");
+    asm.push_str("    arena_mem resb 262144\n");
+    asm.push_str("    fds_tmp resq 2\n");
+    asm.push_str("    chan_tmp resq 1\n");
+    asm.push_str("    t_stack resb 65536\n");
+    asm.push_str("    t_task resq 4\n");
+    asm.push_str("    t_status resq 1\n");
+    asm.push_str("\nsection .data\n");
+    asm.push_str("    nl_ptr: db 10\n");
+    asm.push_str("\nsection .rodata\n");
+for (i, text) in funcs[0].string_table.iter().enumerate() {
+asm.push_str(&format!("str_{}: dq {}\n", i, text.len()));
+if text.is_empty() {
+asm.push_str("    db 0\n");
+} else {
+let bytes: Vec<String> = text.bytes().map(|b| b.to_string()).collect();
+asm.push_str(&format!("    db {}\n", bytes.join(",")));
+}
+}
+asm.push_str("\nsection .text\n");
+    asm.push_str(&emit_all_helpers());
+
+    for (i, func) in funcs.iter().enumerate() {
+        let tag = 200 + i as i64;
+        let mut ctx = CodeGenContext::new();
+        for block in &func.blocks {
+            for instr in &block.instructions {
+                pre_scan(instr, &mut ctx);
+            }
+        }
+        for p in &func.params {
+            ctx.alloc_slot(*p);
+        }
+        let frame = ((ctx.next_slot + 1) * 8 + 15) & !15;
+        asm.push_str(&format!("fn_{}:\n", tag));
+        asm.push_str("    push rbp\n    mov rbp, rsp\n");
+        if frame > 0 {
+            asm.push_str(&format!("    sub rsp, {}\n", frame));
+        }
+        let arg_regs = ["rdi", "rsi", "rdx", "rcx", "r8", "r9"];
+        for (pi, p) in func.params.iter().enumerate() {
+            if pi < 6 {
+                if let Some(&slot) = ctx.value_map.get(p) {
+                    asm.push_str(&format!("    mov [rbp - {}], {}\n", (slot + 1) * 8, arg_regs[pi]));
+                }
+            }
+        }
+        for block in &func.blocks {
+            if block.id != func.entry_block {
+                asm.push_str(&format!(".bb_{}:\n", block.id.0));
+            }
+            for instr in &block.instructions {
+                if let NIRInstruction::Return { value } = instr {
+                    if let Some(v) = value {
+                        load(&mut asm, *v, &func.values, &ctx, "rax");
+                    } else {
+                        asm.push_str("    xor rax, rax\n");
+                    }
+                    asm.push_str("    mov rsp, rbp\n    pop rbp\n    ret\n");
+                } else {
+                    asm.push_str(&emit_instr(instr, &func.values, &mut ctx)?);
+                }
+            }
+        }
+        asm.push_str("    xor rax, rax\n    mov rsp, rbp\n    pop rbp\n    ret\n\n");
+    }
+
+    let main_idx = funcs.iter().position(|f| f.name == "main").unwrap_or(0);
+    asm.push_str("_start:\n");
+    asm.push_str("    lea rax, [arena_mem]\n    mov [arena_ptr], rax\n    xor rdi, rdi\n");
+    asm.push_str(&format!("    call fn_{}\n", 200 + main_idx as i64));
+    asm.push_str("    mov rdi, rax\n    mov rax, 60\n    syscall\n");
+    Ok(asm)
 }
