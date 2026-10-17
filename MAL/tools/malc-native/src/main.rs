@@ -96,7 +96,7 @@ fn main() {
         return;
     }
     let output = args.output.to_str().unwrap();
-    match compile_to_native(&nir, output) {
+    match compile_to_native(std::slice::from_ref(&nir), output) {
         Ok(()) => println!("Compiled {} -> {}", args.input.as_ref().unwrap().display(), output),
         Err(e) => {
             eprintln!("Compile error: {:?}", e);

@@ -1,7 +1,7 @@
 //! # MAL Type Checker — type inference and checking
 #![forbid(unsafe_code)]
 use mal_arena::{Arena, ASTNode, BinaryOp, UnaryOp, NodeID};
-use mal_types::{DataType, TensorDtype, Shape};
+use mal_types::DataType;
 use mal_ownership::StringTable;
 use std::collections::HashMap;
 /// Type checking errors.
@@ -18,15 +18,6 @@ pub enum TypeError {
     TypeMismatch { expected: DataType, actual: DataType },
     /// Unknown type (cannot infer).
     UnknownType { expr: String },
-    /// Matrix multiplication requires 2D tensors.
-    MatMulRequires2D { lhs_rank: usize, rhs_rank: usize },
-    /// Matrix multiplication inner dimensions must match.
-    MatMulDimMismatch { lhs_inner: usize, rhs_inner: usize },
-    /// Shapes are not compatible for broadcasting.
-    BroadcastIncompatible { shape1: Shape, shape2: Shape },
-    /// Tensor operation on non-tensor type.
-    NotATensor { expected: DataType },
-
 }
 impl std::fmt::Display for TypeError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -213,135 +204,5 @@ mod tests {
         let body = arena.allocate(ASTNode::BinOp { op: BinaryOp::Mul, left: param_ref, right: param_ref2 }).unwrap();
         let lambda = arena.allocate(ASTNode::Lambda { params: param, body }).unwrap();
         assert_eq!(infer_type(lambda, &arena, &st, &env).unwrap(), DataType::Int64);
-    }
-}
-
-// ═══════════════════════════════════════════════════════════
-// Shape Inference Helpers for Tensor Operations
-// ═══════════════════════════════════════════════════════════
-/// Infer output shape for matrix multiplication: (M x K) @ (K x N) -> (M x N)
-pub fn infer_matmul_shape(lhs_shape: &Shape, rhs_shape: &Shape) -> Result<Shape, TypeError> {
-    if lhs_shape.rank() != 2 || rhs_shape.rank() != 2 {
-        return Err(TypeError::MatMulRequires2D {
-            lhs_rank: lhs_shape.rank(),
-            rhs_rank: rhs_shape.rank(),
-        });
-    }
-    let m = lhs_shape.dims[0];
-    let k1 = lhs_shape.dims[1];
-    let k2 = rhs_shape.dims[0];
-    let n = rhs_shape.dims[1];
-    if k1 != k2 {
-        return Err(TypeError::MatMulDimMismatch {
-            lhs_inner: k1,
-            rhs_inner: k2,
-        });
-    }
-    Ok(Shape::new(vec![m, n]))
-}
-/// Infer output shape for element-wise operations with NumPy-style broadcasting
-pub fn infer_broadcast_shape(shape1: &Shape, shape2: &Shape) -> Result<Shape, TypeError> {
-    if !shape1.can_broadcast(shape2) {
-        return Err(TypeError::BroadcastIncompatible {
-            shape1: shape1.clone(),
-            shape2: shape2.clone(),
-        });
-    }
-    // Compute the broadcasted shape
-    let max_rank = shape1.rank().max(shape2.rank());
-    let mut s1 = shape1.dims.clone();
-    let mut s2 = shape2.dims.clone();
-    while s1.len() < max_rank { s1.insert(0, 1); }
-    while s2.len() < max_rank { s2.insert(0, 1); }
-    let result_dims = s1.iter()
-        .zip(s2.iter())
-        .map(|(d1, d2)| d1.max(d2))
-        .collect();
-    Ok(Shape::new(result_dims))
-}
-
-// ═══════════════════════════════════════════════════════════
-// Type Checking for New Types (Tensor & Function)
-// ═══════════════════════════════════════════════════════════
-/// Check if two DataTypes are compatible for assignment
-pub fn check_type_compatible(expected: &DataType, actual: &DataType) -> Result<(), TypeError> {
-    match (expected, actual) {
-        (DataType::Int64, DataType::Int64) => Ok(()),
-        (DataType::Float64, DataType::Float64) => Ok(()),
-        (DataType::Bool, DataType::Bool) => Ok(()),
-        (DataType::Text, DataType::Text) => Ok(()),
-        // Tensor compatibility: check shape and dtype
-        (DataType::Tensor { dtype: d1, shape: s1 }, DataType::Tensor { dtype: d2, shape: s2 }) => {
-            if d1 != d2 {
-                return Err(TypeError::TypeMismatch {
-                    expected: expected.clone(),
-                    actual: actual.clone(),
-                });
-            }
-            // Check broadcasting compatibility
-            if !s1.can_broadcast(s2) {
-                return Err(TypeError::BroadcastIncompatible {
-                    shape1: s1.clone(),
-                    shape2: s2.clone(),
-                });
-            }
-            Ok(())
-        }
-        // Function type compatibility: check arg types and return type
-        (DataType::Function { arg_types: a1, return_type: r1 }, 
-         DataType::Function { arg_types: a2, return_type: r2 }) => {
-            if a1.len() != a2.len() {
-                return Err(TypeError::TypeMismatch {
-                    expected: expected.clone(),
-                    actual: actual.clone(),
-                });
-            }
-            for (t1, t2) in a1.iter().zip(a2.iter()) {
-                check_type_compatible(t1, t2)?;
-            }
-            check_type_compatible(r1, r2)?;
-            Ok(())
-        }
-        _ => Err(TypeError::TypeMismatch {
-            expected: expected.clone(),
-            actual: actual.clone(),
-        }),
-    }
-}
-/// Infer type for a Tensor creation expression
-pub fn infer_tensor_type(shape: &Shape, dtype: &TensorDtype) -> DataType {
-    DataType::Tensor {
-        dtype: *dtype,
-        shape: shape.clone(),
-    }
-}
-/// Infer type for a Function expression (higher-order function)
-pub fn infer_function_type(arg_types: Vec<DataType>, return_type: DataType) -> DataType {
-    DataType::Function {
-        arg_types,
-        return_type: Box::new(return_type),
-    }
-}
-/// Validate a function call with higher-order function arguments
-pub fn check_function_call(
-    func_type: &DataType,
-    arg_types: &[DataType],
-) -> Result<DataType, TypeError> {
-    match func_type {
-        DataType::Function { arg_types: expected_args, return_type } => {
-            if expected_args.len() != arg_types.len() {
-                return Err(TypeError::TypeMismatch {
-                    expected: func_type.clone(),
-                    actual: DataType::Text, // Placeholder
-                });
-            }
-            for (expected, actual) in expected_args.iter().zip(arg_types.iter()) {
-                check_type_compatible(expected, actual)?;
-            }
-            Ok(*return_type.clone())
-        }
-        _ => Err(TypeError::NotATensor {
-            expected: func_type.clone(),
-        }),
     }
 }

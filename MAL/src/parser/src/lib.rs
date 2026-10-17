@@ -16,7 +16,6 @@
 #![deny(missing_docs)]
 
 use mal_arena::{Arena, NodeID, ASTNode, ArenaError, BinaryOp, UnaryOp, Pattern};
-use mal_types::DataType;
 use mal_lexer::{Lexer, Token, TokenKind, LexerError};
 
 /// Parser failure modes (fail-closed).
@@ -575,47 +574,6 @@ impl<'a> Parser<'a> {
         self.expect(TokenKind::Dot)?;
         let body = self.parse_expr(arena)?;
         Ok(arena.allocate(ASTNode::Mu { var, body })?)
-    }
-
-    /// Parse a let statement with optional type annotation: let x: Type = expr
-    /// (ملاحظة: هذا نموذج تكامل يوضح كيفية استدعاء parse_type عند وجود ':')
-    fn parse_let_stmt(&mut self, arena: &mut Arena) -> Result<NodeID, ParserError> {
-        // نفترض وجود كلمة مفتاحية let، أو نبدأ بالمعرف مباشرة حسب بنية MAL
-        // هنا سنبدأ بتحليل المعرف
-        let (ident_kind, ident_start, ident_line, ident_col) = {
-    let t = self.peek().ok_or(ParserError::UnexpectedEof)?;
-    (t.kind, t.start, t.line, t.col)
-};
-if ident_kind != TokenKind::Ident {
-    return Err(ParserError::Expected {
-        expected: "identifier",
-        found: format!("{:?}", ident_kind),
-        line: ident_line,
-        col: ident_col,
-    });
-}
-self.bump(); // استهلاك المعرف
-        // إنشاء عقدة المعرف في الـ Arena
-        let ident_node = arena.allocate(ASTNode::Ident(ident_start as u32))?;
-        // التحقق من وجود نوع بيانات اختياري (Type Annotation)
-        if self.peek().map_or(false, |t| t.kind == TokenKind::Colon) {
-    self.bump(); // consume colon
-    // type annotation: consume type name (future feature)
-    let ty = self.peek().ok_or(ParserError::UnexpectedEof)?;
-    if ty.kind == TokenKind::Ident {
-        self.bump();
-    }
-}
-        // استهلاك عامل التعيين (≔ أو =)
-        self.expect(TokenKind::Assign)?; 
-        // تحليل التعبير القيمة
-        let value = self.parse_expr(arena)?;
-        // إنشاء عقدة التعريف (LinearLet كمثال)
-        Ok(arena.allocate(ASTNode::LinearLet {
-            name: ident_node,
-            value,
-            body: NodeID::INVALID, // في التنفيذ الكامل، هذا يشير إلى بقية الكتلة
-        })?)
     }
     fn parse_stmt(&mut self, arena: &mut Arena) -> Result<NodeID, ParserError> {
         let tok = self.peek().ok_or(ParserError::UnexpectedEof)?;

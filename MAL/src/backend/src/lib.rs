@@ -21,32 +21,22 @@ use std::time::{Duration, SystemTime};
 // ═══════════════════════════════════════════════════════════
 // TYPE MAPPING
 // ═══════════════════════════════════════════════════════════
-pub fn c_type(mal_type: &str) -> String {
-    let m = mal_type.trim();
-    if m.starts_with('&') {
-        let inner = &m[1..].trim();
-        if inner.starts_with('[') && inner.ends_with(']') {
-            return format!("{}*", c_type(&inner[1..inner.len()-1]));
-        }
-        return format!("{}*", c_type(inner));
-    }
-    if m.starts_with('[') && m.ends_with(']') {
-        let inner = &m[1..m.len()-1].trim();
-        if let Some(semi) = inner.rfind(';') {
-            let base = c_type(inner[..semi].trim());
-            let size = inner[semi+1..].trim();
-            return format!("{}[{}]", base, size);
-        }
-    }
-    match m {
-        "i64" | "int" => "int64_t".to_string(),
-        "i32" => "int32_t".to_string(),
-        "f64" => "double".to_string(),
-        "f32" | "float" => "float".to_string(),
-        "bool" => "bool".to_string(),
-        "string" | "str" => "const char*".to_string(),
-        "void" | "unit" => "void".to_string(),
-        _ => "int32_t".to_string(),
+pub fn c_type(mal_type: &str) -> &'static str {
+    match mal_type {
+        "i64" | "int" => "int64_t",
+        "i32" => "int32_t",
+        "i16" => "int16_t",
+        "i8" => "int8_t",
+        "u64" => "uint64_t",
+        "u32" => "uint32_t",
+        "u16" => "uint16_t",
+        "u8" => "uint8_t",
+        "f64" | "float" => "double",
+        "f32" => "float",
+        "bool" => "bool",
+        "string" | "str" => "const char*",
+        "void" | "unit" => "void",
+        _ => "int64_t",
     }
 }
 // ═══════════════════════════════════════════════════════════
@@ -97,19 +87,16 @@ impl CFunction {
 #[derive(Debug, Default)]
 pub struct CTranslationUnit {
     pub includes: Vec<String>,
-    pub globals: Vec<String>,
     pub functions: Vec<CFunction>,
 }
 impl CTranslationUnit {
     pub fn new() -> Self {
         let mut tu = Self::default();
-        tu.includes.push("#include <stdint.h>
-#include <math.h>".into());
+        tu.includes.push("#include <stdint.h>".into());
         tu.includes.push("#include <stdbool.h>".into());
         tu.includes.push("#include <stdio.h>".into());
         tu.includes.push("#include <stdlib.h>".into());
         tu.includes.push("#include <string.h>".into());
-        tu.includes.push("#include \"mal_tensor.h\"".into());
         tu
     }
     pub fn add_function(&mut self, func: CFunction) {
@@ -123,10 +110,6 @@ impl CTranslationUnit {
         writeln!(out, " */\n").unwrap();
         for inc in &self.includes {
             writeln!(out, "{}", inc).unwrap();
-        }
-        writeln!(out).unwrap();
-        for g in &self.globals {
-            writeln!(out, "{}", g).unwrap();
         }
         writeln!(out).unwrap();
         for func in &self.functions {
@@ -168,11 +151,6 @@ pub fn transpile_to_c(program: &str) -> Result<CTranslationUnit, String> {
             let (func, consumed) = parse_function(&lines[i..])?;
             tu.add_function(func);
             i += consumed;
-        } else if line.starts_with("let ") {
-            if let Some(c_stmt) = translate_statement(line) {
-                tu.globals.push(c_stmt);
-            }
-            i += 1;
         } else {
             i += 1;
         }
@@ -202,17 +180,11 @@ fn parse_function(lines: &[&str]) -> Result<(CFunction, usize), String> {
     let mut depth = 1;
     while i < lines.len() && depth > 0 {
         let line = lines[i].trim();
-        // إصلاح عد الأقواس لدعم } else { بشكل صحيح
         if line == "}" {
             depth -= 1;
-        } else if line.starts_with("} else") {
-            // التغيير الصافي هو 0 (قوس يغلق وقور يفتح)
+            if depth == 0 { i += 1; break; }
         } else if line.ends_with('{') {
             depth += 1;
-        }
-        if depth == 0 {
-            i += 1;
-            break;
         }
         if let Some(c_stmt) = translate_statement(line) {
             func.add_stmt(c_stmt);
@@ -224,85 +196,21 @@ fn parse_function(lines: &[&str]) -> Result<(CFunction, usize), String> {
 fn translate_statement(nir: &str) -> Option<String> {
     let nir = nir.trim();
     if nir.is_empty() { return None; }
-    if nir.starts_with("if ") {
-        if let Some(brace_idx) = nir.find('{') {
-            let cond = nir[3..brace_idx].trim();
-            let rest = &nir[brace_idx..];
-            return Some(format!("if ({}) {}", cond, rest));
-        }
-    }
-    if nir.starts_with("while ") {
-        if let Some(brace_idx) = nir.find('{') {
-            let cond = nir[6..brace_idx].trim();
-            let rest = &nir[brace_idx..];
-            return Some(format!("while ({}) {}", cond, rest));
-        }
-    }
-    if nir == "}" || nir == "} else {" || nir.starts_with("} else") {
-        return Some(nir.to_string());
-    }
     if nir.starts_with("let ") {
         let rest = &nir[4..].trim_end_matches(';');
         if let (Some(colon), Some(eq)) = (rest.find(':'), rest.find('=')) {
-            let mut name = rest[..colon].trim().to_string();
-            if name.starts_with("mut ") { name = name[4..].trim().to_string(); }
+            let name = rest[..colon].trim();
             let typ = rest[colon+1..eq].trim();
-            let expr = rest[eq+1..].trim().replace(" as usize", "");
-            
-            if typ.starts_with('[') && typ.ends_with(']') {
-                let inner_typ = typ[1..typ.len()-1].trim();
-                if let Some(semi) = inner_typ.rfind(';') {
-                    let base_raw = inner_typ[..semi].trim();
-                    let base_type = if base_raw == "f32" { "float" } else if base_raw == "i32" { "int32_t" } else { &c_type(base_raw) };
-                    let size = inner_typ[semi+1..].trim();
-                    
-                    if expr.starts_with('[') && expr.ends_with(']') {
-                        let inner_expr = expr[1..expr.len()-1].trim();
-                        if let Some(es) = inner_expr.find(';') {
-                            let val = inner_expr[..es].trim();
-                            return Some(format!("{} {}[{}] = {{ [0 ... {} - 1] = {} }};", base_type, name, size, size, val));
-                        } else {
-                            return Some(format!("{} {}[{}] = {{{}}};", base_type, name, size, inner_expr));
-                        }
-                    }
-                }
-            }
-            return Some(format!("{} {} = {};", c_type(typ), name, expr));
+            let expr = rest[eq+1..].trim();
+            return Some(format!("{} {} = {};", c_type(typ), name, translate_expr(expr)));
         }
     }
     if nir.starts_with("return ") {
-        let expr = nir[7..].trim().trim_end_matches(';').replace(" as usize", "");
-        return Some(format!("return {};", expr));
-    }
-    if nir.starts_with("#unroll") {
-        return Some("#pragma GCC unroll 8".to_string());
-    }
-    if nir.starts_with("#simd") {
-        return Some("#pragma GCC ivdep".to_string());
-    }
-    if nir.starts_with("#strict_math") {
-        // يضمن دقة IEEE 754 المطلقة ويمنع دمج عمليات FMA الذي قد يغير البت الأخير
-        return Some("#pragma GCC optimize(\"fp-contract=off\")".to_string());
-    }
-    if nir.starts_with("#cache_friendly") {
-        // يوجه GCC لتحسين استخدام الذاكرة المؤقتة وفك الحلقات
-        return Some("#pragma GCC optimize(\"O3\", \"unroll-loops\", \"tree-vectorize\")".to_string());
-    }
-    if nir.starts_with("#strict_math") {
-        // يضمن دقة IEEE 754 المطلقة ويمنع دمج عمليات FMA الذي قد يغير البت الأخير
-        return Some("#pragma GCC optimize(\"fp-contract=off\")".to_string());
-    }
-    if nir.starts_with("#cache_friendly") {
-        // توجيه للمترجم لتحسين استخدام الذاكرة المؤقتة (Loop Tiling hints)
-        return Some("#pragma GCC optimize(\"O3\", \"unroll-loops\", \"tree-vectorize\")".to_string());
+        let expr = nir[7..].trim().trim_end_matches(';');
+        return Some(format!("return {};", translate_expr(expr)));
     }
     if nir.starts_with("print") { return Some(nir.to_string()); }
-    let clean = nir.replace(" as usize", "");
-    if !clean.ends_with(';') && !clean.ends_with('{') && !clean.ends_with('}') {
-        Some(format!("{};", clean))
-    } else {
-        Some(clean)
-    }
+    if !nir.ends_with(';') { Some(format!("{};", nir)) } else { Some(nir.to_string()) }
 }
 fn translate_expr(expr: &str) -> String {
     expr.to_string()
@@ -324,10 +232,8 @@ pub fn compile_c_to_binary(c_source: &str, options: &CompileOptions) -> Compilat
             errors: vec![format!("Write failed: {}", e)], warnings: vec![],
         };
     }
-    let tensor_include_dir = "/root/ilm-al-kitab/MAL/src/backend";
     let mut cmd = Command::new("gcc");
-    cmd.arg("-I").arg(tensor_include_dir);
-    cmd.arg(&c_file).arg("-o").arg(&binary_path).arg("-Wall").arg("-Wextra").arg("-O3").arg("-march=native").arg("-ffast-math").arg("-lm");
+    cmd.arg(&c_file).arg("-o").arg(&binary_path).arg("-Wall").arg("-Wextra");
     if options.optimize { cmd.arg("-O2"); }
     let output = match cmd.output() {
         Ok(o) => o,
@@ -370,27 +276,6 @@ pub fn run_binary(binary_path: &str, args: &[&str]) -> Result<String, String> {
 // ═══════════════════════════════════════════════════════════
 // TESTS
 // ═══════════════════════════════════════════════════════════
-
-// ═══════════════════════════════════════════════════════════
-// TENSOR & AUTODIFF TRANSLATION (Phase: AI Infrastructure)
-// ═══════════════════════════════════════════════════════════
-/// Translates tensor operations to C99 mal_tensor library calls.
-pub fn translate_tensor_op(op: &str, args: &[String]) -> String {
-    match op {
-        "matmul" | "@" => format!("tensor_matmul({}, {})", args.get(0).unwrap_or(&"".into()), args.get(1).unwrap_or(&"".into())),
-        "add" | "+" => format!("tensor_add({}, {})", args.get(0).unwrap_or(&"".into()), args.get(1).unwrap_or(&"".into())),
-        "sub" | "-" => format!("tensor_sub({}, {})", args.get(0).unwrap_or(&"".into()), args.get(1).unwrap_or(&"".into())),
-        "mul" | "*" => format!("tensor_mul({}, {})", args.get(0).unwrap_or(&"".into()), args.get(1).unwrap_or(&"".into())),
-        "relu" => format!("tensor_relu({})", args.get(0).unwrap_or(&"".into())),
-        "sigmoid" => format!("tensor_sigmoid({})", args.get(0).unwrap_or(&"".into())),
-        "transpose" => format!("tensor_transpose({})", args.get(0).unwrap_or(&"".into())),
-        "backward" => format!("tensor_backward({})", args.get(0).unwrap_or(&"".into())),
-        "grad" => format!("tensor_grad({}, \"{}\")", args.get(0).unwrap_or(&"".into()), args.get(1).unwrap_or(&"".into())),
-        "zero_grad" => format!("tensor_zero_grad(&{})", args.get(0).unwrap_or(&"".into())),
-        _ => format!("/* Unknown tensor op: {} */", op),
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -490,36 +375,4 @@ fn main() -> i32 {
         let output = run_binary(result.binary_path.as_ref().unwrap(), &[]).unwrap();
         assert!(output.contains("محمد = 92"), "Got: {}", output);
     }
-}
-
-// ═══════════════════════════════════════════════════════════
-// C Code Generation for New Types (Tensor & Function)
-// ═══════════════════════════════════════════════════════════
-/// Generate C code for a Tensor type declaration
-pub fn gen_tensor_type_decl(name: &str, shape: &[usize], dtype: &str) -> String {
-    let c_dtype = match dtype {
-        "f64" | "Float64" => "double",
-        "f32" | "Float32" => "float",
-        "i32" | "Int32" => "int32_t",
-        "i64" | "Int64" => "int64_t",
-        _ => "double",
-    };
-    format!("Tensor {} = tensor_zeros({}, (int[]){{{} }}, DT_{});", 
-            name, shape.len(), shape.iter().map(|d| d.to_string()).collect::<Vec<_>>().join(", "),
-            dtype.to_uppercase())
-}
-/// Generate C code for a function pointer type (higher-order function)
-pub fn gen_function_pointer_type(name: &str, arg_types: &[&str], return_type: &str) -> String {
-    let c_args = arg_types.iter().map(|t| c_type(t)).collect::<Vec<_>>().join(", ");
-    let c_ret = c_type(return_type);
-    format!("{} (*{})({})", c_ret, name, c_args)
-}
-/// Generate C code for calling a higher-order function
-pub fn gen_higher_order_call(func_name: &str, args: &[String]) -> String {
-    let args_str = args.join(", ");
-    format!("{}({})", func_name, args_str)
-}
-/// Generate C code for a Tensor operation
-pub fn gen_tensor_op_c(op: &str, args: &[String]) -> String {
-    translate_tensor_op(op, args)
 }

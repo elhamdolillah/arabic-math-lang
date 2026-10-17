@@ -14,136 +14,206 @@
 #![deny(missing_docs)]
 
 /// Typed node identifier. Newtype around u32 prevents accidental arithmetic.
-// ═══════════════════════════════════════════════════════════════
-// Re-exported from mal_types (mathematical foundation)
-// ═══════════════════════════════════════════════════════════════
-pub use mal_types::DataType;
-
-/// A unique identifier for a node in the Arena.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct NodeID(pub u32);
+
 impl NodeID {
-    /// An invalid NodeID, often used as a placeholder.
+    /// Sentinel value representing an invalid/uninitialized node.
     pub const INVALID: NodeID = NodeID(u32::MAX);
 }
 
-/// Errors that can occur when working with the Arena.
-#[derive(Debug, Clone, PartialEq, Eq)]
+/// Constitutional failure modes.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ArenaError {
-    /// The Arena has reached its maximum capacity.
+    /// Arena capacity exceeded — fail-closed.
     CapacityExceeded,
-    /// An invalid NodeID was provided.
+    /// NodeID out of range or not yet allocated.
     InvalidNodeID,
-    /// A type mismatch occurred during an operation.
+    /// Type tag mismatch when reading.
     TypeMismatch,
 }
-/// AST node variants for the MAL arena.
-#[derive(Debug, Clone)]
-#[allow(missing_docs)]
-pub enum ASTNode {
+
+/// Type tag for runtime type checking.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum TypeTag {
+    /// Empty slot (uninitialized).
     Empty,
+    /// Integer (i64).
+    Int,
+    /// Fixed-point Q32.32.
+    FixedPoint,
+    /// String reference (index into string table).
+    Str,
+    /// Identifier (index into string table).
+    Ident,
+    /// Binary operation.
+    BinOp,
+    /// Function call.
+    Call,
+    /// Linked list node.
+    List,
+    /// Lambda: λ(params). body.
+    Lambda,
+    /// Linear let: x ⊸ expr.
+    LinearLet,
+    /// Universal quantification: ∀x ∈ S : body.
+    ForAll,
+    /// Set membership: x ∈ S.
+    SetMembership,
+    /// Mu: μx. body (least fixed-point).
+    Mu,
+    /// Existential quantification: ∃x ∈ S : body.
+    Exists,
+    /// Set literal: ⟨...⟩.
+    Set,
+    /// Boolean value (true/false).
+    Bool,
+    /// Unary operation (- or ¬).
+    UnaryOp,
+    /// Pattern match expression (Phase 43).
+    Match,
+    /// Pattern match arm (Phase 43).
+    MatchArm,
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Re-exported from mal_types (mathematical foundation)
+// ═══════════════════════════════════════════════════════════════
+pub use mal_types::{
+    BinaryOp, UnaryOp, RelOp,
+    Truth3, ScalarValue,
+    SourceSpan, SupportStatus,
+    QueryNode,
+    DataType, Nullability,
+    ColumnId, RelationId, Identifier,
+    Column, Schema, Row,
+    TypeError, Coercion,
+    check_coercion, validate_value, validate_row,
+};
+/// AST node with inline payload (no heap allocation per node).
+#[derive(Debug, Clone)]
+pub enum ASTNode {
+    /// Empty slot.
+    Empty,
+    /// Integer literal.
     Int(i64),
+    /// Fixed-point Q32.32 value.
     FixedPoint(i64),
+    /// String reference (index into external string table).
     Str(u32),
+    /// Identifier reference (index into external string table).
     Ident(u32),
-    BoolLit(bool),
+    /// Binary operation: op + left + right.
     BinOp {
+        /// Operator (type-safe enum).
         op: BinaryOp,
+        /// Left operand node.
         left: NodeID,
+        /// Right operand node.
         right: NodeID,
     },
-    UnaryOp {
-        op: UnaryOp,
-        expr: NodeID,
-    },
+    /// Function call: func + first arg (args chain via List).
     Call {
+        /// Function identifier node.
         func: NodeID,
+        /// Arguments (as List node).
         args: NodeID,
     },
+    /// Linked list: head + tail (for variadic args).
     List {
+        /// Head element node.
         head: NodeID,
+        /// Tail (rest of list) node.
         tail: NodeID,
     },
+    /// Lambda: λ(params). body.
     Lambda {
+        /// Parameters (as List of Ident nodes).
         params: NodeID,
+        /// Body expression.
         body: NodeID,
     },
-    LinearLet {
-        name: NodeID,
+    /// Conditional: إذا cond : body
+    If {
+        /// Condition expression.
+        cond: NodeID,
+        /// Body executed when condition is true.
+        then_body: NodeID,
+    },
+    /// Early return: أعد value
+    Return {
+        /// Returned value.
         value: NodeID,
+    },
+    /// Linear let: x ⊸ expr (ownership transfer).
+    LinearLet {
+        /// Variable being bound.
+        name: NodeID,
+        /// Value being transferred.
+        value: NodeID,
+        /// Body expression.
         body: NodeID,
     },
+    /// Universal quantification: ∀x ∈ S : body.
     ForAll {
+        /// Variable.
         var: NodeID,
+        /// Set.
         set: NodeID,
+        /// Body expression.
         body: NodeID,
     },
+    /// Set membership: x ∈ S.
+    SetMembership {
+        /// Element.
+        elem: NodeID,
+        /// Set.
+        set: NodeID,
+    },
+    /// Mu: μx. body (least fixed-point).
+    Mu {
+        /// Variable.
+        var: NodeID,
+        /// Body expression.
+        body: NodeID,
+    },
+    /// Existential quantification: ∃x ∈ S : body.
     Exists {
+        /// Variable.
         var: NodeID,
+        /// Set.
         set: NodeID,
+        /// Body expression.
         body: NodeID,
     },
+    /// Set literal: ⟨e1, e2, ...⟩. elems is a List chain, or INVALID if empty.
     Set {
+        /// Elements as List chain (NodeID::INVALID if empty).
         elems: NodeID,
     },
-    SetMembership {
-        elem: NodeID,
-        set: NodeID,
+    /// Boolean literal (true or false).
+    BoolLit(bool),
+    /// Unary operation: op + expr.
+    UnaryOp {
+        /// Operator (type-safe enum).
+        op: UnaryOp,
+        /// Operand expression node.
+        expr: NodeID,
     },
-    Mu {
-        var: NodeID,
-        body: NodeID,
-    },
+    /// Match expression: ⎇ scrutinee : arms (Phase 43).
     Match {
+        /// Expression to match against.
         scrutinee: NodeID,
+        /// List of MatchArm nodes.
         arms: NodeID,
     },
+    /// Match arm: pattern ⇒ body (Phase 43).
     MatchArm {
+        /// Pattern to match.
         pattern: Pattern,
+        /// Body expression to evaluate if pattern matches.
         body: NodeID,
     },
-    /// Tensor operation node.
-    TensorOp {
-        op: TensorOpKind,
-        args: NodeID,
-    },
-    /// Automatic differentiation node.
-    AutodiffOp {
-        op: AutodiffOpKind,
-        target: NodeID,
-        params: NodeID,
-    },
-}
-
-/// Binary operators (type-safe, no magic numbers).
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[allow(missing_docs)]
-pub enum BinaryOp {
-    Add, Sub, Mul, Div, Mod, Pow, Concat,
-    Lt, Gt, Le, Ge, Eq, Neq,
-    And, Or,
-    Assign,
-}
-
-/// Unary operator (type-safe, no magic numbers).
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[allow(missing_docs)]
-pub enum UnaryOp {
-    Neg, Not,
-}
-
-/// Tensor operation kinds (AI/ML).
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[allow(missing_docs)]
-pub enum TensorOpKind {
-    MatMul, Add, Mul, Relu,
-}
-
-/// Automatic differentiation operation kinds.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[allow(missing_docs)]
-pub enum AutodiffOpKind {
-    Grad, Value,
 }
 
 /// Pattern for match expressions (Phase 43).
@@ -157,37 +227,14 @@ pub enum Pattern {
     Binding(u32),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[allow(missing_docs)]
-pub enum TypeTag {
-    Empty,
-    Int,
-    FixedPoint,
-    Str,
-    Ident,
-    Bool,
-    BinOp,
-    UnaryOp,
-    Call,
-    List,
-    Lambda,
-    LinearLet,
-    ForAll,
-    Exists,
-    Set,
-    SetMembership,
-    Mu,
-    Match,
-    MatchArm,
-    TensorOp,
-    AutodiffOp,
-}
 
 impl ASTNode {
     /// Returns the type tag of this node.
     pub fn type_tag(&self) -> TypeTag {
         match self {
             ASTNode::Empty => TypeTag::Empty,
+            ASTNode::If { .. } => TypeTag::Empty,
+            ASTNode::Return { .. } => TypeTag::Empty,
             ASTNode::Int(_) => TypeTag::Int,
             ASTNode::FixedPoint(_) => TypeTag::FixedPoint,
             ASTNode::Str(_) => TypeTag::Str,
@@ -206,8 +253,6 @@ impl ASTNode {
             ASTNode::UnaryOp { .. } => TypeTag::UnaryOp,
             ASTNode::Match { .. } => TypeTag::Match,
             ASTNode::MatchArm { .. } => TypeTag::MatchArm,
-            ASTNode::TensorOp { .. } => TypeTag::TensorOp,
-            ASTNode::AutodiffOp { .. } => TypeTag::AutodiffOp,
         }
     }
 }
@@ -300,14 +345,8 @@ mod tests {
         let arena = Arena::new(10);
         // Out of range: rejected
         assert_eq!(arena.get(NodeID(0)).unwrap_err(), ArenaError::InvalidNodeID);
-        assert_eq!(
-            arena.get(NodeID(999)).unwrap_err(),
-            ArenaError::InvalidNodeID
-        );
-        assert_eq!(
-            arena.get(NodeID::INVALID).unwrap_err(),
-            ArenaError::InvalidNodeID
-        );
+        assert_eq!(arena.get(NodeID(999)).unwrap_err(), ArenaError::InvalidNodeID);
+        assert_eq!(arena.get(NodeID::INVALID).unwrap_err(), ArenaError::InvalidNodeID);
     }
 
     #[test]
@@ -387,12 +426,10 @@ mod tests {
         let mut arena = Arena::new(10);
         let param = arena.allocate(ASTNode::Ident(0)).unwrap();
         let body = arena.allocate(ASTNode::Int(42)).unwrap();
-        let lambda = arena
-            .allocate(ASTNode::Lambda {
-                params: param,
-                body,
-            })
-            .unwrap();
+        let lambda = arena.allocate(ASTNode::Lambda {
+            params: param,
+            body,
+        }).unwrap();
         assert!(matches!(arena.get(lambda).unwrap(), ASTNode::Lambda { .. }));
         assert_eq!(arena.get(lambda).unwrap().type_tag(), TypeTag::Lambda);
     }
@@ -421,11 +458,3 @@ mod tests {
 //   ∀ allocation sequence S: alloc_sequence(S) is deterministic
 //   No heap fragmentation, no GC pauses
 // ═══════════════════════════════════════════════════════════════
-
-// ═══════════════════════════════════════════════════════════
-// COMPILER OPTIMIZATION: Constant Folding Pass
-// ═══════════════════════════════════════════════════════════
-
-// ═══════════════════════════════════════════════════════════
-// COMPILER OPTIMIZATION: Constant Folding Pass (Corrected)
-// ═══════════════════════════════════════════════════════════

@@ -179,16 +179,16 @@ impl<'a> ASTLowerer<'a> {
                 }
                 None
             }
-            ASTNode::If { cond, then_body, else_body } => {
+            ASTNode::If { cond, then_body } => {
                 let c = match self.lower_node(*cond) {
                     Some(v) => v,
                     None => return None,
                 };
                 let then_bb = self.func.fresh_block();
-                let else_bb = self.func.fresh_block();
+                
                 let end_bb = self.func.fresh_block();
                 self.func.add_instruction(self.current_block,
-                    NIRInstruction::CondBranch { cond: c, then_bb, else_bb });
+                    NIRInstruction::CondBranch { cond: c, then_bb, else_bb: end_bb });
                 let result = self.func.fresh_value(NIRValue::Undef);
                 self.current_block = then_bb;
                 if let Some(v) = self.lower_node(*then_body) {
@@ -197,13 +197,6 @@ impl<'a> ASTLowerer<'a> {
                 }
                 self.func.add_instruction(self.current_block,
                     NIRInstruction::Branch { target: end_bb });
-                self.current_block = else_bb;
-                if else_body.0 != u32::MAX && else_body.0 != 0 {
-                    if let Some(v) = self.lower_node(*else_body) {
-                        self.func.add_instruction(self.current_block,
-                            NIRInstruction::Move { value: v, result });
-                    }
-                }
                 self.func.add_instruction(self.current_block,
                     NIRInstruction::Branch { target: end_bb });
                 self.current_block = end_bb;

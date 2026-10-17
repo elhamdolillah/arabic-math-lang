@@ -202,7 +202,6 @@ version = "0.1.0"
 dependencies = [
  "mal_arena",
  "mal_lexer",
- "mal_types",
 ]
 
 [[package]]

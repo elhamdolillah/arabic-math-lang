@@ -11,4 +11,3 @@ path = "src/lib.rs"
 [dependencies]
 mal_lexer = { path = "../lexer" }
 mal_arena = { path = "../arena" }
-mal_types = { path = "../types" }

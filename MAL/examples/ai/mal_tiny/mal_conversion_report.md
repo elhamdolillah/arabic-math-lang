@@ -1,10 +1,6 @@
 # تقرير تحويل Qwen وMAL
 
-<<<<<<< HEAD
-- آخر تحديث UTC: 2026-10-17T19:12:01Z
-=======
-- آخر تحديث UTC: 2026-10-17T08:26:36Z
->>>>>>> feat/if-return-gate-t5
+- آخر تحديث UTC: 2026-10-17T19:27:01Z
 - الحالة: **WAITING_SAFE_CONVERSION**
 - السبب: Qwen conversion is gated at P2_QWEN_ARCHITECTURE_REQUIRED/MMAP_PASS_OFFSETS_EXTRACTED; no verified source-to-MAL queue is present
 - مراقب Qwen: **RESTARTED**
