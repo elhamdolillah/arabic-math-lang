@@ -55,12 +55,13 @@ pub struct NIRFunction {
     pub values: HashMap<ValueID, NIRValue>,
     pub next_value_id: u32,
     pub next_block_id: u32,
+    pub string_table: Vec<String>,
 }
 impl NIRFunction {
     pub fn new(name: String) -> Self {
         Self { name, params: Vec::new(), entry_block: BlockID(0),
             blocks: Vec::new(), values: HashMap::new(),
-            next_value_id: 0, next_block_id: 0 }
+            next_value_id: 0, next_block_id: 0, string_table: Vec::new() }
     }
     pub fn fresh_value(&mut self, val: NIRValue) -> ValueID {
         let id = ValueID(self.next_value_id);

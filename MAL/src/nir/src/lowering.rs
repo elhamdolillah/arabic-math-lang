@@ -1,4 +1,4 @@
-use mal_arena::{ASTNode, NodeID, BinaryOp, UnaryOp, Arena};
+use mal_arena::{ASTNode, NodeID, BinaryOp, UnaryOp, Arena, Pattern};
 use crate::{NIRFunction, NIRInstruction, NIRValue, NIROp, NIRUnOp, ValueID, BlockID};
 use std::collections::HashMap;
 use crate::TypeEnv;
@@ -171,14 +171,164 @@ impl<'a> ASTLowerer<'a> {
                     }
                 }
             }
+            ASTNode::Return { value } => {
+                let v = self.lower_node(*value);
+                if let Some(v) = v {
+                    self.func.add_instruction(self.current_block,
+                        NIRInstruction::Return { value: Some(v) });
+                }
+                None
+            }
+            ASTNode::If { cond, then_body, else_body } => {
+                let c = match self.lower_node(*cond) {
+                    Some(v) => v,
+                    None => return None,
+                };
+                let then_bb = self.func.fresh_block();
+                let else_bb = self.func.fresh_block();
+                let end_bb = self.func.fresh_block();
+                self.func.add_instruction(self.current_block,
+                    NIRInstruction::CondBranch { cond: c, then_bb, else_bb });
+                let result = self.func.fresh_value(NIRValue::Undef);
+                self.current_block = then_bb;
+                if let Some(v) = self.lower_node(*then_body) {
+                    self.func.add_instruction(self.current_block,
+                        NIRInstruction::Move { value: v, result });
+                }
+                self.func.add_instruction(self.current_block,
+                    NIRInstruction::Branch { target: end_bb });
+                self.current_block = else_bb;
+                if else_body.0 != u32::MAX && else_body.0 != 0 {
+                    if let Some(v) = self.lower_node(*else_body) {
+                        self.func.add_instruction(self.current_block,
+                            NIRInstruction::Move { value: v, result });
+                    }
+                }
+                self.func.add_instruction(self.current_block,
+                    NIRInstruction::Branch { target: end_bb });
+                self.current_block = end_bb;
+                Some(result)
+            }
+            ASTNode::Match { scrutinee, arms } => {
+                let scr = match self.lower_node(*scrutinee) {
+                    Some(v) => v,
+                    None => return None,
+                };
+                let end_bb = self.func.fresh_block();
+                let result = self.func.fresh_value(NIRValue::Undef);
+                let mut lit_arms: Vec<(i64, NodeID)> = Vec::new();
+                let mut default_body: Option<NodeID> = None;
+                let mut cur = *arms;
+                loop {
+                    if cur.0 == u32::MAX { break; }
+                    match self.arena.get(cur) {
+                        Ok(ASTNode::List { head, tail }) => {
+                            if let Ok(ASTNode::MatchArm { pattern, body }) = self.arena.get(*head) {
+                                match pattern {
+                                    Pattern::Literal(v) => lit_arms.push((*v, *body)),
+                                    _ => default_body = Some(*body),
+                                }
+                            }
+                            cur = *tail;
+                        }
+                        Ok(ASTNode::MatchArm { pattern, body }) => {
+                            match pattern {
+                                Pattern::Literal(v) => lit_arms.push((*v, *body)),
+                                _ => default_body = Some(*body),
+                            }
+                            break;
+                        }
+                        _ => break,
+                    }
+                }
+                let n = lit_arms.len();
+                let mut cond_bbs = Vec::new();
+                for _ in 0..n {
+                    cond_bbs.push(self.func.fresh_block());
+                }
+                let default_bb = self.func.fresh_block();
+                let mut chain_bb = self.current_block;
+                for (i, (lit, _)) in lit_arms.iter().enumerate() {
+                    let litv = self.func.fresh_value(NIRValue::IntConst(*lit));
+                    let cond = self.func.fresh_value(NIRValue::Undef);
+                    self.func.add_instruction(chain_bb,
+                        NIRInstruction::BinOp {
+                            op: NIROp::Eq, lhs: scr, rhs: litv, result: cond,
+                        });
+                    let else_bb = if i + 1 < n { cond_bbs[i + 1] } else { default_bb };
+                    self.func.add_instruction(chain_bb,
+                        NIRInstruction::CondBranch { cond, then_bb: cond_bbs[i], else_bb });
+                    chain_bb = else_bb;
+                }
+                for (i, (_, body)) in lit_arms.iter().enumerate() {
+                    self.current_block = cond_bbs[i];
+                    if let Some(v) = self.lower_node(*body) {
+                        self.func.add_instruction(self.current_block,
+                            NIRInstruction::Move { value: v, result });
+                    }
+                    self.func.add_instruction(self.current_block,
+                        NIRInstruction::Branch { target: end_bb });
+                }
+                self.current_block = default_bb;
+                if let Some(db) = default_body {
+                    if let Some(v) = self.lower_node(db) {
+                        self.func.add_instruction(self.current_block,
+                            NIRInstruction::Move { value: v, result });
+                    }
+                }
+                self.func.add_instruction(self.current_block,
+                    NIRInstruction::Branch { target: end_bb });
+                self.current_block = end_bb;
+                Some(result)
+            }
+            ASTNode::Str(idx) => {
+                let start = *idx as usize;
+                let bytes = self.source.as_bytes();
+                let mut end = start + 1;
+                while end < bytes.len() && bytes[end] != 34 {
+                    end += 1;
+                }
+                let text = self.source.get(start + 1..end).unwrap_or("").to_string();
+                let sid = self.func.string_table.len() as u32;
+                self.func.string_table.push(text);
+                let v = self.func.fresh_value(NIRValue::StrConst(sid));
+                Some(v)
+            }
             ASTNode::Call { func: func_nid, args } => {
                 let func_nid_copy = *func_nid;
                 let args_copy = *args;
                 if func_nid_copy.0 == u32::MAX {
-                    let callee = self.func.fresh_value(NIRValue::IntConst(122));
+                    let mut arg_vals = Vec::new();
+                    let mut cur = args_copy;
+                    loop {
+                        if cur.0 == u32::MAX { break; }
+                        if let Ok(arg_node) = self.arena.get(cur) {
+                            match arg_node {
+                                ASTNode::List { head, tail } => {
+                                    let head_copy = *head;
+                                    let tail_copy = *tail;
+                                    if let Some(v) = self.lower_node(head_copy) {
+                                        arg_vals.push(v);
+                                    }
+                                    cur = tail_copy;
+                                }
+                                ASTNode::Empty => break,
+                                _ => {
+                                    if let Some(v) = self.lower_node(cur) {
+                                        arg_vals.push(v);
+                                    }
+                                    break;
+                                }
+                            }
+                        } else { break; }
+                    }
+                    let is_str = self.arena.get(args_copy).ok()
+                        .map_or(false, |n| matches!(n, ASTNode::Str(_)));
+                    let tag: i64 = if is_str { 106 } else { 105 };
+                    let callee = self.func.fresh_value(NIRValue::IntConst(tag));
                     let res = self.func.fresh_value(NIRValue::Undef);
                     self.func.add_instruction(self.current_block,
-                        NIRInstruction::Call { callee, args: vec![], result: res });
+                        NIRInstruction::Call { callee, args: arg_vals, result: res });
                     return Some(res);
                 }
                 let mut arg_vals = Vec::new();
@@ -407,3 +557,20 @@ pub fn lower_forall_body(var_name: &str, set_size: usize) -> String {
 pub fn lower_exists_check(predicate_result: &str) -> String {
     format!("    ; exists check: result = {}\n", predicate_result)
 }
+
+/// مواصفة دالة للتجميع متعدد الدوال (M2 bridge).
+pub struct FnSpec {
+    pub name: String,
+    pub params: Vec<String>,
+    pub body: NodeID,
+}
+
+/// خفض برنامج متعدد الدوال إلى قائمة NIRFunction.
+pub fn lower_program_with_source(arena: &Arena, source: &str, specs: &[FnSpec]) -> Vec<NIRFunction> {
+    specs.iter().map(|s| {
+        let mut f = lower_ast_to_nir_with_source(arena, s.body, source);
+        f.name = s.name.clone();
+        f
+    }).collect()
+}
+

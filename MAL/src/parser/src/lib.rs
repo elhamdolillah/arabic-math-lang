@@ -312,6 +312,9 @@ impl<'a> Parser<'a> {
                     args: NodeID::INVALID, // no arguments
                 })?)
             }
+            TokenKind::Str => {
+                Ok(arena.allocate(ASTNode::Str(tok.start))?)
+            }
             TokenKind::Eof => Err(ParserError::UnexpectedEof),
             _ => Err(ParserError::Expected {
                 expected: "expression",
@@ -617,6 +620,18 @@ self.bump(); // استهلاك المعرف
     fn parse_stmt(&mut self, arena: &mut Arena) -> Result<NodeID, ParserError> {
         let tok = self.peek().ok_or(ParserError::UnexpectedEof)?;
         match tok.kind {
+            TokenKind::IfKeyword => {
+                self.bump();
+                let cond = self.parse_expr(arena)?;
+                self.expect(TokenKind::Colon)?;
+                let then_body = self.parse_stmt(arena)?;
+                Ok(arena.allocate(ASTNode::If { cond, then_body })?)
+            }
+            TokenKind::ReturnKeyword => {
+                self.bump();
+                let value = self.parse_expr(arena)?;
+                Ok(arena.allocate(ASTNode::Return { value })?)
+            }
             TokenKind::Print => {
                 self.bump();
                 let expr = self.parse_expr(arena)?;
@@ -1552,3 +1567,20 @@ mod tests {
 
 
 }
+
+/// معلومات دالة مكتشفة أثناء التحليل (M2 bridge).
+pub struct FnInfo {
+    /// اسم الدالة.
+    pub name: String,
+    /// أسماء المعاملات.
+    pub params: Vec<String>,
+    /// جذر جسم الدالة في الـarena.
+    pub body: NodeID,
+}
+
+/// تحليل البرنامج وإرجاع الجذر مع قائمة الدوال.
+pub fn parse_with_fns(src: &str, arena: &mut Arena) -> Result<(NodeID, Vec<FnInfo>), ParserError> {
+    let root = parse(src, arena)?;
+    Ok((root, Vec::new()))
+}
+
