@@ -1,4 +1,4 @@
-use mal_arena::{ASTNode, NodeID, BinaryOp, UnaryOp, Arena};
+use mal_arena::{ASTNode, NodeID, BinaryOp, UnaryOp, Arena, Pattern};
 use crate::{NIRFunction, NIRInstruction, NIRValue, NIROp, NIRUnOp, ValueID, BlockID};
 use std::collections::HashMap;
 use crate::TypeEnv;
@@ -179,24 +179,107 @@ impl<'a> ASTLowerer<'a> {
                 }
                 None
             }
-            ASTNode::If { cond, then_body } => {
-                let c = self.lower_node(*cond);
-                if let Some(c) = c {
-                    let then_bb = self.func.fresh_block();
-                    let else_bb = self.func.fresh_block();
-                    let end_bb = self.func.fresh_block();
+            ASTNode::If { cond, then_body, else_body } => {
+                let c = match self.lower_node(*cond) {
+                    Some(v) => v,
+                    None => return None,
+                };
+                let then_bb = self.func.fresh_block();
+                let else_bb = self.func.fresh_block();
+                let end_bb = self.func.fresh_block();
+                self.func.add_instruction(self.current_block,
+                    NIRInstruction::CondBranch { cond: c, then_bb, else_bb });
+                let result = self.func.fresh_value(NIRValue::Undef);
+                self.current_block = then_bb;
+                if let Some(v) = self.lower_node(*then_body) {
                     self.func.add_instruction(self.current_block,
-                        NIRInstruction::CondBranch { cond: c, then_bb, else_bb });
-                    self.current_block = then_bb;
-                    self.lower_node(*then_body);
-                    self.func.add_instruction(self.current_block,
-                        NIRInstruction::Branch { target: end_bb });
-                    self.current_block = else_bb;
-                    self.func.add_instruction(self.current_block,
-                        NIRInstruction::Branch { target: end_bb });
-                    self.current_block = end_bb;
+                        NIRInstruction::Move { value: v, result });
                 }
-                None
+                self.func.add_instruction(self.current_block,
+                    NIRInstruction::Branch { target: end_bb });
+                self.current_block = else_bb;
+                if else_body.0 != u32::MAX && else_body.0 != 0 {
+                    if let Some(v) = self.lower_node(*else_body) {
+                        self.func.add_instruction(self.current_block,
+                            NIRInstruction::Move { value: v, result });
+                    }
+                }
+                self.func.add_instruction(self.current_block,
+                    NIRInstruction::Branch { target: end_bb });
+                self.current_block = end_bb;
+                Some(result)
+            }
+            ASTNode::Match { scrutinee, arms } => {
+                let scr = match self.lower_node(*scrutinee) {
+                    Some(v) => v,
+                    None => return None,
+                };
+                let end_bb = self.func.fresh_block();
+                let result = self.func.fresh_value(NIRValue::Undef);
+                let mut lit_arms: Vec<(i64, NodeID)> = Vec::new();
+                let mut default_body: Option<NodeID> = None;
+                let mut cur = *arms;
+                loop {
+                    if cur.0 == u32::MAX { break; }
+                    match self.arena.get(cur) {
+                        Ok(ASTNode::List { head, tail }) => {
+                            if let Ok(ASTNode::MatchArm { pattern, body }) = self.arena.get(*head) {
+                                match pattern {
+                                    Pattern::Literal(v) => lit_arms.push((*v, *body)),
+                                    _ => default_body = Some(*body),
+                                }
+                            }
+                            cur = *tail;
+                        }
+                        Ok(ASTNode::MatchArm { pattern, body }) => {
+                            match pattern {
+                                Pattern::Literal(v) => lit_arms.push((*v, *body)),
+                                _ => default_body = Some(*body),
+                            }
+                            break;
+                        }
+                        _ => break,
+                    }
+                }
+                let n = lit_arms.len();
+                let mut cond_bbs = Vec::new();
+                for _ in 0..n {
+                    cond_bbs.push(self.func.fresh_block());
+                }
+                let default_bb = self.func.fresh_block();
+                let mut chain_bb = self.current_block;
+                for (i, (lit, _)) in lit_arms.iter().enumerate() {
+                    let litv = self.func.fresh_value(NIRValue::IntConst(*lit));
+                    let cond = self.func.fresh_value(NIRValue::Undef);
+                    self.func.add_instruction(chain_bb,
+                        NIRInstruction::BinOp {
+                            op: NIROp::Eq, lhs: scr, rhs: litv, result: cond,
+                        });
+                    let else_bb = if i + 1 < n { cond_bbs[i + 1] } else { default_bb };
+                    self.func.add_instruction(chain_bb,
+                        NIRInstruction::CondBranch { cond, then_bb: cond_bbs[i], else_bb });
+                    chain_bb = else_bb;
+                }
+                for (i, (_, body)) in lit_arms.iter().enumerate() {
+                    self.current_block = cond_bbs[i];
+                    if let Some(v) = self.lower_node(*body) {
+                        self.func.add_instruction(self.current_block,
+                            NIRInstruction::Move { value: v, result });
+                    }
+                    self.func.add_instruction(self.current_block,
+                        NIRInstruction::Branch { target: end_bb });
+                }
+                self.current_block = default_bb;
+                if let Some(db) = default_body {
+                    if let Some(v) = self.lower_node(db) {
+                        self.func.add_instruction(self.current_block,
+                            NIRInstruction::Move { value: v, result });
+                    }
+                }
+                self.func.add_instruction(self.current_block,
+                    NIRInstruction::Branch { target: end_bb });
+                self.current_block = end_bb;
+                Some(result)
             }
             ASTNode::Str(idx) => {
                 let start = *idx as usize;
