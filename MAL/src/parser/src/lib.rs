@@ -578,6 +578,18 @@ impl<'a> Parser<'a> {
     fn parse_stmt(&mut self, arena: &mut Arena) -> Result<NodeID, ParserError> {
         let tok = self.peek().ok_or(ParserError::UnexpectedEof)?;
         match tok.kind {
+            TokenKind::IfKeyword => {
+                self.bump();
+                let cond = self.parse_expr(arena)?;
+                self.expect(TokenKind::Colon)?;
+                let then_body = self.parse_stmt(arena)?;
+                Ok(arena.allocate(ASTNode::If { cond, then_body })?)
+            }
+            TokenKind::ReturnKeyword => {
+                self.bump();
+                let value = self.parse_expr(arena)?;
+                Ok(arena.allocate(ASTNode::Return { value })?)
+            }
             TokenKind::Print => {
                 self.bump();
                 let expr = self.parse_expr(arena)?;

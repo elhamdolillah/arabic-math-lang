@@ -43,6 +43,12 @@ pub enum TokenKind {
     RParen,
     /// `,` or `،`
     Comma,
+    /// semicolon
+    Semicolon,
+    /// `إذا` conditional keyword.
+    IfKeyword,
+    /// `أعد` return keyword.
+    ReturnKeyword,
     /// `:`
     Colon,
     /// `.`
@@ -279,6 +285,7 @@ fn symbol_kind(c: char) -> Option<TokenKind> {
         '(' => TokenKind::LParen,
         ')' => TokenKind::RParen,
         ',' | '،' => TokenKind::Comma,
+        ';' => TokenKind::Semicolon,
         ':' => TokenKind::Colon,
         '.' => TokenKind::Dot,
         '⟨' => TokenKind::LAngle,
@@ -307,6 +314,8 @@ fn symbol_kind(c: char) -> Option<TokenKind> {
         'λ' => TokenKind::Lambda,
         '﴿' => TokenKind::LBlock,
         '﴾' => TokenKind::RBlock,
+        '{' => TokenKind::LBlock,
+        '}' => TokenKind::RBlock,
         '⋄' => TokenKind::Diamond,
         '⊸' => TokenKind::LinearImplication,
         '⊙' => TokenKind::Read,
@@ -494,6 +503,8 @@ impl<'a> Lexer<'a> {
                     "false" => TokenKind::FalseLit,
                     // Three-valued logic
                     "unknown" | "UNKNOWN" => TokenKind::Unknown,
+                    "إذا" => TokenKind::IfKeyword,
+                    "أعد" => TokenKind::ReturnKeyword,
                     "match" => TokenKind::MatchKeyword,
                     "with" => TokenKind::WithKeyword,
                     // SQL keywords (reserved, case-insensitive)

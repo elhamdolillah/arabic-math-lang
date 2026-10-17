@@ -133,6 +133,18 @@ pub enum ASTNode {
         /// Body expression.
         body: NodeID,
     },
+    /// Conditional: إذا cond : body
+    If {
+        /// Condition expression.
+        cond: NodeID,
+        /// Body executed when condition is true.
+        then_body: NodeID,
+    },
+    /// Early return: أعد value
+    Return {
+        /// Returned value.
+        value: NodeID,
+    },
     /// Linear let: x ⊸ expr (ownership transfer).
     LinearLet {
         /// Variable being bound.
@@ -221,6 +233,8 @@ impl ASTNode {
     pub fn type_tag(&self) -> TypeTag {
         match self {
             ASTNode::Empty => TypeTag::Empty,
+            ASTNode::If { .. } => TypeTag::Empty,
+            ASTNode::Return { .. } => TypeTag::Empty,
             ASTNode::Int(_) => TypeTag::Int,
             ASTNode::FixedPoint(_) => TypeTag::FixedPoint,
             ASTNode::Str(_) => TypeTag::Str,

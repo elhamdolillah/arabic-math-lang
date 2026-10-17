@@ -171,6 +171,33 @@ impl<'a> ASTLowerer<'a> {
                     }
                 }
             }
+            ASTNode::Return { value } => {
+                let v = self.lower_node(*value);
+                if let Some(v) = v {
+                    self.func.add_instruction(self.current_block,
+                        NIRInstruction::Return { value: Some(v) });
+                }
+                None
+            }
+            ASTNode::If { cond, then_body } => {
+                let c = self.lower_node(*cond);
+                if let Some(c) = c {
+                    let then_bb = self.func.fresh_block();
+                    let else_bb = self.func.fresh_block();
+                    let end_bb = self.func.fresh_block();
+                    self.func.add_instruction(self.current_block,
+                        NIRInstruction::CondBranch { cond: c, then_bb, else_bb });
+                    self.current_block = then_bb;
+                    self.lower_node(*then_body);
+                    self.func.add_instruction(self.current_block,
+                        NIRInstruction::Branch { target: end_bb });
+                    self.current_block = else_bb;
+                    self.func.add_instruction(self.current_block,
+                        NIRInstruction::Branch { target: end_bb });
+                    self.current_block = end_bb;
+                }
+                None
+            }
             ASTNode::Str(idx) => {
                 let start = *idx as usize;
                 let bytes = self.source.as_bytes();
