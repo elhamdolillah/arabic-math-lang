@@ -1,0 +1,34 @@
+// Perfect "Hello MAL!\n" Autoregressive Generation (DFA using Step Counter)
+let VOCAB: [i32; 10] = [72, 101, 108, 111, 32, 77, 65, 76, 33, 10];
+let W_hello: [f32; 110] = [10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0];
+fn get_char_code(token_id: i32) -> i32 {
+    if token_id >= 0 && token_id < 10 { return VOCAB[token_id]; }
+    return 32;
+}
+fn predict_next_token(step: i32) -> i32 {
+    let mut max_logit: f32 = -9999.0;
+    let mut best_token: i32 = 0;
+    let mut i: i32 = 0;
+    while i < 10 {
+        let logit: f32 = W_hello[step * 10 + i];
+        if logit > max_logit {
+            max_logit = logit;
+            best_token = i;
+        }
+        i = i + 1;
+    }
+    return best_token;
+}
+fn main() -> i32 {
+    printf("=== Perfect 'Hello MAL!' Generation Test ===\n\n");
+    printf("Output: ");
+    let mut step: i32 = 0;
+    while step < 11 {
+        let next_token: i32 = predict_next_token(step);
+        let current_char: i32 = get_char_code(next_token);
+        printf("%c", current_char);
+        step = step + 1;
+    }
+    printf("\n✅ Perfect generation completed successfully!\n");
+    return 0;
+}

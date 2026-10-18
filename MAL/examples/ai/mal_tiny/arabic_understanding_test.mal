@@ -1,0 +1,139 @@
+// ============================================================
+// اختبار درجة فهم MAL للنصوص العربية (نسخة متوافقة مع المحلل)
+// ============================================================
+// قاموس الكلمات (سطر واحد بدون تعليقات داخلية لضمان عمل المحلل)
+let DICT_KEYS: [i32; 40] = [1575, 1593, 1585, 1590, 0, 0, 0, 0, 1575, 1604, 1605, 1604, 1575, 1601, 0, 0, 1575, 1604, 1605, 1580, 1604, 1583, 0, 0, 1575, 1604, 1588, 1585, 1608, 1593, 0, 0, 1570, 1582, 1585, 0, 0, 0, 0, 0];
+let DICT_LENS: [i32; 5] = [4, 6, 6, 6, 3];
+let DICT_CMDS: [i32; 5] = [0, 0, 1, 1, 2];
+// نصوص الأوامر (سطر واحد)
+let CMD_0: [i32; 8] = [108, 115, 32, 45, 108, 97, 0, 0];
+let CMD_1: [i32; 28] = [99, 100, 32, 47, 114, 111, 111, 116, 47, 105, 108, 109, 45, 97, 108, 45, 107, 105, 116, 97, 98, 47, 77, 65, 76, 0, 0, 0];
+let CMD_2: [i32; 12] = [116, 97, 105, 108, 32, 45, 110, 32, 53, 0, 0, 0];
+// دالة مقارنة سلسلتين
+fn string_match(text: &[i32], pos: i32, keyword: &[i32], kw_start: i32, kw_len: i32) -> i32 {
+    let mut i: i32 = 0;
+    let mut matches: i32 = 1;
+    while i < kw_len {
+        if text[pos + i] != keyword[kw_start + i] {
+            matches = 0;
+            i = kw_len;
+        }
+        i = i + 1;
+    }
+    return matches;
+}
+// دالة البحث عن كلمة في النص وإرجاع index الأمر
+fn find_keyword(text: &[i32], text_len: i32) -> i32 {
+    let mut pos: i32 = 0;
+    while pos < text_len {
+        let mut kw_idx: i32 = 0;
+        let mut kw_start: i32 = 0;
+        while kw_idx < 5 {
+            let kw_len: i32 = DICT_LENS[kw_idx];
+            if string_match(text, pos, DICT_KEYS, kw_start, kw_len) == 1 {
+                return DICT_CMDS[kw_idx];
+            }
+            kw_start = kw_start + 8;
+            kw_idx = kw_idx + 1;
+        }
+        pos = pos + 1;
+    }
+    return -1;
+}
+// طباعة الأمر بناءً على index (باستخدام if متداخلة لتجنب خطأ else if)
+fn print_command(cmd_idx: i32) {
+    let mut i: i32 = 0;
+    if cmd_idx == 0 {
+        while CMD_0[i] != 0 {
+            printf("%c", CMD_0[i]);
+            i = i + 1;
+        }
+    } else {
+        if cmd_idx == 1 {
+            while CMD_1[i] != 0 {
+                printf("%c", CMD_1[i]);
+                i = i + 1;
+            }
+        } else {
+            if cmd_idx == 2 {
+                while CMD_2[i] != 0 {
+                    printf("%c", CMD_2[i]);
+                    i = i + 1;
+                }
+            } else {
+                printf("[UNKNOWN]");
+            }
+        }
+    }
+}
+fn main() -> i32 {
+    printf("=== Arabic Understanding Test for MAL ===\n");
+    printf("==========================================\n\n");
+    // اختبار 1: "اعرض الملفات" -> "ls -la"
+    let test1: [i32; 20] = [1575, 1593, 1585, 1590, 32, 1575, 1604, 1605, 1604, 1575, 1601, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let res1: i32 = find_keyword(test1, 11);
+    printf("Test 1: 'اعرض الملفات'\n");
+    printf("  Expected: ls -la\n");
+    printf("  Got:      ");
+    if res1 == 0 {
+        print_command(0);
+        printf(" [PASS]\n");
+    } else {
+        printf("[FAIL code %d]\n", res1);
+    }
+    // اختبار 2: "انتقل إلى المجلد" -> "cd /root/ilm-al-kitab/MAL"
+    let test2: [i32; 25] = [1575, 1606, 1578, 1602, 1604, 32, 1575, 1604, 1609, 32, 1575, 1604, 1605, 1580, 1604, 1583, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let res2: i32 = find_keyword(test2, 16);
+    printf("\nTest 2: 'انتقل إلى المجلد'\n");
+    printf("  Expected: cd /root/ilm-al-kitab/MAL\n");
+    printf("  Got:      ");
+    if res2 == 1 {
+        print_command(1);
+        printf(" [PASS]\n");
+    } else {
+        printf("[FAIL code %d]\n", res2);
+    }
+    // اختبار 3: "اعرض آخر 5 commits" -> يجب أن يفهم "آخر" -> "tail -n 5"
+    let test3: [i32; 25] = [1575, 1593, 1585, 1590, 32, 1570, 1582, 1585, 32, 53, 32, 99, 111, 109, 109, 105, 116, 115, 0, 0, 0, 0, 0, 0, 0];
+    let res3: i32 = find_keyword(test3, 18);
+    printf("\nTest 3: 'اعرض آخر 5 commits'\n");
+    printf("  Expected: tail -n 5\n");
+    printf("  Got:      ");
+    if res3 == 2 {
+        print_command(2);
+        printf(" [PASS]\n");
+    } else {
+        printf("[FAIL code %d]\n", res3);
+    }
+    // اختبار 4: جملة غير موجودة في القاموس
+    let test4: [i32; 15] = [1588, 1594, 1604, 32, 1575, 1604, 1578, 1580, 1605, 1575, 1583, 0, 0, 0, 0];
+    let res4: i32 = find_keyword(test4, 11);
+    printf("\nTest 4: 'شغل التحديث' (not in dict)\n");
+    printf("  Expected: [UNKNOWN]\n");
+    printf("  Got:      ");
+    if res4 == -1 {
+        printf("[UNKNOWN] [PASS]\n");
+    } else {
+        printf("[FAIL: matched %d]\n", res4);
+    }
+    // اختبار 5: "اعرض" فقط (بدون سياق)
+    let test5: [i32; 10] = [1575, 1593, 1585, 1590, 0, 0, 0, 0, 0, 0];
+    let res5: i32 = find_keyword(test5, 4);
+    printf("\nTest 5: 'اعرض' فقط\n");
+    printf("  Expected: ls -la\n");
+    printf("  Got:      ");
+    if res5 == 0 {
+        print_command(0);
+        printf(" [PASS]\n");
+    } else {
+        printf("[FAIL code %d]\n", res5);
+    }
+    printf("\n==========================================\n");
+    printf("Analysis:\n");
+    printf("- This model uses a SIMPLE LOOKUP TABLE\n");
+    printf("- It does NOT understand context\n");
+    printf("- It does NOT understand grammar\n");
+    printf("- It only matches exact keyword strings\n");
+    printf("==========================================\n");
+    return 0;
+}

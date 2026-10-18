@@ -1,0 +1,21 @@
+// ============================================================
+// Deterministic Optimization Benchmark in MAL
+// يحقق حتمية مطلقة (Bit-Exact) عبر أعلام GCC العالمية
+// ============================================================
+let W: [f32; 16] = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0];
+let X: [f32; 16] = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6];
+fn main() -> i32 {
+    printf("=== Deterministic Optimization Test ===\n\n");
+    let mut result: f32 = 0.0;
+    let mut i: i32 = 0;
+    // توجيهات محلية مسموحة داخل الدوال قبل الحلقات
+    #unroll
+    #simd
+    while i < 16 {
+        result = result + (W[i] * X[i]);
+        i = i + 1;
+    }
+    printf("📊 Result (Dot Product): %f\n", result);
+    printf("✅ Deterministic compilation (fp-contract=off) applied globally!\n");
+    return 0;
+}

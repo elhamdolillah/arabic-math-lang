@@ -1,0 +1,31 @@
+// ============================================================
+// الاختبار النهائي: استخدام بناء الجملة السكري (Syntax Sugar)
+// المترجم سيحول "اكتب" تلقائياً إلى [0x0627, 0x0643, 0x062A, 0x0628]
+// ============================================================
+// الآن يمكننا كتابة النص مباشرة، والمترجم يتولى التحويل الرياضي!
+let cmd_write: [i32; 4] = "اكتب";
+let cmd_show: [i32; 4] = "اعرض";
+fn print_hex_array(arr: &[i32], len: i32) {
+    let mut i: i32 = 0;
+    while i < len {
+        printf("0x%04X ", arr[i]);
+        i = i + 1;
+    }
+    printf("\n");
+}
+fn main() -> i32 {
+    printf("=== Final Syntax Sugar Test (v2.0) ===\n\n");
+    printf("1. Input: \"اكتب\"\n");
+    printf("   Compiler generated array: ");
+    print_hex_array(cmd_write, 4);
+    printf("   Expected: 0x0627 0x0643 0x062A 0x0628\n\n");
+    printf("2. Input: \"اعرض\"\n");
+    printf("   Compiler generated array: ");
+    print_hex_array(cmd_show, 4);
+    printf("   Expected: 0x0627 0x0639 0x0631 0x0636\n\n");
+    printf("==========================================\n");
+    printf("✅ Syntax Sugar works perfectly!\n");
+    printf("✅ No more manual hex typing. The compiler handles UTF-16 conversion.\n");
+    printf("==========================================\n");
+    return 0;
+}

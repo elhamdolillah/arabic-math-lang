@@ -1,0 +1,36 @@
+// ============================================================
+// Neuro-Symbolic Runtime Orchestrator in MAL (طريقة الغراء)
+// يفرض الحتمية النحوية في وقت التشغيل بأمان تام
+// ============================================================
+// نستخدم ثوابت بسيطة بدلاً من المصفوفات لتجنب أي quirks في توليد C
+let RULE_JAR_MAJRUR: i32 = 1;
+let CASE_MAJRUR: i32 = 3;
+let CASE_MARFU: i32 = 1;
+fn check_grammar_runtime(rule: i32, noun_case: i32) -> i32 {
+    if rule == RULE_JAR_MAJRUR {
+        if noun_case != CASE_MAJRUR {
+            return 0; // خطأ نحوي
+        }
+    }
+    return 1; // صحيح
+}
+fn generate_safe_qtxt(is_valid: i32) {
+    if is_valid == 1 {
+        printf("========== COMMANDS TO EXECUTE ==========\n");
+        printf("     1  cd /root/ilm-al-kitab/MAL\n");
+        printf("     2  echo 'Neuro-Symbolic Success!' > test.txt\n");
+        printf("=========================================\n\n");
+    } else {
+        printf("❌ BLOCKED: Grammatical validation failed at runtime.\n\n");
+    }
+}
+fn main() -> i32 {
+    printf("=== Level 3: MAL as Runtime Neuro-Symbolic Glue ===\n\n");
+    printf("Scenario 1: MHLJ predicts correct grammar ('في الملفِ')\n");
+    let res1: i32 = check_grammar_runtime(RULE_JAR_MAJRUR, CASE_MAJRUR);
+    generate_safe_qtxt(res1);
+    printf("Scenario 2: MHLJ predicts incorrect grammar ('في الملفُ')\n");
+    let res2: i32 = check_grammar_runtime(RULE_JAR_MAJRUR, CASE_MARFU);
+    generate_safe_qtxt(res2);
+    return 0;
+}

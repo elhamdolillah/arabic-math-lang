@@ -1,0 +1,83 @@
+// ============================================================
+// محرك الاشتقاق الرياضي العربي في MAL
+// يولد الكلمات من الجذور باستخدام مصفوفات الأنماط (Patterns)
+// ============================================================
+// 1. تعريف الجذر الأساسي: ك - ت - ب
+let ROOT_KTB: [i32; 3] = [0x0643, 0x062A, 0x0628];
+// ثوابت الحروف الزائدة في الأنماط
+let CHAR_ALEF: i32 = 0x0627;
+let CHAR_MEEM: i32 = 0x0645;
+let CHAR_WAW:  i32 = 0x0648;
+// 2. دالة الاشتقاق الرياضي (Mathematical Derivation Function)
+// تأخذ الجذر، ورقم النمط، ومصفوفة مخرجات، وتعيد طول الكلمة المشتقة
+fn derive_word(root: &[i32], pattern_id: i32, out: &mut [i32]) -> i32 {
+    let mut len: i32 = 0;
+    // النمط 0: الفعل (كتب)
+    if pattern_id == 0 {
+        out[0] = root[0];
+        out[1] = root[1];
+        out[2] = root[2];
+        len = 3;
+    } else {
+        // النمط 1: الفاعل (كاتب) -> ر0, ألف, ر1, ر2
+        if pattern_id == 1 {
+            out[0] = root[0];
+            out[1] = CHAR_ALEF;
+            out[2] = root[1];
+            out[3] = root[2];
+            len = 4;
+        } else {
+            // النمط 2: المفعول (مكتوب) -> ميم, ر0, ر1, واو, ر2
+            if pattern_id == 2 {
+                out[0] = CHAR_MEEM;
+                out[1] = root[0];
+                out[2] = root[1];
+                out[3] = CHAR_WAW;
+                out[4] = root[2];
+                len = 5;
+            } else {
+                // نمط غير معرف
+                len = 0;
+            }
+        }
+    }
+    return len;
+}
+// دالة مساعدة لطباعة مصفوفة UTF-16 بصيغة Hex لإثبات الرياضيات
+fn print_hex_array(arr: &[i32], len: i32) {
+    let mut i: i32 = 0;
+    while i < len {
+        printf("0x%04X ", arr[i]);
+        i = i + 1;
+    }
+    printf("\n");
+}
+fn main() -> i32 {
+    printf("=== Mathematical Arabic Morphology Engine ===\n\n");
+    // مصفوفة مخرجات كبيرة بما يكفي لاستيعاب أطول مشتق (مثلاً 6 أحرف)
+    let mut derived_word: [i32; 6] = [0; 6];
+    // --- اختبار 1: اشتقاق "الفعل" ---
+    printf("1. Root (K-T-B): ");
+    print_hex_array(ROOT_KTB, 3);
+    let len1: i32 = derive_word(ROOT_KTB, 0, derived_word);
+    printf("   Derived (Pattern 0 - Verb): ");
+    print_hex_array(derived_word, len1);
+    printf("   Expected: 0x0643 0x062A 0x0628 (ك ت ب)\n\n");
+    // --- اختبار 2: اشتقاق "الفاعل" ---
+    let len2: i32 = derive_word(ROOT_KTB, 1, derived_word);
+    printf("2. Derived (Pattern 1 - Fa'il): ");
+    print_hex_array(derived_word, len2);
+    printf("   Expected: 0x0643 0x0627 0x062A 0x0628 (ك ا ت ب)\n\n");
+    // --- اختبار 3: اشتقاق "المفعول" ---
+    let len3: i32 = derive_word(ROOT_KTB, 2, derived_word);
+    printf("3. Derived (Pattern 2 - Maf'ool): ");
+    print_hex_array(derived_word, len3);
+    printf("   Expected: 0x0645 0x0643 0x062A 0x0648 0x0628 (م ك ت و ب)\n\n");
+    printf("==========================================\n");
+    printf("Conclusion:\n");
+    printf("- 1 Root (3 units) + Mathematical Pattern = Derived Word\n");
+    printf("- No need to store 'Kaatib' or 'Maktoob' in memory.\n");
+    printf("- 16,000 Roots x 20 Patterns = 320,000 words generated dynamically!\n");
+    printf("==========================================\n");
+    return 0;
+}

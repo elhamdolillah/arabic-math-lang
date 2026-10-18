@@ -1,0 +1,1727 @@
+[
+  {
+    "word": "احسب",
+    "root": "ح س ب",
+    "pattern": "افعل",
+    "pos": "فعل أمر",
+    "source": "حساب",
+    "math_region": "EVALUATE",
+    "en": "calculate"
+  },
+  {
+    "word": "حساب",
+    "root": "ح س ب",
+    "pattern": "فعال",
+    "pos": "مصدر",
+    "source": "حساب",
+    "math_region": "EVALUATE",
+    "en": "calculation"
+  },
+  {
+    "word": "قيمة",
+    "root": "ق ي م",
+    "pattern": "فعلة",
+    "pos": "اسم",
+    "source": "قوم",
+    "math_region": "SCALAR_VALUE",
+    "en": "value"
+  },
+  {
+    "word": "مجموع",
+    "root": "ج م ع",
+    "pattern": "مفعول",
+    "pos": "اسم مفعول",
+    "source": "جمع",
+    "math_region": "SUM_OPERATION",
+    "en": "total"
+  },
+  {
+    "word": "جمع",
+    "root": "ج م ع",
+    "pattern": "فعل",
+    "pos": "مصدر",
+    "source": "جمع",
+    "math_region": "SUM_OPERATION",
+    "en": "sum"
+  },
+  {
+    "word": "فرق",
+    "root": "ف ر ق",
+    "pattern": "فعل",
+    "pos": "اسم",
+    "source": "فروق",
+    "math_region": "SUB_OPERATION",
+    "en": "difference"
+  },
+  {
+    "word": "حاصل",
+    "root": "ح ص ل",
+    "pattern": "فاعل",
+    "pos": "اسم فاعل",
+    "source": "حصول",
+    "math_region": "RESULT_TENSOR",
+    "en": "result"
+  },
+  {
+    "word": "ضرب",
+    "root": "ض ر ب",
+    "pattern": "فعل",
+    "pos": "مصدر",
+    "source": "ضرب",
+    "math_region": "MATMUL",
+    "en": "multiplication"
+  },
+  {
+    "word": "اضرب",
+    "root": "ض ر ب",
+    "pattern": "افعل",
+    "pos": "فعل أمر",
+    "source": "ضرب",
+    "math_region": "MATMUL",
+    "en": "multiply"
+  },
+  {
+    "word": "قسمة",
+    "root": "ق س م",
+    "pattern": "فعلة",
+    "pos": "اسم",
+    "source": "قسم",
+    "math_region": "DIV_OPERATION",
+    "en": "division"
+  },
+  {
+    "word": "قسم",
+    "root": "ق س م",
+    "pattern": "فعل",
+    "pos": "مصدر",
+    "source": "قسم",
+    "math_region": "DIV_OPERATION",
+    "en": "divide"
+  },
+  {
+    "word": "مصفوفة",
+    "root": "ص ف ف",
+    "pattern": "مفعولة",
+    "pos": "اسم",
+    "source": "صف",
+    "math_region": "MATRIX_TENSOR",
+    "en": "matrix"
+  },
+  {
+    "word": "متجه",
+    "root": "و ج ه",
+    "pattern": "مفعل",
+    "pos": "اسم",
+    "source": "وجه",
+    "math_region": "VECTOR_TENSOR",
+    "en": "vector"
+  },
+  {
+    "word": "انحياز",
+    "root": "ن ح ي ز",
+    "pattern": "انفعال",
+    "pos": "اسم",
+    "source": "نحاز",
+    "math_region": "BIAS_VECTOR",
+    "en": "bias"
+  },
+  {
+    "word": "دالة",
+    "root": "د و ل",
+    "pattern": "فالة",
+    "pos": "اسم",
+    "source": "دول",
+    "math_region": "FUNCTION",
+    "en": "function"
+  },
+  {
+    "word": "مشتق",
+    "root": "ش ت ق",
+    "pattern": "مفعل",
+    "pos": "اسم مفعول",
+    "source": "اشتقاق",
+    "math_region": "DERIVATIVE",
+    "en": "derivative"
+  },
+  {
+    "word": "اشتق",
+    "root": "ش ت ق",
+    "pattern": "افتعل",
+    "pos": "فعل أمر",
+    "source": "اشتقاق",
+    "math_region": "DERIVATIVE",
+    "en": "derive"
+  },
+  {
+    "word": "تكامل",
+    "root": "ك م ل",
+    "pattern": "افتعال",
+    "pos": "اسم",
+    "source": "كمال",
+    "math_region": "INTEGRAL",
+    "en": "integral"
+  },
+  {
+    "word": "أنشئ",
+    "root": "ن ش أ",
+    "pattern": "افعل",
+    "pos": "فعل أمر",
+    "source": "إنشاء",
+    "math_region": "ALLOCATE_TENSOR",
+    "en": "أنشئ"
+  },
+  {
+    "word": "إنشاء",
+    "root": "ن ش أ",
+    "pattern": "إفعال",
+    "pos": "مصدر",
+    "source": "إنشاء",
+    "math_region": "ALLOCATE_TENSOR",
+    "en": "إنشاء"
+  },
+  {
+    "word": "تنشيط",
+    "root": "ن ش ط",
+    "pattern": "تفعيل",
+    "pos": "مصدر",
+    "source": "تنشيط",
+    "math_region": "ACTIVATION_FUNC",
+    "en": "activation"
+  },
+  {
+    "word": "نشّط",
+    "root": "ن ش ط",
+    "pattern": "فعّل",
+    "pos": "فعل أمر",
+    "source": "تنشيط",
+    "math_region": "ACTIVATION_FUNC",
+    "en": "activate"
+  },
+  {
+    "word": "طبقة",
+    "root": "ط ب ق",
+    "pattern": "فعلة",
+    "pos": "اسم",
+    "source": "طبقة",
+    "math_region": "LAYER_DIMENSION",
+    "en": "layer"
+  },
+  {
+    "word": "مخفية",
+    "root": "خ ف ي",
+    "pattern": "مفعلة",
+    "pos": "صفة",
+    "source": "خفاء",
+    "math_region": "HIDDEN_STATE",
+    "en": "مخفية"
+  },
+  {
+    "word": "أوزان",
+    "root": "و ز ن",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "وزن",
+    "math_region": "WEIGHT_MATRIX",
+    "en": "weights"
+  },
+  {
+    "word": "وزن",
+    "root": "و ز ن",
+    "pattern": "فعل",
+    "pos": "مصدر",
+    "source": "وزن",
+    "math_region": "WEIGHT_MATRIX",
+    "en": "weight"
+  },
+  {
+    "word": "شبكة",
+    "root": "ش ب ك",
+    "pattern": "فعلة",
+    "pos": "اسم",
+    "source": "شبكة",
+    "math_region": "GRAPH_STRUCTURE",
+    "en": "network"
+  },
+  {
+    "word": "عصبية",
+    "root": "ع ص ب",
+    "pattern": "فعيلة",
+    "pos": "صفة مشبهة",
+    "source": "عصب",
+    "math_region": "NEURAL_WEIGHTS",
+    "en": "neural"
+  },
+  {
+    "word": "إدخال",
+    "root": "د خ ل",
+    "pattern": "إفعال",
+    "pos": "مصدر",
+    "source": "دخول",
+    "math_region": "INPUT_TENSOR",
+    "en": "إدخال"
+  },
+  {
+    "word": "مخرجات",
+    "root": "خ ر ج",
+    "pattern": "مفعولات",
+    "pos": "اسم جمع",
+    "source": "خروج",
+    "math_region": "OUTPUT_TENSOR",
+    "en": "مخرجات"
+  },
+  {
+    "word": "خوارزمية",
+    "root": "خ و ر ز",
+    "pattern": "خوارزمية",
+    "pos": "اسم",
+    "source": "خوارزمية",
+    "math_region": "ALGORITHM",
+    "en": "algorithm"
+  },
+  {
+    "word": "نموذج",
+    "root": "ن م ج",
+    "pattern": "مفعل",
+    "pos": "اسم",
+    "source": "نمذجة",
+    "math_region": "MODEL",
+    "en": "model"
+  },
+  {
+    "word": "تدريب",
+    "root": "د ر ب",
+    "pattern": "تفعيل",
+    "pos": "مصدر",
+    "source": "تدريب",
+    "math_region": "OPTIMIZATION_STEP",
+    "en": "training"
+  },
+  {
+    "word": "درب",
+    "root": "د ر ب",
+    "pattern": "افعل",
+    "pos": "فعل أمر",
+    "source": "تدريب",
+    "math_region": "OPTIMIZATION_STEP",
+    "en": "train"
+  },
+  {
+    "word": "خطأ",
+    "root": "خ ط أ",
+    "pattern": "فعل",
+    "pos": "اسم",
+    "source": "خطأ",
+    "math_region": "LOSS_FUNCTION",
+    "en": "error"
+  },
+  {
+    "word": "تحسين",
+    "root": "ح س ن",
+    "pattern": "تفعيل",
+    "pos": "مصدر",
+    "source": "تحسين",
+    "math_region": "OPTIMIZATION",
+    "en": "optimization"
+  },
+  {
+    "word": "معامل",
+    "root": "ع م ل",
+    "pattern": "مفاعل",
+    "pos": "اسم",
+    "source": "عمل",
+    "math_region": "COEFFICIENT",
+    "en": "coefficient"
+  },
+  {
+    "word": "متغير",
+    "root": "غ ي ر",
+    "pattern": "مفعل",
+    "pos": "اسم فاعل",
+    "source": "تغير",
+    "math_region": "VARIABLE",
+    "en": "variable"
+  },
+  {
+    "word": "ثابت",
+    "root": "ث ب ت",
+    "pattern": "فاعل",
+    "pos": "اسم فاعل",
+    "source": "ثبات",
+    "math_region": "CONSTANT",
+    "en": "constant"
+  },
+  {
+    "word": "مصفوفات",
+    "root": "ص ف ف",
+    "pattern": "مفعولات",
+    "pos": "اسم جمع",
+    "source": "صف",
+    "math_region": "MATRIX_TENSOR",
+    "en": "matrices"
+  },
+  {
+    "word": "متجهات",
+    "root": "و ج ه",
+    "pattern": "مفعولات",
+    "pos": "اسم جمع",
+    "source": "وجه",
+    "math_region": "VECTOR_TENSOR",
+    "en": "vectors"
+  },
+  {
+    "word": "طبقات",
+    "root": "ط ب ق",
+    "pattern": "فعيلات",
+    "pos": "اسم جمع",
+    "source": "طبقة",
+    "math_region": "LAYER_DIMENSION",
+    "en": "layers"
+  },
+  {
+    "word": "دوال",
+    "root": "د و ل",
+    "pattern": "فعال",
+    "pos": "اسم جمع",
+    "source": "دول",
+    "math_region": "FUNCTION",
+    "en": "functions"
+  },
+  {
+    "word": "قيم",
+    "root": "ق ي م",
+    "pattern": "فعيل",
+    "pos": "اسم جمع",
+    "source": "قوم",
+    "math_region": "SCALAR_VALUE",
+    "en": "values"
+  },
+  {
+    "word": "ReLU",
+    "root": "N/A",
+    "pattern": "N/A",
+    "pos": "اسم علم",
+    "source": "N/A",
+    "math_region": "RELU_FUNC",
+    "en": "ReLU"
+  },
+  {
+    "word": "Sigmoid",
+    "root": "N/A",
+    "pattern": "N/A",
+    "pos": "اسم علم",
+    "source": "N/A",
+    "math_region": "SIGMOID_FUNC",
+    "en": "Sigmoid"
+  },
+  {
+    "word": "Tanh",
+    "root": "N/A",
+    "pattern": "N/A",
+    "pos": "اسم علم",
+    "source": "N/A",
+    "math_region": "TANH_FUNC",
+    "en": "Tanh"
+  },
+  {
+    "word": "Softmax",
+    "root": "N/A",
+    "pattern": "N/A",
+    "pos": "اسم علم",
+    "source": "N/A",
+    "math_region": "SOFTMAX_FUNC",
+    "en": "Softmax"
+  },
+  {
+    "word": "حاسب",
+    "root": "ح س ب",
+    "pattern": "فاعل",
+    "pos": "اسم فاعل",
+    "source": "حساب",
+    "math_region": "EVALUATE",
+    "en": "computer"
+  },
+  {
+    "word": "محسوب",
+    "root": "ح س ب",
+    "pattern": "مفعول",
+    "pos": "اسم مفعول",
+    "source": "حساب",
+    "math_region": "EVALUATE",
+    "en": "computed"
+  },
+  {
+    "word": "حاسبة",
+    "root": "ح س ب",
+    "pattern": "فاعلة",
+    "pos": "اسم",
+    "source": "حساب",
+    "math_region": "EVALUATE",
+    "en": "calculator"
+  },
+  {
+    "word": "حسابات",
+    "root": "ح س ب",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "حساب",
+    "math_region": "EVALUATE",
+    "en": "calculations"
+  },
+  {
+    "word": "اجمع",
+    "root": "ج م ع",
+    "pattern": "افعل",
+    "pos": "فعل أمر",
+    "source": "جمع",
+    "math_region": "SUM_OPERATION",
+    "en": "add"
+  },
+  {
+    "word": "جامع",
+    "root": "ج م ع",
+    "pattern": "فاعل",
+    "pos": "اسم فاعل",
+    "source": "جمع",
+    "math_region": "SUM_OPERATION",
+    "en": "union"
+  },
+  {
+    "word": "مجاميع",
+    "root": "ج م ع",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "جمع",
+    "math_region": "SUM_OPERATION",
+    "en": "sums"
+  },
+  {
+    "word": "جامعة",
+    "root": "ج م ع",
+    "pattern": "فاعلة",
+    "pos": "اسم",
+    "source": "جمع",
+    "math_region": "UNION",
+    "en": "جامعة"
+  },
+  {
+    "word": "طرح",
+    "root": "ط ر ح",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "طرح",
+    "math_region": "SUB_OPERATION",
+    "en": "subtraction"
+  },
+  {
+    "word": "ضارب",
+    "root": "ض ر ب",
+    "pattern": "فاعل",
+    "pos": "اسم فاعل",
+    "source": "ضرب",
+    "math_region": "MATMUL",
+    "en": "multiplier"
+  },
+  {
+    "word": "مضروب",
+    "root": "ض ر ب",
+    "pattern": "مفعول",
+    "pos": "اسم مفعول",
+    "source": "ضرب",
+    "math_region": "MATMUL",
+    "en": "multiplicand"
+  },
+  {
+    "word": "ضرائب",
+    "root": "ض ر ب",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "ضرب",
+    "math_region": "MATMUL",
+    "en": "matrix multiply"
+  },
+  {
+    "word": "اقسم",
+    "root": "ق س م",
+    "pattern": "افعل",
+    "pos": "فعل أمر",
+    "source": "قسم",
+    "math_region": "DIV_OPERATION",
+    "en": "divide"
+  },
+  {
+    "word": "قاسم",
+    "root": "ق س م",
+    "pattern": "فاعل",
+    "pos": "اسم فاعل",
+    "source": "قسم",
+    "math_region": "DIV_OPERATION",
+    "en": "divisor"
+  },
+  {
+    "word": "مقسوم",
+    "root": "ق س م",
+    "pattern": "مفعول",
+    "pos": "اسم مفعول",
+    "source": "قسم",
+    "math_region": "DIV_OPERATION",
+    "en": "dividend"
+  },
+  {
+    "word": "أقسام",
+    "root": "ق س م",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "قسم",
+    "math_region": "DIV_OPERATION",
+    "en": "sections"
+  },
+  {
+    "word": "صف",
+    "root": "ص ف ف",
+    "pattern": "فعل",
+    "pos": "اسم",
+    "source": "صف",
+    "math_region": "MATRIX_TENSOR",
+    "en": "row"
+  },
+  {
+    "word": "صفوف",
+    "root": "ص ف ف",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "صف",
+    "math_region": "MATRIX_TENSOR",
+    "en": "rows"
+  },
+  {
+    "word": "وجه",
+    "root": "و ج ه",
+    "pattern": "فعل",
+    "pos": "اسم",
+    "source": "وجه",
+    "math_region": "VECTOR_TENSOR",
+    "en": "face"
+  },
+  {
+    "word": "أوجه",
+    "root": "و ج ه",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "وجه",
+    "math_region": "VECTOR_TENSOR",
+    "en": "faces"
+  },
+  {
+    "word": "محدد",
+    "root": "ح د د",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "محدد",
+    "math_region": "DETERMINANT",
+    "en": "determinant"
+  },
+  {
+    "word": "معكوس",
+    "root": "ع ك س",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "معكوس",
+    "math_region": "INVERSE",
+    "en": "inverse"
+  },
+  {
+    "word": "منقول",
+    "root": "ن ق ل",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "منقول",
+    "math_region": "TRANSPOSE",
+    "en": "transpose"
+  },
+  {
+    "word": "تحويل",
+    "root": "ح و ل",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "تحويل",
+    "math_region": "TRANSFORM",
+    "en": "transform"
+  },
+  {
+    "word": "حوّل",
+    "root": "ح و ل",
+    "pattern": "فعّل",
+    "pos": "فعل أمر",
+    "source": "تحويل",
+    "math_region": "TRANSFORM",
+    "en": "transform"
+  },
+  {
+    "word": "محول",
+    "root": "ح و ل",
+    "pattern": "مفعل",
+    "pos": "اسم",
+    "source": "تحويل",
+    "math_region": "TRANSFORM",
+    "en": "converter"
+  },
+  {
+    "word": "تحويلات",
+    "root": "ح و ل",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "تحويل",
+    "math_region": "TRANSFORM",
+    "en": "transforms"
+  },
+  {
+    "word": "كامل",
+    "root": "ك م ل",
+    "pattern": "فاعل",
+    "pos": "صفة",
+    "source": "كمال",
+    "math_region": "INTEGRAL",
+    "en": "complete"
+  },
+  {
+    "word": "اشتقاق",
+    "root": "ش ت ق",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "اشتقاق",
+    "math_region": "DERIVATIVE",
+    "en": "derivation"
+  },
+  {
+    "word": "شبكات",
+    "root": "ش ب ك",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "شبكة",
+    "math_region": "NEURAL_NETWORK",
+    "en": "networks"
+  },
+  {
+    "word": "شبكة عصبية",
+    "root": "ش ب ك",
+    "pattern": "اسم + صفة",
+    "pos": "اسم مركب",
+    "source": "شبكة عصبية",
+    "math_region": "NEURAL_NETWORK",
+    "en": "neural network"
+  },
+  {
+    "word": "طبقة مخفية",
+    "root": "ط ب ق",
+    "pattern": "اسم + صفة",
+    "pos": "اسم مركب",
+    "source": "طبقة مخفية",
+    "math_region": "HIDDEN_LAYER",
+    "en": "hidden layer"
+  },
+  {
+    "word": "نشط",
+    "root": "ن ش ط",
+    "pattern": "فعل",
+    "pos": "مصدر",
+    "source": "نشاط",
+    "math_region": "ACTIVATION_FUNC",
+    "en": "active"
+  },
+  {
+    "word": "نشاط",
+    "root": "ن ش ط",
+    "pattern": "فعال",
+    "pos": "مصدر",
+    "source": "نشاط",
+    "math_region": "ACTIVATION_FUNC",
+    "en": "activity"
+  },
+  {
+    "word": "حصول",
+    "root": "ح ص ل",
+    "pattern": "فعل",
+    "pos": "مصدر",
+    "source": "حصول",
+    "math_region": "RESULT_TENSOR",
+    "en": "obtaining"
+  },
+  {
+    "word": "تقييم",
+    "root": "ق ي م",
+    "pattern": "تفعيل",
+    "pos": "مصدر",
+    "source": "تقييم",
+    "math_region": "SCALAR_VALUE",
+    "en": "evaluation"
+  },
+  {
+    "word": "افرق",
+    "root": "ف ر ق",
+    "pattern": "افعل",
+    "pos": "فعل أمر",
+    "source": "فرق",
+    "math_region": "SUB_OPERATION",
+    "en": "differentiate"
+  },
+  {
+    "word": "فروق",
+    "root": "ف ر ق",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "فرق",
+    "math_region": "SUB_OPERATION",
+    "en": "differences"
+  },
+  {
+    "word": "نسبة",
+    "root": "ن س ب",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "نسبة",
+    "math_region": "RATIO",
+    "en": "ratio"
+  },
+  {
+    "word": "نسب",
+    "root": "ن س ب",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "نسبة",
+    "math_region": "RATIO",
+    "en": "ratios"
+  },
+  {
+    "word": "نسبي",
+    "root": "ن س ب",
+    "pattern": "فعلي",
+    "pos": "صفة",
+    "source": "نسبة",
+    "math_region": "RATIO",
+    "en": "relative"
+  },
+  {
+    "word": "مئوية",
+    "root": "م ئ ة",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "مئوية",
+    "math_region": "PERCENTAGE",
+    "en": "percentage"
+  },
+  {
+    "word": "مدرب",
+    "root": "د ر ب",
+    "pattern": "مفعل",
+    "pos": "اسم",
+    "source": "تدريب",
+    "math_region": "OPTIMIZATION_STEP",
+    "en": "trainer"
+  },
+  {
+    "word": "تدريبات",
+    "root": "د ر ب",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "تدريب",
+    "math_region": "OPTIMIZATION_STEP",
+    "en": "trainings"
+  },
+  {
+    "word": "حسن",
+    "root": "ح س ن",
+    "pattern": "فعل",
+    "pos": "مصدر",
+    "source": "حسن",
+    "math_region": "OPTIMIZATION",
+    "en": "improve"
+  },
+  {
+    "word": "محسن",
+    "root": "ح س ن",
+    "pattern": "مفعل",
+    "pos": "اسم",
+    "source": "تحسين",
+    "math_region": "OPTIMIZATION",
+    "en": "optimizer"
+  },
+  {
+    "word": "أخطاء",
+    "root": "خ ط أ",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "خطأ",
+    "math_region": "LOSS_FUNCTION",
+    "en": "errors"
+  },
+  {
+    "word": "دالة خطأ",
+    "root": "خ ط أ",
+    "pattern": "اسم + اسم",
+    "pos": "اسم مركب",
+    "source": "دالة خطأ",
+    "math_region": "LOSS_FUNCTION",
+    "en": "loss function"
+  },
+  {
+    "word": "تعلم",
+    "root": "ع ل م",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "تعلم",
+    "math_region": "LEARNING",
+    "en": "learning"
+  },
+  {
+    "word": "فضاء",
+    "root": "ف ض ي",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "فضاء",
+    "math_region": "VECTOR_SPACE",
+    "en": "space"
+  },
+  {
+    "word": "فضاءات",
+    "root": "ف ض ي",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "فضاء",
+    "math_region": "VECTOR_SPACE",
+    "en": "spaces"
+  },
+  {
+    "word": "فضاء متجهي",
+    "root": "ف ض ي",
+    "pattern": "اسم + صفة",
+    "pos": "اسم مركب",
+    "source": "فضاء متجهي",
+    "math_region": "VECTOR_SPACE",
+    "en": "vector space"
+  },
+  {
+    "word": "أس",
+    "root": "أ س س",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "أس",
+    "math_region": "EXPONENT",
+    "en": "exponent"
+  },
+  {
+    "word": "أساس",
+    "root": "أ س س",
+    "pattern": "فعل",
+    "pos": "اسم",
+    "source": "أساس",
+    "math_region": "EXPONENT",
+    "en": "basis"
+  },
+  {
+    "word": "أسس",
+    "root": "أ س س",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "أساس",
+    "math_region": "EXPONENT",
+    "en": "bases"
+  },
+  {
+    "word": "أساسي",
+    "root": "أ س س",
+    "pattern": "فعالي",
+    "pos": "صفة",
+    "source": "أساس",
+    "math_region": "EXPONENT",
+    "en": "fundamental"
+  },
+  {
+    "word": "بُعد",
+    "root": "ب ع د",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "بُعد",
+    "math_region": "DIMENSION",
+    "en": "dimension"
+  },
+  {
+    "word": "أبعاد",
+    "root": "ب ع د",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "بُعد",
+    "math_region": "DIMENSION",
+    "en": "dimensions"
+  },
+  {
+    "word": "بعدي",
+    "root": "ب ع د",
+    "pattern": "فعلي",
+    "pos": "صفة",
+    "source": "بُعد",
+    "math_region": "DIMENSION",
+    "en": "dimensional"
+  },
+  {
+    "word": "رتبة",
+    "root": "ر ت ب",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "رتبة",
+    "math_region": "RANK",
+    "en": "rank"
+  },
+  {
+    "word": "رتب",
+    "root": "ر ت ب",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "رتبة",
+    "math_region": "RANK",
+    "en": "ranks"
+  },
+  {
+    "word": "ترتيب",
+    "root": "ر ت ب",
+    "pattern": "تفعيل",
+    "pos": "مصدر",
+    "source": "ترتيب",
+    "math_region": "RANK",
+    "en": "order"
+  },
+  {
+    "word": "نواة",
+    "root": "ن و ي",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "نواة",
+    "math_region": "KERNEL",
+    "en": "kernel"
+  },
+  {
+    "word": "أنوية",
+    "root": "ن و ي",
+    "pattern": "أفعال",
+    "pos": "اسم جمع",
+    "source": "نواة",
+    "math_region": "KERNEL",
+    "en": "kernels"
+  },
+  {
+    "word": "نوي",
+    "root": "ن و ي",
+    "pattern": "فعلي",
+    "pos": "صفة",
+    "source": "نواة",
+    "math_region": "KERNEL",
+    "en": "nuclear"
+  },
+  {
+    "word": "نقطة",
+    "root": "ن ق ط",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "نقطة",
+    "math_region": "POINT",
+    "en": "point"
+  },
+  {
+    "word": "خط",
+    "root": "خ ط ط",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "خط",
+    "math_region": "LINE",
+    "en": "line"
+  },
+  {
+    "word": "سطح",
+    "root": "س ط ح",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "سطح",
+    "math_region": "SURFACE",
+    "en": "surface"
+  },
+  {
+    "word": "زاوية",
+    "root": "ز و ي",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "زاوية",
+    "math_region": "ANGLE",
+    "en": "angle"
+  },
+  {
+    "word": "دائرة",
+    "root": "د و ر",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "دائرة",
+    "math_region": "CIRCLE",
+    "en": "circle"
+  },
+  {
+    "word": "عدد",
+    "root": "ع د د",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "عدد",
+    "math_region": "NUMBER",
+    "en": "number"
+  },
+  {
+    "word": "صحيح",
+    "root": "ص ح ح",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "صحيح",
+    "math_region": "INTEGER",
+    "en": "integer"
+  },
+  {
+    "word": "كسر",
+    "root": "ك س ر",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "كسر",
+    "math_region": "FRACTION",
+    "en": "fraction"
+  },
+  {
+    "word": "جذر",
+    "root": "ج ذ ر",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "جذر",
+    "math_region": "ROOT",
+    "en": "root"
+  },
+  {
+    "word": "طاقة",
+    "root": "ط ا ق",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "طاقة",
+    "math_region": "ENERGY",
+    "en": "energy"
+  },
+  {
+    "word": "قوة",
+    "root": "ق و ي",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "قوة",
+    "math_region": "FORCE",
+    "en": "force"
+  },
+  {
+    "word": "كتلة",
+    "root": "ك ت ل",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "كتلة",
+    "math_region": "MASS",
+    "en": "mass"
+  },
+  {
+    "word": "سرعة",
+    "root": "س ر ع",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "سرعة",
+    "math_region": "VELOCITY",
+    "en": "velocity"
+  },
+  {
+    "word": "تردد",
+    "root": "ت ر د د",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "تردد",
+    "math_region": "FREQUENCY",
+    "en": "frequency"
+  },
+  {
+    "word": "ذرة",
+    "root": "ذ ر ة",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "ذرة",
+    "math_region": "ATOM",
+    "en": "atom"
+  },
+  {
+    "word": "جزيء",
+    "root": "ج ز ء",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "جزيء",
+    "math_region": "MOLECULE",
+    "en": "molecule"
+  },
+  {
+    "word": "تكافؤ",
+    "root": "ت ك ا ف ؤ",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "تكافؤ",
+    "math_region": "EQUIVALENCE",
+    "en": "equivalence"
+  },
+  {
+    "word": "بيانات",
+    "root": "ب ي ا ن",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "بيانات",
+    "math_region": "DATA",
+    "en": "data"
+  },
+  {
+    "word": "احتمال",
+    "root": "ا ح ت م ا ل",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "احتمال",
+    "math_region": "PROBABILITY",
+    "en": "probability"
+  },
+  {
+    "word": "توزيع",
+    "root": "ت و ز ي ع",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "توزيع",
+    "math_region": "DISTRIBUTION",
+    "en": "distribution"
+  },
+  {
+    "word": "متوسط",
+    "root": "م ت و س ط",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "متوسط",
+    "math_region": "MEAN",
+    "en": "mean"
+  },
+  {
+    "word": "تباين",
+    "root": "ت ب ا ي ن",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "تباين",
+    "math_region": "VARIANCE",
+    "en": "variance"
+  },
+  {
+    "word": "عينة",
+    "root": "ع ي ن ة",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "عينة",
+    "math_region": "SAMPLE",
+    "en": "sample"
+  },
+  {
+    "word": "نهاية",
+    "root": "ن ه ي ة",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "نهاية",
+    "math_region": "LIMIT",
+    "en": "limit"
+  },
+  {
+    "word": "متسلسلة",
+    "root": "م ت س ل س ل ة",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "متسلسلة",
+    "math_region": "SERIES",
+    "en": "series"
+  },
+  {
+    "word": "تقارب",
+    "root": "ت ق ا ر ب",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "تقارب",
+    "math_region": "CONVERGENCE",
+    "en": "convergence"
+  },
+  {
+    "word": "لوغاريتم",
+    "root": "ل و غ",
+    "pattern": "أساسي",
+    "pos": "اسم",
+    "source": "لوغاريتم",
+    "math_region": "LOGARITHM",
+    "en": "logarithm"
+  },
+  {
+    "word": "PCA",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "PCA",
+    "math_region": "PCA",
+    "en": "PCA"
+  },
+  {
+    "word": "SVD",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "SVD",
+    "math_region": "SVD",
+    "en": "SVD"
+  },
+  {
+    "word": "CNN",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "CNN",
+    "math_region": "CNN",
+    "en": "CNN"
+  },
+  {
+    "word": "RNN",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "RNN",
+    "math_region": "RNN",
+    "en": "RNN"
+  },
+  {
+    "word": "GAN",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "GAN",
+    "math_region": "GAN",
+    "en": "GAN"
+  },
+  {
+    "word": "LSTM",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "LSTM",
+    "math_region": "LSTM",
+    "en": "LSTM"
+  },
+  {
+    "word": "BERT",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "BERT",
+    "math_region": "BERT",
+    "en": "BERT"
+  },
+  {
+    "word": "GPT",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "GPT",
+    "math_region": "GPT",
+    "en": "GPT"
+  },
+  {
+    "word": "Adam",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Adam",
+    "math_region": "ADAM_OPTIMIZER",
+    "en": "Adam"
+  },
+  {
+    "word": "SGD",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "SGD",
+    "math_region": "SGD",
+    "en": "SGD"
+  },
+  {
+    "word": "MSE",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "MSE",
+    "math_region": "MSE",
+    "en": "MSE"
+  },
+  {
+    "word": "MAE",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "MAE",
+    "math_region": "MAE",
+    "en": "MAE"
+  },
+  {
+    "word": "NLP",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "NLP",
+    "math_region": "NLP",
+    "en": "NLP"
+  },
+  {
+    "word": "API",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "API",
+    "math_region": "API",
+    "en": "API"
+  },
+  {
+    "word": "GPU",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "GPU",
+    "math_region": "GPU",
+    "en": "GPU"
+  },
+  {
+    "word": "CPU",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "CPU",
+    "math_region": "CPU",
+    "en": "CPU"
+  },
+  {
+    "word": "RAM",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "RAM",
+    "math_region": "RAM",
+    "en": "RAM"
+  },
+  {
+    "word": "SSD",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "SSD",
+    "math_region": "SSD",
+    "en": "SSD"
+  },
+  {
+    "word": "HTTP",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "HTTP",
+    "math_region": "HTTP",
+    "en": "HTTP"
+  },
+  {
+    "word": "JSON",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "JSON",
+    "math_region": "JSON",
+    "en": "JSON"
+  },
+  {
+    "word": "XML",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "XML",
+    "math_region": "XML",
+    "en": "XML"
+  },
+  {
+    "word": "SQL",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اختصار",
+    "source": "SQL",
+    "math_region": "SQL",
+    "en": "SQL"
+  },
+  {
+    "word": "NoSQL",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "NoSQL",
+    "math_region": "NOSQL",
+    "en": "NoSQL"
+  },
+  {
+    "word": "REST",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "REST",
+    "math_region": "REST",
+    "en": "REST"
+  },
+  {
+    "word": "GraphQL",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "GraphQL",
+    "math_region": "GRAPHQL",
+    "en": "GraphQL"
+  },
+  {
+    "word": "Docker",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Docker",
+    "math_region": "DOCKER",
+    "en": "Docker"
+  },
+  {
+    "word": "Kubernetes",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Kubernetes",
+    "math_region": "KUBERNETES",
+    "en": "Kubernetes"
+  },
+  {
+    "word": "Linux",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Linux",
+    "math_region": "LINUX",
+    "en": "Linux"
+  },
+  {
+    "word": "Windows",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Windows",
+    "math_region": "WINDOWS",
+    "en": "Windows"
+  },
+  {
+    "word": "macOS",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "macOS",
+    "math_region": "MACOS",
+    "en": "macOS"
+  },
+  {
+    "word": "Python",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Python",
+    "math_region": "PYTHON",
+    "en": "Python"
+  },
+  {
+    "word": "Rust",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Rust",
+    "math_region": "RUST",
+    "en": "Rust"
+  },
+  {
+    "word": "C++",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "C++",
+    "math_region": "CPP",
+    "en": "C++"
+  },
+  {
+    "word": "Java",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Java",
+    "math_region": "JAVA",
+    "en": "Java"
+  },
+  {
+    "word": "JavaScript",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "JavaScript",
+    "math_region": "JAVASCRIPT",
+    "en": "JavaScript"
+  },
+  {
+    "word": "TypeScript",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "TypeScript",
+    "math_region": "TYPESCRIPT",
+    "en": "TypeScript"
+  },
+  {
+    "word": "Go",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Go",
+    "math_region": "GO",
+    "en": "Go"
+  },
+  {
+    "word": "Swift",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Swift",
+    "math_region": "SWIFT",
+    "en": "Swift"
+  },
+  {
+    "word": "Kotlin",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Kotlin",
+    "math_region": "KOTLIN",
+    "en": "Kotlin"
+  },
+  {
+    "word": "Ruby",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Ruby",
+    "math_region": "RUBY",
+    "en": "Ruby"
+  },
+  {
+    "word": "PHP",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "PHP",
+    "math_region": "PHP",
+    "en": "PHP"
+  },
+  {
+    "word": "Scala",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Scala",
+    "math_region": "SCALA",
+    "en": "Scala"
+  },
+  {
+    "word": "Haskell",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Haskell",
+    "math_region": "HASKELL",
+    "en": "Haskell"
+  },
+  {
+    "word": "Elixir",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Elixir",
+    "math_region": "ELIXIR",
+    "en": "Elixir"
+  },
+  {
+    "word": "Erlang",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Erlang",
+    "math_region": "ERLANG",
+    "en": "Erlang"
+  },
+  {
+    "word": "Julia",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "Julia",
+    "math_region": "JULIA",
+    "en": "Julia"
+  },
+  {
+    "word": "MATLAB",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "MATLAB",
+    "math_region": "MATLAB",
+    "en": "MATLAB"
+  },
+  {
+    "word": "R",
+    "root": "N/A",
+    "pattern": "اسم علم",
+    "pos": "اسم علم",
+    "source": "R",
+    "math_region": "R_LANG",
+    "en": "R"
+  },
+  {
+    "word": "المصفوفة",
+    "root": "ص ف ف",
+    "pattern": "مشتق",
+    "pos": "اسم",
+    "source": "auto",
+    "math_region": "MATRIX_TENSOR",
+    "domain": "رياضي",
+    "meaning": "",
+    "auto_generated": true
+  },
+  {
+    "word": "هذا",
+    "root": "ه ذ ا",
+    "pattern": "مشتق",
+    "pos": "اسم",
+    "source": "auto",
+    "math_region": "GENERAL",
+    "domain": "عام",
+    "meaning": "",
+    "auto_generated": true
+  },
+  {
+    "word": "اجتهاد",
+    "root": "ج ه د",
+    "pattern": "مشتق",
+    "pos": "اسم",
+    "source": "auto",
+    "math_region": "GENERAL",
+    "domain": "عام",
+    "meaning": "",
+    "auto_generated": true
+  }
+]

@@ -1,3 +1,29 @@
+<<<<<<< HEAD
+# Python virtual environments (أكبر مشكلة!)
+**/venv/
+**/.venv/
+**/__pycache__/
+*.pyc
+*.pyo
+# Training logs
+*.log
+# Large checkpoint files
+**/checkpoints/
+**/sweet_spot_v2/
+**/sweet_spot_ckpts/
+**/mal-tiny-ckpt/ckpt_ep*.pt
+**/comparison/*/checkpoints/
+**/comparison/*/final.pt
+# Temporary files
+*.bin
+# OS files
+.DS_Store
+Thumbs.db
+MAL/examples/ai/mal_tiny/v2_checkpoints/
+*.log
+MAL/examples/ai/mal_tiny/mal_evolution/checkpoints/model_gen_*.pt
+MAL/examples/ai/mal_tiny/mal_evolution/logs/
+=======
 # Compiled objects
 *.o
 
@@ -64,3 +90,4 @@ examples/phase43_*
 
 # Rust build outputs
 **/target/
+>>>>>>> origin/main
