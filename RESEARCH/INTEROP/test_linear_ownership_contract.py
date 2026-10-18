@@ -39,4 +39,7 @@ if __name__ == "__main__":
     def test_linear_ownership_contract():
     assert not FAIL, "ownership contract violations"
 if __name__ == "__main__":
+    def test_linear_ownership_contract():
+    assert not FAIL, "ownership contract violations"
+if __name__ == "__main__":
     sys.exit(1 if FAIL else 0)
