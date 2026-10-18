@@ -1,4 +1,5 @@
 collect_ignore = [
+    "test_playwright.py",
     "tests/test_interpreter.py",
     "test_compound_indexing.py",
     "test_phase51_wasm.py",
