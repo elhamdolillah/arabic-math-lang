@@ -47,4 +47,4 @@ for name, src, expected, desc in tests:
         failed += 1
 
 print(f"\n{'='*60}\nالنتيجة: {passed}/{passed+failed}")
-sys.exit(0 if failed == 0 else 1)
+def test_contract(): assert failed == 0, "uas contract failures"

@@ -388,7 +388,7 @@ impl<'a> Parser<'a> {
                 TokenKind::Lt => BinaryOp::Lt,
                 TokenKind::Gt => BinaryOp::Gt,
                 TokenKind::Le => BinaryOp::Le,
-                TokenKind::EqEq => BinaryOp::Eq,
+                TokenKind::Eq | TokenKind::EqEq => BinaryOp::Eq,
                 TokenKind::Neq => BinaryOp::Neq,
                 TokenKind::Ge => BinaryOp::Ge,
                 _ => return Ok(left),
@@ -406,7 +406,7 @@ impl<'a> Parser<'a> {
             if let Some(next_tok) = self.peek() {
                 match next_tok.kind {
                     TokenKind::Lt | TokenKind::Gt | TokenKind::Le
-                    | TokenKind::Eq | TokenKind::Neq | TokenKind::Ge => {
+                    | TokenKind::Eq | TokenKind::EqEq | TokenKind::Neq | TokenKind::Ge => {
                         return Err(ParserError::ChainedComparison {
                             line: first_op_line,
                             col: first_op_col,

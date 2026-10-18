@@ -101,4 +101,4 @@ for p in ['_p49t', '_p49t.o', '_p49t.asm']:
     if os.path.exists(p):
         os.remove(p)
 
-sys.exit(0 if ناجح == إجمالي else 1)
+def test_contract(): assert ناجح == إجمالي, "phase49 failures"
