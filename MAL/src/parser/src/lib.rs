@@ -26,7 +26,7 @@ pub enum ParserError {
     /// Expected token but got something else.
     Expected {
         /// What was expected.
-        expected: &'static str,
+        expected: String,
         /// What was found.
         found: String,
         /// Line number.
@@ -90,7 +90,7 @@ impl<'a> Parser<'a> {
         let tok = self.bump().ok_or(ParserError::UnexpectedEof)?;
         if tok.kind != kind {
             return Err(ParserError::Expected {
-                expected: format!("{:?}", kind).leak(),
+                expected: format!("{:?}", kind),
                 found: format!("{:?}", tok.kind),
                 line: tok.line,
                 col: tok.col,
@@ -158,7 +158,7 @@ impl<'a> Parser<'a> {
         }
         if params.is_empty() {
             return Err(ParserError::Expected {
-                expected: "parameter after λ",
+                expected: "parameter after λ".to_string(),
                 found: "none".to_string(),
                 line: 0,
                 col: 0,
@@ -316,7 +316,7 @@ impl<'a> Parser<'a> {
             }
             TokenKind::Eof => Err(ParserError::UnexpectedEof),
             _ => Err(ParserError::Expected {
-                expected: "expression",
+                expected: "expression".to_string(),
                 found: format!("{:?}", tok.kind),
                 line: tok.line,
                 col: tok.col,
@@ -457,7 +457,7 @@ impl<'a> Parser<'a> {
         let var_tok = self.bump().ok_or(ParserError::UnexpectedEof)?;
         if var_tok.kind != TokenKind::Ident {
             return Err(ParserError::Expected {
-                expected: "identifier after ∀",
+                expected: "identifier after ∀".to_string(),
                 found: format!("{:?}", var_tok.kind),
                 line: var_tok.line,
                 col: var_tok.col,
@@ -475,7 +475,7 @@ impl<'a> Parser<'a> {
         let var_tok = self.bump().ok_or(ParserError::UnexpectedEof)?;
         if var_tok.kind != TokenKind::Ident {
             return Err(ParserError::Expected {
-                expected: "identifier after ∃",
+                expected: "identifier after ∃".to_string(),
                 found: format!("{:?}", var_tok.kind),
                 line: var_tok.line,
                 col: var_tok.col,
@@ -519,7 +519,7 @@ impl<'a> Parser<'a> {
             arms.push(arena.allocate(ASTNode::MatchArm { pattern, body })?);
         }
         if arms.is_empty() {
-            return Err(ParserError::Expected { expected: "at least one match arm", found: "none".to_string(), line: 0, col: 0 });
+            return Err(ParserError::Expected { expected: "at least one match arm".to_string(), found: "none".to_string(), line: 0, col: 0 });
         }
         let mut arms_list = NodeID::INVALID;
         for arm in arms.into_iter().rev() {
@@ -535,7 +535,7 @@ impl<'a> Parser<'a> {
                 if text == "_" { Ok(Pattern::Wildcard) } else { Ok(Pattern::Binding(tok.start)) }
             }
             TokenKind::Num => Ok(Pattern::Literal(tok.num)),
-            _ => Err(ParserError::Expected { expected: "pattern", found: format!("{:?}", tok.kind), line: tok.line, col: tok.col }),
+            _ => Err(ParserError::Expected { expected: "pattern".to_string(), found: format!("{:?}", tok.kind), line: tok.line, col: tok.col }),
         }
     }
     fn parse_set_literal(&mut self, arena: &mut Arena) -> Result<NodeID, ParserError> {
@@ -564,7 +564,7 @@ impl<'a> Parser<'a> {
         let var_tok = self.bump().ok_or(ParserError::UnexpectedEof)?;
         if var_tok.kind != TokenKind::Ident {
             return Err(ParserError::Expected {
-                expected: "identifier after μ",
+                expected: "identifier after μ".to_string(),
                 found: format!("{:?}", var_tok.kind),
                 line: var_tok.line,
                 col: var_tok.col,
